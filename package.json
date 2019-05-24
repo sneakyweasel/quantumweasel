@@ -1,5 +1,5 @@
 {
-  "name": "xtypescript",
+  "name": "quantumweasel",
   "version": "1.0.0",
   "description": "Quantum Mechanics in Typescript.",
   "author": "",
@@ -24,7 +24,7 @@
     "mathjs": "^5.10.3",
     "ts-jest": "^21.1.3",
     "tslint": "^5.8.0",
-    "typescript": "^2.5.3"
+    "typescript": "^3.4.5"
   },
   "jest": {
     "transform": {
