@@ -1,108 +1,63 @@
-/**
- * Tensor library for sparse matrices in Typescript
- * sneakyweasel 2019 from quantumgame
- * https://lodash.com/docs/#toPairs
- */
+// CERN Weasel - Quantum computation
+// sneakyweasel 2019
+// https://mathjs.org/docs/reference/functions.html#matrix-functions
 
-import * as _ from "lodash"
 import * as math from "mathjs"
 
 export class Tensor {
-   map: any
+   matrix: math.Matrix
 
-   constructor(map: any) {
-      this.map = map
+   constructor(array: math.Complex[][] | math.Matrix) {
+      this.matrix = math.matrix(array)
    }
 
-   static fromObject(object: any): Tensor {
-      const map = new Map(undefined)
-      for (const [key, value] of _.toPairs(object)) {
-         map.set(key, new Map(_.toPairs(value)))
-      }
-      return new Tensor(map)
+   // Kronecker product: https://mathjs.org/docs/reference/functions/kron.html
+   product(m: math.Matrix): Tensor {
+      return new Tensor(math.kron(this.matrix, m))
+   }
+   static product(m1: math.Matrix, m2: math.Matrix): Tensor {
+      return new Tensor(math.kron(m1, m2))
    }
 
-   static product(t1: Tensor, t2: Tensor): Tensor {
-      const outerMap = new Map(undefined)
+   // Multiply by scalar: https://mathjs.org/docs/reference/functions/multiply.html
+   by_constant(z: math.Complex): Tensor {
+      return new Tensor(math.matrix(math.multiply(this.matrix, z)))
+   }
+   static by_constant(m: math.Matrix, z: math.Complex): Tensor {
+      return new Tensor(math.matrix(math.multiply(m, z)))
+   }
 
-      for (const [k1, v1] of t1.map) {
-         for (const [k2, v2] of t2.map) {
-            const innerMap = new Map(undefined)
+   // Add: https://mathjs.org/docs/reference/functions/add.html
+   add(m: math.Matrix) {
+      return math.add(this.matrix, m)
+   }
+   static add(m1: math.Matrix, m2: math.Matrix) {
+      return math.add(m1, m2)
+   }
 
-            for (const [i1, w1] of v1) {
-               for (const [i2, w2] of v2) {
-                  const comp1  = math.complex(w1.re, w1.im)
-                  const comp2  = math.complex(w2.re, w2.im)
-                  const result = math.multiply(comp1, comp2)
-                  innerMap.set(
-                     `${i1}${i2}`,
-                     result
-                  )
-               }
-            }
-
-            outerMap.set(`${k1}${k2}`, innerMap)
+   // Fill tensor with values
+   static fill(keys: string[], value: math.Complex): Tensor {
+      const matrix = math.matrix(math.zeros(keys.length, "dense"))
+      for (let x = 0; x < keys.length; x++) {
+         for (let y = 0; y < keys.length; y++) {
+            const diag = (x === y) ? value : math.complex(0, 0)
+            matrix.set([x, y], diag)
          }
       }
-      return new Tensor(outerMap)
+      return new Tensor(matrix)
    }
 
-   product(t: Tensor): Tensor {
-      return Tensor.product(this, t)
+   // Hermitian conjugation
+   transpose(): math.Matrix {
+      return math.matrix(math.transpose(this.matrix))
    }
-
-   static byConstant(t1: Tensor, z: math.Complex): Tensor {
-      return Tensor.product(t1, Tensor.fromObject(
-         { "": { "": { re: z.re, im: z.im } } }
-      ))
+   complex_conjugate(): math.Matrix {
+      return this.matrix.map((i) => {
+         return math.conj(i)
+      })
    }
-
-   byConstant(z: math.Complex): Tensor {
-      return Tensor.byConstant(this, z)
-   }
-
-   // static sum(t1: Tensor, t2: Tensor) {
-   //    const outerMap = new Map(undefined)
-   //    const outerKeys = new Set([
-   //       ...t1.map.keys(),
-   //       ...t2.map.keys(),
-   //    ])
-   //    for (const outerKey of outerKeys) {
-   //       const innerMap = new Map(undefined)
-   //       const sourceMaps = _.compact([
-   //          t1.map.get(outerKey),
-   //          t2.map.get(outerKey)]
-   //       )
-   //       for (const sourceMap of sourceMaps) {
-   //          for (const [innerKey, innerValue] of sourceMap) {
-   //             if (innerMap.has(innerKey)) {
-   //                const existing = innerMap.get(innerKey)
-   //                innerValue.re += existing.re
-   //                innerValue.im += existing.im
-   //             }
-   //             innerMap.set(innerKey, innerValue)
-   //          }
-   //       }
-   //       outerMap.set(outerKey, innerMap)
-   //    }
-   //    return new Tensor(outerMap)
-   // }
-
-   // static sumList(ts) {
-   //    return ts.reduce((acc, t) => Tensor.sum(acc, t))
-   // }
-
-   // sum(t: Tensor): Tensor {
-   //    return Tensor.sum(this, t)
-   // }
-
-   static fill(keys: string[], value: number[]): Tensor {
-      const outerMap = new Map(undefined)
-      for (const key of keys) {
-         const innerMap = new Map(undefined)
-         innerMap.set(key, value)
-         outerMap.set(key, innerMap)
-      }
-      return new Tensor(outerMap)
+   hermitian_conjugation(): math.Matrix {
+      const transposed = math.matrix(math.transpose(this.matrix))
+      return transposed.map((i) => math.conj(i))
    }
 }
