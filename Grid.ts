@@ -5,11 +5,9 @@ import * as math from 'mathjs'
 export class Coord {
     x: number
     y: number
-    val: number[]
     constructor(x: number, y: number) {
         this.x = x
         this.y = y
-        this.val = [x, y]
     }
     adjacent(): Coord[] {
         const left  = new Coord(this.x - 1, this.y)
@@ -20,6 +18,14 @@ export class Coord {
     }
     isAdjacent(coord: Coord): boolean {
         return this.adjacent().includes(coord)
+    }
+    swap() {
+        const saveY = this.y
+        this.y = this.x
+        this.x = saveY
+    }
+    toArray(): number[] {
+        return [this.x, this.y]
     }
 }
 
@@ -36,15 +42,31 @@ export class Scalar {
 }
 
 // VECTOR CLASS
+// Validate row or column and at least two numbers
 export class Vector {
     val: Scalar[]
     indices: Coord[]
+    values: number[]
 
     // Allow constructor with origin coord, number array and direction
     constructor(val: Scalar[]) {
         this.val = val
         val.forEach((elem) => {
             this.indices.push(elem.coord)
+        })
+        val.forEach((elem) => {
+            this.values.push(elem.val)
+        })
+    }
+
+    isRow(): boolean {
+        return this.indices[0].x === this.indices[1].x
+    }
+
+    // Swap row and column form
+    transpose() {
+        this.indices.forEach((elem) => {
+            elem.swap()
         })
     }
 }
@@ -90,13 +112,12 @@ export class Grid {
     }
 
     collisionCheck(vec: Vector) {
-        this.matrix.forEach((_value, index as: number[]) => {
-            let coord = new Coord(index[0], index[1])
-            if (vec.indices.includes(coord)) {
-                
-            }
-            console.log('value:', value, 'index:', index)
-          }) 
+        // this.matrix.forEach((_value, index as: number[]) => {
+        //     let coord = new Coord(index[0], index[1])
+        //     if (vec.indices.includes(coord)) {
+        //     }
+        //     console.log('value:', value, 'index:', index)
+        //   })
     }
 
     crop(A: Coord, B: Coord) {
@@ -128,5 +149,6 @@ for (let y = 0; y < 3; y++) {
 const colvec = new Vector(col)
 
 grid.addVector(rowvec)
+colvec.transpose()
 grid.addVector(colvec)
 grid.display()
