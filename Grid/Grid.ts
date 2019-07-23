@@ -30,14 +30,15 @@ export default class Grid {
         })
     }
 
-    // collisionCheck(vec: Vector) {
-        // this.matrix.forEach((_value, index as: number[]) => {
-        //     let coord = new Coord(index[0], index[1])
-        //     if (vec.indices.includes(coord)) {
-        //     }
-        //     console.log('value:', value, 'index:', index)
-        //   })
-    // }
+    collisionCheck(vec: Vector) {
+        // Look for colliding scalars
+        this.matrix.forEach((_value, index) => {
+            console.log('value:', _value, 'index:', index)
+            // let coord =
+            // if (vec.indices.includes(coord)) {
+            // }
+        })
+    }
 
     crop(A: Coord, B: Coord) {
         const coord = new Coord(A.x - B.x, A.y - B.y)
@@ -46,5 +47,5 @@ export default class Grid {
 
     display() {
         console.log(this.matrix.valueOf())
-    } 
+    }
 }
