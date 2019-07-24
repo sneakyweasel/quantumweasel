@@ -14,21 +14,31 @@ for (let x = rangeX[0]; x < rangeX[1]; x++) {
     row.push(new Scalar(new Coord(2, x), math.randomInt(1, 9)))
 }
 const rowvec = new Vector(row)
-rowvec.display()
-
-// Create col vector
-const col = []
-for (let y = 0; y < 3; y++) {
-    col.push(new Scalar(new Coord(y, 5), math.randomInt(1, 9)))
-}
-const colvec = new Vector(col)
-rowvec.display()
+grid.addVector(rowvec)
 
 // Create new vector from array
-const newvec = Vector.fromArray(4, 4, [3, 3, 3], false)
+const newvec = Vector.fromArray(0, 1, [3, 3, 3], true)
 grid.addVector(newvec)
-
-grid.addVector(rowvec)
-grid.addVector(colvec)
-grid.display()
 grid.collisionCheck(rowvec)
+
+// Index to coord
+// const x = 3
+// const y = 7
+// let coord = new Coord(x, y)
+// const index = grid.getIndexFromCoord(coord)
+// console.log(`X: ${x} - Y: ${y} corresponds to index: ${index}`)
+
+// Coord to index
+// coord = grid.getCoordFromIndex(index)
+// console.log(`Index ${index} correspond to X: ${coord.x} - Y: ${coord.y}`)
+
+// Subgrid selection
+// const cellA = new Coord(2, 6)
+// const cellB = new Coord(3, 5)
+// const selection = grid.select(cellA, cellB)
+// selection.forEach((elem) => {
+//     console.log(elem.toArray())
+// })
+
+// Display grid
+grid.display()

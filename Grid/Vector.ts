@@ -9,7 +9,6 @@ export default class Vector {
     scalars: Scalar[]
     indices: Coord[]
     values: number[]
-    coord: number
 
     // Allow constructor with origin coord, number array and direction
     constructor(scalars: Scalar[]) {

@@ -12,4 +12,9 @@ export default class Scalar {
         this.coord = coord
         this.val = val
     }
+
+    static fromObject(x: number, y: number, val: number) {
+        const coord = new Coord(x, y)
+        return new Scalar(coord, val)
+    }
 }
