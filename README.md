@@ -1,6 +1,13 @@
-# Quantum Weasel
+# Linear Algebra Game
 
-Quantum mechanics in Typescript for Quantum Game.
+Game about visualizing the linear algebra relations and how they behave.
+Should allow to have a more visual intuition about the behaviour of the matrix form of QM.
+
+## Architecture
+
+- The main grid is a zero filled math.Matrix object.
+- Each cell of the matrix holds a coordinate and a value.
+- Each vector is composed of multiple cells.
 
 ## Functions
 

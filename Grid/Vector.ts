@@ -2,23 +2,23 @@
 // Validate row or column and at least two numbers
 
 // import * as math from 'mathjs'
-import Coord from './Coord'
-import Scalar from './Scalar'
+import Coord from './Coord.js'
+import Cell from './Cell.js'
 
 export default class Vector {
-    scalars: Scalar[]
+    scalars: Cell[]
     indices: Coord[]
     values: number[]
 
     // Allow constructor with origin coord, number array and direction
-    constructor(scalars: Scalar[]) {
-        this.scalars = scalars
+    constructor(cells: Cell[]) {
+        this.scalars = cells
         this.indices = []
         this.values = []
-        scalars.forEach((elem) => {
+        cells.forEach((elem) => {
             this.indices.push(elem.coord)
         })
-        scalars.forEach((elem) => {
+        cells.forEach((elem) => {
             this.values.push(elem.val)
         })
     }
@@ -45,7 +45,7 @@ export default class Vector {
     }
 
     static fromArray(x: number, y: number, values: number[], row: boolean): Vector {
-        const scalars: Scalar[] = []
+        const scalars: Cell[] = []
         let coord: Coord
         values.forEach((elem, index) => {
             if (row) {
@@ -53,7 +53,7 @@ export default class Vector {
             } else {
                 coord = new Coord(x, y + index)
             }
-            const scalar = new Scalar(coord, elem)
+            const scalar = new Cell(coord, elem)
             scalars.push(scalar)
         })
         return new Vector(scalars)

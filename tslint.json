@@ -103,7 +103,7 @@
         "no-arg": true,
         "label-position": true,
         "no-conditional-assignment": true,
-        "no-console": [true, "log", "error"],
+        // "no-console": [true, "log", "error"],
         "no-construct": true,
         "no-duplicate-variable": true,
         "no-empty": true,
