@@ -2,12 +2,11 @@
 // Validate row or column and at least two numbers
 
 // import * as math from 'mathjs'
-import Coord from './Coord.js'
 import Cell from './Cell.js'
 
 export default class Vector {
     scalars: Cell[]
-    indices: Coord[]
+    indices: number[][]
     values: number[]
 
     // Allow constructor with origin coord, number array and direction
@@ -15,28 +14,21 @@ export default class Vector {
         this.scalars = cells
         this.indices = []
         this.values = []
-        cells.forEach((elem) => {
-            this.indices.push(elem.coord)
+        cells.forEach((cell) => {
+            this.indices.push(cell.coord)
         })
-        cells.forEach((elem) => {
-            this.values.push(elem.val)
+        cells.forEach((cell) => {
+            this.values.push(cell.val)
         })
     }
     // Find origin top left coordinate position 0
-    origin(): Coord {
+    origin(): number[] {
         return this.indices[0]
     }
 
     // Row form boolean
     isRow(): boolean {
-        return this.indices[0].x === this.indices[1].x
-    }
-
-    // Swap row and column form math.transpose(x)
-    transpose() {
-        this.indices.forEach((elem) => {
-            elem.swap()
-        })
+        return this.indices[0][0] === this.indices[1][0]
     }
 
     // Display
@@ -44,17 +36,17 @@ export default class Vector {
         console.log(this.values.toString())
     }
 
-    static fromArray(x: number, y: number, values: number[], row: boolean): Vector {
+    // Generate from values and origin
+    static fromArray(origin: number[], values: number[], row: boolean): Vector {
         const scalars: Cell[] = []
-        let coord: Coord
-        values.forEach((elem, index) => {
+        const x = origin[0]
+        const y = origin[1]
+        values.forEach((value, index) => {
             if (row) {
-                coord = new Coord(x + index, y)
+                scalars.push(new Cell(x + index, y, value))
             } else {
-                coord = new Coord(x, y + index)
+                scalars.push(new Cell(x, y + index, value))
             }
-            const scalar = new Cell(coord, elem)
-            scalars.push(scalar)
         })
         return new Vector(scalars)
     }

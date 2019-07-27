@@ -1,0 +1,227 @@
+<section>
+    <h2><span>Examples</span></h2>
+    <p>Sometimes we want <em>both</em> tiles and edges. I try to make one of the two <em>primary</em> and then calculate
+        the other one. In this example showing grid lighting, the tiles are primary. We can light edges when
+        <em>either</em> tile is lit. <strong>Click on tiles</strong>:</p>
+    <figure id="diagram-tile-light"><svg class="select-none" v-cloak="1" viewBox="-2 -2 904 504">
+            <g v-for="tile in tiles" v-bind:key="tile.id" v-on:click="toggleTile(tile)">
+                <polygon class="tile" v-bind:class="{light: tileState[tile]}" v-bind:points="tile.makePolygon(0)"
+                    data-parity="0"></polygon>
+            </g>
+            <line v-for="edge in edges" class="border" v-bind:class="{light: edgeState[edge]}"
+                v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y" v-bind:x2="edge.endpoints[1].x"
+                v-bind:y2="edge.endpoints[1].y"></line>
+        </svg>
+        <figcaption>Tiles are primary; edges are secondary (OR)</figcaption>
+    </figure>
+    <p>Consider the example of pipes/wires between adjacent tiles. We want to know which tiles are connected to the pipe
+        network, but we also want to know which edges connect tiles to each other. If we make the tiles primary, we can
+        place edges when <em>both</em> tiles are marked. <strong>Click on tiles</strong>:</p>
+    <figure id="diagram-tile-pipe"><svg class="select-none" v-cloak="1" viewBox="-2 -2 904 504">
+            <g v-for="tile in tiles" v-bind:key="tile.id" v-on:click="toggleTile(tile)">
+                <polygon class="tile" v-bind:points="tile.makePolygon(0)" data-parity="0"></polygon>
+            </g>
+            <g v-for="edge in edges" v-bind:key="edge.id + '-overlay'">
+                <line class="border" v-bind:class="{joined: edgeState[edge]}" v-bind:x1="edge.endpoints[0].x"
+                    v-bind:y1="edge.endpoints[0].y" v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y">
+                </line>
+                <line class="pipe-outer" v-if="edgeState[edge]" v-bind:x1="edge.joins[0].x" v-bind:y1="edge.joins[0].y"
+                    v-bind:x2="edge.joins[1].x" v-bind:y2="edge.joins[1].y"></line>
+                <line class="pipe-inner" v-if="edgeState[edge]" v-bind:x1="edge.joins[0].x" v-bind:y1="edge.joins[0].y"
+                    v-bind:x2="edge.joins[1].x" v-bind:y2="edge.joins[1].y"></line>
+            </g>
+            <circle v-for="tile in tiles" v-bind:key="tile.id + '-pipe'" v-if="tileState[tile]" class="pipe"
+                v-bind:cx="tile.x" v-bind:cy="tile.y" r="20"></circle>
+        </svg>
+        <figcaption>Tiles are primary; edges are secondary (AND)</figcaption>
+    </figure>
+    <p>Alternatively, we can make the edges primary, and place pipes on tiles when <em>any</em> edge is marked.
+        <strong>Click on edges</strong>:</p>
+    <figure id="diagram-edge-pipe"><svg class="select-none" v-cloak="1" viewBox="-2 -2 904 504">
+            <g v-for="edge in edges" v-bind:key="edge.id + '-overlay'" v-on:click="toggleEdge(edge)">
+                <polygon class="edge" v-bind:points="edge.makePolygon(1)" data-parity="0"></polygon>
+                <line class="border" v-bind:class="{joined: edgeState[edge]}" v-bind:x1="edge.endpoints[0].x"
+                    v-bind:y1="edge.endpoints[0].y" v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y">
+                </line>
+                <line class="pipe-outer" v-if="edgeState[edge]" v-bind:x1="edge.joins[0].x" v-bind:y1="edge.joins[0].y"
+                    v-bind:x2="edge.joins[1].x" v-bind:y2="edge.joins[1].y"></line>
+                <line class="pipe-inner" v-if="edgeState[edge]" v-bind:x1="edge.joins[0].x" v-bind:y1="edge.joins[0].y"
+                    v-bind:x2="edge.joins[1].x" v-bind:y2="edge.joins[1].y"></line>
+            </g>
+            <circle v-for="tile in tiles" v-bind:key="tile.id + '-pipe'" v-if="tileState[tile]" class="pipe"
+                v-bind:cx="tile.x" v-bind:cy="tile.y" r="20"></circle>
+        </svg>
+        <figcaption>Edges are primary; tiles are secondary (OR)</figcaption>
+    </figure>
+    <p>Here's an example of adding thin walls when <em>exactly one</em> neighboring tile has a thick wall. <strong>Click
+            on tiles</strong>:</p>
+    <figure id="diagram-tile-thinwalls"><svg class="select-none" v-cloak="1" viewBox="-2 -2 904 504">
+            <g v-for="tile in tiles" v-bind:key="tile.id" v-on:click="toggleTile(tile)">
+                <polygon class="tile" v-bind:class="{wall: tileState[tile]}" v-bind:points="tile.makePolygon(0)"
+                    data-parity="0"></polygon>
+            </g>
+            <line v-for="edge in edges" class="border" v-bind:class="{wall: edgeState[edge]}"
+                v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y" v-bind:x2="edge.endpoints[1].x"
+                v-bind:y2="edge.endpoints[1].y"></line>
+        </svg>
+        <figcaption>Tiles are primary; edges are secondary (XOR)</figcaption>
+    </figure>
+    <p>Whenever possible, I make either tiles or edges primary, and calculate the other using a function. I find this
+        less error prone than putting constraints on what combinations of tiles and edges are allowed. The "pipe" style
+        connectors and the "wall" style dividers use the same logic underneath. A pipe is drawn between the tile
+        <em>centers</em>; a wall is drawn between the <em>corners</em>.</p>
+</section>
+<section>
+    <h2 id="coordinates"><span>Coordinate systems</span><a class="anchor" href="#coordinates">#</a></h2>
+    <p>Coordinates for square tiles have two different conventions. In math and in 3D graphics, Y increases upwards; in
+        many 2D graphics systems, Y increases downwards. On this page I'm going to show Y increasing downwards.</p>
+    <figure id="diagram-tile-coordinates"><svg class="select-none" v-cloak="1" viewBox="-2 -2 904 504">
+            <g v-for="tile in tiles" v-bind:key="tile.id">
+                <polygon class="tile" v-bind:points="tile.makePolygon(0)" v-bind:data-parity="tile.parity"></polygon>
+                <text v-bind:x="tile.x" v-bind:y="tile.y">{{tile.q}}, {{tile.r}}</text>
+            </g>
+            <line v-for="edge in edges" class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+        </svg></figure>
+    <p>How about edges? We could label the four sides of each square:</p>
+    <figure id="diagram-side-coordinates" class="font-small"><svg class="select-none" v-cloak="1"
+            viewBox="-2 -2 304 204">
+            <g v-for="tile in tiles" v-bind:key="tile.id">
+                <polygon class="tile" v-bind:points="tile.makePolygon(0)" v-bind:data-parity="tile.parity"></polygon>
+                <g v-bind:transform="`translate(${tile.x},${tile.y})`"><text y="-40">{{tile.q}},{{tile.r}},N</text><text
+                        y="45">{{tile.q}},{{tile.r}},S</text><text y="-40"
+                        transform="rotate(-90)">{{tile.q}},{{tile.r}},W</text><text y="-40"
+                        transform="rotate(90)">{{tile.q}},{{tile.r}},E</text></g>
+            </g>
+            <line v-for="edge in edges" class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+        </svg></figure>
+    <p>In many situations we want to treat <code>0,0,S</code> and <code>0,1,N</code> as the same edge, and similarly
+        <code>0,0,E</code> and <code>1,0,W</code>. In these situations we can <strong>keep the N and W</strong> sides
+        and discard S and E. We could've kept S instead of N, or E instead of W, but I'll work out the details for N and
+        W.</p>
+    <figure id="diagram-edge-coordinates" class="font-small"><svg class="select-none" v-cloak="1"
+            viewBox="-2 -2 304 204">
+            <g v-for="edge in edges" v-bind:key="edge.id">
+                <polygon class="edge" v-bind:points="edge.makePolygon(1)" v-bind:data-parity="edge.parity"></polygon>
+                <line class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                    v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+            </g>
+            <g v-for="tile in tiles" v-bind:key="tile.id">
+                <g v-bind:transform="`translate(${tile.x},${tile.y})`"><text y="-40">{{tile.q}},{{tile.r}},N</text><text
+                        y="-40" transform="rotate(-90)">{{tile.q}},{{tile.r}},W</text></g>
+            </g>
+        </svg></figure>
+    <p>Given a tile <code>q,r</code> its four bordering edges are <code>q,r,N</code> ; <code>q,r,W</code> ;
+        <code>q,r+1,N</code> ; <code>q+1,r,W</code>.</p>
+    <figure id="diagram-borders" class="font-small"><svg class="select-none" v-cloak="1" viewBox="-2 -2 404 304">
+            <g v-for="tile in tiles" v-bind:key="tile.id">
+                <polygon class="tile" v-bind:points="tile.makePolygon(0)" v-bind:data-parity="tile.parity"
+                    v-on:mouseover="highlighted = tile" v-on:touchmove="highlighted = tile"></polygon>
+                <g v-if="tile.equals(highlighted)" v-bind:transform="`translate(${tile.x},${tile.y})`">
+                    <text>{{tile.q}},{{tile.r}}</text><text y="-40">{{tile.q}},{{tile.r}},N</text><text
+                        y="45">{{tile.q}},{{tile.r+1}},N</text><text y="-40"
+                        transform="rotate(-90)">{{tile.q}},{{tile.r}},W</text><text y="-40"
+                        transform="rotate(90)">{{tile.q+1}},{{tile.r}},W</text></g>
+            </g>
+            <line v-for="edge in edges" class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+        </svg></figure>
+    <p>The rules for edges depend on whether it's an <code>N</code> or <code>W</code> edge. Given an edge
+        <code>q,r,N</code> its two joining tiles are <code>q,r-1</code> ; <code>q,r</code>. Given an edge
+        <code>q,r,W</code> its two joining tiles are <code>q-1,r</code> ; <code>q,r</code>.</p>
+    <figure id="diagram-joins" class="font-small"><svg class="select-none" v-cloak="1" viewBox="-2 -2 404 304">
+            <g v-for="edge in edges" v-bind:key="edge.id">
+                <polygon class="edge" v-bind:points="edge.makePolygon(1)" v-bind:data-parity="edge.parity"
+                    v-on:mouseover="highlighted = edge" v-on:touchstart="highlighted = edge"></polygon>
+                <line class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                    v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+            </g>
+            <g v-for="tile in tiles" v-bind:key="tile.id" v-bind:transform="`translate(${tile.x},${tile.y})`"><text
+                    v-if="highlighted.joins.some(t=&gt;t.equals(tile))">{{tile.q}},{{tile.r}}</text>
+                <!-- must be a cleaner way to do this --><text
+                    v-if="highlighted.q === tile.q &amp;&amp; highlighted.r === tile.r &amp;&amp; highlighted.s == 'N'"
+                    y="-40">{{tile.q}},{{tile.r}},N</text><text
+                    v-if="highlighted.q === tile.q &amp;&amp; highlighted.r === tile.r &amp;&amp; highlighted.s == 'W'"
+                    y="-40" transform="rotate(-90)">{{tile.q}},{{tile.r}},W</text></g>
+        </svg></figure>
+    <p>For more details, including coordinates for corners and more tile+edge+corner relationships, see <a
+            href="http://www-cs-students.stanford.edu/~amitp/game-programming/grids/">my guide to grids</a><sup
+            class="print-endnote">[1]</sup> (2006).</p>
+</section>
+<section>
+    <h2 id="geometry"><span>Pixel lookup</span><a class="anchor" href="#geometry">#</a></h2>
+    <p>In some games we want to be able to determine which tile/edge is closest to the mouse position. When working with
+        tiles, we find the closest tile by looking at squares. These squares are exactly the same as the tiles. It's so
+        simple we don't even think about it! Mouse over the map to see the area of pixels that would activate a tile.
+    </p>
+    <figure id="diagram-tile"><svg class="select-none" v-cloak="1" viewBox="-2 -2 604 304">
+            <g v-for="tile in tiles" v-bind:key="tile.id">
+                <polygon class="tile" v-bind:points="tile.makePolygon(blend)" v-bind:data-parity="tile.parity">
+                </polygon>
+            </g>
+            <g v-for="edge in edges" v-bind:key="edge.id + '-overlay'">
+                <line class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                    v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+            </g>
+        </svg></figure>
+    <p>When working with tile edges, we find the closest tile by looking squares at a 45° angle. Mouse over the map to
+        see the area of pixels that would activate an edge.</p>
+    <figure id="diagram-edge"><svg class="select-none" v-cloak="1" viewBox="-2 -2 604 304">
+            <g v-for="edge in edges" v-bind:key="edge.id">
+                <polygon class="edge" v-bind:points="edge.makePolygon(blend)" v-bind:data-parity="edge.parity">
+                </polygon>
+            </g>
+            <g v-for="edge in edges" v-bind:key="edge.id + '-overlay'">
+                <line class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                    v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+            </g>
+        </svg></figure>
+    <p>If we want the mouse to work with both tiles and edges, we can build polygons that work with both. The tiles are
+        detected with small squares, and edges are detected with hexagons. Move the slider to control the sizes, and
+        mouse over the map to see what is activated.</p>
+    <figure id="diagram-hybrid"><svg class="select-none" v-cloak="1" viewBox="-2 -2 604 304">
+            <g v-for="tile in tiles" v-bind:key="tile.id">
+                <polygon class="tile" v-bind:points="tile.makePolygon(blend)" v-bind:data-parity="tile.parity">
+                </polygon>
+            </g>
+            <g v-for="edge in edges" v-bind:key="edge.id">
+                <polygon class="edge" v-bind:points="edge.makePolygon(blend)" v-bind:data-parity="edge.parity">
+                </polygon>
+            </g>
+            <g v-for="edge in edges" v-bind:key="edge.id + '-overlay'">
+                <line class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                    v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+            </g>
+        </svg> Favor tiles ← <input v-model="blend" type="range" min="0" max="1" step="0.01"> → favor edges</figure>
+    <p>Alternatively, calculate both the mouseover tile and mouseover edge, and pick the one that's closer to the mouse
+        pointer.</p>
+</section>
+<section>
+    <h2 id="more"><span>More</span><a class="anchor" href="#more">#</a></h2>
+    <ul>
+        <li><a href="http://www-cs-students.stanford.edu/~amitp/game-programming/grids/">My guide to grids</a><sup
+                class="print-endnote">[2]</sup> covers coordinate systems for tiles, edges, and corners, not only for
+            square grids, but also for hexagonal and triangular grids.</li>
+        <li>A <a href="https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram">multiplicative voronoi diagram</a><sup
+                class="print-endnote">[3]</sup> can calculate the pixel areas closest to the edges and tiles. We don't
+            need it for the simple case here, but it is useful if you are working with an irregular grid or if you have
+            variably sized objects on your map.</li>
+        <li>Even though many A* implementations are written to work on the tiles, A* itself cares about both tiles and
+            edges, so it can handle maps where each edge is marked as walkable or not.</li>
+        <li>David Stark <a href="http://www.zarkonnen.com/grids_in_games">has a blog post about grids in games</a><sup
+                class="print-endnote">[4]</sup>, and points out that Dwarf Fortress uses tile-based walls but edge-based
+            floors.</li>
+        <li>If you're working with square tiles, edges, and corners all in the same system, there's a clever trick of
+            using the low bit of x and the low bit of y: 00 = corner, 01 = west edge, 10 = north edge, 11 = tile. I've
+            not tried this in practice. <svg width="1em" height="1em" viewBox="0 0 100 100">
+                <rect width="100" height="100" fill="hsl(0,0%,75%)"></rect>
+                <rect width="25" height="25" fill="hsl(0,50%,50%)"></rect>
+                <rect x="25" y="25" width="75" height="75" fill="hsl(200,50%,50%)"></rect>
+            </svg></li>
+    </ul>
+    <p>Some games, such as Oxygen Not Included and Factory Idle, seem to have a hybrid that keeps track of both tile and
+        edge connections. Some games, such as Factorio and Production Line, have directions along the edges; see <a
+            href="https://www.redblobgames.com/x/1805-conveyor-belts/">my page about conveyor belts</a><sup
+            class="print-endnote">[5]</sup>.</p>
+</section>

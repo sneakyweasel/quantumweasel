@@ -1,9 +1,7 @@
 // GRID CLASS
-// TODO: collision detection
 import * as math from 'mathjs'
-import Coord from './Coord.js'
-import Vector from './Vector.js'
 import * as _ from 'lodash'
+import Vector from './Vector.js'
 
 export default class Grid {
     col_count: number
@@ -22,16 +20,16 @@ export default class Grid {
         this.vectors = []
     }
 
-    set(coord: Coord, value: number) {
+    set(coord: number[], value: number) {
         if (this.isCoordInsideGrid(coord)) {
-            this.matrix.set(coord.toArray(), value)
+            this.matrix.set(coord, value)
         } else {
             throw('Coordinate out of bounds.')
         }
     }
 
-    get(coord: Coord) {
-        return this.matrix.get(coord.toArray())
+    get(coord: number[]) {
+        return this.matrix.get(coord)
     }
 
     addVector(vec: Vector) {
@@ -41,9 +39,10 @@ export default class Grid {
         })
     }
 
-    isCoordInsideGrid(coord: Coord) {
-        if ((coord.x >= 0 && coord.x < this.col_count) &&
-        (coord.y >= 0 && coord.y < this.row_count)) {
+    isCoordInsideGrid(coord: number[]): boolean {
+        const x = coord[0]
+        const y = coord[1]
+        if ((x >= 0 && x < this.col_count) && (y >= 0 && y < this.row_count)) {
             return true
         }
         return false
@@ -51,9 +50,9 @@ export default class Grid {
 
     collisionCheck(vec: Vector) {
         // Look for colliding cells
-        const intersect: Coord[][] = []
-        this.vectors.forEach((elem, index) => {
-            const temp = _.intersection(elem.indices , vec.indices)
+        const intersect: number[][][] = []
+        this.vectors.forEach((coord, index) => {
+            const temp = _.intersection(coord.indices , vec.indices)
             if (temp.length > 0) {
                 intersect.push(temp)
                 console.log('Intersect with vector: ' + index)
@@ -65,18 +64,18 @@ export default class Grid {
 
     // Two point area selection
     // TODO: Get only coords inside bounds
-    submatrix(A: Coord, B: Coord): Coord[] {
+    submatrix(A: number[], B: number[]) {
         if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
             throw('Coordinates outside of bounds.')
         }
-        const minX: number = math.min(A.x, B.x)
-        const maxX: number = math.max(A.x, B.x)
-        const minY: number = math.min(A.y, B.y)
-        const maxY: number = math.max(A.y, B.y)
+        const minX: number = math.min(A[0], B[0])
+        const maxX: number = math.max(A[0], B[0])
+        const minY: number = math.min(A[1], B[1])
+        const maxY: number = math.max(A[1], B[1])
         const selection = []
         for (let x = minX; x <= maxX; x++) {
             for (let y = minY; y <= maxY; y++) {
-                selection.push(new Coord(x, y))
+                selection.push([x, y])
             }
         }
         console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
@@ -84,14 +83,14 @@ export default class Grid {
     }
 
     // Coordinates to grid index
-    getIndexFromCoord(coord: Coord) {
-        return coord.y * this.col_count + coord.x
+    getIndexFromCoord(coord: number[]): number {
+        return coord[1] * this.col_count + coord[0]
     }
 
-    getCoordFromIndex(index: number): Coord {
+    getCoordFromIndex(index: number): number[] {
         const x = index % this.col_count
         const y = Math.floor(index / this.col_count)
-        return new Coord(x, y)
+        return [x, y]
     }
 
     display() {

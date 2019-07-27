@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Linear Algebra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="https://www.logicien.fr/grids/">
+    <meta name="theme-color" content="hsl(0,50%,45%)">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body class="gameprog">
+    <header>
+        <h1>Linear Algebra</h1>
+        <div class="subheading">
+            from <a href="http://logicien.fr/">quantum_weasel</a></div>
+    </header>
+    <main>
+        <section>
+            <h2 id="geometry"><span>Linear Algebra</span><a class="anchor" href="#geometry">#</a></h2>
+            <p>Linear algebra made fun using VueJS and vertex/edge/face interactions.</p>
+            <!-- <figure id="diagram-hybrid"><svg class="select-none" v-cloak="1" viewBox="-2 -2 604 304"> -->
+            <figure id="diagram-hybrid"><svg class="select-none" v-cloak="1" viewBox="-2 -2 1004 804">
+                    <g v-for="tile in tiles" v-bind:key="tile.id" v-on:click="toggleTile(tile)">
+                        <polygon class="tile" v-bind:points="tile.makePolygon(blend)" v-bind:data-parity="tile.parity">
+                        </polygon>
+                        <text v-bind:x="tile.x" v-bind:y="tile.y">{{tile.q}}, {{tile.r}}</text>
+                    </g>
+                    <g v-for="edge in edges" v-bind:key="edge.id">
+                        <polygon class="edge" v-bind:points="edge.makePolygon(blend)" v-bind:data-parity="edge.parity">
+                        </polygon>
+                    </g>
+                    <g v-for="edge in edges" v-bind:key="edge.id + '-overlay'">
+                        <line class="border" v-bind:x1="edge.endpoints[0].x" v-bind:y1="edge.endpoints[0].y"
+                            v-bind:x2="edge.endpoints[1].x" v-bind:y2="edge.endpoints[1].y"></line>
+                    </g>
+            </figure>
+        </section>
+    </main>
+    <script type="module" src="./build/Tile.js"></script>
+    <script type="module" src="./build/Edge.js"></script>
+    <script type="module" src="./hybrid.js"></script>
+</body>
+
+</html>

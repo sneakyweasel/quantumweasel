@@ -1,0 +1,29 @@
+html {}
+
+h1, h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+main {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+svg {
+    pointer-events: none;
+    overflow: hidden;
+}
+
+svg rect {
+    fill: blanchedalmond;
+}
+
+svg text {
+    text-anchor: middle;
+    stroke: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+}

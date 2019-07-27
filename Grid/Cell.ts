@@ -1,27 +1,50 @@
 // CELL CLASS
-// Matrix tile class with position and value
-
-// import * as math from 'mathjs'
-import Coord from './Coord.js'
 
 export default class Cell {
-    coord: Coord
+    x: number
+    y: number
+    coord: number[]
     val: number
 
-    constructor(coord: Coord, val: number) {
-        this.coord = coord
+    constructor(x: number, y: number, val: number) {
+        this.x = x
+        this.y = y
+        this.coord = [x, y]
         this.val = val
     }
 
-    // Grid edge implementation from https://www.redblobgames.com/grids/edges/
-    borders() {
-        return [
-            this.coord.x, this.coord.y, 'N'
-        ]
+    id(col_count: number) {
+        this.y * col_count + this.x
     }
 
-    static fromObject(x: number, y: number, val: number) {
-        const coord = new Coord(x, y)
-        return new Cell(coord, val)
+    // Adjacent cells
+    left() { return [this.x - 1, this.y] }
+    right() { return [this.x + 1, this.y] }
+    top() { return [this.x, this.y - 1] }
+    bottom() { return [this.x, this.y + 1] }
+    adjacent() {
+        return [
+            this.left(),
+            this.right(),
+            this.top(),
+            this.bottom()
+        ]
+    }
+    isAdjacent(coord: number[]) {
+        return this.adjacent().includes(coord)
+    }
+
+    // SVG top left coordinates
+    pos(spacing: number) {
+        const x = this.x * spacing
+        const y = this.y * spacing
+        return [x, y]
+    }
+
+    // SVG cell center coordinates
+    centerPos(spacing: number) {
+        const x = this.x * spacing + spacing / 2
+        const y = this.y * spacing + spacing / 2
+        return [x, y]
     }
 }
