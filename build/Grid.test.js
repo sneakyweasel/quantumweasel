@@ -1,6 +1,7 @@
-// import * as math from 'mathjs'
 import Grid from './Grid';
 import Vector from './Vector';
+import Cell from './Cell';
+import Coord from './Coord';
 describe('Grid', () => {
     it('should create grid from col and row', () => {
         const grid = new Grid(3, 3);
@@ -9,30 +10,30 @@ describe('Grid', () => {
     });
     it('should set the value of a cell', () => {
         const grid = new Grid(3, 3);
-        grid.set([1, 1], 5);
+        grid.matrix.set([1, 1], 5);
         expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]");
     });
     it('should forbid setting the value of a cell outside grid range', () => {
         const grid = new Grid(3, 3);
-        grid.set([4, 4], 5);
+        grid.matrix.set([4, 4], 5);
         expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]");
     });
     it('should get the value of a cell', () => {
         const grid = new Grid(3, 3);
-        grid.set([1, 1], 5);
-        const value = grid.get([1, 1]);
+        grid.set(Cell.fromArray(1, 1, 5));
+        const value = grid.get(new Coord(1, 1));
         expect(value).toEqual(5);
     });
 });
 describe('Grid helpers', () => {
     it('should check if a coordinate is inside a grid', () => {
         const grid = new Grid(3, 3);
-        const coord = [4, 4];
+        const coord = new Coord(4, 4);
         expect(grid.isCoordInsideGrid(coord)).toBe(false);
     });
     xit('should export grid into a json file', () => {
         const grid = new Grid(4, 4);
-        const vec = Vector.fromArray([0, 1], [3, 3, 3], true);
+        const vec = Vector.fromArray(new Coord(0, 1), [3, 3, 3], true);
         grid.addVector(vec);
         expect(grid.exportJSON()).toEqual('');
     });

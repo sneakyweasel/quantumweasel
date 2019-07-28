@@ -20,16 +20,16 @@
         <section>
             <figure id="diagram-hybrid"><svg class="select-none" v-cloak="1" viewBox="-2 -2 1004 804">
                     <g v-for="cell in cells" v-bind:key="cell.id()">
-                        <rect v-bind:x="cell.coord.x * 100" v-bind:y="cell.coord.y * 100" width="100" height="100"
+                        <rect v-bind:x="cell.coord.x * 100" v-bind:y="cell.coord.y * 100" width="96" height="96"
                             rx="15" v-on:click="console.log('test');" />
-                        <text v-bind:x="cell.coord.x * 100 + 50" v-bind:y="cell.coord.y * 100 + 60">{{cell.val}}</text>
+                        <text v-bind:x="cell.coord.x * 100 + 50" v-bind:y="cell.coord.y * 100 + 50">{{cell.val}}</text>
                     </g>
             </figure>
         </section>
     </main>
-    <!-- <script type="module" src="./build/Grid.js"></script> -->
-    <script type="module" src="./build/Cell.js"></script>
     <script type="module" src="./build/Coord.js"></script>
+    <script type="module" src="./build/Cell.js"></script>
+    <script type="module" src="./build/Vector.js"></script>
     <script type="module" src="./grid.js"></script>
 </body>
 

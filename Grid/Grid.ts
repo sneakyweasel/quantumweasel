@@ -1,6 +1,8 @@
 // GRID CLASS
 import * as math from 'mathjs'
 import * as _ from 'lodash'
+import Coord from './Coord.js'
+import Cell from './Cell.js'
 import Vector from './Vector.js'
 
 export default class Grid {
@@ -20,39 +22,42 @@ export default class Grid {
         this.vectors = []
     }
 
-    set(coord: number[], value: number) {
-        if (this.isCoordInsideGrid(coord)) {
-            this.matrix.set(coord, value)
-        } else {
-            throw('Coordinate out of bounds.')
-        }
-    }
-
-    get(coord: number[]) {
-        return this.matrix.get(coord)
-    }
-
-    addVector(vec: Vector) {
-        this.vectors.push(vec)
-        vec.scalars.forEach((elem) => {
-            this.set(elem.coord, elem.val)
-        })
-    }
-
-    isCoordInsideGrid(coord: number[]): boolean {
-        const x = coord[0]
-        const y = coord[1]
-        if ((x >= 0 && x < this.col_count) && (y >= 0 && y < this.row_count)) {
+    // Test if coord is inside boundaries
+    isCoordInsideGrid(coord: Coord): boolean {
+        if ((coord.x >= 0 && coord.x < this.col_count) &&
+        (coord.y >= 0 && coord.y < this.row_count)) {
             return true
         }
         return false
     }
 
-    collisionCheck(vec: Vector) {
-        // Look for colliding cells
-        const intersect: number[][][] = []
+    // Set matrix cell
+    set(cell: Cell) {
+        if (this.isCoordInsideGrid(cell.coord)) {
+            this.matrix.set([cell.coord.x, cell.coord.y], cell.val)
+        } else {
+            throw('Coordinate out of bounds.')
+        }
+    }
+
+    // Get matrix cell value
+    get(coord: Coord) {
+        return this.matrix.get([coord.x, coord.y])
+    }
+
+    // Add a vector to the grid
+    addVector(vector: Vector) {
+        this.vectors.push(vector)
+        vector.cells.forEach((cell) => {
+            this.set(cell)
+        })
+    }
+
+    // Look for colliding cells
+    collisionCheck(vector: Vector) {
+        const intersect: Coord[][] = []
         this.vectors.forEach((coord, index) => {
-            const temp = _.intersection(coord.indices , vec.indices)
+            const temp = _.intersection(coord.indices , vector.indices)
             if (temp.length > 0) {
                 intersect.push(temp)
                 console.log('Intersect with vector: ' + index)
@@ -63,15 +68,14 @@ export default class Grid {
     }
 
     // Two point area selection
-    // TODO: Get only coords inside bounds
-    submatrix(A: number[], B: number[]) {
+    submatrix(A: Coord, B: Coord) {
         if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
             throw('Coordinates outside of bounds.')
         }
-        const minX: number = math.min(A[0], B[0])
-        const maxX: number = math.max(A[0], B[0])
-        const minY: number = math.min(A[1], B[1])
-        const maxY: number = math.max(A[1], B[1])
+        const minX: number = math.min(A.x, B.x)
+        const maxX: number = math.max(A.x, B.x)
+        const minY: number = math.min(A.y, B.y)
+        const maxY: number = math.max(A.y, B.y)
         const selection = []
         for (let x = minX; x <= maxX; x++) {
             for (let y = minY; y <= maxY; y++) {

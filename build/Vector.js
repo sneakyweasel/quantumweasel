@@ -1,11 +1,12 @@
 // VECTOR CLASS
 // Validate row or column and at least two numbers
 // import * as math from 'mathjs'
+import Coord from './Coord.js';
 import Cell from './Cell.js';
 export default class Vector {
     // Allow constructor with origin coord, number array and direction
     constructor(cells) {
-        this.scalars = cells;
+        this.cells = cells;
         this.indices = [];
         this.values = [];
         cells.forEach((cell) => {
@@ -21,7 +22,7 @@ export default class Vector {
     }
     // Row form boolean
     isRow() {
-        return this.indices[0][0] === this.indices[1][0];
+        return this.indices[0].x === this.indices[1].x;
     }
     // Display
     display() {
@@ -30,14 +31,14 @@ export default class Vector {
     // Generate from values and origin
     static fromArray(origin, values, row) {
         const scalars = [];
-        const x = origin[0];
-        const y = origin[1];
         values.forEach((value, index) => {
             if (row) {
-                scalars.push(new Cell(x + index, y, value));
+                const curCoord = new Coord(origin.x + index, origin.y);
+                scalars.push(new Cell(curCoord, value));
             }
             else {
-                scalars.push(new Cell(x, y + index, value));
+                const curCoord = new Coord(origin.x, origin.y + index);
+                scalars.push(new Cell(curCoord, value));
             }
         });
         return new Vector(scalars);

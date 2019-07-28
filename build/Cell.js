@@ -1,29 +1,12 @@
 // CELL CLASS
-export default class Cell {
-    constructor(x, y, val) {
-        this.x = x;
-        this.y = y;
-        this.coord = [x, y];
+import Coord from "./Coord";
+export default class Cell extends Coord {
+    constructor(coord, val) {
+        super(coord.x, coord.y);
         this.val = val;
     }
     id(col_count) {
         this.y * col_count + this.x;
-    }
-    // Adjacent cells
-    left() { return [this.x - 1, this.y]; }
-    right() { return [this.x + 1, this.y]; }
-    top() { return [this.x, this.y - 1]; }
-    bottom() { return [this.x, this.y + 1]; }
-    adjacent() {
-        return [
-            this.left(),
-            this.right(),
-            this.top(),
-            this.bottom()
-        ];
-    }
-    isAdjacent(coord) {
-        return this.adjacent().includes(coord);
     }
     // SVG top left coordinates
     pos(spacing) {
@@ -36,6 +19,10 @@ export default class Cell {
         const x = this.x * spacing + spacing / 2;
         const y = this.y * spacing + spacing / 2;
         return [x, y];
+    }
+    // Cell from number[]
+    static fromArray(x, y, val) {
+        return new Cell(new Coord(x, y), val);
     }
 }
 //# sourceMappingURL=Cell.js.map
