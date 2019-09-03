@@ -24,22 +24,16 @@ export default class Grid {
 
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord: Coord): boolean {
-        if ((coord.x >= 0 && coord.x < this.col_count) &&
-        (coord.y >= 0 && coord.y < this.row_count)) {
-            return true
-        }
-        return false
+        return (coord.x >= 0 && coord.x < this.col_count) &&
+        (coord.y >= 0 && coord.y < this.row_count)
     }
 
     // Set matrix cell
     set(cell: Cell) {
-        cell.display()
-        cell.coord.display()
-
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix.set([cell.coord.x, cell.coord.y], cell.value)
         } else {
-            throw(`Coordinate out of bounds. CELL: [${cell.coord.x}, ${cell.coord.y}]`)
+            throw(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
         }
     }
 
