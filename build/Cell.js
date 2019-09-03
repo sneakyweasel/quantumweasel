@@ -5,6 +5,7 @@ const Coord_1 = require("./Coord");
 class Cell extends Coord_1.default {
     constructor(coord, value) {
         super(coord.x, coord.y);
+        this.coord = coord;
         this.value = value;
     }
     id(col_count) {

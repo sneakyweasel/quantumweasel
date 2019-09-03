@@ -1,11 +1,11 @@
-// VECTOR CLASS
+// Blob CLASS
 // Validate row or column and at least two numbers
 
 // import * as math from 'mathjs'
 import Coord from './Coord.js'
 import Cell from './Cell.js'
 
-export default class Vector {
+export default class Blob {
     cells: Cell[]
     indices: Coord[]
     values: number[]
@@ -38,7 +38,7 @@ export default class Vector {
     }
 
     // Generate from values and origin
-    static fromArray(origin: Coord, values: number[], row: boolean): Vector {
+    static fromArray(origin: Coord, values: number[], row: boolean): Blob {
         const scalars: Cell[] = []
         values.forEach((value, index) => {
             if (row) {
@@ -49,7 +49,7 @@ export default class Vector {
                 scalars.push(new Cell(curCoord, value))
             }
         })
-        return new Vector(scalars)
+        return new Blob(scalars)
     }
 
 }

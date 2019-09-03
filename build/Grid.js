@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // GRID CLASS
 const math = require("mathjs");
 const _ = require("lodash");
+const Coord_1 = require("./Coord");
 class Grid {
     constructor(col_count, row_count, matrix) {
         this.col_count = col_count;
@@ -13,7 +14,7 @@ class Grid {
         else {
             this.matrix = math.matrix(math.zeros(col_count, row_count), "sparse");
         }
-        this.vectors = [];
+        this.clusters = [];
     }
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord) {
@@ -25,6 +26,8 @@ class Grid {
     }
     // Set matrix cell
     set(cell) {
+        cell.display();
+        cell.coord.display();
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix.set([cell.coord.x, cell.coord.y], cell.value);
         }
@@ -37,20 +40,20 @@ class Grid {
         return this.matrix.get([coord.x, coord.y]);
     }
     // Add a vector to the grid
-    addVector(vector) {
-        this.vectors.push(vector);
-        vector.cells.forEach((cell) => {
+    addCluster(cluster) {
+        this.clusters.push(cluster);
+        cluster.cells.forEach((cell) => {
             this.set(cell);
         });
     }
     // Look for colliding cells
-    collisionCheck(vector) {
+    collisionCheck(cluster) {
         const intersect = [];
-        this.vectors.forEach((coord, index) => {
-            const temp = _.intersection(coord.indices, vector.indices);
+        this.clusters.forEach((coord, index) => {
+            const temp = _.intersection(coord.indices, cluster.indices);
             if (temp.length > 0) {
                 intersect.push(temp);
-                console.log('Intersect with vector: ' + index);
+                console.log('Intersect with blob: ' + index);
             }
         });
         console.log(intersect);
@@ -76,12 +79,12 @@ class Grid {
     }
     // Coordinates to grid index
     getIndexFromCoord(coord) {
-        return coord[1] * this.col_count + coord[0];
+        return coord.x * this.col_count + coord.y;
     }
     getCoordFromIndex(index) {
         const x = index % this.col_count;
         const y = Math.floor(index / this.col_count);
-        return [x, y];
+        return new Coord_1.default(x, y);
     }
     display() {
         console.log(this.matrix.valueOf());
@@ -89,7 +92,7 @@ class Grid {
     exportJSON() {
         return {
             matrix: this.matrix.toJSON(),
-            vectors: this.vectors
+            clusters: this.clusters
         };
     }
     // Static functions

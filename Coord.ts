@@ -34,4 +34,8 @@ export default class Coord {
     toArray(): number[] {
         return [this.x, this.y]
     }
+
+    display() {
+        console.log(`Coords: [${this.x}, ${this.y}]`)
+    }
 }

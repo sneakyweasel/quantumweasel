@@ -8,6 +8,7 @@ export default class Cell extends Coord {
 
     constructor(coord: Coord, value: number) {
         super(coord.x, coord.y)
+        this.coord = coord
         this.value = value
     }
 

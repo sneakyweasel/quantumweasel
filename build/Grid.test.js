@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Grid_1 = require("./Grid");
-const Vector_1 = require("./Vector");
+const Cluster_1 = require("./Cluster");
 const Cell_1 = require("./Cell");
 const Coord_1 = require("./Coord");
 describe('Grid', () => {
@@ -35,8 +35,8 @@ describe('Grid helpers', () => {
     });
     xit('should export grid into a json file', () => {
         const grid = new Grid_1.default(4, 4);
-        const vec = Vector_1.default.fromArray(new Coord_1.default(0, 1), [3, 3, 3], true);
-        grid.addVector(vec);
+        const cluster = Cluster_1.default.fromArray(new Coord_1.default(0, 1), [3, 3, 3], true);
+        grid.addCluster(cluster);
         expect(grid.exportJSON()).toEqual('');
     });
 });

@@ -1,7 +1,7 @@
 // import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Grid from './Grid'
-import Vector from './Vector'
+import Cluster from './Cluster'
 import Cell from './Cell'
 import Coord from './Coord'
 
@@ -41,8 +41,8 @@ describe('Grid helpers', () => {
 
   xit('should export grid into a json file', () => {
     const grid = new Grid(4, 4)
-    const vec = Vector.fromArray(new Coord(0, 1), [3, 3, 3], true)
-    grid.addVector(vec)
+    const cluster = Cluster.fromArray(new Coord(0, 1), [3, 3, 3], true)
+    grid.addCluster(cluster)
     expect(grid.exportJSON()).toEqual('')
   })
 })

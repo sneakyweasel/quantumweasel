@@ -1,15 +1,15 @@
 // GRID CLASS
 import * as math from 'mathjs'
 import * as _ from 'lodash'
-import Coord from './Coord'
 import Cell from './Cell'
-import Vector from './Vector'
+import Coord from './Coord'
+import Cluster from './Cluster'
 
 export default class Grid {
     col_count: number
     row_count: number
     matrix: math.Matrix
-    vectors: Vector[]
+    clusters: Cluster[]
 
     constructor(col_count: number, row_count: number, matrix?: math.Matrix) {
         this.col_count = col_count
@@ -19,7 +19,7 @@ export default class Grid {
         } else {
             this.matrix = math.matrix(math.zeros(col_count, row_count), "sparse")
         }
-        this.vectors = []
+        this.clusters = []
     }
 
     // Test if coord is inside boundaries
@@ -33,10 +33,13 @@ export default class Grid {
 
     // Set matrix cell
     set(cell: Cell) {
+        cell.display()
+        cell.coord.display()
+
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix.set([cell.coord.x, cell.coord.y], cell.value)
         } else {
-            throw('Coordinate out of bounds.')
+            throw(`Coordinate out of bounds. CELL: [${cell.coord.x}, ${cell.coord.y}]`)
         }
     }
 
@@ -46,21 +49,21 @@ export default class Grid {
     }
 
     // Add a vector to the grid
-    addVector(vector: Vector) {
-        this.vectors.push(vector)
-        vector.cells.forEach((cell) => {
+    addCluster(cluster: Cluster) {
+        this.clusters.push(cluster)
+        cluster.cells.forEach((cell: Cell) => {
             this.set(cell)
         })
     }
 
     // Look for colliding cells
-    collisionCheck(vector: Vector) {
+    collisionCheck(cluster: Cluster) {
         const intersect: Coord[][] = []
-        this.vectors.forEach((coord, index) => {
-            const temp = _.intersection(coord.indices , vector.indices)
+        this.clusters.forEach((coord, index) => {
+            const temp = _.intersection(coord.indices , cluster.indices)
             if (temp.length > 0) {
                 intersect.push(temp)
-                console.log('Intersect with vector: ' + index)
+                console.log('Intersect with blob: ' + index)
             }
         })
         console.log(intersect)
@@ -87,14 +90,14 @@ export default class Grid {
     }
 
     // Coordinates to grid index
-    getIndexFromCoord(coord: number[]): number {
-        return coord[1] * this.col_count + coord[0]
+    getIndexFromCoord(coord: Coord): number {
+        return coord.x * this.col_count + coord.y
     }
 
-    getCoordFromIndex(index: number): number[] {
+    getCoordFromIndex(index: number): Coord {
         const x = index % this.col_count
         const y = Math.floor(index / this.col_count)
-        return [x, y]
+        return new Coord(x, y)
     }
 
     display() {
@@ -104,11 +107,12 @@ export default class Grid {
     exportJSON() {
         return {
             matrix: this.matrix.toJSON(),
-            vectors: this.vectors
+            clusters: this.clusters
         }
     }
 
     // Static functions
+    // Javascript value unpacking
     static loadMatrix(matrix: math.Matrix): Grid {
         const cols = matrix.size()[0]
         const rows = matrix.size()[1]

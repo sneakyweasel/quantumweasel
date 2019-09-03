@@ -30,6 +30,9 @@ class Coord {
     toArray() {
         return [this.x, this.y];
     }
+    display() {
+        console.log(`Coords: [${this.x}, ${this.y}]`);
+    }
 }
 exports.default = Coord;
 //# sourceMappingURL=Coord.js.map
