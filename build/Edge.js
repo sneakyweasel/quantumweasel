@@ -1,9 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // Edge class inspired from RedBlobGames
 // view-source:https://www.redblobgames.com/grids/edges/grid-edges.js?2019-01-16-17-43-46
 // See continues: http://www-cs-students.stanford.edu/~amitp/game-programming/grids/
-import Pos from "./Pos.js";
-import Tile from "./Tile.js";
-import Corner from "./Corner.js";
+const Pos_js_1 = require("./Pos.js");
+const Tile_js_1 = require("./Tile.js");
+const Corner_js_1 = require("./Corner.js");
 function vmix(a, b, t) {
     const x = a.x * (1 - t) + b.x * t;
     const y = a.y * (1 - t) + b.y * t;
@@ -13,23 +15,23 @@ function vmix(a, b, t) {
         toString() { return `${x.toFixed(2)},${y.toFixed(2)}`; }
     };
 }
-export default class Edge extends Pos {
+class Edge extends Pos_js_1.default {
     get parity() {
         return this.s === 'N' ? 0 : 1;
     }
     get joins() {
         const { q, r, s } = this;
         switch (s) {
-            case 'N': return [new Tile(q, r - 1), new Tile(q, r)];
-            case 'W': return [new Tile(q - 1, r), new Tile(q, r)];
+            case 'N': return [new Tile_js_1.default(q, r - 1), new Tile_js_1.default(q, r)];
+            case 'W': return [new Tile_js_1.default(q - 1, r), new Tile_js_1.default(q, r)];
         }
         throw "Invalid Edge";
     }
     get endpoints() {
         const { q, r, s } = this;
         switch (s) {
-            case 'N': return [new Corner(q, r), new Corner(q + 1, r)];
-            case 'W': return [new Corner(q, r), new Corner(q, r + 1)];
+            case 'N': return [new Corner_js_1.default(q, r), new Corner_js_1.default(q + 1, r)];
+            case 'W': return [new Corner_js_1.default(q, r), new Corner_js_1.default(q, r + 1)];
         }
         throw "Invalid Edge";
     }
@@ -45,4 +47,5 @@ export default class Edge extends Pos {
         ];
     }
 }
+exports.default = Edge;
 //# sourceMappingURL=Edge.js.map

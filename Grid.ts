@@ -1,9 +1,9 @@
 // GRID CLASS
 import * as math from 'mathjs'
 import * as _ from 'lodash'
-import Coord from './Coord.js'
-import Cell from './Cell.js'
-import Vector from './Vector.js'
+import Coord from './Coord'
+import Cell from './Cell'
+import Vector from './Vector'
 
 export default class Grid {
     col_count: number
@@ -34,7 +34,7 @@ export default class Grid {
     // Set matrix cell
     set(cell: Cell) {
         if (this.isCoordInsideGrid(cell.coord)) {
-            this.matrix.set([cell.coord.x, cell.coord.y], cell.val)
+            this.matrix.set([cell.coord.x, cell.coord.y], cell.value)
         } else {
             throw('Coordinate out of bounds.')
         }

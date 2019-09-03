@@ -1,9 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // CELL CLASS
-import Coord from "./Coord";
-export default class Cell extends Coord {
-    constructor(coord, val) {
+const Coord_1 = require("./Coord");
+class Cell extends Coord_1.default {
+    constructor(coord, value) {
         super(coord.x, coord.y);
-        this.val = val;
+        this.value = value;
     }
     id(col_count) {
         this.y * col_count + this.x;
@@ -20,9 +22,13 @@ export default class Cell extends Coord {
         const y = this.y * spacing + spacing / 2;
         return [x, y];
     }
+    display() {
+        console.log(`Cell at [${this.x}, ${this.y}] has value: ${this.value}`);
+    }
     // Cell from number[]
-    static fromArray(x, y, val) {
-        return new Cell(new Coord(x, y), val);
+    static fromArray(x, y, value) {
+        return new Cell(new Coord_1.default(x, y), value);
     }
 }
+exports.default = Cell;
 //# sourceMappingURL=Cell.js.map

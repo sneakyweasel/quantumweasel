@@ -1,7 +1,8 @@
 {
     "compilerOptions": { 
         "target": "es2017",
-        // "module": "commonjs",
+        "module": "commonjs",
+        "lib": ["es2017", "dom"],
         "alwaysStrict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
@@ -13,10 +14,8 @@
         "noImplicitReturns":true,
         "sourceMap": true,
         "noEmitOnError": true,
-        "outDir": "./build"
+        "outDir": "./build",
+        // "types" : ["lodash", "mathjs"]
     },
-    "compileOnSave": true, 
-    "exclude": [
-        "node_modules"
-    ]
+    "compileOnSave": true
 }

@@ -19,7 +19,7 @@ export default class Vector {
             this.indices.push(cell.coord)
         })
         cells.forEach((cell) => {
-            this.values.push(cell.val)
+            this.values.push(cell.value)
         })
     }
     // Find origin top left coordinate position 0

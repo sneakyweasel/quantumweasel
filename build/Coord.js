@@ -1,6 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // COORDINATES CLASS
 // Rewrite with math.index vector definition
-export default class Coord {
+class Coord {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -18,10 +20,16 @@ export default class Coord {
         return [left, right, up, down];
     }
     isAdjacent(coord) {
-        return this.adjacent().includes(coord);
+        if (this.adjacent().indexOf(coord) === -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
     toArray() {
         return [this.x, this.y];
     }
 }
+exports.default = Coord;
 //# sourceMappingURL=Coord.js.map

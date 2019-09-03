@@ -1,6 +1,8 @@
-import Pos from "./Pos.js";
-import Edge from "./Edge.js";
-import Corner from "./Corner.js";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Pos_js_1 = require("./Pos.js");
+const Edge_js_1 = require("./Edge.js");
+const Corner_js_1 = require("./Corner.js");
 // Flow-based code from RedBlobGames
 // view-source:https://www.redblobgames.com/x/1805-conveyor-belts/grid-directed-edges.js?2019-01-15-08-51-20
 function vmix(a, b, t) {
@@ -12,7 +14,7 @@ function vmix(a, b, t) {
         toString() { return `${x.toFixed(2)},${y.toFixed(2)}`; }
     };
 }
-export default class Tile extends Pos {
+class Tile extends Pos_js_1.default {
     get parity() {
         return (this.q + this.r) & 1;
     }
@@ -31,23 +33,24 @@ export default class Tile extends Pos {
     get borders() {
         const { q, r } = this;
         return [
-            new Edge(q, r, 'N'),
-            new Edge(q, r, 'W'),
-            new Edge(q, r + 1, 'N'),
-            new Edge(q + 1, r, 'W'),
+            new Edge_js_1.default(q, r, 'N'),
+            new Edge_js_1.default(q, r, 'W'),
+            new Edge_js_1.default(q, r + 1, 'N'),
+            new Edge_js_1.default(q + 1, r, 'W'),
         ];
     }
     get corners() {
         const { q, r } = this;
         return [
-            new Corner(q, r),
-            new Corner(q, r + 1),
-            new Corner(q + 1, r + 1),
-            new Corner(q + 1, r)
+            new Corner_js_1.default(q, r),
+            new Corner_js_1.default(q, r + 1),
+            new Corner_js_1.default(q + 1, r + 1),
+            new Corner_js_1.default(q + 1, r)
         ];
     }
     makePolygon(blend) {
         return this.corners.map((p) => vmix(p, this, blend));
     }
 }
+exports.default = Tile;
 //# sourceMappingURL=Tile.js.map

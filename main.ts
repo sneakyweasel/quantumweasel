@@ -1,18 +1,18 @@
 // import * as math from 'mathjs'
-// import Coord from './Coord.js'
-// import Cell from './Cell.js'
 // import Vector from './Vector.js'
-// import Grid from './Grid.js'
+import Coord from './Coord'
+import Cell from './Cell'
+import Grid from './Grid'
 
 // INIT GRID
-// const grid = new Grid(8, 8)
-
-// LOAD GRID
+const grid = new Grid(8, 8)
 
 // LOAD COORD
-// const coord = new Coord(7, 7)
-// grid.set(coord, 9)
-// grid.display()
+const coord = new Coord(6, 6)
+const cell = new Cell(coord, 9)
+cell.display()
+grid.set(cell)
+grid.display()
 
 // CREATE ROW VECTOR
 // const row = []

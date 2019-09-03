@@ -1,16 +1,14 @@
 // CELL CLASS
-import Coord from "./Coord.js"
+import Coord from "./Coord"
 
 export default class Cell extends Coord {
-    coord: Coord
-    val: number
 
-    constructor(
-        coord: Coord,
-        val: number
-    ) {
+    coord: Coord
+    value: number
+
+    constructor(coord: Coord, value: number) {
         super(coord.x, coord.y)
-        this.val = val
+        this.value = value
     }
 
     id(col_count: number) {
@@ -31,8 +29,12 @@ export default class Cell extends Coord {
         return [x, y]
     }
 
+    display() {
+        console.log(`Cell at [${this.x}, ${this.y}] has value: ${this.value}`)
+    }
+
     // Cell from number[]
-    static fromArray(x: number, y: number, val: number): Cell {
-        return new Cell(new Coord(x, y), val)
+    static fromArray(x: number, y: number, value: number): Cell {
+        return new Cell(new Coord(x, y), value)
     }
 }

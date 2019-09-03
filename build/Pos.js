@@ -1,5 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const SPACING = 100;
-export default class Pos {
+class Pos {
     constructor(q, r, s) {
         this.q = q;
         this.r = r;
@@ -26,4 +28,5 @@ export default class Pos {
         return this.id === other.id;
     }
 }
+exports.default = Pos;
 //# sourceMappingURL=Pos.js.map

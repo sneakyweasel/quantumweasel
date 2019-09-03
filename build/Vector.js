@@ -1,9 +1,11 @@
+"use strict";
 // VECTOR CLASS
 // Validate row or column and at least two numbers
+Object.defineProperty(exports, "__esModule", { value: true });
 // import * as math from 'mathjs'
-import Coord from './Coord.js';
-import Cell from './Cell.js';
-export default class Vector {
+const Coord_js_1 = require("./Coord.js");
+const Cell_js_1 = require("./Cell.js");
+class Vector {
     // Allow constructor with origin coord, number array and direction
     constructor(cells) {
         this.cells = cells;
@@ -13,7 +15,7 @@ export default class Vector {
             this.indices.push(cell.coord);
         });
         cells.forEach((cell) => {
-            this.values.push(cell.val);
+            this.values.push(cell.value);
         });
     }
     // Find origin top left coordinate position 0
@@ -33,15 +35,16 @@ export default class Vector {
         const scalars = [];
         values.forEach((value, index) => {
             if (row) {
-                const curCoord = new Coord(origin.x + index, origin.y);
-                scalars.push(new Cell(curCoord, value));
+                const curCoord = new Coord_js_1.default(origin.x + index, origin.y);
+                scalars.push(new Cell_js_1.default(curCoord, value));
             }
             else {
-                const curCoord = new Coord(origin.x, origin.y + index);
-                scalars.push(new Cell(curCoord, value));
+                const curCoord = new Coord_js_1.default(origin.x, origin.y + index);
+                scalars.push(new Cell_js_1.default(curCoord, value));
             }
         });
         return new Vector(scalars);
     }
 }
+exports.default = Vector;
 //# sourceMappingURL=Vector.js.map

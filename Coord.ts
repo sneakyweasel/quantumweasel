@@ -24,7 +24,11 @@ export default class Coord {
     }
 
     isAdjacent(coord: Coord): boolean {
-        return this.adjacent().includes(coord)
+        if (this.adjacent().indexOf(coord) === -1) {
+            return false
+        } else {
+            return true
+        }
     }
 
     toArray(): number[] {

@@ -1,7 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // GRID CLASS
-import * as math from 'mathjs';
-import * as _ from 'lodash';
-export default class Grid {
+const math = require("mathjs");
+const _ = require("lodash");
+class Grid {
     constructor(col_count, row_count, matrix) {
         this.col_count = col_count;
         this.row_count = row_count;
@@ -24,7 +26,7 @@ export default class Grid {
     // Set matrix cell
     set(cell) {
         if (this.isCoordInsideGrid(cell.coord)) {
-            this.matrix.set([cell.coord.x, cell.coord.y], cell.val);
+            this.matrix.set([cell.coord.x, cell.coord.y], cell.value);
         }
         else {
             throw ('Coordinate out of bounds.');
@@ -97,4 +99,5 @@ export default class Grid {
         return new Grid(cols, rows, matrix);
     }
 }
+exports.default = Grid;
 //# sourceMappingURL=Grid.js.map
