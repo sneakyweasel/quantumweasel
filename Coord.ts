@@ -1,5 +1,7 @@
 // COORDINATES CLASS
-// Rewrite with math.index vector definition
+// Coord is a [x, y, z?] convenient way to deal with coordinates.
+// - Adjacency: list of adjacent cells and adjacency checking.
+
 export default class Coord {
     x: number
     y: number

@@ -10,7 +10,6 @@ const grid = new Grid(8, 8)
 // LOAD COORD
 const coord = new Coord(6, 6)
 const cell = new Cell(coord, 9)
-// const cell = Cell.fromArray(1, 2, 3)
 cell.display()
 grid.set(cell)
 
@@ -42,10 +41,10 @@ grid.display()
 // console.log(`Index ${index} correspond to X: ${coord2.x} - Y: ${coord2.y}`)
 
 // SUBMATRIX SELECTION
-// const cellA = new Coord(2, 6)
-// const cellB = new Coord(3, 5)
-// const selection = grid.submatrix(cellA, cellB)
+const cellA = new Coord(2, 6)
+const cellB = new Coord(3, 5)
+const selection = grid.submatrix(cellA, cellB)
 // selection.forEach((elem) => {
 //     console.log(elem.toArray())
 // })
-// grid.display()
+selection.toString()

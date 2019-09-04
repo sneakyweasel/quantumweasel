@@ -65,7 +65,8 @@ export default class Grid {
     }
 
     // Two point area selection
-    submatrix(A: Coord, B: Coord) {
+    // Could be used for viewport cropping like in Vim Adventures
+    submatrix(A: Coord, B: Coord): math.Matrix {
         if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
             throw('Coordinates outside of bounds.')
         }
@@ -79,8 +80,9 @@ export default class Grid {
                 selection.push([x, y])
             }
         }
+        console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`)
         console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
-        return selection
+        return math.matrix(selection)
     }
 
     // Coordinates to grid index

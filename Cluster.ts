@@ -1,11 +1,11 @@
-// Blob CLASS
-// Validate row or column and at least two numbers
+// CLUSTER CLASS
+// Cluster will be used to display multi-cellular components on the grid.
+//  It is a collection of cells with an emergent behaviour.
 
-// import * as math from 'mathjs'
 import Coord from './Coord.js'
 import Cell from './Cell.js'
 
-export default class Blob {
+export default class Cluster {
     cells: Cell[]
     indices: Coord[]
     values: number[]
@@ -22,34 +22,13 @@ export default class Blob {
             this.values.push(cell.value)
         })
     }
-    // Find origin top left coordinate position 0
+    // Origin of the cluster is the first element coordinates.
     origin(): Coord {
         return this.indices[0]
-    }
-
-    // Row form boolean
-    isRow(): boolean {
-        return this.indices[0].x === this.indices[1].x
     }
 
     // Display
     display() {
         console.log(this.values.toString())
     }
-
-    // Generate from values and origin
-    static fromArray(origin: Coord, values: number[], row: boolean): Blob {
-        const scalars: Cell[] = []
-        values.forEach((value, index) => {
-            if (row) {
-                const curCoord = new Coord(origin.x + index, origin.y)
-                scalars.push(new Cell(curCoord, value))
-            } else {
-                const curCoord = new Coord(origin.x, origin.y + index)
-                scalars.push(new Cell(curCoord, value))
-            }
-        })
-        return new Blob(scalars)
-    }
-
 }

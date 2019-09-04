@@ -10,7 +10,6 @@ const grid = new Grid_js_1.default(8, 8);
 // LOAD COORD
 const coord = new Coord_js_1.default(6, 6);
 const cell = new Cell_js_1.default(coord, 9);
-// const cell = Cell.fromArray(1, 2, 3)
 cell.display();
 grid.set(cell);
 // CREATE ROW VECTOR
@@ -28,20 +27,20 @@ grid.display();
 // grid.collisionCheck(rowvec)
 // grid.display()
 // INDEX TO COORD
-const x = 3;
-const y = 7;
-let coord1 = new Coord_js_1.default(x, y);
-const index = grid.getIndexFromCoord(coord1);
-console.log(`X: ${x} - Y: ${y} corresponds to index: ${index}`);
+// const x = 3
+// const y = 7
+// const coord1 = new Coord(x, y)
+// const index = grid.getIndexFromCoord(coord1)
+// console.log(`X: ${x} - Y: ${y} corresponds to index: ${index}`)
 // COORD TO INDEX
-// coord = grid.getCoordFromIndex(index)
-// console.log(`Index ${index} correspond to X: ${coord.x} - Y: ${coord.y}`)
+// const coord2 = grid.getCoordFromIndex(index)
+// console.log(`Index ${index} correspond to X: ${coord2.x} - Y: ${coord2.y}`)
 // SUBMATRIX SELECTION
-// const cellA = new Coord(2, 6)
-// const cellB = new Coord(3, 5)
-// const selection = grid.submatrix(cellA, cellB)
+const cellA = new Coord_js_1.default(2, 6);
+const cellB = new Coord_js_1.default(3, 5);
+const selection = grid.submatrix(cellA, cellB);
 // selection.forEach((elem) => {
 //     console.log(elem.toArray())
 // })
-// grid.display()
+selection.toString();
 //# sourceMappingURL=main.js.map

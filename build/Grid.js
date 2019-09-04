@@ -18,21 +18,16 @@ class Grid {
     }
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord) {
-        if ((coord.x >= 0 && coord.x < this.col_count) &&
-            (coord.y >= 0 && coord.y < this.row_count)) {
-            return true;
-        }
-        return false;
+        return (coord.x >= 0 && coord.x < this.col_count) &&
+            (coord.y >= 0 && coord.y < this.row_count);
     }
     // Set matrix cell
     set(cell) {
-        cell.display();
-        cell.coord.display();
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix.set([cell.coord.x, cell.coord.y], cell.value);
         }
         else {
-            throw ('Coordinate out of bounds.');
+            throw (`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`);
         }
     }
     // Get matrix cell value
@@ -60,6 +55,7 @@ class Grid {
         return intersect;
     }
     // Two point area selection
+    // Could be used for viewport cropping like in Vim Adventures
     submatrix(A, B) {
         if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
             throw ('Coordinates outside of bounds.');
@@ -74,8 +70,9 @@ class Grid {
                 selection.push([x, y]);
             }
         }
+        console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`);
         console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`);
-        return selection;
+        return math.matrix(selection);
     }
     // Coordinates to grid index
     getIndexFromCoord(coord) {
@@ -96,6 +93,7 @@ class Grid {
         };
     }
     // Static functions
+    // Javascript value unpacking
     static loadMatrix(matrix) {
         const cols = matrix.size()[0];
         const rows = matrix.size()[1];

@@ -1,10 +1,13 @@
 // CELL CLASS
+// TODO: Rework the Cell to include other infos
 import Coord from "./Coord"
 
 export default class Cell extends Coord {
 
     coord: Coord
     value: number
+    rotation: number
+    frozen: boolean
 
     constructor(coord: Coord, value: number) {
         super(coord.x, coord.y)
@@ -12,6 +15,7 @@ export default class Cell extends Coord {
         this.value = value
     }
 
+    // Transformation from coordinate system to unique id
     id(col_count: number) {
         this.y * col_count + this.x
     }
@@ -30,8 +34,9 @@ export default class Cell extends Coord {
         return [x, y]
     }
 
+    // Display in console
     display() {
-        console.log(`Cell at [${this.x}, ${this.y}] has value: ${this.value}`)
+        console.log(`Cell at [X: ${this.x}, Y: ${this.y}] has value: ${this.value}`)
     }
 
     // Cell from number[]
