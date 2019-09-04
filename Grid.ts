@@ -1,45 +1,65 @@
 // GRID CLASS
+// FIXME: Figure a way to have uid and coord access to cells
+
 import * as math from 'mathjs'
 import * as _ from 'lodash'
-import Cell from './Cell'
 import Coord from './Coord'
+import Element from './Element'
+import Cell from './Cell'
 import Cluster from './Cluster'
 
 export default class Grid {
-    col_count: number
-    row_count: number
-    matrix: math.Matrix
+    colCount: number
+    rowCount: number
+    matrix: Cell[][]
+    cells: Cell[]
     clusters: Cluster[]
 
-    constructor(col_count: number, row_count: number, matrix?: math.Matrix) {
-        this.col_count = col_count
-        this.row_count = row_count
+    constructor(
+        colCount: number,
+        rowCount: number,
+        cells: Cell[],
+        matrix?: Cell[][]
+    ) {
+        this.colCount = colCount
+        this.rowCount = rowCount
+        this.cells = cells
+        this.clusters = []
+
+        // If matrix specified extract cells
         if (matrix) {
             this.matrix = matrix
         } else {
-            this.matrix = math.matrix(math.zeros(col_count, row_count), "sparse")
+            for (let y = 0; y < colCount; y++) {
+                for (let x = 0; x < rowCount; x++) {
+                    const coord = new Coord(x, y)
+                    const blankElement = Element.blank()
+                    const cell = new Cell(coord, blankElement, 0, false)
+                    this.matrix[x][y] = cell
+                    this.cells.push(cell)
+                }
+            }
         }
-        this.clusters = []
     }
 
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord: Coord): boolean {
-        return (coord.x >= 0 && coord.x < this.col_count) &&
-        (coord.y >= 0 && coord.y < this.row_count)
+        return (coord.x >= 0 && coord.x < this.colCount) &&
+            (coord.y >= 0 && coord.y < this.rowCount)
     }
 
     // Set matrix cell
     set(cell: Cell) {
         if (this.isCoordInsideGrid(cell.coord)) {
-            this.matrix.set([cell.coord.x, cell.coord.y], cell.value)
+            this.matrix[cell.coord.y][cell.coord.x] = cell
         } else {
-            throw(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
+            throw (`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
         }
     }
 
     // Get matrix cell value
-    get(coord: Coord) {
-        return this.matrix.get([coord.x, coord.y])
+    get(coord: Coord): Cell {
+        return this.matrix[coord.y][coord.x]
     }
 
     // Add a vector to the grid
@@ -51,24 +71,24 @@ export default class Grid {
     }
 
     // Look for colliding cells
-    collisionCheck(cluster: Cluster) {
-        const intersect: Coord[][] = []
-        this.clusters.forEach((coord, index) => {
-            const temp = _.intersection(coord.indices , cluster.indices)
-            if (temp.length > 0) {
-                intersect.push(temp)
-                console.log('Intersect with blob: ' + index)
-            }
-        })
-        console.log(intersect)
-        return intersect
-    }
+    // collisionCheck(cluster: Cluster) {
+    //     const intersect: Coord[][] = []
+    //     this.clusters.forEach((coord, index) => {
+    //         const temp = _.intersection(coord.indices, cluster.indices)
+    //         if (temp.length > 0) {
+    //             intersect.push(temp)
+    //             console.log('Intersect with blob: ' + index)
+    //         }
+    //     })
+    //     console.log(intersect)
+    //     return intersect
+    // }
 
     // Two point area selection
     // Could be used for viewport cropping like in Vim Adventures
     submatrix(A: Coord, B: Coord): math.Matrix {
         if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
-            throw('Coordinates outside of bounds.')
+            throw ('Coordinates outside of bounds.')
         }
         const minX: number = math.min(A.x, B.x)
         const maxX: number = math.max(A.x, B.x)
@@ -87,12 +107,12 @@ export default class Grid {
 
     // Coordinates to grid index
     getIndexFromCoord(coord: Coord): number {
-        return coord.x * this.col_count + coord.y
+        return coord.x * this.colCount + coord.y
     }
 
     getCoordFromIndex(index: number): Coord {
-        const x = index % this.col_count
-        const y = Math.floor(index / this.col_count)
+        const x = index % this.colCount
+        const y = Math.floor(index / this.colCount)
         return new Coord(x, y)
     }
 
@@ -100,18 +120,8 @@ export default class Grid {
         console.log(this.matrix.valueOf())
     }
 
+    // export JSON file to save state oi the game
     exportJSON() {
-        return {
-            matrix: this.matrix.toJSON(),
-            clusters: this.clusters
-        }
-    }
-
-    // Static functions
-    // Javascript value unpacking
-    static loadMatrix(matrix: math.Matrix): Grid {
-        const cols = matrix.size()[0]
-        const rows = matrix.size()[1]
-        return new Grid(cols, rows, matrix)
+        return JSON.stringify(this)
     }
 }

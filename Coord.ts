@@ -11,6 +11,25 @@ export default class Coord {
         this.y = y
     }
 
+    // Transformation from coordinate system to unique id
+    id(col_count: number) {
+        this.y * col_count + this.x
+    }
+
+    // SVG coordinate system: top-left point of cell
+    pos(spacing: number) {
+        const x = this.x * spacing
+        const y = this.y * spacing
+        return [x, y]
+    }
+
+    // SVG coordinates system: center point of cell
+    centerPos(spacing: number) {
+        const x = this.x * spacing + spacing / 2
+        const y = this.y * spacing + spacing / 2
+        return [x, y]
+    }
+
     // Adjacent cells
     left()   { return new Coord(this.x - 1, this.y) }
     right()  { return new Coord(this.x + 1, this.y) }
@@ -18,11 +37,11 @@ export default class Coord {
     bottom() { return new Coord(this.x, this.y + 1) }
 
     adjacent(): Coord[] {
-        const left  = new Coord(this.x - 1, this.y)
-        const right = new Coord(this.x + 1, this.y)
-        const up = new Coord(this.x, this.y - 1)
-        const down = new Coord(this.x, this.y + 1)
-        return [left, right, up, down]
+        const left   = new Coord(this.x - 1, this.y)
+        const right  = new Coord(this.x + 1, this.y)
+        const top    = new Coord(this.x, this.y - 1)
+        const bottom = new Coord(this.x, this.y + 1)
+        return [left, right, top, bottom]
     }
 
     isAdjacent(coord: Coord): boolean {
@@ -33,11 +52,14 @@ export default class Coord {
         }
     }
 
-    toArray(): number[] {
-        return [this.x, this.y]
+    // Display coordinates
+    display() {
+        console.log(`Coords: [${this.x}, ${this.y}] has [l,r,t,b] of: [${this.adjacent()}]`)
     }
 
-    display() {
-        console.log(`Coords: [${this.x}, ${this.y}]`)
+    // Export JSON
+    exportJSON() {
+        return JSON.stringify(this)
     }
+
 }

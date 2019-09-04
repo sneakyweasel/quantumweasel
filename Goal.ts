@@ -4,16 +4,16 @@
 import Cell from "./Cell"
 
 export default class Goal {
-    detector: Cell
+    cell: Cell          // detector cell
     threshold: number
     value: number
 
     constructor(
-        detector: Cell,
+        cell: Cell,
         threshold: number,
         value: number
     ) {
-        this.detector = detector
+        this.cell = cell
         this.threshold = threshold
         this.value = value
     }
@@ -21,5 +21,15 @@ export default class Goal {
     // check if the detector has reached its threshold
     check() {
         return (this.value >= this.threshold)
+    }
+
+    // Display detector informations
+    display() {
+        console.log(`Goal of detector: ${JSON.stringify(this.cell)} is ${this.threshold}, it is currently at ${this.value}`)
+    }
+
+    // export JSON
+    exportJSON() {
+        return JSON.stringify(this)
     }
 }

@@ -10,20 +10,29 @@ export default class Hint {
     width: number
     text: string
     direction: string
+    active: boolean
 
     constructor(
         coord: Coord,
         width: number,
         text: string,
-        direction: string
+        direction: string,
+        active: boolean
     ) {
         this.coord = coord
         this.width = width
         this.text = text
         this.direction = direction
+        this.active = active
     }
 
+    // Display informations
     display() {
-        console.log(`Hint`)
+        console.log(`Hint: ${this.text} at coord: ${this.coord} is ${this.active ? "active" : "closed"}`)
+    }
+
+    // export JSON
+    exportJSON() {
+        return JSON.stringify(this)
     }
 }

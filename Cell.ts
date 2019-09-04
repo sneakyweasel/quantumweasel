@@ -1,46 +1,36 @@
 // CELL CLASS
-// TODO: Rework the Cell to include other infos
+// FIXME: enum would be nicer for rotation
+
 import Coord from "./Coord"
+import Element from "./Element"
 
 export default class Cell extends Coord {
+    coord: Coord        // required
+    element: Element    // optional
+    rotation: number    // default: void
+    frozen: boolean     // default: false
 
-    coord: Coord
-    value: number
-    rotation: number
-    frozen: boolean
-
-    constructor(coord: Coord, value: number) {
+    constructor(
+        coord: Coord,
+        element: Element,
+        rotation: number,
+        frozen: boolean
+    ) {
         super(coord.x, coord.y)
+        // FIXME: Figure out the good way to have class inheritance
         this.coord = coord
-        this.value = value
-    }
-
-    // Transformation from coordinate system to unique id
-    id(col_count: number) {
-        this.y * col_count + this.x
-    }
-
-    // SVG top left coordinates
-    pos(spacing: number) {
-        const x = this.x * spacing
-        const y = this.y * spacing
-        return [x, y]
-    }
-
-    // SVG cell center coordinates
-    centerPos(spacing: number) {
-        const x = this.x * spacing + spacing / 2
-        const y = this.y * spacing + spacing / 2
-        return [x, y]
+        this.element = element
+        this.rotation = rotation
+        this.frozen = frozen
     }
 
     // Display in console
     display() {
-        console.log(`Cell at [X: ${this.x}, Y: ${this.y}] has value: ${this.value}`)
+        console.log(`Cell at [X: ${this.x}, Y: ${this.y}] is a ${this.frozen ? "frozen" : "unfrozen"} element of type ${this.element.name}`)
     }
 
-    // Cell from number[]
-    static fromArray(x: number, y: number, value: number): Cell {
-        return new Cell(new Coord(x, y), value)
+    // A blank cell with no element
+    static blank(coord: Coord): Cell {
+        return new Cell(coord, Element.blank(), 0, false)
     }
 }
