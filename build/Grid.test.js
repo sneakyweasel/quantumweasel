@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Grid_1 = require("./Grid");
-const Cluster_1 = require("./Cluster");
-const Cell_1 = require("./Cell");
 const Coord_1 = require("./Coord");
+const Cell_1 = require("./Cell");
+// import Cluster from './Cluster'
+const Grid_1 = require("./Grid");
 describe('Grid', () => {
     it('should create grid from col and row', () => {
         const grid = new Grid_1.default(3, 3);
@@ -12,20 +12,21 @@ describe('Grid', () => {
     });
     it('should set the value of a cell', () => {
         const grid = new Grid_1.default(3, 3);
-        grid.matrix.set([1, 1], 5);
+        const coord = new Coord_1.default(1, 1);
+        grid.set(Cell_1.default.blank(coord));
         expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]");
     });
-    it('should forbid setting the value of a cell outside grid range', () => {
-        const grid = new Grid_1.default(3, 3);
-        grid.matrix.set([4, 4], 5);
-        expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]");
-    });
-    it('should get the value of a cell', () => {
-        const grid = new Grid_1.default(3, 3);
-        grid.set(Cell_1.default.fromArray(1, 1, 5));
-        const value = grid.get(new Coord_1.default(1, 1));
-        expect(value).toEqual(5);
-    });
+    // xit('should forbid setting the value of a cell outside grid range', () => {
+    //   const grid = new Grid(3, 3)
+    //   grid.matrix.set([4, 4], 5)
+    //   expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]")
+    // })
+    // it('should get the value of a cell', () => {
+    //   const grid = new Grid(3, 3)
+    //   grid.set(Cell.fromArray(1, 1, 5))
+    //   const value = grid.get(new Coord(1, 1))
+    //   expect(value).toEqual(5)
+    // })
 });
 describe('Grid helpers', () => {
     it('should check if a coordinate is inside a grid', () => {
@@ -33,11 +34,24 @@ describe('Grid helpers', () => {
         const coord = new Coord_1.default(4, 4);
         expect(grid.isCoordInsideGrid(coord)).toBe(false);
     });
-    xit('should export grid into a json file', () => {
-        const grid = new Grid_1.default(4, 4);
-        const cluster = Cluster_1.default.fromArray(new Coord_1.default(0, 1), [3, 3, 3], true);
-        grid.addCluster(cluster);
-        expect(grid.exportJSON()).toEqual('');
+});
+// Coordinates testing
+describe('Coordinates', () => {
+    it('should generate adjacency list of a coord', () => {
+        const coord = new Coord_1.default(4, 4);
+        expect(coord.adjacent()).toEqual([
+            new Coord_1.default(3, 4),
+            new Coord_1.default(5, 4),
+            new Coord_1.default(4, 3),
+            new Coord_1.default(4, 5)
+        ]);
+    });
+    it('should test for adjacency of two coords', () => {
+        const coord1 = new Coord_1.default(4, 4);
+        const coord2 = new Coord_1.default(4, 5);
+        console.log(coord1.adjacent());
+        expect(coord1.isAdjacent(coord2)).toBe(true);
+        expect(coord2.isAdjacent(coord1)).toBe(true);
     });
 });
 //# sourceMappingURL=Grid.test.js.map

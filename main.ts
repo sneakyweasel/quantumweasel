@@ -6,15 +6,17 @@ import Cell from './Cell'
 import Grid from './Grid'
 
 // INIT GRID
-const grid = new Grid(8, 8, [])
+const grid = new Grid(8, 8)
 
 // LOAD COORD
-const coord = new Coord(6, 6)
-const cell = new Cell(coord, Element.blank(), 0, false)
-cell.display()
-grid.set(cell)
+const source = new Cell(new Coord(4, 0), Element.source(), 0, false)
+const detector = new Cell(new Coord(4, 7), Element.detector(), 0, false)
+const mirror = new Cell(new Coord(6, 6), Element.mirror(), 0, false)
+grid.set(source)
+grid.set(detector)
+grid.set(mirror)
+grid.asciiRender()
 
-grid.display()
 // CREATE ROW VECTOR
 // const row = []
 // const rangeX = [1, 4]

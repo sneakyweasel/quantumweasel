@@ -4,7 +4,7 @@
 import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
-import Element from './Element'
+// import Element from './Element'
 import Cell from './Cell'
 import Cluster from './Cluster'
 
@@ -12,34 +12,42 @@ export default class Grid {
     colCount: number
     rowCount: number
     matrix: Cell[][]
-    cells: Cell[]
     clusters: Cluster[]
 
     constructor(
         colCount: number,
         rowCount: number,
-        cells: Cell[],
         matrix?: Cell[][]
     ) {
         this.colCount = colCount
         this.rowCount = rowCount
-        this.cells = cells
         this.clusters = []
 
         // If matrix specified extract cells
         if (matrix) {
             this.matrix = matrix
         } else {
+            // FIXME: Kinda ugly
+            // Else create blank cells
+            this.matrix = Array.from(Array(colCount), (_) => Array(rowCount).fill(0))
             for (let y = 0; y < colCount; y++) {
                 for (let x = 0; x < rowCount; x++) {
                     const coord = new Coord(x, y)
-                    const blankElement = Element.blank()
-                    const cell = new Cell(coord, blankElement, 0, false)
-                    this.matrix[x][y] = cell
-                    this.cells.push(cell)
+                    this.matrix[x][y] = Cell.blank(coord)
                 }
             }
         }
+    }
+
+    // Return all the cells of the grid
+    cells(): Cell[] {
+        const result = []
+        for (let y = 0; y < this.colCount; y++) {
+            for (let x = 0; x < this.rowCount; x++) {
+                result.push(this.matrix[x][y])
+            }
+        }
+        return result
     }
 
     // Test if coord is inside boundaries
@@ -118,6 +126,19 @@ export default class Grid {
 
     display() {
         console.log(this.matrix.valueOf())
+    }
+
+    asciiRender() {
+        console.log("* ".repeat(this.colCount))
+
+        for (let y = 0; y < this.colCount; y++) {
+            let asciiLine = ""
+            for (let x = 0; x < this.rowCount; x++) {
+                asciiLine += this.matrix[x][y].element.ascii + " "
+            }
+            console.log(asciiLine)
+        }
+        console.log("* ".repeat(this.colCount))
     }
 
     // export JSON file to save state oi the game

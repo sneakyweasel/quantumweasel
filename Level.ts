@@ -38,7 +38,7 @@ export default class Level {
         this.hints = hints
 
         // Extract non frozen elements and put them in the toolbox
-        this.grid.cells.forEach((cell) => {
+        this.grid.cells().forEach((cell) => {
             if (!cell.frozen) {
                 this.startingElements.push(cell)
             }
