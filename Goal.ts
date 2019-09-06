@@ -11,7 +11,7 @@ export default class Goal {
     constructor(
         cell: Cell,
         threshold: number,
-        value: number
+        value: number = 0
     ) {
         this.cell = cell
         this.threshold = threshold
@@ -24,7 +24,7 @@ export default class Goal {
     }
 
     toString() {
-        return `GOAL @ ${this.cell.coord.toString} is ${this.threshold}`
+        return `{#GOAL @ ${this.cell.coord.toString()} is ${this.threshold}}`
     }
 
     // Display detector informations

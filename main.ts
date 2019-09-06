@@ -4,7 +4,9 @@ import Coord from './Coord'
 import Element from './Element'
 import Cell from './Cell'
 import Grid from './Grid'
-// import Level from './Level'
+import Hint from './Hint'
+import Goal from './Goal'
+import Level from './Level'
 
 // INIT GRID
 const grid = new Grid(8, 8)
@@ -13,32 +15,23 @@ const grid = new Grid(8, 8)
 const source = new Cell(new Coord(4, 0), Element.source(), 0, false)
 const detector = new Cell(new Coord(4, 7), Element.detector(), 0, false)
 const mirror = new Cell(new Coord(6, 6), Element.mirror(), 0, false)
+const goal = new Goal(detector, 100)
+const hint = new Hint(detector.coord, "WEASEL DESTROY LHC FAST PLZ !!!1!1")
 grid.set(source)
 grid.set(detector)
 grid.set(mirror)
-grid.asciiRender()
 
-// LOAD JSON LEVEL
-import fs = require('fs')
-// tslint:disable-next-line: no-any
-fs.readFile('./levels.json', 'utf8', (err: any, jsonString: string) => {
-    if (err) {
-        console.log("Error reading file from disk:", err)
-        return
-    }
-    try {
-        const levelJSON = JSON.parse(jsonString)
-        console.log("Level data is:", JSON.stringify(levelJSON))
-        // const level = new Level(
-        //     0,
-        //     levelJSON.name,
-        //     levelJSON.group
+const level = new Level(
+    0,
+    "Weasel Wizardry",
+    "Dev",
+    "Debugging level",
+    grid,
+    [goal],
+    [hint]
+)
 
-        // )
-    } catch (err) {
-        console.log('Error parsing JSON string:', err)
-    }
-})
+console.log(level.toString())
 
 // CREATE ROW VECTOR
 // const row = []

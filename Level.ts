@@ -7,6 +7,7 @@ import Cell from './Cell'
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
+import fs = require('fs')
 
 export default class Level {
     id: number
@@ -16,14 +17,14 @@ export default class Level {
     grid: Grid
     goals: Goal[]
     hints: Hint[]
-    startingElements: Cell[] // TODO: See if sim needs copy, computed from unfrozen cells in json
+    toolbox: Cell[]
 
     constructor(
         id: number,
         name: string,
         group: string = "",
         description: string = "",
-        grid: Grid,
+        grid: Grid = new Grid(8, 8),
         goals: Goal[],
         hints: Hint[]
     ) {
@@ -38,9 +39,10 @@ export default class Level {
         this.hints = hints
 
         // Extract non frozen elements and put them in the toolbox
+        this.toolbox = []
         this.grid.cells().forEach((cell) => {
             if (!cell.frozen) {
-                this.startingElements.push(cell)
+                this.toolbox.push(cell)
             }
         })
     }
@@ -48,19 +50,43 @@ export default class Level {
     // Override toString method in order to display ascii level
     toString() {
         return `\
-        LEVEL: ${this.name} [${this.grid.colCount}x${this.grid.rowCount}]\
-        DESC: ${this.description}\
-        GROUP: ${this.group}\
-        ${this.goals.toString()}\
-        ${this.grid.asciiRender()}\
-        ${this.hints.toString()}\
-        }
+LEVEL: ${this.name} [${this.grid.colCount}x${this.grid.rowCount}]\n\
+DESC: ${this.description}\n\
+GROUP: ${this.group}\n\
+${this.grid.asciiRender()}\n\
+GOALS: ${this.goals.map((i) => i.toString())}\n\
+HINTS: ${this.hints.map((i) => i.toString())}\
+}
         `
     }
 
     // Display level informations
     display() {
-        console.log(`Level ${this.id}: ${this.name} has size [${this.grid.rowCount}x${this.grid.colCount}] and ${this.startingElements.length} starting elements for a ${this.grid.cells} elements puzzle.`)
+        console.log(`Level ${this.id}: ${this.name} has size [${this.grid.rowCount}x${this.grid.colCount}] and ${this.toolbox.length} starting elements for a ${this.grid.cells} elements puzzle.`)
+    }
+
+    // Load level solution JSON file
+    // TODO: define new JSON structure for levels
+    loadJSON() {
+        // tslint:disable-next-line: no-any
+        fs.readFile('./levels.json', 'utf8', (err: any, jsonString: string) => {
+            if (err) {
+                console.log("Error reading file from disk:", err)
+                return
+            }
+            try {
+                const levelJSON = JSON.parse(jsonString)
+                console.log("Level data is:", JSON.stringify(levelJSON))
+                // const level = new Level(
+                //     0,
+                //     levelJSON.name,
+                //     levelJSON.group,
+                //     levelJSON.tiles.each
+                // )
+            } catch (err) {
+                console.log('Error parsing JSON string:', err)
+            }
+        })
     }
 
     // export JSON file to save state oi the game

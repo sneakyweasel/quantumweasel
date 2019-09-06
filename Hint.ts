@@ -14,10 +14,10 @@ export default class Hint {
 
     constructor(
         coord: Coord,
-        width: number,
         text: string,
-        direction: string,
-        active: boolean
+        width: number = 5,
+        direction: string = "left",
+        active: boolean = true
     ) {
         this.coord = coord
         this.width = width
@@ -28,7 +28,7 @@ export default class Hint {
 
     // override toString() method
     toString() {
-        return `- Hint: ${this.text} @ ${this.coord.toString()}`
+        return `{#HINT ${this.text} @ ${this.coord.toString()}}`
     }
 
     // Display informations

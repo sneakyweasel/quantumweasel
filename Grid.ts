@@ -4,7 +4,6 @@
 import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
-// import Element from './Element'
 import Cell from './Cell'
 import Cluster from './Cluster'
 
@@ -40,6 +39,7 @@ export default class Grid {
     }
 
     // Return all the cells of the grid
+    // TODO: filter void cells
     cells(): Cell[] {
         return [].concat.apply([], this.matrix)
     }
@@ -51,7 +51,7 @@ export default class Grid {
     }
 
     // Set matrix cell
-    set(cell: Cell) {
+    set(cell: Cell): void {
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix[cell.coord.y][cell.coord.x] = cell
         } else {
@@ -67,7 +67,7 @@ export default class Grid {
 
     // FIXME: Find what rotation should be a property of.
     // Move from a coord to another
-    move(src: Coord, dst: Coord) {
+    move(src: Coord, dst: Coord): void {
         const cellSrc = this.get(src)
         const cellDst = this.get(dst)
         if (!cellSrc.frozen && !cellDst.frozen) {
@@ -80,7 +80,7 @@ export default class Grid {
     }
 
     // Add a vector to the grid
-    addCluster(cluster: Cluster) {
+    addCluster(cluster: Cluster): void {
         this.clusters.push(cluster)
         cluster.cells.forEach((cell: Cell) => {
             this.set(cell)
@@ -133,21 +133,21 @@ export default class Grid {
         return new Coord(x, y)
     }
 
-    display() {
+    display(): void {
         console.log(this.matrix.valueOf())
     }
 
-    asciiRender() {
-        console.log("* ".repeat(this.colCount))
-
+    asciiRender(): string {
+        let result = "* ".repeat(this.colCount) + "\n"
         for (let y = 0; y < this.colCount; y++) {
             let asciiLine = ""
             for (let x = 0; x < this.rowCount; x++) {
                 asciiLine += this.matrix[x][y].element.ascii + " "
             }
-            console.log(asciiLine)
+            result += asciiLine + "\n"
         }
-        console.log("* ".repeat(this.colCount))
+        result += "* ".repeat(this.colCount)
+        return result
     }
 
     toString(): string {
@@ -163,7 +163,7 @@ export default class Grid {
     }
 
     // export JSON file to save state oi the game
-    exportJSON() {
+    exportJSON(): string {
         return JSON.stringify(this)
     }
 }

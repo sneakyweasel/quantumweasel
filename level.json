@@ -1,0 +1,40 @@
+{
+    "id": 0,
+    "name": "Not all but everywhere",
+    "group": "Game",
+    "goals": [],
+    "grid": {
+        "width": 13,
+        "height": 10,
+        "cells": [
+            {
+                "x": 4,
+                "y": 4,
+                "name": "Source",
+                "rotation": 0,
+                "frozen": true
+            },
+            {
+                "x": 6,
+                "y": 2,
+                "name": "Detector",
+                "rotation": 1,
+                "frozen": true
+            }
+        ]
+    },
+    "hints": [
+        {
+            "i": 1,
+            "j": 1,
+            "widthI": 4,
+            "text": "sometimes things get tricky"
+        },
+        {
+            "i": 7,
+            "j": 6,
+            "widthI": 5,
+            "text": "but we can afford losing 12.5% photons"
+        }
+    ]
+}
