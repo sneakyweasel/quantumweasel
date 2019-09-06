@@ -8,10 +8,8 @@ import Hint from './Hint'
 import Goal from './Goal'
 import Level from './Level'
 
-// INIT GRID
+// LOAD LEVEL
 const grid = new Grid(8, 8)
-
-// LOAD COORD
 const source = new Cell(new Coord(4, 0), Element.source(), 0, false)
 const detector = new Cell(new Coord(4, 7), Element.detector(), 0, false)
 const mirror = new Cell(new Coord(6, 6), Element.mirror(), 0, false)
@@ -30,8 +28,9 @@ const level = new Level(
     [goal],
     [hint]
 )
-
 console.log(level.toString())
+console.log("\n\n")
+console.log(level.exportJSON())
 
 // CREATE ROW VECTOR
 // const row = []
