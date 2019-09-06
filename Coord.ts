@@ -48,12 +48,17 @@ export default class Coord {
 
     // Using deep compare from lodash: https://stackoverflow.com/questions/25171143/
     isAdjacent(coord: Coord): boolean {
-        return (_.findIndex(this.adjacent(), (i) => { return _.isEqual(i.toString(), coord.toString()) }) > -1)
+        return (_.findIndex(this.adjacent(), (i) => { return _.isEqual(i.toArray(), coord.toArray()) }) > -1)
     }
 
-    // override of toString method
+    // override of toString method for debugging
     toString() {
         return `{#Coord [${this.x}, ${this.y}]}`
+    }
+
+    // override for deep compare
+    toArray() {
+        return [this.x, this.y]
     }
 
     // Display coordinates

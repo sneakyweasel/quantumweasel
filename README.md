@@ -45,6 +45,11 @@
 - Using mathjs library for complex numbers: <https://mathjs.org/examples/matrices.js.html>
 - WebGL shader toys: <https://www.shadertoy.com/results?query=quantum&sort=popular&from=12&num=12>
 
+## Interface
+
+- Display forbidden actions graphically in the user interface through specific messages.
+- See with Klem.
+
 ## Scientific ressources
 
 - HN Tensor network thread: <https://news.ycombinator.com/item?id=19936909>

@@ -1,5 +1,6 @@
 // CELL CLASS
 // FIXME: enum would be nicer for rotation
+// TODO: Figure out if rotation should be an element property?
 
 import Coord from "./Coord"
 import Element from "./Element"

@@ -55,13 +55,28 @@ export default class Grid {
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix[cell.coord.y][cell.coord.x] = cell
         } else {
-            throw (`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
+            // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
+            console.error(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
         }
     }
 
     // Get matrix cell value
     get(coord: Coord): Cell {
         return this.matrix[coord.y][coord.x]
+    }
+
+    // FIXME: Find what rotation should be a property of.
+    // Move from a coord to another
+    move(src: Coord, dst: Coord) {
+        const cellSrc = this.get(src)
+        const cellDst = this.get(dst)
+        if (!cellSrc.frozen && !cellDst.frozen) {
+            this.set(new Cell(src, cellDst.element, cellDst.rotation))
+            this.set(new Cell(dst, cellSrc.element, cellSrc.rotation))
+            console.log(`Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`)
+        } else {
+            console.error(`Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`)
+        }
     }
 
     // Add a vector to the grid
