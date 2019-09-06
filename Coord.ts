@@ -2,6 +2,8 @@
 // Coord is a [x, y, z?] convenient way to deal with coordinates.
 // - Adjacency: list of adjacent cells and adjacency checking.
 
+import * as _ from 'lodash'
+
 export default class Coord {
     x: number
     y: number
@@ -44,12 +46,14 @@ export default class Coord {
         return [left, right, top, bottom]
     }
 
+    // Using deep compare from lodash: https://stackoverflow.com/questions/25171143/
     isAdjacent(coord: Coord): boolean {
-        if (this.adjacent().indexOf(coord) === -1) {
-            return false
-        } else {
-            return true
-        }
+        return (_.findIndex(this.adjacent(), (i) => { return _.isEqual(i, coord) }) > -1)
+    }
+
+    // override of toString method
+    toString() {
+        return `{#Coord [${this.x}, ${this.y}]}`
     }
 
     // Display coordinates

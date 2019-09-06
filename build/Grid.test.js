@@ -16,10 +16,19 @@ describe('Grid', () => {
         grid.set(Cell_1.default.blank(coord));
         expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]");
     });
+    xit('should display the grid in a basic way', () => {
+        const grid = new Grid_1.default(3, 3);
+        grid.set(Cell_1.default.mirror(new Coord_1.default(2, 2)));
+        expect(grid.basicRender).toEqual("\
+      000\n\
+      000\n\
+      000\n\
+      ");
+    });
     // xit('should forbid setting the value of a cell outside grid range', () => {
     //   const grid = new Grid(3, 3)
-    //   grid.matrix.set([4, 4], 5)
-    //   expect(grid.matrix.toString()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]")
+    //   grid.set(Cell.mirror(new Coord(2, 2))
+    //   expect(grid.basicRender()).toEqual("[[0, 0, 0], [0, 5, 0], [0, 0, 0]]")
     // })
     // it('should get the value of a cell', () => {
     //   const grid = new Grid(3, 3)

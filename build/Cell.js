@@ -21,6 +21,10 @@ class Cell extends Coord_1.default {
     static blank(coord) {
         return new Cell(coord, Element_1.default.blank(), 0, false);
     }
+    // A blank cell with no element
+    static mirror(coord) {
+        return new Cell(coord, Element_1.default.mirror(), 0, false);
+    }
 }
 exports.default = Cell;
 //# sourceMappingURL=Cell.js.map

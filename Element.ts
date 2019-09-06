@@ -33,6 +33,11 @@ export default class Element {
         this.translation = translation
     }
 
+    // Override of toString() method
+    toString() {
+        return `{#Element ${this.name}}`
+    }
+
     // Display element informations
     display() {
         console.log(`Element ${this.name} (id: ${this.id}) is ${this.active ? "active" : "passive"}`)

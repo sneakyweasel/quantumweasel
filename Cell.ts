@@ -13,8 +13,8 @@ export default class Cell extends Coord {
     constructor(
         coord: Coord,
         element: Element,
-        rotation: number,
-        frozen: boolean
+        rotation: number = 0,
+        frozen: boolean = false
     ) {
         super(coord.x, coord.y)
         // FIXME: Figure out the good way to have class inheritance
@@ -22,6 +22,16 @@ export default class Cell extends Coord {
         this.element = element
         this.rotation = rotation
         this.frozen = frozen
+    }
+
+    // Rotate cell
+    rotate() {
+        this.rotation = (this.rotation + 1) % 3
+    }
+
+    // Override toString() method
+    toString() {
+        return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}}`
     }
 
     // Display in console
@@ -32,5 +42,10 @@ export default class Cell extends Coord {
     // A blank cell with no element
     static blank(coord: Coord): Cell {
         return new Cell(coord, Element.blank(), 0, false)
+    }
+
+    // A blank cell with no element
+    static mirror(coord: Coord, frozen?: boolean, rotation?: number): Cell {
+        return new Cell(coord, Element.mirror(), rotation, frozen)
     }
 }

@@ -14,7 +14,7 @@
         "noImplicitReturns":true,
         "sourceMap": true,
         "noEmitOnError": true,
-        "outDir": "./build",
+        "outDir": "./build"
         // "types" : ["lodash", "mathjs"]
     },
     "compileOnSave": true

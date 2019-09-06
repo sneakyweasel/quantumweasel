@@ -29,13 +29,14 @@ class Grid {
     }
     // Return all the cells of the grid
     cells() {
-        const result = [];
-        for (let y = 0; y < this.colCount; y++) {
-            for (let x = 0; x < this.rowCount; x++) {
-                result.push(this.matrix[x][y]);
-            }
-        }
-        return result;
+        return [].concat.apply([], this.matrix);
+        // const result = []
+        // for (let y = 0; y < this.colCount; y++) {
+        //     for (let x = 0; x < this.rowCount; x++) {
+        //         result.push(this.matrix[x][y])
+        //     }
+        // }
+        // return result
     }
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord) {
@@ -117,6 +118,17 @@ class Grid {
             console.log(asciiLine);
         }
         console.log("* ".repeat(this.colCount));
+    }
+    basicRender() {
+        let basic = "";
+        for (let y = 0; y < this.colCount; y++) {
+            let asciiLine = "";
+            for (let x = 0; x < this.rowCount; x++) {
+                asciiLine += this.matrix[x][y].element.id;
+            }
+            basic += asciiLine + "\n";
+        }
+        return basic;
     }
     // export JSON file to save state oi the game
     exportJSON() {
