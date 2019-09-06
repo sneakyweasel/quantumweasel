@@ -11,20 +11,20 @@ import Goal from './Goal'
 export default class Level {
     id: number
     name: string
-    group: number
+    group: string
     description: string
     grid: Grid
-    goal: Goal[]
+    goals: Goal[]
     hints: Hint[]
     startingElements: Cell[] // TODO: See if sim needs copy, computed from unfrozen cells in json
 
     constructor(
         id: number,
         name: string,
-        group: number,
-        description: string,
+        group: string = "",
+        description: string = "",
         grid: Grid,
-        goal: Goal[],
+        goals: Goal[],
         hints: Hint[]
     ) {
         // Basic infos
@@ -34,7 +34,7 @@ export default class Level {
         this.description = description
         // Basic grid definition
         this.grid = grid
-        this.goal = goal
+        this.goals = goals
         this.hints = hints
 
         // Extract non frozen elements and put them in the toolbox
@@ -43,6 +43,19 @@ export default class Level {
                 this.startingElements.push(cell)
             }
         })
+    }
+
+    // Override toString method in order to display ascii level
+    toString() {
+        return `\
+        LEVEL: ${this.name} [${this.grid.colCount}x${this.grid.rowCount}]\
+        DESC: ${this.description}\
+        GROUP: ${this.group}\
+        ${this.goals.toString()}\
+        ${this.grid.asciiRender()}\
+        ${this.hints.toString()}\
+        }
+        `
     }
 
     // Display level informations

@@ -23,6 +23,10 @@ export default class Goal {
         return (this.value >= this.threshold)
     }
 
+    toString() {
+        return `GOAL @ ${this.cell.coord.toString} is ${this.threshold}`
+    }
+
     // Display detector informations
     display() {
         console.log(`Goal of detector: ${JSON.stringify(this.cell)} is ${this.threshold}, it is currently at ${this.value}`)

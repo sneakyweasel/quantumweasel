@@ -26,6 +26,11 @@ export default class Hint {
         this.active = active
     }
 
+    // override toString() method
+    toString() {
+        return `- Hint: ${this.text} @ ${this.coord.toString()}`
+    }
+
     // Display informations
     display() {
         console.log(`Hint: ${this.text} at coord: ${this.coord} is ${this.active ? "active" : "closed"}`)

@@ -1,9 +1,10 @@
 // import * as math from 'mathjs'
+// import Cluster from './Cluster'
 import Coord from './Coord'
 import Element from './Element'
 import Cell from './Cell'
-// import Cluster from './Cluster'
 import Grid from './Grid'
+// import Level from './Level'
 
 // INIT GRID
 const grid = new Grid(8, 8)
@@ -16,6 +17,28 @@ grid.set(source)
 grid.set(detector)
 grid.set(mirror)
 grid.asciiRender()
+
+// LOAD JSON LEVEL
+import fs = require('fs')
+// tslint:disable-next-line: no-any
+fs.readFile('./levels.json', 'utf8', (err: any, jsonString: string) => {
+    if (err) {
+        console.log("Error reading file from disk:", err)
+        return
+    }
+    try {
+        const levelJSON = JSON.parse(jsonString)
+        console.log("Level data is:", JSON.stringify(levelJSON))
+        // const level = new Level(
+        //     0,
+        //     levelJSON.name,
+        //     levelJSON.group
+
+        // )
+    } catch (err) {
+        console.log('Error parsing JSON string:', err)
+    }
+})
 
 // CREATE ROW VECTOR
 // const row = []
