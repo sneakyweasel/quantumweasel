@@ -40,13 +40,19 @@ export default class Cell extends Coord {
         console.log(`Cell at [X: ${this.x}, Y: ${this.y}] is a ${this.frozen ? "frozen" : "unfrozen"} element of type ${this.element.name}`)
     }
 
+    // FIXME: Refactor how the cells and element work together
     // A blank cell with no element
-    static blank(coord: Coord): Cell {
-        return new Cell(coord, Element.blank(), 0, false)
+    static void(coord: Coord, frozen?: boolean, rotation?: number): Cell {
+        return new Cell(coord, Element.void(), rotation, frozen)
     }
 
-    // A blank cell with no element
+    // A mirror cell
     static mirror(coord: Coord, frozen?: boolean, rotation?: number): Cell {
         return new Cell(coord, Element.mirror(), rotation, frozen)
+    }
+
+    // A laser cell
+    static laser(coord: Coord, frozen?: boolean, rotation?: number): Cell {
+        return new Cell(coord, Element.laser(), rotation, frozen)
     }
 }

@@ -48,11 +48,11 @@ export default class Element {
         return JSON.stringify(this)
     }
 
-    // Blank element
-    static blank(): Element {
+    // void element
+    static void(): Element {
         return new Element(
             0,
-            "Void",
+            "void",
             ".",
             "Basics",
             "Basic void cell.",
@@ -63,11 +63,11 @@ export default class Element {
         )
     }
 
-    // Mirror element
-    static source(): Element {
+    // laser element
+    static laser(): Element {
         return new Element(
             1,
-            "Laser source",
+            "laser",
             ">",
             "Emitters",
             "Emits a directed beam...",
@@ -82,7 +82,7 @@ export default class Element {
     static mirror(): Element {
         return new Element(
             2,
-            "Mirror",
+            "mirror",
             "/",
             "Direction",
             "Reflects...",
@@ -93,11 +93,25 @@ export default class Element {
         )
     }
 
-    // Mirror element
+    // Detector element
     static detector(): Element {
         return new Element(
             3,
-            "Detector",
+            "detector",
+            "¤",
+            "Absorbers",
+            "Absorbs and detects...",
+            false,
+            "svgPath",
+            math.matrix(math.zeros(2, 2)),
+            math.matrix(math.zeros(2, 2))
+        )
+    }
+    // Beam Splitter element
+    static beamsplitter(): Element {
+        return new Element(
+            3,
+            "beamsplitter",
             "¤",
             "Absorbers",
             "Absorbs and detects...",

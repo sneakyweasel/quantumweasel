@@ -10,7 +10,7 @@ import Level from './Level'
 
 // LOAD LEVEL
 const grid = new Grid(8, 8)
-const source = new Cell(new Coord(4, 0), Element.source(), 0, false)
+const source = new Cell(new Coord(4, 0), Element.laser(), 0, false)
 const detector = new Cell(new Coord(4, 7), Element.detector(), 0, false)
 const mirror = new Cell(new Coord(6, 6), Element.mirror(), 0, false)
 const goal = new Goal(detector, 100)

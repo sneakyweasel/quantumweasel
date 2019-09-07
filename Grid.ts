@@ -4,6 +4,7 @@
 import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
+// import Element from './Element'
 import Cell from './Cell'
 import Cluster from './Cluster'
 
@@ -32,16 +33,22 @@ export default class Grid {
             for (let y = 0; y < colCount; y++) {
                 for (let x = 0; x < rowCount; x++) {
                     const coord = new Coord(x, y)
-                    this.matrix[x][y] = Cell.blank(coord)
+                    this.matrix[x][y] = Cell.void(coord)
                 }
             }
         }
     }
 
     // Return all the cells of the grid
-    // TODO: filter void cells
     cells(): Cell[] {
         return [].concat.apply([], this.matrix)
+    }
+
+    // Select cells by type
+    filteredBy(name: string): Cell[] {
+        return this.cells().filter((cell) => {
+            return cell.element.name === name
+        })
     }
 
     // Test if coord is inside boundaries
@@ -50,19 +57,42 @@ export default class Grid {
             (coord.y >= 0 && coord.y < this.rowCount)
     }
 
-    // Set matrix cell
-    set(cell: Cell): void {
+    // Set one cell
+    // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
+    set(cell: Cell): boolean {
         if (this.isCoordInsideGrid(cell.coord)) {
             this.matrix[cell.coord.y][cell.coord.x] = cell
+            return true
         } else {
-            // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
             console.error(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
+            return false
         }
     }
 
-    // Get matrix cell value
+    // Set many cells
+    setMany(...cells: Cell[]): boolean {
+        let errorToggle = true
+        cells.forEach((cell: Cell) => {
+            if (!this.isCoordInsideGrid(cell.coord)) {
+                errorToggle = false
+            }
+        })
+        cells.forEach((cell) => {
+            this.set(cell)
+        })
+        return errorToggle
+    }
+
+    // Get one cell
     get(coord: Coord): Cell {
         return this.matrix[coord.y][coord.x]
+    }
+
+    // Get many cells
+    getMany(...coords: Coord[]): Cell[] {
+        return coords.map((coord) => {
+            return this.matrix[coord.y][coord.x]
+        })
     }
 
     // FIXME: Find what rotation should be a property of.
