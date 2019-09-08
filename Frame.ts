@@ -3,8 +3,15 @@
 // Generate a new frame for every move of the particle
 // Pointers are [coord, direction]
 
-import Level from "./Level"
+// Exit conditions
+// - All goals done
+// - Not enough intensity
+// - No more particles
+
+import * as _ from "lodash"
 import Pointer from "./Pointer"
+import Goal from "./Goal"
+import Level from "./Level"
 
 export default class Frame {
     level: Level
@@ -33,7 +40,7 @@ export default class Frame {
     // TODO: compute activation of elements
     next(): Frame {
         const grid = this.level.grid
-        const pointers: Pointer[] = []
+        let pointers: Pointer[] = []
         this.pointers.forEach((pointer) => {
             // Compute individual pointer update
             const nxtPointer = pointer.next()
@@ -44,8 +51,32 @@ export default class Frame {
                 console.log(`Pointer escaped the grid...`)
             }
         })
-        // console.log("ORIG: " + Pointer.manyToString(this.pointers))
-        // console.log("DEST: " + Pointer.manyToString(pointers))
+
+        // Process goals
+        this.level.goals.forEach((goal) => {
+            this.pointers.forEach((pointer) => {
+                if (_.isEqual(goal.cell.coord.toArray(), pointer.coord.toArray())) {
+                    console.log("DETECTED SUCCESS")
+                    goal.value -= pointer.intensity
+                    pointer.intensity = 0
+                    if (goal.threshold >= goal.value) {
+                        goal.completed = true
+                    }
+                }
+            })
+        })
+
+        // Erase null intensity pointers
+        pointers = pointers.filter((pointer) => {
+           return pointer.intensity > 0
+        })
+
+        // Check if goals are achieved
+        const completedGoals = this.level.goals.filter((goal) => { goal.completed }).length
+        if (completedGoals === this.level.goals.length) {
+            console.log("CONGRATULATIONS WEASEL!!!!1!")
+        }
+
         return new Frame(this.level, this.step + 1, pointers)
     }
 
@@ -55,13 +86,14 @@ export default class Frame {
     toString() {
         let result = `Step #${this.step} with ${this.pointers.length} active pointers.\n`
         result += Pointer.manyToString(this.pointers)
+        result += Goal.manyToString(this.level.goals)
         return result
     }
 
     // Minimal display of current frame
     minimalDisplay() {
         console.log(`--- Frame #${this.step} of ${this.level.name} ---`)
-        console.log(this.level.grid.asciiRender())
+        console.log(this.level.grid.asciiRender(this.pointers))
         console.log(this.toString())
     }
 

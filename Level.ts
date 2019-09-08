@@ -18,6 +18,7 @@ export default class Level {
     goals: Goal[]
     hints: Hint[]
     toolbox: Cell[]
+    completed: boolean
 
     constructor(
         id: number,
@@ -26,7 +27,8 @@ export default class Level {
         description: string = "",
         grid: Grid = new Grid(8, 8),
         goals: Goal[],
-        hints: Hint[]
+        hints: Hint[],
+        completed: boolean = false
     ) {
         // Basic infos
         this.id = id
@@ -37,6 +39,7 @@ export default class Level {
         this.grid = grid
         this.goals = goals
         this.hints = hints
+        this.completed = completed
 
         // Extract non frozen elements and put them in the toolbox
         this.toolbox = []
@@ -55,9 +58,9 @@ DESC: ${this.description}\n\
 GROUP: ${this.group}\n\
 ${this.grid.asciiRender()}\n\
 GOALS: ${this.goals.map((i) => i.toString())}\n\
+GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
 HINTS: ${this.hints.map((i) => i.toString())}\
-}
-        `
+`
     }
 
     // Display level informations

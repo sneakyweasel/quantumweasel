@@ -11,14 +11,21 @@ import Frame from './Frame'
 
 // LOAD LEVEL
 const grid = new Grid(8, 8)
-const laser = new Cell(new Coord(4, 1), Element.laser(), 0, false)
-const detector = new Cell(new Coord(4, 7), Element.detector(), 0, false)
-const mirror = new Cell(new Coord(6, 6), Element.mirror(), 0, false)
-const goal = new Goal(detector, 100)
-const hint = new Hint(detector.coord, "WEASEL DESTROY LHC FAST PLZ !!!1!1")
-grid.set(laser)
-grid.set(detector)
-grid.set(mirror)
+const laser1 = new Cell(new Coord(2, 2), Element.laser(), 90, false)
+const laser2 = new Cell(new Coord(3, 3), Element.laser(), 90, false)
+const mirror1 = new Cell(new Coord(3, 6), Element.mirror(), 0, false)
+const mirror2 = new Cell(new Coord(2, 5), Element.mirror(), 0, false)
+const detector1 = new Cell(new Coord(2, 7), Element.detector(), 0, false)
+const detector2 = new Cell(new Coord(3, 7), Element.detector(), 0, false)
+const goal1 = new Goal(detector1, 100)
+const goal2 = new Goal(detector2, 100)
+const hint = new Hint(detector1.coord, "WEASEL DESTROY LHC FAST PLZ !!!1!1")
+grid.set(laser1)
+grid.set(laser2)
+grid.set(mirror1)
+grid.set(mirror2)
+grid.set(detector1)
+grid.set(detector2)
 
 const level = new Level(
     0,
@@ -26,7 +33,7 @@ const level = new Level(
     "Dev",
     "Debugging level",
     grid,
-    [goal],
+    [goal1, goal2],
     [hint]
 )
 console.log(level.toString())
@@ -37,6 +44,7 @@ let frame = new Frame(level)
 frame.display()
 
 // Compute frames
+// for (let i = 0; i < 5; i++) {
 for (let i = 0; i < 5; i++) {
     frame = frame.next()
     frame.minimalDisplay()

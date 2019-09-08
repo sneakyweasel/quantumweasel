@@ -16,15 +16,16 @@ export default class Pointer {
 
     // Compute next simulation step
     next(): Pointer {
+        // Moving CW in increment of 90°
         switch (this.direction) {
             case 0:
-                return new Pointer(this.coord.right(), this.direction, this.intensity)
-            case 1:
-                return new Pointer(this.coord.left(), this.direction, this.intensity)
-            case 2:
                 return new Pointer(this.coord.top(), this.direction, this.intensity)
-            case 3:
+            case 90:
+                return new Pointer(this.coord.right(), this.direction, this.intensity)
+            case 180:
                 return new Pointer(this.coord.bottom(), this.direction, this.intensity)
+            case 270:
+                return new Pointer(this.coord.left(), this.direction, this.intensity)
             default:
                 throw Error(`Something went wrong with pointers and direction.`)
         }
@@ -56,6 +57,7 @@ export default class Pointer {
         })
         return result
     }
+
     // Extract coordinates in a list
     static manyToCoords(pointers: Pointer[]): Coord[] {
         const result: Coord[] = []

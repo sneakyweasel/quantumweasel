@@ -46,14 +46,20 @@ export default class Coord {
         return [left, right, top, bottom]
     }
 
-    // Using deep compare from lodash: https://stackoverflow.com/questions/25171143/
+    // Check if two coordinates are adjacent
     isAdjacent(coord: Coord): boolean {
-        return (_.findIndex(this.adjacent(), (i) => { return _.isEqual(i.toArray(), coord.toArray()) }) > -1)
+        return coord.isIncludedIn(this.adjacent())
     }
 
-    // Test equality of coords Using deep compare from lodash: https://stackoverflow.com/questions/25171143/
+    // Check for equality
+    equal(coord: Coord): boolean {
+        return _.isEqual(this.toArray(), coord.toArray())
+    }
+
+    // Test inclusion in array of coords using deep compare from lodash
+    // https://stackoverflow.com/questions/25171143/
     isIncludedIn(coords: Coord[]): boolean {
-        return (_.findIndex(coords, (i) => { return _.isEqual(i.toArray(), this.toArray()) }) > -1)
+        return (_.findIndex(coords, (coord) => { return this.equal(coord) }) > -1)
     }
 
     // override of toString method for debugging
