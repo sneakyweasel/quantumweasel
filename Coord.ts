@@ -51,6 +51,11 @@ export default class Coord {
         return (_.findIndex(this.adjacent(), (i) => { return _.isEqual(i.toArray(), coord.toArray()) }) > -1)
     }
 
+    // Test equality of coords Using deep compare from lodash: https://stackoverflow.com/questions/25171143/
+    isIncludedIn(coords: Coord[]): boolean {
+        return (_.findIndex(coords, (i) => { return _.isEqual(i.toArray(), this.toArray()) }) > -1)
+    }
+
     // override of toString method for debugging
     toString() {
         return `{#Coord [${this.x}, ${this.y}]}`
@@ -71,4 +76,8 @@ export default class Coord {
         return JSON.stringify(this)
     }
 
+    // Create from array of numbers
+    static fromArray(numArray: number[]): Coord {
+        return new Coord(numArray[0], numArray[1])
+    }
 }

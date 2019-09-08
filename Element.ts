@@ -53,7 +53,7 @@ export default class Element {
         return new Element(
             0,
             "void",
-            ".",
+            " ",
             "Basics",
             "Basic void cell.",
             false,
@@ -112,7 +112,7 @@ export default class Element {
         return new Element(
             3,
             "beamsplitter",
-            "¤",
+            "%",
             "Absorbers",
             "Absorbs and detects...",
             false,

@@ -4,8 +4,8 @@
 import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
-// import Element from './Element'
 import Cell from './Cell'
+import Pointer from './Pointer'
 import Cluster from './Cluster'
 
 export default class Grid {
@@ -167,16 +167,23 @@ export default class Grid {
         console.log(this.matrix.valueOf())
     }
 
-    asciiRender(): string {
-        let result = "* ".repeat(this.colCount) + "\n"
+    // Include particle display in ascii render
+    asciiRender(pointers: Pointer[] = []): string {
+        let result = "##".repeat(this.colCount + 1) + "\n"
         for (let y = 0; y < this.colCount; y++) {
-            let asciiLine = ""
+            let asciiLine = "#"
             for (let x = 0; x < this.rowCount; x++) {
-                asciiLine += this.matrix[x][y].element.ascii + " "
+                // Add some sort of ascii z-index
+                const coord = new Coord(x, y)
+                if (coord.isIncludedIn(Pointer.manyToCoords(pointers))) {
+                    asciiLine += "* "
+                } else {
+                    asciiLine += this.matrix[x][y].element.ascii + " "
+                }
             }
-            result += asciiLine + "\n"
+            result += asciiLine + "#\n"
         }
-        result += "* ".repeat(this.colCount)
+        result += "##".repeat(this.colCount + 1)
         return result
     }
 
