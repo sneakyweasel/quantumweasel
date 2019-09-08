@@ -43,21 +43,18 @@ export default class Frame {
         let pointers: Pointer[] = []
         this.pointers.forEach((pointer) => {
             // Compute individual pointer update
-            const nxtPointer = pointer.next()
+            const nxtPointer = pointer.next(pointer.direction, pointer.intensity)
             if (grid.isCoordInsideGrid(nxtPointer.coord)) {
                 grid.get(nxtPointer.coord).pointers.push(nxtPointer)
                 pointers.push(nxtPointer)
-            } else {
-                console.log(`Pointer escaped the grid...`)
             }
         })
 
-        // Process goals
+        // Collision goals
         this.level.goals.forEach((goal) => {
-            this.pointers.forEach((pointer) => {
-                if (_.isEqual(goal.cell.coord.toArray(), pointer.coord.toArray())) {
-                    console.log("DETECTED SUCCESS")
-                    goal.value -= pointer.intensity
+            pointers.forEach((pointer) => {
+                if (goal.cell.coord.equal(pointer.coord)) {
+                    goal.value += pointer.intensity * 100
                     pointer.intensity = 0
                     if (goal.threshold >= goal.value) {
                         goal.completed = true
@@ -68,13 +65,13 @@ export default class Frame {
 
         // Erase null intensity pointers
         pointers = pointers.filter((pointer) => {
-           return pointer.intensity > 0
+            return pointer.intensity > 0
         })
 
         // Check if goals are achieved
-        const completedGoals = this.level.goals.filter((goal) => { goal.completed }).length
-        if (completedGoals === this.level.goals.length) {
-            console.log("CONGRATULATIONS WEASEL!!!!1!")
+        const completedGoals = this.level.goals.filter((goal) => { return goal.completed })
+        if (completedGoals.length === this.level.goals.length) {
+            this.level.completed = true
         }
 
         return new Frame(this.level, this.step + 1, pointers)
@@ -92,9 +89,18 @@ export default class Frame {
 
     // Minimal display of current frame
     minimalDisplay() {
-        console.log(`--- Frame #${this.step} of ${this.level.name} ---`)
-        console.log(this.level.grid.asciiRender(this.pointers))
-        console.log(this.toString())
+        if (this.level.completed) {
+            console.log(`---------------------------`)
+            console.log(`--CONGRATULATIONS WEASEL---`)
+            console.log(`--MISSION ACCOMPLISHED!1!--`)
+            console.log(`----- LHC DESTROYED -------`)
+            console.log(`----------->>>>>-----------`)
+            console.log(`---------------------------`)
+        } else {
+            console.log(`--- Frame #${this.step} of ${this.level.name} ---`)
+            console.log(this.level.grid.asciiRender(this.pointers))
+            console.log(this.toString())
+        }
     }
 
     // Display current frame

@@ -33,17 +33,13 @@ export default class Coord {
     }
 
     // Adjacent cells
-    left()   { return new Coord(this.x - 1, this.y) }
-    right()  { return new Coord(this.x + 1, this.y) }
-    top()    { return new Coord(this.x, this.y - 1) }
-    bottom() { return new Coord(this.x, this.y + 1) }
+    top()    { return new Coord(this.x - 1, this.y) }
+    bottom() { return new Coord(this.x + 1, this.y) }
+    left()   { return new Coord(this.x, this.y - 1) }
+    right()  { return new Coord(this.x, this.y + 1) }
 
     adjacent(): Coord[] {
-        const left   = new Coord(this.x - 1, this.y)
-        const right  = new Coord(this.x + 1, this.y)
-        const top    = new Coord(this.x, this.y - 1)
-        const bottom = new Coord(this.x, this.y + 1)
-        return [left, right, top, bottom]
+        return [this.top(), this.right(), this.bottom(), this.left()]
     }
 
     // Check if two coordinates are adjacent
@@ -53,7 +49,7 @@ export default class Coord {
 
     // Check for equality
     equal(coord: Coord): boolean {
-        return _.isEqual(this.toArray(), coord.toArray())
+        return _.isEqual(this, coord)
     }
 
     // Test inclusion in array of coords using deep compare from lodash

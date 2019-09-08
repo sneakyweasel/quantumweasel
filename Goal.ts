@@ -32,12 +32,12 @@ export default class Goal {
     }
 
     toString() {
-        return `{#GOAL ${this.completed ? "COMPLETE " : " "}@ ${this.cell.coord.toString()} is ${this.value} / ${this.threshold}} (${this.percentage()}%)`
+        return `{#Goal ${this.completed ? "completed " : " "}@ ${this.cell.coord.toString()} is ${this.value} / ${this.threshold}} (${this.percentage()}%)`
     }
 
     // Format active particle list
     static manyToString(goals: Goal[]) {
-        let result = `${goals.length} active particles...\n`
+        let result = `${goals.length} active goals...\n`
         goals.forEach((goal) => {
             result += `- ${goal.toString()}\n`
         })

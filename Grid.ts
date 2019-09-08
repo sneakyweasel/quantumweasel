@@ -174,7 +174,7 @@ export default class Grid {
             let asciiLine = "#"
             for (let x = 0; x < this.rowCount; x++) {
                 // Add some sort of ascii z-index
-                const coord = new Coord(x, y)
+                const coord = new Coord(y, x)
                 if (coord.isIncludedIn(Pointer.manyToCoords(pointers))) {
                     asciiLine += "* "
                 } else {

@@ -30,7 +30,7 @@ export default class Cell extends Coord {
 
     // Rotate cell
     rotate() {
-        this.rotation = (this.rotation + 1) % 3
+        this.rotation = (this.rotation + 90) % 360
     }
 
     // Override toString() method

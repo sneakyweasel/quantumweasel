@@ -15,33 +15,45 @@ export default class Pointer {
     }
 
     // Compute next simulation step
-    next(): Pointer {
+    next(direction: number = this.direction, intensity: number = this.intensity): Pointer {
         // Moving CW in increment of 90°
         switch (this.direction) {
             case 0:
-                return new Pointer(this.coord.top(), this.direction, this.intensity)
+                return new Pointer(this.coord.top(), direction, intensity)
             case 90:
-                return new Pointer(this.coord.right(), this.direction, this.intensity)
+                return new Pointer(this.coord.right(), direction, intensity)
             case 180:
-                return new Pointer(this.coord.bottom(), this.direction, this.intensity)
+                return new Pointer(this.coord.bottom(), direction, intensity)
             case 270:
-                return new Pointer(this.coord.left(), this.direction, this.intensity)
+                return new Pointer(this.coord.left(), direction, intensity)
             default:
                 throw Error(`Something went wrong with pointers and direction.`)
         }
     }
 
-    // Reflection direction: reflecting from point
+    // Rotation matrix
+    // FIXME: Find the appropriate type
     // https://en.wikipedia.org/wiki/Rotations_and_reflections_in_two_dimensions
-    reflect(theta: number) {
-        const refMatrix = math.matrix([
+    rotate(theta: number) {
+        const rotMatrix = math.matrix([
             [math.cos(theta), -math.sin(theta)],
             [math.sin(theta), math.cos(theta)]
+        ])
+        const result = math.multiply(this.coord.toArray(), rotMatrix)
+        console.log(typeof(result))
+        console.log(result.toString())
+    }
+
+    // Reflection matrix
+    // FIXME: Find the appropriate type
+    reflect(theta: number) {
+        const refMatrix = math.matrix([
+            [math.cos(2 * theta), math.sin(2 * theta)],
+            [math.sin(2 * theta), -math.cos(2 * theta)]
         ])
         const result = math.multiply(this.coord.toArray(), refMatrix)
         console.log(typeof(result))
         console.log(result.toString())
-        // return new Coord.fromArray(result.to)
     }
 
     // Override method to display nicely
