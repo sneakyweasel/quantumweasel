@@ -3,7 +3,7 @@ import * as math from "mathjs"
 export default class Element {
     id: number                  // required
     name: string                // required
-    ascii: string               // required
+    ascii: string[]             // required
     group: string               // optional
     description: string         // optional
     active: boolean             // default: false
@@ -14,7 +14,7 @@ export default class Element {
     constructor(
         id: number,
         name: string,
-        ascii: string,
+        ascii: string[],
         group: string,
         description: string,
         active: boolean,
@@ -53,7 +53,7 @@ export default class Element {
         return new Element(
             0,
             "void",
-            " ",
+            [" "],
             "Basics",
             "Basic void cell.",
             false,
@@ -68,7 +68,7 @@ export default class Element {
         return new Element(
             1,
             "laser",
-            ">",
+            ["^", ">", "v", "<"],
             "Emitters",
             "Emits a directed beam...",
             true,
@@ -83,7 +83,7 @@ export default class Element {
         return new Element(
             2,
             "mirror",
-            "/",
+            ["-", "\\", "|", "-"],
             "Direction",
             "Reflects...",
             false,
@@ -98,7 +98,7 @@ export default class Element {
         return new Element(
             3,
             "detector",
-            "¤",
+            ["¤", "¤", "¤", "¤"],
             "Absorbers",
             "Absorbs and detects...",
             false,
@@ -112,7 +112,7 @@ export default class Element {
         return new Element(
             3,
             "beamsplitter",
-            "%",
+            ["%", "%", "%", "%"],
             "Absorbers",
             "Absorbs and detects...",
             false,

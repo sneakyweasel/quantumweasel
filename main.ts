@@ -13,17 +13,17 @@ import Frame from './Frame'
 const grid = new Grid(8, 8)
 const laser1 = new Cell(new Coord(2, 2), Element.laser(), 90, false)
 const laser2 = new Cell(new Coord(3, 3), Element.laser(), 90, false)
-const mirror1 = new Cell(new Coord(3, 6), Element.mirror(), 0, false)
-const mirror2 = new Cell(new Coord(2, 5), Element.mirror(), 0, false)
-const detector1 = new Cell(new Coord(2, 4), Element.detector(), 0, false)
-const detector2 = new Cell(new Coord(3, 7), Element.detector(), 0, false)
+const mirror1 = new Cell(new Coord(3, 6), Element.mirror(), 90, false)
+const mirror2 = new Cell(new Coord(2, 5), Element.mirror(), 90, false)
+const detector1 = new Cell(new Coord(6, 5), Element.detector(), 0, false)
+const detector2 = new Cell(new Coord(6, 6), Element.detector(), 0, false)
 const goal1 = new Goal(detector1, 100)
 const goal2 = new Goal(detector2, 100)
 const hint = new Hint(detector1.coord, "WEASEL DESTROY LHC FAST PLZ !!!1!1")
 grid.set(laser1)
 grid.set(laser2)
 // laser1.rotate()
-// laser2.rotate()
+// mirror1.rotate()
 grid.set(mirror1)
 grid.set(mirror2)
 grid.set(detector1)
@@ -47,7 +47,7 @@ frame.display()
 
 // Compute frames
 for (let i = 0; i < 10; i++) {
-    if (!frame.level.completed) {
+    if (!frame.level.completed && frame.pointers.length > 0) {
         frame = frame.next()
         frame.minimalDisplay()
     } else {

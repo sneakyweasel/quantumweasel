@@ -9,9 +9,11 @@
 // - No more particles
 
 import * as _ from "lodash"
-import Pointer from "./Pointer"
+// import Coord from "./Coord"
+import Cell from "./Cell"
 import Goal from "./Goal"
 import Level from "./Level"
+import Pointer from "./Pointer"
 
 export default class Frame {
     level: Level
@@ -48,6 +50,18 @@ export default class Frame {
                 grid.get(nxtPointer.coord).pointers.push(nxtPointer)
                 pointers.push(nxtPointer)
             }
+        })
+        // Reflections
+        // FIXME: Repair the rotation matrix of pointer class
+        const mirrors = this.level.grid.filteredBy("mirror")
+        mirrors.forEach((mirror: Cell) => {
+            pointers.forEach((pointer) => {
+                // Apply reflection matrix if pointer is on a mirror
+                if (mirror.coord.equal(pointer.coord)) {
+                    console.log(`Hitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
+                    console.log(pointer.rotate(mirror.rotation))
+                }
+            })
         })
 
         // Collision goals

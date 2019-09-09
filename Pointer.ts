@@ -15,6 +15,23 @@ export default class Pointer {
     }
 
     // Compute next simulation step
+    previous(direction: number = this.direction, intensity: number = this.intensity): Pointer {
+        // Moving CW in increment of 90°
+        switch (this.direction) {
+            case 0:
+                return new Pointer(this.coord.bottom(), direction, intensity)
+            case 90:
+                return new Pointer(this.coord.left(), direction, intensity)
+            case 180:
+                return new Pointer(this.coord.top(), direction, intensity)
+            case 270:
+                return new Pointer(this.coord.right(), direction, intensity)
+            default:
+                throw Error(`Something went wrong with pointers and direction.`)
+        }
+    }
+
+    // Compute next simulation step
     next(direction: number = this.direction, intensity: number = this.intensity): Pointer {
         // Moving CW in increment of 90°
         switch (this.direction) {
@@ -35,24 +52,25 @@ export default class Pointer {
     // FIXME: Find the appropriate type
     // https://en.wikipedia.org/wiki/Rotations_and_reflections_in_two_dimensions
     rotate(theta: number) {
+        const deg = math.unit(theta, 'deg')
         const rotMatrix = math.matrix([
-            [math.cos(theta), -math.sin(theta)],
-            [math.sin(theta), math.cos(theta)]
+            [math.cos(deg), -math.sin(deg)],
+            [math.sin(deg), math.cos(deg)]
         ])
         const result = math.multiply(this.coord.toArray(), rotMatrix)
-        console.log(typeof(result))
         console.log(result.toString())
     }
 
     // Reflection matrix
     // FIXME: Find the appropriate type
     reflect(theta: number) {
+        const previous = this.previous()
+        const deg2 = math.unit(theta * 2, 'deg')
         const refMatrix = math.matrix([
-            [math.cos(2 * theta), math.sin(2 * theta)],
-            [math.sin(2 * theta), -math.cos(2 * theta)]
+            [math.cos(deg2), math.sin(deg2)],
+            [math.sin(deg2), -math.cos(deg2)]
         ])
-        const result = math.multiply(this.coord.toArray(), refMatrix)
-        console.log(typeof(result))
+        const result = math.multiply(previous.coord.toArray(), refMatrix)
         console.log(result.toString())
     }
 
