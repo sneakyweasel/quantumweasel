@@ -29,22 +29,22 @@ export default class Cell extends Coord {
     }
 
     // Rotate cell
-    rotate() {
-        this.rotation = (this.rotation + 90) % 360
+    rotate(angle: number = 45): void {
+        this.rotation = (this.rotation + angle) % 360
     }
 
     // Override toString() method
-    toString() {
+    toString(): string {
         return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}}`
     }
 
     // Override toString() method
-    toStringwithPointers() {
+    toStringwithPointers(): string {
         return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}} has ${this.pointers.map((pointer) => {pointer.toString()})}`
     }
 
     // Display in console
-    display() {
+    display(): void {
         console.log(`Cell at [X: ${this.x}, Y: ${this.y}] is a ${this.frozen ? "frozen" : "unfrozen"} element of type ${this.element.name}`)
     }
 

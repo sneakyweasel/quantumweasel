@@ -68,7 +68,8 @@ export default class Element {
         return new Element(
             1,
             "laser",
-            ["^", ">", "v", "<"],
+            // 0, 45, 90, 135, 180, 225, 270, 315
+            ["^", "^", ">", ">", "v", "v", "<", "<"],
             "Emitters",
             "Emits a directed beam...",
             true,
@@ -83,7 +84,7 @@ export default class Element {
         return new Element(
             2,
             "mirror",
-            ["-", "\\", "|", "-"],
+            ["|", "/", "-", "\\", "|", "/", "-", "\\"],
             "Direction",
             "Reflects...",
             false,
@@ -98,7 +99,7 @@ export default class Element {
         return new Element(
             3,
             "detector",
-            ["¤", "¤", "¤", "¤"],
+            ["¤", "¤", "¤", "¤", "¤", "¤", "¤", "¤"],
             "Absorbers",
             "Absorbs and detects...",
             false,
@@ -112,7 +113,7 @@ export default class Element {
         return new Element(
             3,
             "beamsplitter",
-            ["%", "%", "%", "%"],
+            ["%", "%", "%", "%", "%", "%", "%", "%"],
             "Absorbers",
             "Absorbs and detects...",
             false,

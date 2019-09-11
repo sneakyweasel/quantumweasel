@@ -57,9 +57,11 @@ export default class Frame {
         mirrors.forEach((mirror: Cell) => {
             pointers.forEach((pointer) => {
                 // Apply reflection matrix if pointer is on a mirror
+                // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
                 if (mirror.coord.equal(pointer.coord)) {
                     console.log(`Hitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
-                    console.log(pointer.rotate(mirror.rotation))
+                    pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360
+                    console.log(`Particle is being reflected to ${pointer.toString()}`)
                 }
             })
         })

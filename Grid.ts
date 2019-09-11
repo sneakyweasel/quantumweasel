@@ -178,7 +178,7 @@ export default class Grid {
                 if (coord.isIncludedIn(Pointer.manyToCoords(pointers))) {
                     asciiLine += "* "
                 } else {
-                    const rotation = this.get(coord).rotation / 90
+                    const rotation = this.get(coord).rotation / 45
                     asciiLine += this.matrix[x][y].element.ascii[rotation] + " "
                 }
             }
