@@ -3,11 +3,14 @@
 // Then the frozen elements are removed and put in the toolbox
 
 // import * as math from 'mathjs'
-import Cell from './Cell'
+// import Cell from './Cell'
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
+// import Element from './Element'
 import fs = require('fs')
+import _ = require('lodash')
+// import Toolbox from './Toolbox'
 
 export default class Level {
     id: number
@@ -17,7 +20,7 @@ export default class Level {
     grid: Grid
     goals: Goal[]
     hints: Hint[]
-    toolbox: Cell[]
+    toolbox: _.Dictionary<number>
     completed: boolean
 
     constructor(
@@ -42,12 +45,8 @@ export default class Level {
         this.completed = completed
 
         // Extract non frozen elements and put them in the toolbox
-        this.toolbox = []
-        this.grid.cells().forEach((cell) => {
-            if (!cell.frozen) {
-                this.toolbox.push(cell)
-            }
-        })
+        const unfrozenCells = this.grid.cells.filter((cell) => !cell.frozen).map((cell) => cell.element.name)
+        this.toolbox = _.countBy(unfrozenCells, toString)
     }
 
     // Override toString method in order to display ascii level
@@ -59,7 +58,8 @@ GROUP: ${this.group}\n\
 ${this.grid.asciiRender()}\n\
 GOALS: ${this.goals.map((i) => i.toString())}\n\
 GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
-HINTS: ${this.hints.map((i) => i.toString())}\
+HINTS: ${this.hints.map((i) => i.toString())}\n
+TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 `
     }
 

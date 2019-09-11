@@ -40,13 +40,13 @@ export default class Grid {
     }
 
     // Return all the cells of the grid
-    cells(): Cell[] {
+    get cells(): Cell[] {
         return [].concat.apply([], this.matrix)
     }
 
     // Select cells by type
     filteredBy(name: string): Cell[] {
-        return this.cells().filter((cell) => {
+        return this.cells.filter((cell) => {
             return cell.element.name === name
         })
     }
