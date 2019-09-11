@@ -52,7 +52,6 @@ export default class Frame {
             }
         })
         // Reflections
-        // FIXME: Repair the rotation matrix of pointer class
         const mirrors = this.level.grid.filteredBy("mirror")
         mirrors.forEach((mirror: Cell) => {
             pointers.forEach((pointer) => {
@@ -62,6 +61,24 @@ export default class Frame {
                     console.log(`Hitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
                     pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360
                     console.log(`Particle is being reflected to ${pointer.toString()}`)
+                }
+            })
+        })
+        // Beamsplitter
+        const beamsplitters = this.level.grid.filteredBy("beamsplitter")
+        beamsplitters.forEach((beamsplitter: Cell) => {
+            pointers.forEach((pointer) => {
+                // Apply reflection matrix if pointer is on a mirror
+                // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
+                if (beamsplitter.coord.equal(pointer.coord)) {
+                    console.log(`Hitting a beamsplitter rotated ${beamsplitter.rotation}° with ${pointer.toString()}`)
+                    // Crossing pointer (update current pointer with fading)
+                    pointer.intensity /= 2
+                    // Reflecting pointer (create new reflected faded pointer)
+                    const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360
+                    pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
+                    console.log(`Half intensity particle is being reflected to ${pointer.toString()}`)
+                    console.log(`Half intensity particle crosses to ${pointer.toString()}`)
                 }
             })
         })

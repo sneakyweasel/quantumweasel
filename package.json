@@ -13,7 +13,8 @@
     "test": "tsc --noEmit -p . && jest --no-cache",
     "lint": "tsc --noEmit -p . && tslint \"*.ts?(x)\"",
     "lintci": "tslint \"*.ts?(x)\" --force",
-    "start": "tsc --outDir ./build && node ./build/main.js",
+    "mirror": "tsc --outDir ./build && node ./build/mirror.js",
+    "start": "tsc --outDir ./build && node ./build/beamsplitter.js",
     "build": "tsc --pretty --outDir ./build"
   },
   "devDependencies": {

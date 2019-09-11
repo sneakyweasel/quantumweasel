@@ -32,12 +32,12 @@ grid.set(mirror1d)
 grid.set(mirror2)
 grid.set(detector1)
 grid.set(detector2)
-// mirror1.rotate(135)
+// mirror1.rotate(135"|", "\\", "-", "/"
 // mirror2.rotate(135)
 
 const level = new Level(
     0,
-    "Weasel Wizardry",
+    "Weasel Mirror Wizardry",
     "Dev",
     "Debugging level",
     grid,
