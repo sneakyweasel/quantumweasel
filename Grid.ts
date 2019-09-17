@@ -1,7 +1,7 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 
-import * as math from 'mathjs'
+// import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
 import Cell from './Cell'
@@ -133,24 +133,24 @@ export default class Grid {
 
     // Two point area selection
     // Could be used for viewport cropping like in Vim Adventures
-    submatrix(A: Coord, B: Coord): math.Matrix {
-        if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
-            throw ('Coordinates outside of bounds.')
-        }
-        const minX: number = math.min(A.x, B.x)
-        const maxX: number = math.max(A.x, B.x)
-        const minY: number = math.min(A.y, B.y)
-        const maxY: number = math.max(A.y, B.y)
-        const selection = []
-        for (let x = minX; x <= maxX; x++) {
-            for (let y = minY; y <= maxY; y++) {
-                selection.push([x, y])
-            }
-        }
-        console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`)
-        console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
-        return math.matrix(selection)
-    }
+    // submatrix(A: Coord, B: Coord): math.Matrix {
+    //     if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
+    //         throw ('Coordinates outside of bounds.')
+    //     }
+    //     const minX: number = math.min(A.x, B.x)
+    //     const maxX: number = math.max(A.x, B.x)
+    //     const minY: number = math.min(A.y, B.y)
+    //     const maxY: number = math.max(A.y, B.y)
+    //     const selection = []
+    //     for (let x = minX; x <= maxX; x++) {
+    //         for (let y = minY; y <= maxY; y++) {
+    //             selection.push([x, y])
+    //         }
+    //     }
+    //     console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`)
+    //     console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
+    //     return math.matrix(selection)
+    // }
 
     // Coordinates to grid index
     getIndexFromCoord(coord: Coord): number {

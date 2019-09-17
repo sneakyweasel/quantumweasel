@@ -1,4 +1,4 @@
-import * as math from "mathjs"
+// import * as math from "mathjs"
 
 export default class Element {
     id: number                  // required
@@ -8,8 +8,8 @@ export default class Element {
     description: string         // optional
     active: boolean             // default: false
     svg: string                 // default: none
-    rotation: math.Matrix       // default: zeros matrix
-    translation: math.Matrix    // default: zeros matrix
+    rotation: number[][]        // default: zeros matrix
+    translation: number[][]     // default: zeros matrix
 
     constructor(
         id: number,
@@ -19,8 +19,8 @@ export default class Element {
         description: string,
         active: boolean,
         svg: string,
-        rotation: math.Matrix,
-        translation: math.Matrix
+        rotation: number[][],
+        translation: number[][]
     ) {
         this.id = id
         this.name = name
@@ -58,8 +58,8 @@ export default class Element {
             "Basic void cell.",
             false,
             "svgPath",
-            math.matrix(math.zeros(2, 2)),
-            math.matrix(math.zeros(2, 2))
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
         )
     }
 
@@ -74,8 +74,8 @@ export default class Element {
             "Emits a directed beam...",
             true,
             "svgPath",
-            math.matrix(math.zeros(2, 2)),
-            math.matrix(math.zeros(2, 2))
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
         )
     }
 
@@ -89,8 +89,8 @@ export default class Element {
             "Reflects...",
             false,
             "svgPath",
-            math.matrix(math.zeros(2, 2)),
-            math.matrix(math.zeros(2, 2))
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
         )
     }
 
@@ -104,8 +104,8 @@ export default class Element {
             "Absorbs and detects...",
             false,
             "svgPath",
-            math.matrix(math.zeros(2, 2)),
-            math.matrix(math.zeros(2, 2))
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
         )
     }
     // Beam Splitter element
@@ -118,8 +118,8 @@ export default class Element {
             "Absorbs and detects...",
             false,
             "svgPath",
-            math.matrix(math.zeros(2, 2)),
-            math.matrix(math.zeros(2, 2))
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
         )
     }
 }

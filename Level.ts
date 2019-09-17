@@ -26,12 +26,12 @@ export default class Level {
     constructor(
         id: number,
         name: string,
-        group: string = "",
-        description: string = "",
+        group: string,
+        description: string,
         grid: Grid = new Grid(8, 8),
         goals: Goal[],
         hints: Hint[],
-        completed: boolean = false
+        completed: boolean
     ) {
         // Basic infos
         this.id = id

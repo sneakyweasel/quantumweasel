@@ -41,9 +41,7 @@
 
 ## Quantum numerical "engine"
 
-- Using mathjs library for matrices: <https://mathjs.org/examples/matrices.js.html>
-- Using mathjs library for complex numbers: <https://mathjs.org/examples/matrices.js.html>
-- WebGL shader toys: <https://www.shadertoy.com/results?query=quantum&sort=popular&from=12&num=12>
+- Work in progress on the Quantum Tensor custom-made library.
 
 ## Interface
 

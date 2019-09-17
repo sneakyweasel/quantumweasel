@@ -1,5 +1,8 @@
-// import * as math from 'mathjs'
-// import Cluster from './Cluster'
+// tslint:disable-next-line: no-var-requires
+const keypress = require("keypress")
+const ROT = require("rot-js")
+
+// Local imports
 import Coord from './Coord'
 import Element from './Element'
 import Cell from './Cell'
@@ -8,6 +11,30 @@ import Hint from './Hint'
 import Goal from './Goal'
 import Level from './Level'
 import Frame from './Frame'
+
+process.on("exit", () => {
+    // move cursor to the bottom left corner
+    // process.stdout.write("\x1b[" + (process.stdout.rows + 1) + ";1H")
+    // show the cursor again
+    process.stdout.write("\x1b[?25h")
+})
+// during the game, hide the cursor from display
+process.stdout.write("\x1b[?25l")
+
+// put the keyboard into raw mode, so we can get individual keypress events
+keypress(process.stdin)
+// ts:lint:strictNullChecks": false
+// process.stdin.setRawMode(true)
+process.stdin.resume()
+
+// add a handler to listen for "quit game" commands
+process.stdin.on("keypress", (ch, _key) => {
+    // if the user pressed Ctrl+C or ESC
+    if (ch === "\u0003" || ch === "\u001b") {
+        // then quit the game
+        process.exit(0)
+    }
+})
 
 // LOAD BEAMSPLITTER LEVEL
 const grid = new Grid(8, 8)
@@ -25,6 +52,7 @@ grid.set(mirror1)
 grid.set(detector1)
 grid.set(detector2)
 
+// Level information
 const level = new Level(
     0,
     "Weasel Beamsplitter Wizardry",
@@ -32,20 +60,39 @@ const level = new Level(
     "Debugging level",
     grid,
     [goal1, goal2],
-    [hint]
+    [hint],
+    false
 )
-console.log(level.toString())
-console.log("\n\n")
+
+// ROT display variables
+const o = {
+    width: 8,
+    height: 8,
+    layout: "term"
+}
+
+// Start ROT display
+const d = new ROT.Display({ layout: "term", width: 8, height: 8 })
+for (let i = 0; i < o.width; i++) {
+    for (let j = 0; j < o.height; j++) {
+        if (!i || !j || i + 1 === o.width || j + 1 === o.height) {
+            d.draw(i, j, "#", "gray", "#111")
+        } else {
+            const cell = level.grid.get(new Coord(i, j))
+            d.draw(i, j, cell.element.ascii, "#666", "#222")
+        }
+    }
+}
 
 // Start simulation
 let frame = new Frame(level)
-frame.display()
+// frame.display()
 
 // Compute frames
 for (let i = 0; i < 25; i++) {
     if (!frame.level.completed && frame.pointers.length > 0) {
         frame = frame.next()
-        frame.minimalDisplay()
+        // frame.minimalDisplay()
     } else {
         break
     }
