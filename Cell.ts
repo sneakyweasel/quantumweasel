@@ -1,7 +1,6 @@
 // CELL CLASS
-// TODO: Figure out if rotation should be an element property?
-// FIXME: Refactor how the cells and element work together
-
+// Basic class for the grid cells
+// TODO: Code smell with pointers
 import Coord from "./Coord"
 import Element from "./Element"
 import Pointer from "./Pointer"
@@ -40,7 +39,7 @@ export default class Cell extends Coord {
 
     // Override toString() method
     toStringwithPointers(): string {
-        return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}} has ${this.pointers.map((pointer) => {pointer.toString()})}`
+        return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}} has ${this.pointers.map((pointer) => { pointer.toString() })}`
     }
 
     // Display in console
@@ -48,18 +47,27 @@ export default class Cell extends Coord {
         console.log(`Cell at [X: ${this.x}, Y: ${this.y}] is a ${this.frozen ? "frozen" : "unfrozen"} element of type ${this.element.name}`)
     }
 
-    // A blank cell with no element
-    static void(coord: Coord, frozen?: boolean, rotation?: number): Cell {
-        return new Cell(coord, Element.void(), rotation, frozen)
+    // Export to JSON format
+    exportCellJSON(): Object {
+        return {
+            x: this.coord.x,
+            y: this.coord.y,
+            element: this.element.name,
+            rotation: this.rotation,
+            frozen: this.frozen
+        }
     }
 
-    // A mirror cell
-    static mirror(coord: Coord, frozen?: boolean, rotation?: number): Cell {
-        return new Cell(coord, Element.mirror(), rotation, frozen)
-    }
-
-    // A laser cell
-    static laser(coord: Coord, frozen?: boolean, rotation?: number): Cell {
-        return new Cell(coord, Element.laser(), rotation, frozen)
+    // Import from JSON
+    static importJSON(params: {
+        x: number,
+        y: number,
+        element: string,
+        rotation: number,
+        frozen: boolean
+    }): Cell {
+        const coord = new Coord(params.x, params.y)
+        const element = Element.fromName(params.element)
+        return new Cell(coord, element, params.rotation, params.frozen)
     }
 }

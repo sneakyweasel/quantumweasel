@@ -11,7 +11,7 @@ import Level from './Level'
 import Frame from './Frame'
 
 // Load json level
-const levelName = 'mirror'
+const levelName = 'beamsplitter'
 let level = Level.importJSON(levelName)
 
 // Rot terminal init
@@ -73,16 +73,18 @@ function frameDisplay(frame: Frame) {
                 // Draw cells
             } else {
                 const coord = new Coord(j, i)
-                const rotation = frame.level.grid.get(coord).rotation / 45
-                const ascii = frame.level.grid.matrix[i][j].element.ascii[rotation]
-                let background = "#222"
+                const rotation = frame.level.grid.get(coord).rotation
+                const ascii = frame.level.grid.matrix[i][j].element.ascii[rotation / 45]
+                const frozen = frame.level.grid.get(coord).frozen
+                const color = frozen ? "#fff" : "#ddd"
 
                 // Active cell - change background
                 const activePointers = frame.pointers.map((pointer) => pointer.coord).filter((i) => coord.equal(i))
+                let background = "#222"
                 if (activePointers.length > 0) {
                     background = "#ff00ff"
                 }
-                rot.draw(i, j, ascii, "#00ff00", background)
+                rot.draw(i, j, ascii, color, background)
             }
         }
     }

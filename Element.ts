@@ -1,4 +1,6 @@
-// TODO: Convey the rotation steps of element
+// ELEMENT CLASS
+// Basic class related to game elements
+// TODO: Include v1 names
 
 export default class Element {
     id: number                  // required
@@ -6,31 +8,31 @@ export default class Element {
     ascii: string[]             // required
     group: string               // optional
     description: string         // optional
+    link: string                // optional
     active: boolean             // default: false
-    svg: string                 // default: none
-    rotation: number[][]        // default: zeros matrix
-    translation: number[][]     // default: zeros matrix
+    tiles: string               // default: none
+    matrix: number[][]          // default: zeros matrix
 
     constructor(
         id: number,
         name: string,
-        ascii: string[],
-        group: string,
-        description: string,
-        active: boolean,
-        svg: string,
-        rotation: number[][],
-        translation: number[][]
+        ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
+        group: string = "",
+        description: string = "",
+        link: string = "",
+        active: boolean = false,
+        tiles: string = "tilemap.png",
+        matrix: number[][] = [[0, 0], [0, 0]]
     ) {
         this.id = id
         this.name = name
         this.ascii = ascii
         this.group = group
         this.description = description
+        this.link = link
         this.active = active
-        this.svg = svg
-        this.rotation = rotation
-        this.translation = translation
+        this.tiles = tiles
+        this.matrix = matrix
     }
 
     // Override of toString() method
@@ -44,133 +46,36 @@ export default class Element {
     }
 
     // Export JSON
-    exportJSON() {
-        return JSON.stringify(this)
-    }
-
-    // TODO: Rework to load from JSON
-    // Static selector
-    static fromName(name: string): Element {
-        switch (name) {
-            case "void":
-                return Element.void()
-            case "mirror":
-                return Element.mirror()
-            case "laser":
-                return Element.laser()
-            case "beamsplitter":
-                return Element.beamsplitter()
-            case "detector":
-                return Element.detector()
-            case "rock":
-                return Element.rock()
-            case "mine":
-                return Element.mine()
-            default:
-                throw new Error('Element name error...')
+    exportJSON(): Object {
+        return {
+            id: this.id,
+            name: this.name,
+            ascii: this.ascii,
+            group: this.group,
+            description: this.description,
+            link: this.link,
+            active: this.active,
+            tiles: this.tiles,
+            matrix: this.matrix
         }
     }
 
-    // void element
-    static void(): Element {
+    // Static JSON load
+    static fromName(name: string): Element {
+        const jsonElements = require(`../elements/elements.json`)
+        const elem = jsonElements.find((elem: { name: string }) => {
+            return elem.name === name
+        })
         return new Element(
-            0,
-            "void",
-            [" "],
-            "Basics",
-            "Basic void cell.",
-            false,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
-        )
-    }
-
-    // laser element
-    static laser(): Element {
-        return new Element(
-            1,
-            "laser",
-            // 0, 45, 90, 135, 180, 225, 270, 315
-            ["^", "^", ">", ">", "v", "v", "<", "<"],
-            "Emitters",
-            "Emits a directed beam...",
-            true,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
-        )
-    }
-
-    // Mirror element
-    static mirror(): Element {
-        return new Element(
-            2,
-            "mirror",
-            ["|", "/", "-", "\\", "|", "/", "-", "\\"],
-            "Direction",
-            "Reflects...",
-            false,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
-        )
-    }
-
-    // Detector element
-    static detector(): Element {
-        return new Element(
-            3,
-            "detector",
-            ["¤", "¤", "¤", "¤", "¤", "¤", "¤", "¤"],
-            "Absorbers",
-            "Absorbs and detects...",
-            false,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
-        )
-    }
-    // Detector element
-    static rock(): Element {
-        return new Element(
-            4,
-            "detector",
-            ["#", "#", "#", "#", "#", "#", "#", "#"],
-            "Absorbers",
-            "Absorbs and detects...",
-            false,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
-        )
-    }
-    // Beam Splitter element
-    static beamsplitter(): Element {
-        return new Element(
-            5,
-            "beamsplitter",
-            ["%", "%", "%", "%", "%", "%", "%", "%"],
-            "Absorbers",
-            "Absorbs and detects...",
-            false,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
-        )
-    }
-    // mine element
-    static mine(): Element {
-        return new Element(
-            5,
-            "beamsplitter",
-            ["%", "%", "%", "%", "%", "%", "%", "%"],
-            "Absorbers",
-            "Absorbs and detects...",
-            false,
-            "svgPath",
-            [[0, 0], [0, 0]],
-            [[0, 0], [0, 0]]
+            elem.id,
+            elem.name,
+            elem.ascii,
+            elem.group,
+            elem.description,
+            elem.link,
+            elem.active,
+            elem.tiles,
+            elem.matrix
         )
     }
 }

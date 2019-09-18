@@ -5,7 +5,6 @@
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
-import _ = require('lodash')
 
 export default class Level {
     id: number
@@ -40,8 +39,7 @@ export default class Level {
         this.completed = completed
 
         // Extract non frozen elements and put them in the toolbox
-        const unfrozenCells = this.grid.cells.filter((cell) => !cell.frozen).map((cell) => cell.element.name)
-        this.toolbox = _.countBy(unfrozenCells, toString)
+        // const unfrozenCells = this.grid.cells.filter((cell) => !cell.frozen).map((cell) => cell.element.name)
     }
 
     // Override toString method in order to display ascii level

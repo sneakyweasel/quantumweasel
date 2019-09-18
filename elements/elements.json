@@ -1,0 +1,79 @@
+[
+    {
+       "id": 0,
+       "name": "void",
+       "ascii": [" ", " ", " ", " ", " ", " ", " ", " "],
+       "group": "Basic",
+       "description": "The void...",
+       "link": "./elements/void",
+       "active": false,
+       "tiles": "",
+       "matrix": []
+    },
+    {
+       "id": 1,
+       "name": "laser",
+       "ascii": ["^", "^", ">", ">", "v", "v", "<", "<"],
+       "group": "Emitter",
+       "description": "A one-photon laser source",
+       "link": "./elements/laser",
+       "active": true,
+       "tiles": "",
+       "matrix": []
+    },
+    {
+       "id": 2,
+       "name": "mirror",
+       "ascii": ["|", "/", "-", "\\", "|", "/", "-", "\\"],
+       "group": "Direction",
+       "description": "A simple reflecting mirror",
+       "link": "./elements/mirror",
+       "active": false,
+       "tiles": "",
+       "matrix": []
+    },
+    {
+       "id": 3,
+       "name": "detector",
+       "ascii": ["¤", "¤", "¤", "¤", "¤", "¤", "¤", "¤"],
+       "group": "Absorber",
+       "description": "A one-photon detector",
+       "link": "./elements/detector",
+       "active": false,
+       "tiles": "",
+       "matrix": []
+    },
+    {
+       "id": 4,
+       "name": "rock",
+       "ascii": ["#", "#", "#", "#", "#", "#", "#", "#"],
+       "group": "Absorber",
+       "description": "An absorbing pet rock",
+       "link": "./elements/rock",
+       "active": false,
+       "tiles": "",
+       "matrix": []
+    },
+    {
+       "id": 5,
+       "name": "mine",
+       "ascii": ["!", "!", "!", "!", "!", "!", "!", "!"],
+       "group": "Absorber",
+       "description": "An explosive mine (disarm Jean)",
+       "link": "./elements/mine",
+       "active": false,
+       "tiles": "",
+       "matrix": []
+    },
+    {
+       "id": 6,
+       "name": "beamsplitter",
+       "ascii": ["%", "%", "%", "%", "%", "%", "%", "%"],
+       "group": "Direction",
+       "description": "A beamsplitter",
+       "link": "./elements/beamsplitter",
+       "active": false,
+       "tiles": "",
+       "matrix": []
+    }
+]

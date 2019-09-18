@@ -1,4 +1,5 @@
 // COORDINATES CLASS
+// Low level coordinate functions
 // Coord is a [x, y, z?] convenient way to deal with coordinates.
 // - Adjacency: list of adjacent cells and adjacency checking.
 
@@ -75,7 +76,10 @@ export default class Coord {
 
     // Export JSON
     exportJSON() {
-        return JSON.stringify(this)
+        return {
+            x: this.x,
+            y: this.y
+        }
     }
 
     // Create from array of numbers

@@ -34,7 +34,7 @@ export default class Grid {
             for (let y = 0; y < colCount; y++) {
                 for (let x = 0; x < rowCount; x++) {
                     const coord = new Coord(x, y)
-                    this.matrix[x][y] = Cell.void(coord)
+                    this.matrix[x][y] = new Cell(coord, Element.fromName('void'))
                 }
             }
         }
@@ -117,41 +117,6 @@ export default class Grid {
             this.set(cell)
         })
     }
-
-    // Look for colliding cells
-    // collisionCheck(cluster: Cluster) {
-    //     const intersect: Coord[][] = []
-    //     this.clusters.forEach((coord, index) => {
-    //         const temp = _.intersection(coord.indices, cluster.indices)
-    //         if (temp.length > 0) {
-    //             intersect.push(temp)
-    //             console.log('Intersect with blob: ' + index)
-    //         }
-    //     })
-    //     console.log(intersect)
-    //     return intersect
-    // }
-
-    // Two point area selection
-    // Could be used for viewport cropping like in Vim Adventures
-    // submatrix(A: Coord, B: Coord): math.Matrix {
-    //     if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
-    //         throw ('Coordinates outside of bounds.')
-    //     }
-    //     const minX: number = math.min(A.x, B.x)
-    //     const maxX: number = math.max(A.x, B.x)
-    //     const minY: number = math.min(A.y, B.y)
-    //     const maxY: number = math.max(A.y, B.y)
-    //     const selection = []
-    //     for (let x = minX; x <= maxX; x++) {
-    //         for (let y = minY; y <= maxY; y++) {
-    //             selection.push([x, y])
-    //         }
-    //     }
-    //     console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`)
-    //     console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
-    //     return math.matrix(selection)
-    // }
 
     // Coordinates to grid index
     getIndexFromCoord(coord: Coord): number {
