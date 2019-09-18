@@ -5,7 +5,13 @@
 - Clone the repository
 - yarn install
 - yarn start
-- yarn test
+
+## Simulation shortcuts
+
+- "Left arrow" for previous frame
+- "Right arrow" for next frame
+- "R" for reset
+- "Ctrl-C" to exit
 
 ## Architecture
 
