@@ -16,7 +16,7 @@
         },
         {
             "x": 3,
-            "y": 2,
+            "y": 10,
             "element": "laser",
             "rotation": 90,
             "frozen": true
