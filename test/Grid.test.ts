@@ -1,9 +1,9 @@
 // import * as math from 'mathjs'
 import * as _ from 'lodash'
-import Coord from './Coord'
-import Element from './Element'
-import Cell from './Cell'
-import Grid from './Grid'
+import Coord from '../Coord'
+import Element from '../Element'
+import Cell from '../Cell'
+import Grid from '../Grid'
 // import Element from './Element'
 
 describe('Grid', () => {

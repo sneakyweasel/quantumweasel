@@ -1,6 +1,6 @@
-import Coord from "./Coord"
-import Element from "./Element"
-import Cell from "./Cell"
+import Coord from "../Coord"
+import Element from "../Element"
+import Cell from "../Cell"
 
 describe('Cell', () => {
   it('should cascade overriden toString() methods nicely', () => {

@@ -1,4 +1,4 @@
-import Element from './Element'
+import Element from '../Element'
 
 describe('Elements', () => {
     xit('should create a new element by its name', () => {
