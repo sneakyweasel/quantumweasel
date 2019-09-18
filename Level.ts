@@ -96,4 +96,23 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     exportJSON() {
         return JSON.stringify(this)
     }
+
+    // import JSON file
+    static importJSON(url: string): Level {
+        const json = require(url)
+        const grid = new Grid(json.height, json.width)
+        grid.importJSON(json.cells)
+        const goals = Goal.importJSON(json.goals)
+        const hints = Hint.importJSON(json.hints)
+        return new Level(
+            json.id,
+            json.name,
+            json.group,
+            json.description,
+            grid,
+            goals,
+            hints,
+            false
+        )
+    }
 }

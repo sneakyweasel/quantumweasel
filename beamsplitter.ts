@@ -7,53 +7,17 @@ const tty = require('tty')
 
 // Local imports
 import Coord from './Coord'
-import Grid from './Grid'
-import Hint from './Hint'
-import Goal from './Goal'
 import Level from './Level'
 import Frame from './Frame'
 import Pointer from './Pointer'
 
 // LOAD BEAMSPLITTER LEVEL
-const width = 20
-const height = 20
-const jsonCells = [
-  {x: 2, y: 2, element: "laser", rotation: 90, frozen: true},
-  {x: 3, y: 2, element: "laser", rotation: 90, frozen: true},
-  {x: 4, y: 2, element: "mirror", rotation: 135, frozen: true},
-  {x: 2, y: 5, element: "beamsplitter", rotation: 135, frozen: true},
-  {x: 2, y: 10, element: "detector", rotation: 0, frozen: true},
-  {x: 10, y: 5, element: "detector", rotation: 0, frozen: true}
-]
-const jsonGoals = [
-  {x: 2, y: 10, threshold: 50},
-  {x: 2, y: 5, threshold: 50}
-]
-const jsonHints = [
-  {x: 2, y: 10, message: "Weasel save the world fast!"}
-]
-
-const grid = new Grid(width, height)
-grid.importJSON(jsonCells)
-const goals = Goal.importJSON(jsonGoals)
-const hints = Hint.importJSON(jsonHints)
-
-// Level information
-const level = new Level(
-    0,
-    "Weasel Beamsplitter Wizardry",
-    "Dev",
-    "Debugging level",
-    grid,
-    goals,
-    hints,
-    false
-)
+const level = Level.importJSON('../levels/level1.json')
 
 // TERMINAL STUFF
 // --------------------------
 // ROT display variables
-const rot = new ROT.Display({ layout: "term", width, height })
+const rot = new ROT.Display({ layout: "term", width: level.grid.colCount, height: level.grid.rowCount })
 
 // Start simulation
 const frames: Frame[] = []
@@ -65,28 +29,30 @@ frameDisplay(frames[0])
 keypress(process.stdin)
 // listen for the "keypress" event
 process.stdin.on('keypress', (_ch, key) => {
-  if (key && key.ctrl && key.name === 'c') {
-    process.exit(0)
-  }
-  if (key && key.name === 'left' && frames.length > 1) {
-    frame = frames.pop()!
-    frameDisplay(frame)
-  }
-  if (key && key.name === 'right') {
-    frame = frame.next()
-    frames.push(frame)
-    frameDisplay(frame)
-  }
+    if (key && key.ctrl && key.name === 'c') {
+        process.exit(0)
+    }
+    if (key && key.name === 'left' && frames.length > 1) {
+        frame = frames.pop()!
+        frameDisplay(frame)
+    }
+    if (key && key.name === 'right') {
+        frame = frame.next()
+        frames.push(frame)
+        frameDisplay(frame)
+    }
 })
 if (typeof process.stdin.setRawMode === 'function') {
-  process.stdin.setRawMode(true)
+    process.stdin.setRawMode(true)
 } else {
-  tty.setRawMode(true)
+    tty.setRawMode(true)
 }
 process.stdin.resume()
 
 // Main func
 function frameDisplay(frame: Frame) {
+    const width = frame.level.grid.colCount
+    const height = frame.level.grid.rowCount
     // frame.pointers
     for (let i = 0; i < width; i++) {
         for (let j = 0; j < height; j++) {
