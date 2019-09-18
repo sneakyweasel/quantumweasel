@@ -1,10 +1,11 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 
-import * as math from 'mathjs'
+// import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
 import Cell from './Cell'
+import Element from './Element'
 import Pointer from './Pointer'
 import Cluster from './Cluster'
 
@@ -40,13 +41,13 @@ export default class Grid {
     }
 
     // Return all the cells of the grid
-    cells(): Cell[] {
+    get cells(): Cell[] {
         return [].concat.apply([], this.matrix)
     }
 
     // Select cells by type
     filteredBy(name: string): Cell[] {
-        return this.cells().filter((cell) => {
+        return this.cells.filter((cell) => {
             return cell.element.name === name
         })
     }
@@ -133,24 +134,24 @@ export default class Grid {
 
     // Two point area selection
     // Could be used for viewport cropping like in Vim Adventures
-    submatrix(A: Coord, B: Coord): math.Matrix {
-        if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
-            throw ('Coordinates outside of bounds.')
-        }
-        const minX: number = math.min(A.x, B.x)
-        const maxX: number = math.max(A.x, B.x)
-        const minY: number = math.min(A.y, B.y)
-        const maxY: number = math.max(A.y, B.y)
-        const selection = []
-        for (let x = minX; x <= maxX; x++) {
-            for (let y = minY; y <= maxY; y++) {
-                selection.push([x, y])
-            }
-        }
-        console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`)
-        console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
-        return math.matrix(selection)
-    }
+    // submatrix(A: Coord, B: Coord): math.Matrix {
+    //     if (!this.isCoordInsideGrid(A) || !this.isCoordInsideGrid(B)) {
+    //         throw ('Coordinates outside of bounds.')
+    //     }
+    //     const minX: number = math.min(A.x, B.x)
+    //     const maxX: number = math.max(A.x, B.x)
+    //     const minY: number = math.min(A.y, B.y)
+    //     const maxY: number = math.max(A.y, B.y)
+    //     const selection = []
+    //     for (let x = minX; x <= maxX; x++) {
+    //         for (let y = minY; y <= maxY; y++) {
+    //             selection.push([x, y])
+    //         }
+    //     }
+    //     console.log(`Size: [X: ${maxX - minX}] | Y: [${maxY - minY}]`)
+    //     console.log(`X: [${minX}, ${maxX}] - Y: [${minY}, ${maxY}]`)
+    //     return math.matrix(selection)
+    // }
 
     // Coordinates to grid index
     getIndexFromCoord(coord: Coord): number {
@@ -198,6 +199,16 @@ export default class Grid {
             basic += asciiLine + "\n"
         }
         return basic
+    }
+
+    // import cells
+    // {x: 2, y: 2, element: "laser", rotation: 90, frozen: true}
+    importJSON(cells: Array<{ x: number, y: number, element: string, rotation: number, frozen: boolean }>): void {
+        cells.forEach((cell) => {
+            const coord = new Coord(cell.x, cell.y)
+            const element = Element.fromName(cell.element)
+            this.set(new Cell(coord, element, cell.rotation, cell.frozen))
+        })
     }
 
     // export JSON file to save state oi the game

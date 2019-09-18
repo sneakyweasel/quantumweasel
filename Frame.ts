@@ -86,7 +86,7 @@ export default class Frame {
         // Collision goals
         this.level.goals.forEach((goal) => {
             pointers.forEach((pointer) => {
-                if (goal.cell.coord.equal(pointer.coord)) {
+                if (goal.coord.equal(pointer.coord)) {
                     goal.value += pointer.intensity * 100
                     pointer.intensity = 0
                     if (goal.threshold >= goal.value) {

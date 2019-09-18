@@ -1,7 +1,7 @@
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 import Coord from "./Coord"
-import * as math from "mathjs"
+// import * as math from "mathjs"
 
 export default class Pointer {
     coord: Coord
@@ -51,28 +51,28 @@ export default class Pointer {
     // Rotation matrix
     // FIXME: Find the appropriate type
     // https://en.wikipedia.org/wiki/Rotations_and_reflections_in_two_dimensions
-    rotate(theta: number) {
-        const deg = math.unit(theta, 'deg')
-        const rotMatrix = math.matrix([
-            [math.cos(deg), -math.sin(deg)],
-            [math.sin(deg), math.cos(deg)]
-        ])
-        const result = math.multiply(this.coord.toArray(), rotMatrix)
-        console.log(result.toString())
-    }
+    // rotate(theta: number) {
+    //     const deg = math.unit(theta, 'deg')
+    //     const rotMatrix = math.matrix([
+    //         [math.cos(deg), -math.sin(deg)],
+    //         [math.sin(deg), math.cos(deg)]
+    //     ])
+    //     const result = math.multiply(this.coord.toArray(), rotMatrix)
+    //     console.log(result.toString())
+    // }
 
     // Reflection matrix
     // FIXME: Find the appropriate type
-    reflect(theta: number) {
-        const previous = this.previous()
-        const deg2 = math.unit(theta * 2, 'deg')
-        const refMatrix = math.matrix([
-            [math.cos(deg2), math.sin(deg2)],
-            [math.sin(deg2), -math.cos(deg2)]
-        ])
-        const result = math.multiply(previous.coord.toArray(), refMatrix)
-        console.log(result.toString())
-    }
+    // reflect(theta: number) {
+    //     const previous = this.previous()
+    //     const deg2 = math.unit(theta * 2, 'deg')
+    //     const refMatrix = math.matrix([
+    //         [math.cos(deg2), math.sin(deg2)],
+    //         [math.sin(deg2), -math.cos(deg2)]
+    //     ])
+    //     const result = math.multiply(previous.coord.toArray(), refMatrix)
+    //     console.log(result.toString())
+    // }
 
     // Override method to display nicely
     toString(): string {

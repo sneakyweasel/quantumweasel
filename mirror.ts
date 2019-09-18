@@ -42,7 +42,8 @@ const level = new Level(
     "Debugging level",
     grid,
     [goal1, goal2],
-    [hint]
+    [hint],
+    false
 )
 console.log(level.toString())
 console.log("\n\n")
