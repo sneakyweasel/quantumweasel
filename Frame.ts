@@ -71,9 +71,9 @@ export default class Frame {
                 // Apply reflection matrix if pointer is on a mirror
                 // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
                 if (mirror.coord.equal(pointer.coord)) {
-                    console.log(`\nHitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
+                    // console.log(`\nHitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
                     pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360
-                    console.log(`\nParticle is being reflected to ${pointer.toString()}`)
+                    // console.log(`\nParticle is being reflected to ${pointer.toString()}`)
                 }
             })
         })
@@ -84,14 +84,14 @@ export default class Frame {
                 // Apply reflection matrix if pointer is on a mirror
                 // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
                 if (beamsplitter.coord.equal(pointer.coord)) {
-                    console.log(`\nHitting a beamsplitter rotated ${beamsplitter.rotation}° with ${pointer.toString()}`)
+                    // console.log(`\nHitting a beamsplitter rotated ${beamsplitter.rotation}° with ${pointer.toString()}`)
                     // Crossing pointer (update current pointer with fading)
                     pointer.intensity /= 2
                     // Reflecting pointer (create new reflected faded pointer)
                     const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360
                     pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
-                    console.log(`\nHalf intensity particle is being reflected to ${pointer.toString()}`)
-                    console.log(`\nHalf intensity particle crosses to ${pointer.toString()}`)
+                    // console.log(`\nHalf intensity particle is being reflected to ${pointer.toString()}`)
+                    // console.log(`\nHalf intensity particle crosses to ${pointer.toString()}`)
                 }
             })
         })

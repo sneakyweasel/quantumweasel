@@ -1,8 +1,6 @@
 // COORDINATES CLASS
 // Low level coordinate functions
 // Coord is a [x, y, z?] convenient way to deal with coordinates.
-// - Adjacency: list of adjacent cells and adjacency checking.
-
 import * as _ from 'lodash'
 
 export default class Coord {
