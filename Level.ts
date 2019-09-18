@@ -2,15 +2,10 @@
 // Levels are loaded as working solutions to the puzzle
 // Then the frozen elements are removed and put in the toolbox
 
-// import * as math from 'mathjs'
-// import Cell from './Cell'
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
-// import Element from './Element'
-import fs = require('fs')
 import _ = require('lodash')
-// import Toolbox from './Toolbox'
 
 export default class Level {
     id: number
@@ -68,32 +63,27 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         console.log(`Level ${this.id}: ${this.name} has size [${this.grid.rowCount}x${this.grid.colCount}] and ${this.toolbox.length} starting elements for a ${this.grid.cells} elements puzzle.`)
     }
 
-    // Load level solution JSON file
-    // TODO: define new JSON structure for levels
-    loadJSON() {
-        // tslint:disable-next-line: no-any
-        fs.readFile('./levels.json', 'utf8', (err: any, jsonString: string) => {
-            if (err) {
-                console.log("Error reading file from disk:", err)
-                return
-            }
-            try {
-                const levelJSON = JSON.parse(jsonString)
-                console.log("Level data is:", JSON.stringify(levelJSON))
-                // const level = new Level(
-                //     0,
-                //     levelJSON.name,
-                //     levelJSON.group,
-                //     levelJSON.tiles.each
-                // )
-            } catch (err) {
-                console.log('Error parsing JSON string:', err)
-            }
-        })
-    }
-
     // export JSON file to save state oi the game
     exportJSON() {
         return JSON.stringify(this)
+    }
+
+    // import JSON file
+    static importJSON(name: string): Level {
+        const json = require(`../levels/${name}.json`)
+        const grid = new Grid(json.height, json.width)
+        grid.importJSON(json.cells)
+        const goals = Goal.importJSON(json.goals)
+        const hints = Hint.importJSON(json.hints)
+        return new Level(
+            json.id,
+            json.name,
+            json.group,
+            json.description,
+            grid,
+            goals,
+            hints,
+            false
+        )
     }
 }

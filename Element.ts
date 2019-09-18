@@ -1,4 +1,4 @@
-// import * as math from "mathjs"
+// TODO: Convey the rotation steps of element
 
 export default class Element {
     id: number                  // required
@@ -62,6 +62,10 @@ export default class Element {
                 return Element.beamsplitter()
             case "detector":
                 return Element.detector()
+            case "rock":
+                return Element.rock()
+            case "mine":
+                return Element.mine()
             default:
                 throw new Error('Element name error...')
         }
@@ -127,10 +131,38 @@ export default class Element {
             [[0, 0], [0, 0]]
         )
     }
+    // Detector element
+    static rock(): Element {
+        return new Element(
+            4,
+            "detector",
+            ["#", "#", "#", "#", "#", "#", "#", "#"],
+            "Absorbers",
+            "Absorbs and detects...",
+            false,
+            "svgPath",
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
+        )
+    }
     // Beam Splitter element
     static beamsplitter(): Element {
         return new Element(
-            3,
+            5,
+            "beamsplitter",
+            ["%", "%", "%", "%", "%", "%", "%", "%"],
+            "Absorbers",
+            "Absorbs and detects...",
+            false,
+            "svgPath",
+            [[0, 0], [0, 0]],
+            [[0, 0], [0, 0]]
+        )
+    }
+    // mine element
+    static mine(): Element {
+        return new Element(
+            5,
             "beamsplitter",
             ["%", "%", "%", "%", "%", "%", "%", "%"],
             "Absorbers",

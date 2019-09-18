@@ -9,7 +9,6 @@
 // - No more particles
 
 import * as _ from "lodash"
-// import Coord from "./Coord"
 import Cell from "./Cell"
 import Goal from "./Goal"
 import Level from "./Level"
@@ -32,7 +31,7 @@ export default class Frame {
             laserCells.forEach((laser) => {
                 this.pointers.push(new Pointer(laser.coord, laser.rotation, 1))
             })
-            console.log(`Initialize simulation for ${level.name}...`)
+            console.log(`\nInitialize simulation for ${level.name}...`)
             console.log(Pointer.manyToString(this.pointers))
         }
     }
@@ -51,16 +50,30 @@ export default class Frame {
                 pointers.push(nxtPointer)
             }
         })
-        // Reflections
+        // Absorbing
+        const detectors = this.level.grid.filteredBy("detector")
+        const rocks = this.level.grid.filteredBy("rock")
+        const mines = this.level.grid.filteredBy("mine")
+        const absorbers = detectors.concat(rocks, mines)
+        absorbers.forEach((absorber: Cell) => {
+            pointers.forEach((pointer) => {
+                // Apply reflection matrix if pointer is on a mirror
+                // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
+                if (absorber.coord.equal(pointer.coord)) {
+                    console.log(`\nHitting an absorber with ${pointer.toString()}`)
+                    pointer.intensity = 0
+                }
+            })
+        })
         const mirrors = this.level.grid.filteredBy("mirror")
         mirrors.forEach((mirror: Cell) => {
             pointers.forEach((pointer) => {
                 // Apply reflection matrix if pointer is on a mirror
                 // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
                 if (mirror.coord.equal(pointer.coord)) {
-                    console.log(`Hitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
+                    console.log(`\nHitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
                     pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360
-                    console.log(`Particle is being reflected to ${pointer.toString()}`)
+                    console.log(`\nParticle is being reflected to ${pointer.toString()}`)
                 }
             })
         })
@@ -71,14 +84,14 @@ export default class Frame {
                 // Apply reflection matrix if pointer is on a mirror
                 // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
                 if (beamsplitter.coord.equal(pointer.coord)) {
-                    console.log(`Hitting a beamsplitter rotated ${beamsplitter.rotation}° with ${pointer.toString()}`)
+                    console.log(`\nHitting a beamsplitter rotated ${beamsplitter.rotation}° with ${pointer.toString()}`)
                     // Crossing pointer (update current pointer with fading)
                     pointer.intensity /= 2
                     // Reflecting pointer (create new reflected faded pointer)
                     const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360
                     pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
-                    console.log(`Half intensity particle is being reflected to ${pointer.toString()}`)
-                    console.log(`Half intensity particle crosses to ${pointer.toString()}`)
+                    console.log(`\nHalf intensity particle is being reflected to ${pointer.toString()}`)
+                    console.log(`\nHalf intensity particle crosses to ${pointer.toString()}`)
                 }
             })
         })
@@ -97,9 +110,9 @@ export default class Frame {
         })
 
         // Erase null intensity pointers
-        pointers = pointers.filter((pointer) => {
-            return pointer.intensity > 0
-        })
+        // pointers = pointers.filter((pointer) => {
+        //     return pointer.intensity > 0
+        // })
 
         // Check if goals are achieved
         const completedGoals = this.level.goals.filter((goal) => { return goal.completed })
@@ -114,8 +127,10 @@ export default class Frame {
     // Find a way to clear the screen
     // process.stdout.write('\033c')
     toString() {
-        let result = `Step #${this.step} with ${this.pointers.length} active pointers.\n`
+        let result = `\nStep #${this.step} with ${this.pointers.length} active pointers.\n`
+        result += "\n"
         result += Pointer.manyToString(this.pointers)
+        result += "\n"
         result += Goal.manyToString(this.level.goals)
         return result
     }
