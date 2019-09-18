@@ -98,8 +98,8 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     }
 
     // import JSON file
-    static importJSON(url: string): Level {
-        const json = require(url)
+    static importJSON(name: string): Level {
+        const json = require(`../levels/${name}.json`)
         const grid = new Grid(json.height, json.width)
         grid.importJSON(json.cells)
         const goals = Goal.importJSON(json.goals)

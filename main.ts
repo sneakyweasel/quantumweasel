@@ -11,23 +11,26 @@ import Level from './Level'
 import Frame from './Frame'
 import Pointer from './Pointer'
 
-// LOAD BEAMSPLITTER LEVEL
-const level = Level.importJSON('../levels/level1.json')
+// Load json level
+// const level = Level.importJSON('v1')
+const level = Level.importJSON('mirror')
+// const level = Level.importJSON('beamsplitter')
 
-// TERMINAL STUFF
-// --------------------------
-// ROT display variables
-const rot = new ROT.Display({ layout: "term", width: level.grid.colCount, height: level.grid.rowCount })
+// Rot terminal init
+const rot = new ROT.Display({
+    layout: "term",
+    width: level.grid.colCount,
+    height: level.grid.rowCount
+})
 
-// Start simulation
+// Generate frames from level
 const frames: Frame[] = []
 let frame = new Frame(level)
 frames.push(frame)
 frameDisplay(frames[0])
 
-// make `process.stdin` begin emitting "keypress" events
+// Keypress events
 keypress(process.stdin)
-// listen for the "keypress" event
 process.stdin.on('keypress', (_ch, key) => {
     if (key && key.ctrl && key.name === 'c') {
         process.exit(0)
