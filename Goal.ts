@@ -2,21 +2,22 @@
 // Each detector should have a related threshold level in order to achieve the level.
 // Goal should extend Cell or should extend Coord
 
-import Cell from "./Cell"
+import Coord from "./Coord"
+// import Cell from "./Cell"
 
 export default class Goal {
-    cell: Cell          // detector cell
+    coord: Coord
     threshold: number
     value: number
     completed: boolean
 
     constructor(
-        cell: Cell,
+        coord: Coord,
         threshold: number,
         value: number = 0,
         completed: boolean = false
     ) {
-        this.cell = cell
+        this.coord = coord
         this.threshold = threshold
         this.value = value
         this.completed = completed
@@ -32,7 +33,7 @@ export default class Goal {
     }
 
     toString() {
-        return `{#Goal ${this.completed ? "completed " : " "}@ ${this.cell.coord.toString()} is ${this.value} / ${this.threshold}} (${this.percentage()}%)`
+        return `{#Goal ${this.completed ? "completed " : " "}@ ${this.coord.toString()} is ${this.value} / ${this.threshold}} (${this.percentage()}%)`
     }
 
     // Format active particle list
@@ -46,7 +47,17 @@ export default class Goal {
 
     // Display detector informations
     display() {
-        console.log(`Goal of detector: ${JSON.stringify(this.cell)} is ${this.threshold}, it is currently at ${this.value}`)
+        console.log(`Goal of detector: ${JSON.stringify(this.coord)} is ${this.threshold}, it is currently at ${this.value}`)
+    }
+
+    // Import JSON
+    static importJSON(jsonGoals: Array<{ x: number, y: number, threshold: number }>): Goal[] {
+        const goals: Goal[] = []
+        jsonGoals.forEach((goal) => {
+            const coord = new Coord(goal.x, goal.y)
+            goals.push(new Goal(coord, goal.threshold))
+        })
+        return goals
     }
 
     // export JSON

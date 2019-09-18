@@ -48,6 +48,25 @@ export default class Element {
         return JSON.stringify(this)
     }
 
+    // TODO: Rework to load from JSON
+    // Static selector
+    static fromName(name: string): Element {
+        switch (name) {
+            case "void":
+                return Element.void()
+            case "mirror":
+                return Element.mirror()
+            case "laser":
+                return Element.laser()
+            case "beamsplitter":
+                return Element.beamsplitter()
+            case "detector":
+                return Element.detector()
+            default:
+                throw new Error('Element name error...')
+        }
+    }
+
     // void element
     static void(): Element {
         return new Element(

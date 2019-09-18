@@ -7,8 +7,6 @@ const tty = require('tty')
 
 // Local imports
 import Coord from './Coord'
-import Element from './Element'
-import Cell from './Cell'
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
@@ -19,20 +17,26 @@ import Pointer from './Pointer'
 // LOAD BEAMSPLITTER LEVEL
 const width = 20
 const height = 20
+const jsonCells = [
+  {x: 2, y: 2, element: "laser", rotation: 90, frozen: true},
+  {x: 3, y: 2, element: "laser", rotation: 90, frozen: true},
+  {x: 4, y: 2, element: "mirror", rotation: 135, frozen: true},
+  {x: 2, y: 5, element: "beamsplitter", rotation: 135, frozen: true},
+  {x: 2, y: 10, element: "detector", rotation: 0, frozen: true},
+  {x: 10, y: 5, element: "detector", rotation: 0, frozen: true}
+]
+const jsonGoals = [
+  {x: 2, y: 10, threshold: 50},
+  {x: 2, y: 5, threshold: 50}
+]
+const jsonHints = [
+  {x: 2, y: 10, message: "Weasel save the world fast!"}
+]
+
 const grid = new Grid(width, height)
-const laser1 = new Cell(new Coord(2, 2), Element.laser(), 90, true)
-const beam1 = new Cell(new Coord(2, 5), Element.beamsplitter(), 135, false)
-const mirror1 = new Cell(new Coord(0, 4), Element.mirror(), 135, false)
-const detector1 = new Cell(new Coord(2, 7), Element.detector(), 0, true)
-const detector2 = new Cell(new Coord(4, 5), Element.detector(), 0, true)
-const goal1 = new Goal(detector1, 50)
-const goal2 = new Goal(detector2, 50)
-const hint = new Hint(detector1.coord, "WEASEL DESTROY LHC FAST PLZ !!!1!1")
-grid.set(laser1)
-grid.set(beam1)
-grid.set(mirror1)
-grid.set(detector1)
-grid.set(detector2)
+grid.importJSON(jsonCells)
+const goals = Goal.importJSON(jsonGoals)
+const hints = Hint.importJSON(jsonHints)
 
 // Level information
 const level = new Level(
@@ -41,8 +45,8 @@ const level = new Level(
     "Dev",
     "Debugging level",
     grid,
-    [goal1, goal2],
-    [hint],
+    goals,
+    hints,
     false
 )
 
@@ -52,8 +56,10 @@ const level = new Level(
 const rot = new ROT.Display({ layout: "term", width, height })
 
 // Start simulation
+const frames: Frame[] = []
 let frame = new Frame(level)
-frameDisplay(frame)
+frames.push(frame)
+frameDisplay(frames[0])
 
 // make `process.stdin` begin emitting "keypress" events
 keypress(process.stdin)
@@ -62,12 +68,13 @@ process.stdin.on('keypress', (_ch, key) => {
   if (key && key.ctrl && key.name === 'c') {
     process.exit(0)
   }
-  if (key && key.name === 'left') {
-    //   Code reset and back
+  if (key && key.name === 'left' && frames.length > 1) {
+    frame = frames.pop()!
     frameDisplay(frame)
   }
   if (key && key.name === 'right') {
     frame = frame.next()
+    frames.push(frame)
     frameDisplay(frame)
   }
 })

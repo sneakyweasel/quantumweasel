@@ -5,6 +5,7 @@
 import * as _ from 'lodash'
 import Coord from './Coord'
 import Cell from './Cell'
+import Element from './Element'
 import Pointer from './Pointer'
 import Cluster from './Cluster'
 
@@ -198,6 +199,16 @@ export default class Grid {
             basic += asciiLine + "\n"
         }
         return basic
+    }
+
+    // import cells
+    // {x: 2, y: 2, element: "laser", rotation: 90, frozen: true}
+    importJSON(cells: Array<{ x: number, y: number, element: string, rotation: number, frozen: boolean }>): void {
+        cells.forEach((cell) => {
+            const coord = new Coord(cell.x, cell.y)
+            const element = Element.fromName(cell.element)
+            this.set(new Cell(coord, element, cell.rotation, cell.frozen))
+        })
     }
 
     // export JSON file to save state oi the game

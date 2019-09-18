@@ -40,4 +40,14 @@ export default class Hint {
     exportJSON() {
         return JSON.stringify(this)
     }
+
+    // Import JSON
+    static importJSON(jsonHints: Array<{ x: number, y: number, message: string }>): Hint[] {
+        const hints: Hint[] = []
+        jsonHints.forEach((hint) => {
+            const coord = new Coord(hint.x, hint.y)
+            hints.push(new Hint(coord, hint.message))
+        })
+        return hints
+    }
 }
