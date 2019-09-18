@@ -1,10 +1,11 @@
 # Quantum Game Entangled
 
-## How to install
+## Getting started
 
 - Clone the repository
 - yarn install
 - yarn start
+- yarn test
 
 ## Architecture
 
@@ -34,24 +35,14 @@
 ## Tech stack
 
 - This project is using typescript and enforcing strict coding conventions.
+- The typescript part will be mostly self-reliant.
 - TS-Jest is used to test the main components of the game.
-- Bootstrap 4 will be used to display and style the various parts of the game.
 - SASS will be used to enforce consistent styling through the game.
-- D3.js will most likely be used for the canvas part of the game.
 
 ## Quantum numerical "engine"
 
-- Work in progress on the Quantum Tensor custom-made library.
+- Work in progress on the Quantum Tensor custom-made library. <https://github.com/stared/quantum-tensors>
 
 ## Interface
 
-- Display forbidden actions graphically in the user interface through specific messages.
-- See with Klem.
-
-## Scientific ressources
-
-- HN Tensor network thread: <https://news.ycombinator.com/item?id=19936909>
-- Tensor network medium Migdal <https://medium.com/@pmigdal/in-the-topic-of-diagrams-i-did-write-a-review-simple-diagrams-of-convoluted-neural-networks-6418a63f9281>
-- <https://arxiv.org/pdf/1805.12087.pdf>
-- Intro to graphical linear algebra: <https://graphicallinearalgebra.net/2015/04/23/makelele-and-linear-algebra/>
-- Bob Coecke - Picturing quantum processes: <https://www.cambridge.org/gb/academic/subjects/physics/quantum-physics-quantum-information-and-quantum-computation/picturing-quantum-processes-first-course-quantum-theory-and-diagrammatic-reasoning?format=AR>
+Right now using ROT.js as a low grade terminal display.

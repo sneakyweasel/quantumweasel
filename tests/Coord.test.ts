@@ -1,4 +1,4 @@
-import Coord from './Coord'
+import Coord from '../Coord'
 
 // Coordinates testing
 describe('Coordinates', () => {
