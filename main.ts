@@ -62,19 +62,19 @@ process.stdin.resume()
 // Display frame
 function frameDisplay(frame: Frame) {
     process.stdout.write("\u001b[2J\u001b[0;0H")    // Clear terminal
-    const width = frame.level.grid.cols
-    const height = frame.level.grid.rows
+    const rows = frame.level.grid.rows
+    const cols = frame.level.grid.cols
     // frame.pointers
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
             // Draw borders
-            if (!i || !j || i + 1 === width || j + 1 === height) {
-                rot.draw(i, j, "#", "gray", "#222")
+            if (!y || !x || y + 1 === rows || x + 1 === cols) {
+                rot.draw(y, x, "#", "gray", "#222")
                 // Draw cells
             } else {
-                const coord = new Coord(j, i)
+                const coord = new Coord(y, x)
                 const rotation = frame.level.grid.get(coord).rotation
-                const ascii = frame.level.grid.matrix[i][j].element.ascii[rotation / 45]
+                const ascii = frame.level.grid.matrix[y][x].element.ascii[rotation / 45]
                 const frozen = frame.level.grid.get(coord).frozen
                 const color = frozen ? "#fff" : "#ddd"
 
@@ -84,7 +84,7 @@ function frameDisplay(frame: Frame) {
                 if (activePointers.length > 0) {
                     background = "#ff00ff"
                 }
-                rot.draw(i, j, ascii, color, background)
+                rot.draw(y, x, ascii, color, background)
             }
         }
     }

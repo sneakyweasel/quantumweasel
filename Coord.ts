@@ -7,34 +7,35 @@ export default class Coord {
     x: number
     y: number
 
-    constructor(x: number, y: number) {
-        this.x = x
+    constructor(y: number, x: number) {
         this.y = y
+        this.x = x
     }
 
-    // Transformation from coordinate system to unique id
-    id(col_count: number) {
-        this.y * col_count + this.x
+    // Conversion: coord -> uid
+    id(rows: number) {
+        this.y * rows + this.x
     }
 
     // SVG coordinate system: top-left point of cell
     pos(spacing: number) {
-        const x = this.x * spacing
         const y = this.y * spacing
-        return [x, y]
+        const x = this.x * spacing
+        return [y, x]
     }
 
     // Distance to exiting grid
-    distanceToExit(direction: number = 0, cols: number, rows: number): number {
-        switch (direction % 0) {
+    // Array offset corrected
+    distanceToExit(direction: number = 0, rows: number, cols: number): number {
+        switch (direction % 360) {
             case 0:   // TOP
-                return this.x
-            case 90:  // RIGHT
                 return this.y
+            case 90:  // RIGHT
+                return cols - this.x - 1
             case 180: // BOTTOM
-                return cols - this.x
+                return rows - this.y - 1
             case 270: // LEFT
-                return rows - this.y
+                return this.x
             default:
                 throw new Error("Something went wrong with directions...")
         }
@@ -42,29 +43,28 @@ export default class Coord {
 
     // SVG coordinates system: center point of cell
     centerPos(spacing: number) {
-        const x = this.x * spacing + spacing / 2
         const y = this.y * spacing + spacing / 2
-        return [x, y]
+        const x = this.x * spacing + spacing / 2
+        return [y, x]
     }
 
     // Adjacent cells
-    get top() { return new Coord(this.x - 1, this.y) }
-    get bottom() { return new Coord(this.x + 1, this.y) }
-    get left() { return new Coord(this.x, this.y - 1) }
-    get right() { return new Coord(this.x, this.y + 1) }
-
-    adjacent(): Coord[] {
+    get top(): Coord { return new Coord(this.y - 1, this.x) }
+    get bottom(): Coord { return new Coord(this.y + 1, this.x) }
+    get left(): Coord { return new Coord(this.y, this.x - 1) }
+    get right(): Coord { return new Coord(this.y, this.x + 1) }
+    get adjacent(): Coord[] {
         return [this.top, this.right, this.bottom, this.left]
     }
 
     // Check if two coordinates are adjacent
     isAdjacent(coord: Coord): boolean {
-        return coord.isIncludedIn(this.adjacent())
+        return coord.isIncludedIn(this.adjacent)
     }
 
     // Check for equality
     equal(coord: Coord): boolean {
-        return _.isEqual(this, coord)
+        return this.x === coord.x && this.y === coord.y
     }
 
     // Test inclusion in array of coords using deep compare from lodash
@@ -75,29 +75,36 @@ export default class Coord {
 
     // override of toString method for debugging
     toString() {
-        return `{#Coord [${this.x}, ${this.y}]}`
+        return `{#Coord [Y:${this.y}, X:${this.x}]}`
     }
 
     // override for deep compare
     toArray() {
-        return [this.x, this.y]
+        return [this.y, this.x]
     }
 
     // Display coordinates
     display() {
-        console.log(`Coords: [${this.x}, ${this.y}] has [l,r,t,b] of: [${this.adjacent()}]`)
+        console.log(`Coords: [Y:${this.y}, X:${this.x}] has [l,r,t,b] of: [${this.adjacent}]`)
     }
 
     // Export JSON
     exportJSON() {
         return {
-            x: this.x,
-            y: this.y
+            y: this.y,
+            x: this.x
         }
     }
 
     // Create from array of numbers
     static fromArray(numArray: number[]): Coord {
         return new Coord(numArray[0], numArray[1])
+    }
+
+    // Conversion: uid -> coord
+    static fromId(index: number, cols: number): Coord {
+        const x = index % cols
+        const y = Math.floor(index / cols)
+        return new Coord(x, y)
     }
 }

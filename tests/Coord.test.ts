@@ -4,7 +4,7 @@ import Coord from '../Coord'
 describe('Coordinates', () => {
     it('should generate adjacency list of a coord', () => {
         const coord = new Coord(4, 4)
-        expect(coord.adjacent()).toEqual([
+        expect(coord.adjacent).toEqual([
             new Coord(3, 4),
             new Coord(4, 5),
             new Coord(5, 4),
@@ -28,14 +28,32 @@ describe('Coordinates', () => {
         expect(coord1.isIncludedIn(coords)).toBe(true)
     })
 
-    it('should give the distance to the edge of the grid from a coordinate', () => {
-        const coord = new Coord(4, 6)
-        const cols = 20
-        const rows = 30
-        expect(coord.distanceToExit(0, rows, cols)).toBe(4)
-        expect(coord.distanceToExit(90, rows, cols)).toBe(6)
-        expect(coord.distanceToExit(180, rows, cols)).toBe(14)
-        expect(coord.distanceToExit(270, rows, cols)).toBe(36)
+    it('should give the distance to the top edge from a coordinate', () => {
+        const coord = new Coord(2, 0)
+        const cols = 4
+        const rows = 3
+        expect(coord.distanceToExit(0, rows, cols)).toEqual(2)
+    })
+
+    it('should give the distance to the bottom edge from a coordinate', () => {
+        const coord = new Coord(2, 0)
+        const cols = 4
+        const rows = 3
+        expect(coord.distanceToExit(180, rows, cols)).toEqual(0)
+    })
+
+    it('should give the distance to the right edge from a coordinate', () => {
+        const coord = new Coord(2, 0)
+        const cols = 4
+        const rows = 3
+        expect(coord.distanceToExit(90, rows, cols)).toEqual(3)
+    })
+
+    it('should give the distance to the left edge from a coordinate', () => {
+        const coord = new Coord(2, 0)
+        const cols = 4
+        const rows = 3
+        expect(coord.distanceToExit(270, rows, cols)).toEqual(0)
     })
 
 })

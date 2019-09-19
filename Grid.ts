@@ -14,12 +14,12 @@ export default class Grid {
     clusters: Cluster[]
 
     constructor(
-        cols: number,
         rows: number,
+        cols: number,
         matrix?: Cell[][]
     ) {
-        this.cols = cols
         this.rows = rows
+        this.cols = cols
         this.clusters = []
 
         // If matrix specified extract cells
@@ -28,11 +28,10 @@ export default class Grid {
         } else {
             // FIXME: Kinda ugly
             // Else create blank cells
-            this.matrix = Array.from(Array(cols), (_) => Array(rows).fill(0))
-            for (let y = 0; y < cols; y++) {
-                for (let x = 0; x < rows; x++) {
-                    const coord = new Coord(x, y)
-                    this.matrix[x][y] = new Cell(coord, Element.fromName('void'))
+            this.matrix = new Array(this.rows).fill(0).map(() => new Array(this.cols).fill(0))
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    this.set(new Cell(new Coord(y, x), Element.fromName('void')))
                 }
             }
         }
@@ -49,7 +48,6 @@ export default class Grid {
     get beamsplitters(): Cell[] { return this.filteredBy("beamsplitter") }
     get void(): Cell[] { return this.filteredBy("void") }
 
-
     // Select cells by type
     filteredBy(name: string): Cell[] {
         return this.cells.filter((cell) => {
@@ -59,8 +57,7 @@ export default class Grid {
 
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord: Coord): boolean {
-        return (coord.x >= 0 && coord.x < this.cols) &&
-            (coord.y >= 0 && coord.y < this.rows)
+        return (coord.y >= 0 && coord.y < this.rows) && (coord.x >= 0 && coord.x < this.cols)
     }
 
     // Set one cell
@@ -70,7 +67,7 @@ export default class Grid {
             this.matrix[cell.coord.y][cell.coord.x] = cell
             return true
         } else {
-            console.error(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
+            // console.error(`Coordinate out of bounds. ${cell.coord.toString()}`)
             return false
         }
     }
@@ -97,43 +94,26 @@ export default class Grid {
     // Get many cells
     getMany(...coords: Coord[]): Cell[] {
         return coords.map((coord) => {
-            return this.matrix[coord.y][coord.x]
+            return this.get(coord)
         })
     }
 
-    // FIXME: Find what rotation should be a property of.
     // Move from a coord to another
-    move(src: Coord, dst: Coord): void {
+    move(src: Coord, dst: Coord): boolean {
         const cellSrc = this.get(src)
         const cellDst = this.get(dst)
         if (!cellSrc.frozen && !cellDst.frozen) {
             this.set(new Cell(src, cellDst.element, cellDst.rotation))
             this.set(new Cell(dst, cellSrc.element, cellSrc.rotation))
-            console.log(`Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`)
+            // console.log(`Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`)
+            return true
         } else {
-            console.error(`Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`)
+            // console.error(`Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`)
+            return false
         }
     }
 
-    // Add a vector to the grid
-    addCluster(cluster: Cluster): void {
-        this.clusters.push(cluster)
-        cluster.cells.forEach((cell: Cell) => {
-            this.set(cell)
-        })
-    }
-
-    // Coordinates to grid index
-    getIndexFromCoord(coord: Coord): number {
-        return coord.x * this.cols + coord.y
-    }
-
-    getCoordFromIndex(index: number): Coord {
-        const x = index % this.cols
-        const y = Math.floor(index / this.cols)
-        return new Coord(x, y)
-    }
-
+    // Basic display
     display(): void {
         console.log(this.matrix.valueOf())
     }
@@ -141,16 +121,16 @@ export default class Grid {
     // Include particle display in ascii render
     asciiRender(pointers: Pointer[] = []): string {
         let result = "##".repeat(this.cols + 1) + "\n"
-        for (let y = 0; y < this.cols; y++) {
+        for (let y = 0; y < this.rows; y++) {
             let asciiLine = "#"
-            for (let x = 0; x < this.rows; x++) {
+            for (let x = 0; x < this.cols; x++) {
                 // Add some sort of ascii z-index
                 const coord = new Coord(y, x)
                 if (coord.isIncludedIn(Pointer.manyToCoords(pointers))) {
                     asciiLine += "* "
                 } else {
                     const rotation = this.get(coord).rotation / 45
-                    asciiLine += this.matrix[x][y].element.ascii[rotation] + " "
+                    asciiLine += this.get(new Coord(y, x)).element.ascii[rotation] + " "
                 }
             }
             result += asciiLine + "#\n"
@@ -161,10 +141,10 @@ export default class Grid {
 
     toString(): string {
         let basic = ""
-        for (let y = 0; y < this.cols; y++) {
+        for (let y = 0; y < this.rows; y++) {
             let asciiLine = ""
-            for (let x = 0; x < this.rows; x++) {
-                asciiLine += this.matrix[x][y].element.id
+            for (let x = 0; x < this.cols; x++) {
+                asciiLine += this.get(new Coord(y, x)).element.id
             }
             basic += asciiLine + "\n"
         }
@@ -173,9 +153,9 @@ export default class Grid {
 
     // import cells
     // {x: 2, y: 2, element: "laser", rotation: 90, frozen: true}
-    importJSON(cells: Array<{ x: number, y: number, element: string, rotation: number, frozen: boolean }>): void {
+    importJSON(cells: Array<{ y: number, x: number, element: string, rotation: number, frozen: boolean }>): void {
         cells.forEach((cell) => {
-            const coord = new Coord(cell.x, cell.y)
+            const coord = new Coord(cell.y, cell.x)
             const element = Element.fromName(cell.element)
             this.set(new Cell(coord, element, cell.rotation, cell.frozen))
         })

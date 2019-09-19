@@ -38,6 +38,22 @@
 - User is congratulated, a short video/text explain how this was done in a real lab.
 - There is an ability to dive deeper into the "hardcore" physics and the historical perspective.
 
+## Indices and conventions
+
+### Rotations
+
+- 0 deg is top
+- 90 deg is right
+- 180 deg is bottom
+- 270 deg is left
+
+### Indices
+
+- Coordinates are Coord[rows, cols] or Coord[y, x]
+- Grid are [rows, cols]
+- Arrays start at 0.
+- Distance to things are in number of steps toward the goal.
+
 ## Tech stack
 
 - This project is using typescript and enforcing strict coding conventions.

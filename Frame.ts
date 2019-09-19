@@ -11,6 +11,7 @@
 import * as _ from "lodash"
 import Cell from "./Cell"
 import Goal from "./Goal"
+import Grid from "./Grid"
 import Level from "./Level"
 import Pointer from "./Pointer"
 
@@ -36,6 +37,10 @@ export default class Frame {
         }
     }
 
+    // Convenient getters
+    get grid(): Grid { return this.level.grid }
+    get cells(): Cell[] { return this.level.grid.cells }
+
     // Add the pointers to their next cells
     // TODO: post compute collisions
     // TODO: compute activation of elements
@@ -44,7 +49,7 @@ export default class Frame {
         const pointers: Pointer[] = []
         this.pointers.forEach((pointer) => {
             // Compute individual pointer update
-            const nxtPointer = pointer.next(pointer.direction, pointer.intensity)
+            const nxtPointer = pointer.next()
             if (grid.isCoordInsideGrid(nxtPointer.coord)) {
                 grid.get(nxtPointer.coord).pointers.push(nxtPointer)
                 pointers.push(nxtPointer)

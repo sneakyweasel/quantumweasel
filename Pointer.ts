@@ -21,10 +21,10 @@ export default class Pointer {
     }
 
     // Compute next simulation step
-    next(direction: number = this.direction, intensity: number = this.intensity, repeat: number = 1): Pointer {
+    next(repeat: number = 1): Pointer {
         // Moving CW in increment of 90°
         for (let i = 0; i < repeat; i++) {
-            switch (this.direction) {
+            switch (this.direction % 360) {
                 case 0:
                     this.path.push(this.coord.top)
                     break
@@ -41,7 +41,9 @@ export default class Pointer {
                     throw Error(`Something went wrong with pointers and direction.`)
             }
         }
-        return new Pointer(this.path[this.path.length - 1], direction, intensity)
+        // Update coord with latest computed path coordinates
+        this.coord = this.path[this.path.length - 1]
+        return this
     }
 
     // Compute next simulation step
@@ -52,7 +54,7 @@ export default class Pointer {
 
     // Override method to display nicely
     toString(): string {
-        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity.`
+        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity. PATH: ${this.path.toString()}`
     }
 
     // Format active particle list

@@ -11,6 +11,7 @@ export default class Element {
     link: string                // optional
     active: boolean             // default: false
     tiles: string               // default: none
+    absorption: number          // default: none
     matrix: number[][]          // default: zeros matrix
 
     constructor(
@@ -22,6 +23,7 @@ export default class Element {
         link: string = "",
         active: boolean = false,
         tiles: string = "tilemap.png",
+        absorption: number = 0,
         matrix: number[][] = [[0, 0], [0, 0]]
     ) {
         this.id = id
@@ -32,6 +34,7 @@ export default class Element {
         this.link = link
         this.active = active
         this.tiles = tiles
+        this.absorption = absorption
         this.matrix = matrix
     }
 
@@ -56,26 +59,200 @@ export default class Element {
             link: this.link,
             active: this.active,
             tiles: this.tiles,
+            absorption: this.absorption,
             matrix: this.matrix
         }
     }
 
     // Static JSON load
     static fromName(name: string): Element {
-        const jsonElements = require(`../elements/elements.json`)
+        // const jsonElements = require(`../elements/elements.json`)
+        const jsonElements = [
+            {
+                "id": 0,
+                "name": "void",
+                "ascii": [
+                    " ",
+                    " ",
+                    " ",
+                    " ",
+                    " ",
+                    " ",
+                    " ",
+                    " "
+                ],
+                "group": "Basic",
+                "description": "The void...",
+                "link": "./elements/void",
+                "active": false,
+                "tiles": "",
+                "absorption": 0,
+                "matrix": []
+            },
+            {
+                "id": 1,
+                "name": "laser",
+                "ascii": [
+                    "^",
+                    "^",
+                    ">",
+                    ">",
+                    "v",
+                    "v",
+                    "<",
+                    "<"
+                ],
+                "group": "Emitter",
+                "description": "A one-photon laser source",
+                "link": "./elements/laser",
+                "active": true,
+                "tiles": "",
+                "absorption": 100,
+                "matrix": []
+            },
+            {
+                "id": 2,
+                "name": "mirror",
+                "ascii": [
+                    "|",
+                    "/",
+                    "-",
+                    "\\",
+                    "|",
+                    "/",
+                    "-",
+                    "\\"
+                ],
+                "group": "Direction",
+                "description": "A simple reflecting mirror",
+                "link": "./elements/mirror",
+                "active": false,
+                "tiles": "",
+                "absorption": 0,
+                "matrix": []
+            },
+            {
+                "id": 3,
+                "name": "detector",
+                "ascii": [
+                    "¤",
+                    "¤",
+                    "¤",
+                    "¤",
+                    "¤",
+                    "¤",
+                    "¤",
+                    "¤"
+                ],
+                "group": "Absorber",
+                "description": "A one-photon detector",
+                "link": "./elements/detector",
+                "active": false,
+                "tiles": "",
+                "absorption": 100,
+                "matrix": []
+            },
+            {
+                "id": 4,
+                "name": "rock",
+                "ascii": [
+                    "#",
+                    "#",
+                    "#",
+                    "#",
+                    "#",
+                    "#",
+                    "#",
+                    "#"
+                ],
+                "group": "Absorber",
+                "description": "An absorbing pet rock",
+                "link": "./elements/rock",
+                "active": false,
+                "tiles": "",
+                "absorption": 100,
+                "matrix": []
+            },
+            {
+                "id": 5,
+                "name": "mine",
+                "ascii": [
+                    "!",
+                    "!",
+                    "!",
+                    "!",
+                    "!",
+                    "!",
+                    "!",
+                    "!"
+                ],
+                "group": "Absorber",
+                "description": "An explosive mine (disarm Jean)",
+                "link": "./elements/mine",
+                "active": false,
+                "tiles": "",
+                "absorption": 100,
+                "matrix": []
+            },
+            {
+                "id": 6,
+                "name": "beamsplitter",
+                "ascii": [
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%"
+                ],
+                "group": "Direction",
+                "description": "A beamsplitter",
+                "link": "./elements/beamsplitter",
+                "active": false,
+                "tiles": "",
+                "absorption": 0,
+                "matrix": []
+            },
+            {
+                "id": 7,
+                "name": "absorber",
+                "ascii": [
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%",
+                    "%"
+                ],
+                "group": "Absorber",
+                "description": "A neutral density filter",
+                "link": "./elements/absorber",
+                "active": false,
+                "tiles": "",
+                "absorption": 50,
+                "matrix": []
+            }
+        ]
+
         const elem = jsonElements.find((elem: { name: string }) => {
             return elem.name === name
         })
+        // FIXME: Ugly null check avoidance
         return new Element(
-            elem.id,
-            elem.name,
-            elem.ascii,
-            elem.group,
-            elem.description,
-            elem.link,
-            elem.active,
-            elem.tiles,
-            elem.matrix
+            elem!.id,
+            elem!.name,
+            elem!.ascii,
+            elem!.group,
+            elem!.description,
+            elem!.link,
+            elem!.active,
+            elem!.tiles,
+            elem!.absorption,
+            elem!.matrix
         )
     }
 }
