@@ -17,8 +17,8 @@ let level = Level.importJSON(levelName)
 // Rot terminal init
 const rot = new ROT.Display({
     layout: "term",
-    width: level.grid.colCount,
-    height: level.grid.rowCount
+    width: level.grid.cols,
+    height: level.grid.rows
 })
 
 // Generate frames from level
@@ -62,8 +62,8 @@ process.stdin.resume()
 // Display frame
 function frameDisplay(frame: Frame) {
     process.stdout.write("\u001b[2J\u001b[0;0H")    // Clear terminal
-    const width = frame.level.grid.colCount
-    const height = frame.level.grid.rowCount
+    const width = frame.level.grid.cols
+    const height = frame.level.grid.rows
     // frame.pointers
     for (let i = 0; i < width; i++) {
         for (let j = 0; j < height; j++) {

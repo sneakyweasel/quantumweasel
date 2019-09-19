@@ -41,7 +41,7 @@ export default class Frame {
     // TODO: compute activation of elements
     next(): Frame {
         const grid = this.level.grid
-        let pointers: Pointer[] = []
+        const pointers: Pointer[] = []
         this.pointers.forEach((pointer) => {
             // Compute individual pointer update
             const nxtPointer = pointer.next(pointer.direction, pointer.intensity)

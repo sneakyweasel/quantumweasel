@@ -1,51 +1,53 @@
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 import Coord from "./Coord"
-// import * as math from "mathjs"
 
 export default class Pointer {
     coord: Coord
     direction: number
     intensity: number
+    path: Coord[]
 
-    constructor(coord: Coord, direction: number, intensity: number) {
+    constructor(coord: Coord, direction: number, intensity: number = 1, path: Coord[] = []) {
         this.coord = coord
         this.direction = direction
         this.intensity = intensity
+        this.path = path
+    }
+
+    // Check is a particle has any intensity
+    get alive(): Boolean {
+        return this.intensity > 0
     }
 
     // Compute next simulation step
-    previous(direction: number = this.direction, intensity: number = this.intensity): Pointer {
+    next(direction: number = this.direction, intensity: number = this.intensity, repeat: number = 1): Pointer {
         // Moving CW in increment of 90°
-        switch (this.direction) {
-            case 0:
-                return new Pointer(this.coord.bottom(), direction, intensity)
-            case 90:
-                return new Pointer(this.coord.left(), direction, intensity)
-            case 180:
-                return new Pointer(this.coord.top(), direction, intensity)
-            case 270:
-                return new Pointer(this.coord.right(), direction, intensity)
-            default:
-                throw Error(`Something went wrong with pointers and direction.`)
+        for (let i = 0; i < repeat; i++) {
+            switch (this.direction) {
+                case 0:
+                    this.path.push(this.coord.top)
+                    break
+                case 90:
+                    this.path.push(this.coord.right)
+                    break
+                case 180:
+                    this.path.push(this.coord.bottom)
+                    break
+                case 270:
+                    this.path.push(this.coord.left)
+                    break
+                default:
+                    throw Error(`Something went wrong with pointers and direction.`)
+            }
         }
+        return new Pointer(this.path[this.path.length - 1], direction, intensity)
     }
 
     // Compute next simulation step
-    next(direction: number = this.direction, intensity: number = this.intensity): Pointer {
-        // Moving CW in increment of 90°
-        switch (this.direction) {
-            case 0:
-                return new Pointer(this.coord.top(), direction, intensity)
-            case 90:
-                return new Pointer(this.coord.right(), direction, intensity)
-            case 180:
-                return new Pointer(this.coord.bottom(), direction, intensity)
-            case 270:
-                return new Pointer(this.coord.left(), direction, intensity)
-            default:
-                throw Error(`Something went wrong with pointers and direction.`)
-        }
+    previous(): Pointer {
+        this.path.pop()
+        return this
     }
 
     // Override method to display nicely

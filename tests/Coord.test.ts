@@ -27,4 +27,15 @@ describe('Coordinates', () => {
         const coords = [coord2, coord3, coord4]
         expect(coord1.isIncludedIn(coords)).toBe(true)
     })
+
+    it('should give the distance to the edge of the grid from a coordinate', () => {
+        const coord = new Coord(4, 6)
+        const cols = 20
+        const rows = 30
+        expect(coord.distanceToExit(0, rows, cols)).toBe(4)
+        expect(coord.distanceToExit(90, rows, cols)).toBe(6)
+        expect(coord.distanceToExit(180, rows, cols)).toBe(14)
+        expect(coord.distanceToExit(270, rows, cols)).toBe(36)
+    })
+
 })

@@ -24,6 +24,22 @@ export default class Coord {
         return [x, y]
     }
 
+    // Distance to exiting grid
+    distanceToExit(direction: number = 0, cols: number, rows: number): number {
+        switch (direction % 0) {
+            case 0:   // TOP
+                return this.x
+            case 90:  // RIGHT
+                return this.y
+            case 180: // BOTTOM
+                return cols - this.x
+            case 270: // LEFT
+                return rows - this.y
+            default:
+                throw new Error("Something went wrong with directions...")
+        }
+    }
+
     // SVG coordinates system: center point of cell
     centerPos(spacing: number) {
         const x = this.x * spacing + spacing / 2
@@ -32,13 +48,13 @@ export default class Coord {
     }
 
     // Adjacent cells
-    top()    { return new Coord(this.x - 1, this.y) }
-    bottom() { return new Coord(this.x + 1, this.y) }
-    left()   { return new Coord(this.x, this.y - 1) }
-    right()  { return new Coord(this.x, this.y + 1) }
+    get top() { return new Coord(this.x - 1, this.y) }
+    get bottom() { return new Coord(this.x + 1, this.y) }
+    get left() { return new Coord(this.x, this.y - 1) }
+    get right() { return new Coord(this.x, this.y + 1) }
 
     adjacent(): Coord[] {
-        return [this.top(), this.right(), this.bottom(), this.left()]
+        return [this.top, this.right, this.bottom, this.left]
     }
 
     // Check if two coordinates are adjacent

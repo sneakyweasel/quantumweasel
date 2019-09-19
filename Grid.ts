@@ -1,7 +1,5 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
-
-// import * as math from 'mathjs'
 import * as _ from 'lodash'
 import Coord from './Coord'
 import Cell from './Cell'
@@ -10,18 +8,18 @@ import Pointer from './Pointer'
 import Cluster from './Cluster'
 
 export default class Grid {
-    colCount: number
-    rowCount: number
+    cols: number
+    rows: number
     matrix: Cell[][]
     clusters: Cluster[]
 
     constructor(
-        colCount: number,
-        rowCount: number,
+        cols: number,
+        rows: number,
         matrix?: Cell[][]
     ) {
-        this.colCount = colCount
-        this.rowCount = rowCount
+        this.cols = cols
+        this.rows = rows
         this.clusters = []
 
         // If matrix specified extract cells
@@ -30,9 +28,9 @@ export default class Grid {
         } else {
             // FIXME: Kinda ugly
             // Else create blank cells
-            this.matrix = Array.from(Array(colCount), (_) => Array(rowCount).fill(0))
-            for (let y = 0; y < colCount; y++) {
-                for (let x = 0; x < rowCount; x++) {
+            this.matrix = Array.from(Array(cols), (_) => Array(rows).fill(0))
+            for (let y = 0; y < cols; y++) {
+                for (let x = 0; x < rows; x++) {
                     const coord = new Coord(x, y)
                     this.matrix[x][y] = new Cell(coord, Element.fromName('void'))
                 }
@@ -40,10 +38,17 @@ export default class Grid {
         }
     }
 
-    // Return all the cells of the grid
-    get cells(): Cell[] {
-        return [].concat.apply([], this.matrix)
-    }
+    // Cells getters
+    get cells(): Cell[] { return [].concat.apply([], this.matrix) }
+    get lasers(): Cell[] { return this.filteredBy("laser") }
+    get mirrors(): Cell[] { return this.filteredBy("mirror") }
+    get mines(): Cell[] { return this.filteredBy("mine") }
+    get detectors(): Cell[] { return this.filteredBy("detector") }
+    get rocks(): Cell[] { return this.filteredBy("rock") }
+    get absorbers(): Cell[] { return this.filteredBy("absorber") }
+    get beamsplitters(): Cell[] { return this.filteredBy("beamsplitter") }
+    get void(): Cell[] { return this.filteredBy("void") }
+
 
     // Select cells by type
     filteredBy(name: string): Cell[] {
@@ -54,8 +59,8 @@ export default class Grid {
 
     // Test if coord is inside boundaries
     isCoordInsideGrid(coord: Coord): boolean {
-        return (coord.x >= 0 && coord.x < this.colCount) &&
-            (coord.y >= 0 && coord.y < this.rowCount)
+        return (coord.x >= 0 && coord.x < this.cols) &&
+            (coord.y >= 0 && coord.y < this.rows)
     }
 
     // Set one cell
@@ -120,12 +125,12 @@ export default class Grid {
 
     // Coordinates to grid index
     getIndexFromCoord(coord: Coord): number {
-        return coord.x * this.colCount + coord.y
+        return coord.x * this.cols + coord.y
     }
 
     getCoordFromIndex(index: number): Coord {
-        const x = index % this.colCount
-        const y = Math.floor(index / this.colCount)
+        const x = index % this.cols
+        const y = Math.floor(index / this.cols)
         return new Coord(x, y)
     }
 
@@ -135,10 +140,10 @@ export default class Grid {
 
     // Include particle display in ascii render
     asciiRender(pointers: Pointer[] = []): string {
-        let result = "##".repeat(this.colCount + 1) + "\n"
-        for (let y = 0; y < this.colCount; y++) {
+        let result = "##".repeat(this.cols + 1) + "\n"
+        for (let y = 0; y < this.cols; y++) {
             let asciiLine = "#"
-            for (let x = 0; x < this.rowCount; x++) {
+            for (let x = 0; x < this.rows; x++) {
                 // Add some sort of ascii z-index
                 const coord = new Coord(y, x)
                 if (coord.isIncludedIn(Pointer.manyToCoords(pointers))) {
@@ -150,15 +155,15 @@ export default class Grid {
             }
             result += asciiLine + "#\n"
         }
-        result += "##".repeat(this.colCount + 1)
+        result += "##".repeat(this.cols + 1)
         return result
     }
 
     toString(): string {
         let basic = ""
-        for (let y = 0; y < this.colCount; y++) {
+        for (let y = 0; y < this.cols; y++) {
             let asciiLine = ""
-            for (let x = 0; x < this.rowCount; x++) {
+            for (let x = 0; x < this.rows; x++) {
                 asciiLine += this.matrix[x][y].element.id
             }
             basic += asciiLine + "\n"

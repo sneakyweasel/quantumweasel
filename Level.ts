@@ -5,6 +5,7 @@
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
+import Pointer from './Pointer'
 
 export default class Level {
     id: number
@@ -45,7 +46,7 @@ export default class Level {
     // Override toString method in order to display ascii level
     toString() {
         return `\
-LEVEL: ${this.name} [${this.grid.colCount}x${this.grid.rowCount}]\n\
+LEVEL: ${this.name} [${this.grid.cols}x${this.grid.rows}]\n\
 DESC: ${this.description}\n\
 GROUP: ${this.group}\n\
 ${this.grid.asciiRender()}\n\
@@ -58,7 +59,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 
     // Display level informations
     display() {
-        console.log(`Level ${this.id}: ${this.name} has size [${this.grid.rowCount}x${this.grid.colCount}] and ${this.toolbox.length} starting elements for a ${this.grid.cells} elements puzzle.`)
+        console.log(`Level ${this.id}: ${this.name} has size [${this.grid.rows}x${this.grid.cols}] and ${this.toolbox.length} starting elements for a ${this.grid.cells} elements puzzle.`)
     }
 
     // export JSON file to save state oi the game
@@ -69,7 +70,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     // import JSON file
     static importJSON(name: string): Level {
         const json = require(`../levels/${name}.json`)
-        const grid = new Grid(json.height, json.width)
+        const grid = new Grid(json.cols, json.rows)
         grid.importJSON(json.cells)
         const goals = Goal.importJSON(json.goals)
         const hints = Hint.importJSON(json.hints)
@@ -83,5 +84,23 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
             hints,
             false
         )
+    }
+
+    computePaths() {
+        // Fire the lasers
+        const particles: Pointer[] = []
+        this.grid.lasers.forEach((laser) => {
+            particles.push(new Pointer(laser.coord, laser.rotation, 100))
+        })
+
+        // Compute path for each particle
+        // particles.forEach((particle: Pointer) => {
+
+            // Compute coords path until the end of the grid
+            // Distance to grid border
+            // this.grid.colCount - particle.coord.x
+            // this.grid.rowCount
+            // let coord = particle.next().coord
+        // })
     }
 }
