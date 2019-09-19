@@ -56,14 +56,14 @@ export default class Grid {
     }
 
     // Test if coord is inside boundaries
-    isCoordInsideGrid(coord: Coord): boolean {
+    includes(coord: Coord): boolean {
         return (coord.y >= 0 && coord.y < this.rows) && (coord.x >= 0 && coord.x < this.cols)
     }
 
     // Set one cell
     // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
     set(cell: Cell): boolean {
-        if (this.isCoordInsideGrid(cell.coord)) {
+        if (this.includes(cell.coord)) {
             this.matrix[cell.coord.y][cell.coord.x] = cell
             return true
         } else {
@@ -76,7 +76,7 @@ export default class Grid {
     setMany(...cells: Cell[]): boolean {
         let errorToggle = true
         cells.forEach((cell: Cell) => {
-            if (!this.isCoordInsideGrid(cell.coord)) {
+            if (!this.includes(cell.coord)) {
                 errorToggle = false
             }
         })

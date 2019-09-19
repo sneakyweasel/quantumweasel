@@ -14,6 +14,7 @@ import Goal from "./Goal"
 import Grid from "./Grid"
 import Level from "./Level"
 import Pointer from "./Pointer"
+import Coord from "./Coord"
 
 export default class Frame {
     level: Level
@@ -40,70 +41,60 @@ export default class Frame {
     // Convenient getters
     get grid(): Grid { return this.level.grid }
     get cells(): Cell[] { return this.level.grid.cells }
+    get goals(): Goal[] { return this.level.goals }
+    get completedGoals(): Goal[] { return this.level.goals.filter((goal) => { return goal.completed }) }
 
-    // Add the pointers to their next cells
-    // TODO: post compute collisions
-    // TODO: compute activation of elements
+    // Compute the next frame
+    // Get next positions of different pointers
+    // Set intensity to 0 if it exits the grid
     next(): Frame {
-        const grid = this.level.grid
-        const pointers: Pointer[] = []
         this.pointers.forEach((pointer) => {
-            // Compute individual pointer update
-            const nxtPointer = pointer.next()
-            if (grid.isCoordInsideGrid(nxtPointer.coord)) {
-                grid.get(nxtPointer.coord).pointers.push(nxtPointer)
-                pointers.push(nxtPointer)
+            const nxt = pointer.next()
+            if (!this.grid.includes(nxt.coord)) {
+                nxt.intensity = 0
             }
         })
-        // Absorbing
-        const detectors = this.level.grid.filteredBy("detector")
-        const rocks = this.level.grid.filteredBy("rock")
-        const mines = this.level.grid.filteredBy("mine")
-        const absorbers = detectors.concat(rocks, mines)
+
+        // Absorbers
+        const detectors = this.grid.detectors
+        const rocks = this.grid.rocks
+        const mines = this.grid.mines
+        const filters = this.grid.absorbers
+        const absorbers: Cell[] = detectors.concat(rocks, mines, filters)
         absorbers.forEach((absorber: Cell) => {
-            pointers.forEach((pointer) => {
-                // Apply reflection matrix if pointer is on a mirror
-                // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
+            this.pointers.forEach((pointer) => {
                 if (absorber.coord.equal(pointer.coord)) {
-                    console.log(`\nHitting an absorber with ${pointer.toString()}`)
-                    pointer.intensity = 0
+                    console.log(`\n${pointer.toString()} hitting an ${absorber.element.name} with ${absorber.element.absorption} % absorption.`)
+                    pointer.intensity *= absorber.element.absorption / 100
                 }
             })
         })
-        const mirrors = this.level.grid.filteredBy("mirror")
+
+        // Reflectors
+        const mirrors = this.grid.mirrors
         mirrors.forEach((mirror: Cell) => {
-            pointers.forEach((pointer) => {
-                // Apply reflection matrix if pointer is on a mirror
-                // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
+            this.pointers.forEach((pointer) => {
                 if (mirror.coord.equal(pointer.coord)) {
-                    // console.log(`\nHitting a mirror rotated ${mirror.rotation}° with ${pointer.toString()}`)
                     pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360
-                    // console.log(`\nParticle is being reflected to ${pointer.toString()}`)
                 }
             })
         })
-        // Beamsplitter
-        const beamsplitters = this.level.grid.filteredBy("beamsplitter")
+        const beamsplitters = this.grid.beamsplitters
         beamsplitters.forEach((beamsplitter: Cell) => {
-            pointers.forEach((pointer) => {
-                // Apply reflection matrix if pointer is on a mirror
-                // https://github.com/stared/quantum-game/blob/master/js/tensor/direction.js
+            this.pointers.forEach((pointer) => {
                 if (beamsplitter.coord.equal(pointer.coord)) {
-                    // console.log(`\nHitting a beamsplitter rotated ${beamsplitter.rotation}° with ${pointer.toString()}`)
-                    // Crossing pointer (update current pointer with fading)
+                    // Dim the current pointer intensity
                     pointer.intensity /= 2
                     // Reflecting pointer (create new reflected faded pointer)
                     const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360
-                    pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
-                    // console.log(`\nHalf intensity particle is being reflected to ${pointer.toString()}`)
-                    // console.log(`\nHalf intensity particle crosses to ${pointer.toString()}`)
+                    this.pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
                 }
             })
         })
 
         // Collision goals
         this.level.goals.forEach((goal) => {
-            pointers.forEach((pointer) => {
+            this.pointers.forEach((pointer) => {
                 if (goal.coord.equal(pointer.coord)) {
                     goal.value += pointer.intensity * 100
                     pointer.intensity = 0
@@ -114,18 +105,22 @@ export default class Frame {
             })
         })
 
-        // Erase null intensity pointers
-        // pointers = pointers.filter((pointer) => {
-        //     return pointer.intensity > 0
-        // })
-
         // Check if goals are achieved
-        const completedGoals = this.level.goals.filter((goal) => { return goal.completed })
-        if (completedGoals.length === this.level.goals.length) {
+        if (this.completedGoals.length === this.level.goals.length) {
             this.level.completed = true
         }
 
-        return new Frame(this.level, this.step + 1, pointers)
+        // Erase null intensity pointers
+        this.pointers = this.pointers.filter((pointer) => {
+            return pointer.intensity > 0
+        })
+
+        return new Frame(this.level, this.step + 1, this.pointers)
+    }
+
+    laserPath(pointer: Pointer): Coord[] {
+        const repeat = pointer.coord.distanceToExit(pointer.direction, this.grid.rows, this.grid.cols)
+        return pointer.next(repeat).path
     }
 
     // Overriden method

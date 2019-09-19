@@ -107,7 +107,7 @@ export default class Element {
                 "link": "./elements/laser",
                 "active": true,
                 "tiles": "",
-                "absorption": 100,
+                "absorption": 1,
                 "matrix": []
             },
             {
@@ -149,7 +149,7 @@ export default class Element {
                 "link": "./elements/detector",
                 "active": false,
                 "tiles": "",
-                "absorption": 100,
+                "absorption": 1,
                 "matrix": []
             },
             {
@@ -170,7 +170,7 @@ export default class Element {
                 "link": "./elements/rock",
                 "active": false,
                 "tiles": "",
-                "absorption": 100,
+                "absorption": 1,
                 "matrix": []
             },
             {
@@ -191,7 +191,7 @@ export default class Element {
                 "link": "./elements/mine",
                 "active": false,
                 "tiles": "",
-                "absorption": 100,
+                "absorption": 1,
                 "matrix": []
             },
             {
@@ -233,7 +233,7 @@ export default class Element {
                 "link": "./elements/absorber",
                 "active": false,
                 "tiles": "",
-                "absorption": 50,
+                "absorption": 0.5,
                 "matrix": []
             }
         ]

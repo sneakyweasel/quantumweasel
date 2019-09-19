@@ -4,8 +4,8 @@
     "group": "Game",
     "description": "Divide, ..., then conquer!",
     "completed": false,
-    "width": 20,
-    "height": 20,
+    "rows": 20,
+    "cols": 20,
     "cells": [
         {
             "x": 6,
@@ -81,7 +81,7 @@
             "x": 6,
             "y": 11,
             "element": "laser",
-            "rotation": 180,
+            "rotation": 0,
             "frozen": true
         }
     ],

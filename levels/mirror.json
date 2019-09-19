@@ -4,8 +4,8 @@
     "group": "Dev",
     "description": "Debugging level",
     "completed": false,
-    "width": 20,
-    "height": 20,
+    "rows": 20,
+    "cols": 20,
     "cells": [
         {
             "x": 2,

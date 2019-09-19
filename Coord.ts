@@ -41,13 +41,6 @@ export default class Coord {
         }
     }
 
-    // SVG coordinates system: center point of cell
-    centerPos(spacing: number) {
-        const y = this.y * spacing + spacing / 2
-        const x = this.x * spacing + spacing / 2
-        return [y, x]
-    }
-
     // Adjacent cells
     get top(): Coord { return new Coord(this.y - 1, this.x) }
     get bottom(): Coord { return new Coord(this.y + 1, this.x) }
@@ -68,7 +61,6 @@ export default class Coord {
     }
 
     // Test inclusion in array of coords using deep compare from lodash
-    // https://stackoverflow.com/questions/25171143/
     isIncludedIn(coords: Coord[]): boolean {
         return (_.findIndex(coords, (coord) => { return this.equal(coord) }) > -1)
     }

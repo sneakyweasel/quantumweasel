@@ -54,7 +54,7 @@ export default class Pointer {
 
     // Override method to display nicely
     toString(): string {
-        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity. PATH: ${this.path.toString()}`
+        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity. PATH: ${this.path.map((coord) => JSON.stringify(coord))}`
     }
 
     // Format active particle list
