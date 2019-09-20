@@ -31,24 +31,24 @@ export default class Pointer extends Coord {
     next(repeat: number = 1): Pointer {
         // Moving CW in increment of 90°
         for (let i = 0; i < repeat; i++) {
-            switch (this.direction % 360) {
+            switch ((this.direction) % 360) {
                 case 0:
-                    this.path.push(this.coord.top)
+                    this.coord = this.coord.top
                     break
                 case 90:
-                    this.path.push(this.coord.right)
+                    this.coord = this.coord.right
                     break
                 case 180:
-                    this.path.push(this.coord.bottom)
+                    this.coord = this.coord.bottom
                     break
                 case 270:
-                    this.path.push(this.coord.left)
+                    this.coord = this.coord.left
                     break
                 default:
                     throw Error(`Something went wrong with pointers and direction.`)
             }
             // Update coord with latest computed path coordinates
-            this.coord = this.path[this.path.length - 1]
+            this.path.push(this.coord)
         }
         return this
     }

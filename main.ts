@@ -13,6 +13,8 @@ import Frame from './Frame'
 // Load json level
 const levelName = 'mirror'
 let level = Level.importJSON(levelName)
+// let level = Level.importV1JSON("conquerv1")
+// let level = Level.importV1JSON("interfrenzyv1")
 
 // Rot terminal init
 const rot = new ROT.Display({
@@ -27,7 +29,7 @@ let frame = new Frame(level)
 frames.push(frame)
 frameDisplay(frame)
 
-// Keypress events
+// KEYPRESS EVENTS
 keypress(process.stdin)
 process.stdin.on('keypress', (_ch, key) => {
     if (key && key.ctrl && key.name === 'c') {
@@ -41,7 +43,7 @@ process.stdin.on('keypress', (_ch, key) => {
         frameDisplay(frame)
     }
     // Backwards
-    if (key && key.name === 'left' && frames.length > 1) {
+    if (key && key.name === 'left' && frames.length > 0) {
         frame = frames.pop()!
         frameDisplay(frame)
     }
@@ -51,7 +53,14 @@ process.stdin.on('keypress', (_ch, key) => {
         frames.push(frame)
         frameDisplay(frame)
     }
+    // Space
+    if (key && key.name === 'space') {
+        frame = frame.next()
+        frames.push(frame)
+        frameDisplay(frame)
+    }
 })
+
 if (typeof process.stdin.setRawMode === 'function') {
     process.stdin.setRawMode(true)
 } else {
@@ -64,6 +73,13 @@ function frameDisplay(frame: Frame) {
     process.stdout.write("\u001b[2J\u001b[0;0H")    // Clear terminal
     const rows = frame.level.grid.rows
     const cols = frame.level.grid.cols
+    // Laser lines
+    const laserCoords: Coord[] = []
+    frame.pointers.forEach((pointer) => {
+        frame.laserPath(pointer).forEach((coord) => {
+            laserCoords.push(coord)
+        })
+    })
     // frame.pointers
     for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
@@ -72,15 +88,18 @@ function frameDisplay(frame: Frame) {
                 rot.draw(y, x, "#", "gray", "#222")
                 // Draw cells
             } else {
+                // Gather informations
+                let background = "#222"
                 const coord = new Coord(y, x)
-                const rotation = frame.level.grid.get(coord).rotation
-                const ascii = frame.level.grid.matrix[y][x].element.ascii[rotation / 45]
-                const frozen = frame.level.grid.get(coord).frozen
-                const color = frozen ? "#fff" : "#ddd"
+                const cell = frame.grid.get(coord)
+                const color = cell.frozen ? "lightblue" : "white"
+                const ascii = cell.element.ascii[cell.rotation / 45]
+                if (coord.isIncludedIn(laserCoords)) {
+                    background = "darkred"
+                }
 
                 // Active cell - change background
                 const activePointers = frame.pointers.map((pointer) => pointer.coord).filter((i) => coord.equal(i))
-                let background = "#222"
                 if (activePointers.length > 0) {
                     background = "#ff00ff"
                 }
@@ -88,14 +107,22 @@ function frameDisplay(frame: Frame) {
             }
         }
     }
-
-    console.log(frame.toString())
-
-    // Laser lines
-    // frame.pointers.forEach((pointer) => {
-    //     console.log(`Drawing laser lines: ${pointer.path.toString()}`)
-    //     frame.laserPath(pointer).forEach((coord) => {
-    //         rot.draw(coord.y, coord.x, "+", "red", "black")
-    //     })
-    // })
+    // DISPLAY ENDGAME CONDITIONS
+    if (frame.end) {
+        if (frame.victory) {
+            console.log("#########################")
+            console.log("#########################")
+            console.log("#######  VICTORY  #######")
+            console.log("#########################")
+            console.log("#########################")
+        } else {
+            console.log("#########################")
+            console.log("#########################")
+            console.log("#######  DEFEAT   #######")
+            console.log("#########################")
+            console.log("#########################")
+        }
+    } else {
+        console.log(frame.toString())
+    }
 }

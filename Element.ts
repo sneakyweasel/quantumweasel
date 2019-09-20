@@ -69,12 +69,14 @@ export default class Element {
     }
 
     // Static JSON load
-    static fromName(name: string): Element {
+    // FIXME: It's goddamn ugly
+    static fromName(name: string, version: number = 2): Element {
         // const jsonElements = require(`../elements/elements.json`)
         const jsonElements = [
             {
                 id: 0,
                 name: "void",
+                namev1: "void",
                 ascii: [
                     " ",
                     " ",
@@ -97,6 +99,7 @@ export default class Element {
             {
                 id: 1,
                 name: "laser",
+                namev1: "Source",
                 ascii: [
                     "^",
                     "^",
@@ -119,6 +122,7 @@ export default class Element {
             {
                 id: 2,
                 name: "mirror",
+                namev1: "ThinMirror",
                 ascii: [
                     "|",
                     "/",
@@ -141,6 +145,7 @@ export default class Element {
             {
                 id: 3,
                 name: "detector",
+                namev1: "Detector",
                 ascii: [
                     "¤",
                     "¤",
@@ -163,6 +168,7 @@ export default class Element {
             {
                 id: 4,
                 name: "rock",
+                namev1: "Rock",
                 ascii: [
                     "#",
                     "#",
@@ -185,6 +191,7 @@ export default class Element {
             {
                 id: 5,
                 name: "mine",
+                namev1: "Mine",
                 ascii: [
                     "!",
                     "!",
@@ -207,6 +214,7 @@ export default class Element {
             {
                 id: 6,
                 name: "beamsplitter",
+                namev1: "ThinSplitter",
                 ascii: [
                     "%",
                     "%",
@@ -229,6 +237,7 @@ export default class Element {
             {
                 id: 7,
                 name: "absorber",
+                namev1: "Absorber",
                 ascii: [
                     "-",
                     "-",
@@ -251,6 +260,7 @@ export default class Element {
             {
                 id: 8,
                 name: "phaseinc",
+                namev1: "VacuumJar",
                 ascii: [
                     "~",
                     "~",
@@ -273,6 +283,7 @@ export default class Element {
             {
                 id: 9,
                 name: "phasedec",
+                namev1: "Glass",
                 ascii: [
                     "~",
                     "~",
@@ -294,22 +305,40 @@ export default class Element {
             }
         ]
 
-        const elem = jsonElements.find((elem: { name: string }) => {
-            return elem.name === name
-        })
-        // FIXME: Ugly null check avoidance
-        return new Element(
-            elem!.id,
-            elem!.name,
-            elem!.ascii,
-            elem!.group,
-            elem!.description,
-            elem!.link,
-            elem!.active,
-            elem!.tiles,
-            elem!.absorption,
-            elem!.phase,
-            elem!.matrix
-        )
+        if (version === 2) {
+            const elem = jsonElements.find((elem: { name: string }) => {
+                return elem.name === name
+            })
+            return new Element(
+                elem!.id,
+                elem!.name,
+                elem!.ascii,
+                elem!.group,
+                elem!.description,
+                elem!.link,
+                elem!.active,
+                elem!.tiles,
+                elem!.absorption,
+                elem!.phase,
+                elem!.matrix
+            )
+        } else {
+            const elem = jsonElements.find((elem: { namev1: string }) => {
+                return elem.namev1 === name
+            })
+            return new Element(
+                elem!.id,
+                elem!.name,
+                elem!.ascii,
+                elem!.group,
+                elem!.description,
+                elem!.link,
+                elem!.active,
+                elem!.tiles,
+                elem!.absorption,
+                elem!.phase,
+                elem!.matrix
+            )
+        }
     }
 }

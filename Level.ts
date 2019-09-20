@@ -2,6 +2,9 @@
 // Levels are loaded as working solutions to the puzzle
 // Then the frozen elements are removed and put in the toolbox
 
+import Coord from './Coord'
+import Cell from './Cell'
+import Element from './Element'
 import Grid from './Grid'
 import Hint from './Hint'
 import Goal from './Goal'
@@ -86,6 +89,37 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         )
     }
 
+    // import JSON file
+    static importV1JSON(name: string): Level {
+        const json = require(`../levels/${name}.json`)
+        const grid = new Grid(json.width, json.height)
+        const cells: Cell[] = []
+        json.tiles.forEach((tile: { i: number, j: number, name: string, rotation: number, frozen: boolean }) => {
+            cells.push(new Cell(
+                new Coord(tile.i, tile.j),
+                Element.fromName(tile.name, 1),
+                tile.rotation * 45,
+                tile.frozen
+            ))
+        })
+        grid.setMany(...cells)
+        const goals: Goal[] = []
+        grid.detectors.forEach((detector) => {
+            goals.push(new Goal(detector.coord, 1))
+        })
+        const hints: Hint[] = []
+        return new Level(
+            0,
+            json.name,
+            json.group,
+            "V1 level imported",
+            grid,
+            goals,
+            hints,
+            false
+        )
+    }
+
     computePaths() {
         // Fire the lasers
         const particles: Pointer[] = []
@@ -96,11 +130,11 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         // Compute path for each particle
         // particles.forEach((particle: Pointer) => {
 
-            // Compute coords path until the end of the grid
-            // Distance to grid border
-            // this.grid.colCount - particle.coord.x
-            // this.grid.rowCount
-            // let coord = particle.next().coord
+        // Compute coords path until the end of the grid
+        // Distance to grid border
+        // this.grid.colCount - particle.coord.x
+        // this.grid.rowCount
+        // let coord = particle.next().coord
         // })
     }
 }

@@ -8,6 +8,8 @@
 // - Not enough intensity
 // - No more particles
 
+// TODO: Check that the required conditions are met for starting the sim (begin - end)
+
 import * as _ from "lodash"
 import Cell from "./Cell"
 import Goal from "./Goal"
@@ -20,34 +22,30 @@ export default class Frame {
     level: Level
     step: number
     pointers: Pointer[]
+    end: boolean
 
-    // TODO: Check that the required conditions are met for starting the sim (begin - end)
-    constructor(level: Level, step: number = 0, pointers: Pointer[] = []) {
+    constructor(level: Level, step: number = 0, pointers: Pointer[] = [], end: boolean = false) {
         this.step = step
         this.level = level
         this.pointers = pointers
-
+        this.end = end
         // Initiate simulation with frame #0 and extract emitters
         if (step === 0) {
-            const laserCells = this.level.grid.filteredBy("laser")
-            laserCells.forEach((laser) => {
-                this.pointers.push(new Pointer(laser.coord, laser.rotation, 1))
+            this.lasers.forEach((laser) => {
+                this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0))
             })
-            console.log(`\nInitialize simulation for ${level.name}...`)
-            console.log(Pointer.manyToString(this.pointers))
         }
     }
 
     // Convenient getters
     get grid(): Grid { return this.level.grid }
     get cells(): Cell[] { return this.level.grid.cells }
+    get lasers(): Cell[] { return this.level.grid.lasers }
     get goals(): Goal[] { return this.level.goals }
     get completedGoals(): Goal[] { return this.level.goals.filter((goal) => { return goal.completed }) }
     get victory(): Boolean { return this.completedGoals.length === this.goals.length }
 
-    // Compute the next frame
-    // Get next positions of different pointers
-    // Set intensity to 0 if it exits the grid
+    // Compute the next frame by computing the next positions of different pointers
     next(): Frame {
         // Absorbers
         const detectors = this.grid.detectors
@@ -66,7 +64,7 @@ export default class Frame {
         // Loop through pointers
         this.pointers.forEach((pointer) => {
             pointer.next()
-            if (!this.grid.includes(pointer)) {
+            if (!this.grid.includes(pointer.coord)) {
                 pointer.intensity = 0
             }
 
@@ -115,12 +113,18 @@ export default class Frame {
             return pointer.intensity > 0
         })
 
-        // Check if goals are achieved
+        // Victory conditions
         if (this.victory) {
             this.level.completed = true
+            this.end = true
+        }
+        // Defeat conditions
+        if (this.pointers.length === 0) {
+            this.level.completed = false
+            this.end = true
         }
 
-        return new Frame(this.level, this.step + 1, this.pointers)
+        return new Frame(this.level, this.step + 1, this.pointers, this.end)
     }
 
     // Create a laser path from the emitters
