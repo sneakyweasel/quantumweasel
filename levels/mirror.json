@@ -4,47 +4,75 @@
     "group": "Dev",
     "description": "Debugging level",
     "completed": false,
-    "rows": 20,
-    "cols": 20,
+    "rows": 30,
+    "cols": 30,
     "cells": [
         {
-            "x": 2,
             "y": 2,
+            "x": 6,
             "element": "laser",
-            "rotation": 90,
+            "rotation": 180,
             "frozen": true
         },
         {
-            "x": 3,
-            "y": 10,
-            "element": "laser",
-            "rotation": 90,
-            "frozen": true
-        },
-        {
-            "x": 4,
-            "y": 2,
-            "element": "mirror",
-            "rotation": 135,
-            "frozen": true
-        },
-        {
-            "x": 2,
             "y": 5,
-            "element": "mirror",
-            "rotation": 135,
-            "frozen": true
-        },
-        {
-            "x": 2,
-            "y": 10,
-            "element": "detector",
+            "x": 6,
+            "element": "absorber",
             "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 6,
+            "x": 6,
+            "element": "absorber",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 8,
+            "x": 6,
+            "element": "phaseinc",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 9,
+            "x": 6,
+            "element": "phaseinc",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 10,
+            "x": 6,
+            "element": "phaseinc",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 11,
+            "x": 6,
+            "element": "phaseinc",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 20,
+            "x": 6,
+            "element": "mirror",
+            "rotation": 135,
             "frozen": true
         },
         {
-            "x": 10,
-            "y": 5,
+            "y": 20,
+            "x": 20,
+            "element": "mirror",
+            "rotation": 45,
+            "frozen": true
+        },
+        {
+            "y": 6,
+            "x": 20,
             "element": "detector",
             "rotation": 0,
             "frozen": true
@@ -52,20 +80,15 @@
     ],
     "goals": [
         {
-            "x": 2,
-            "y": 10,
-            "threshold": 50
-        },
-        {
-            "x": 2,
-            "y": 5,
-            "threshold": 50
+            "y": 6,
+            "x": 20,
+            "threshold": 1
         }
     ],
     "hints": [
         {
-            "x": 2,
             "y": 10,
+            "x": 2,
             "message": "Weasel save the world fast!"
         }
     ]

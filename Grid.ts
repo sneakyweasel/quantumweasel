@@ -46,6 +46,8 @@ export default class Grid {
     get rocks(): Cell[] { return this.filteredBy("rock") }
     get absorbers(): Cell[] { return this.filteredBy("absorber") }
     get beamsplitters(): Cell[] { return this.filteredBy("beamsplitter") }
+    get phaseincs(): Cell[] { return this.filteredBy("phaseinc") }
+    get phasedecs(): Cell[] { return this.filteredBy("phasedec") }
     get void(): Cell[] { return this.filteredBy("void") }
 
     // Select cells by type
@@ -110,6 +112,22 @@ export default class Grid {
         } else {
             // console.error(`Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`)
             return false
+        }
+    }
+
+    // Distance to exiting grid
+    distanceToEscape(pointer: Pointer): number {
+        switch (pointer.direction % 360) {
+            case 0:   // TOP
+                return pointer.y
+            case 90:  // RIGHT
+                return this.cols - pointer.x - 1
+            case 180: // BOTTOM
+                return this.rows - pointer.y - 1
+            case 270: // LEFT
+                return pointer.x
+            default:
+                throw new Error("Something went wrong with directions...")
         }
     }
 

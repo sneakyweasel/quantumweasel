@@ -9,7 +9,6 @@ const tty = require('tty')
 import Coord from './Coord'
 import Level from './Level'
 import Frame from './Frame'
-// import Pointer from './Pointer'
 
 // Load json level
 const levelName = 'mirror'
@@ -93,10 +92,10 @@ function frameDisplay(frame: Frame) {
     console.log(frame.toString())
 
     // Laser lines
-    frame.pointers.forEach((pointer) => {
-        console.log(`Drawing laser lines: ${pointer.path.toString()}`)
-        frame.laserPath(pointer).forEach((coord) => {
-            rot.draw(coord.y, coord.x, "+", "red", "black")
-        })
-    })
+    // frame.pointers.forEach((pointer) => {
+    //     console.log(`Drawing laser lines: ${pointer.path.toString()}`)
+    //     frame.laserPath(pointer).forEach((coord) => {
+    //         rot.draw(coord.y, coord.x, "+", "red", "black")
+    //     })
+    // })
 }

@@ -12,6 +12,7 @@ export default class Element {
     active: boolean             // default: false
     tiles: string               // default: none
     absorption: number          // default: none
+    phase: number               // default: none
     matrix: number[][]          // default: zeros matrix
 
     constructor(
@@ -24,6 +25,7 @@ export default class Element {
         active: boolean = false,
         tiles: string = "tilemap.png",
         absorption: number = 0,
+        phase: number = 0,
         matrix: number[][] = [[0, 0], [0, 0]]
     ) {
         this.id = id
@@ -35,6 +37,7 @@ export default class Element {
         this.active = active
         this.tiles = tiles
         this.absorption = absorption
+        this.phase = phase
         this.matrix = matrix
     }
 
@@ -60,6 +63,7 @@ export default class Element {
             active: this.active,
             tiles: this.tiles,
             absorption: this.absorption,
+            phase: this.phase,
             matrix: this.matrix
         }
     }
@@ -69,9 +73,9 @@ export default class Element {
         // const jsonElements = require(`../elements/elements.json`)
         const jsonElements = [
             {
-                "id": 0,
-                "name": "void",
-                "ascii": [
+                id: 0,
+                name: "void",
+                ascii: [
                     " ",
                     " ",
                     " ",
@@ -81,18 +85,19 @@ export default class Element {
                     " ",
                     " "
                 ],
-                "group": "Basic",
-                "description": "The void...",
-                "link": "./elements/void",
-                "active": false,
-                "tiles": "",
-                "absorption": 0,
-                "matrix": []
+                group: "Basic",
+                description: "The void...",
+                link: "./elements/void",
+                active: false,
+                tiles: "",
+                absorption: 0,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 1,
-                "name": "laser",
-                "ascii": [
+                id: 1,
+                name: "laser",
+                ascii: [
                     "^",
                     "^",
                     ">",
@@ -102,18 +107,19 @@ export default class Element {
                     "<",
                     "<"
                 ],
-                "group": "Emitter",
-                "description": "A one-photon laser source",
-                "link": "./elements/laser",
-                "active": true,
-                "tiles": "",
-                "absorption": 1,
-                "matrix": []
+                group: "Emitter",
+                description: "A one-photon laser source",
+                link: "./elements/laser",
+                active: true,
+                tiles: "",
+                absorption: 1,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 2,
-                "name": "mirror",
-                "ascii": [
+                id: 2,
+                name: "mirror",
+                ascii: [
                     "|",
                     "/",
                     "-",
@@ -123,18 +129,19 @@ export default class Element {
                     "-",
                     "\\"
                 ],
-                "group": "Direction",
-                "description": "A simple reflecting mirror",
-                "link": "./elements/mirror",
-                "active": false,
-                "tiles": "",
-                "absorption": 0,
-                "matrix": []
+                group: "Direction",
+                description: "A simple reflecting mirror",
+                link: "./elements/mirror",
+                active: false,
+                tiles: "",
+                absorption: 0,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 3,
-                "name": "detector",
-                "ascii": [
+                id: 3,
+                name: "detector",
+                ascii: [
                     "¤",
                     "¤",
                     "¤",
@@ -144,18 +151,19 @@ export default class Element {
                     "¤",
                     "¤"
                 ],
-                "group": "Absorber",
-                "description": "A one-photon detector",
-                "link": "./elements/detector",
-                "active": false,
-                "tiles": "",
-                "absorption": 1,
-                "matrix": []
+                group: "Absorber",
+                description: "A one-photon detector",
+                link: "./elements/detector",
+                active: false,
+                tiles: "",
+                absorption: 1,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 4,
-                "name": "rock",
-                "ascii": [
+                id: 4,
+                name: "rock",
+                ascii: [
                     "#",
                     "#",
                     "#",
@@ -165,18 +173,19 @@ export default class Element {
                     "#",
                     "#"
                 ],
-                "group": "Absorber",
-                "description": "An absorbing pet rock",
-                "link": "./elements/rock",
-                "active": false,
-                "tiles": "",
-                "absorption": 1,
-                "matrix": []
+                group: "Absorber",
+                description: "An absorbing pet rock",
+                link: "./elements/rock",
+                active: false,
+                tiles: "",
+                absorption: 1,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 5,
-                "name": "mine",
-                "ascii": [
+                id: 5,
+                name: "mine",
+                ascii: [
                     "!",
                     "!",
                     "!",
@@ -186,18 +195,19 @@ export default class Element {
                     "!",
                     "!"
                 ],
-                "group": "Absorber",
-                "description": "An explosive mine (disarm Jean)",
-                "link": "./elements/mine",
-                "active": false,
-                "tiles": "",
-                "absorption": 1,
-                "matrix": []
+                group: "Absorber",
+                description: "An explosive mine (disarm Jean)",
+                link: "./elements/mine",
+                active: false,
+                tiles: "",
+                absorption: 1,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 6,
-                "name": "beamsplitter",
-                "ascii": [
+                id: 6,
+                name: "beamsplitter",
+                ascii: [
                     "%",
                     "%",
                     "%",
@@ -207,34 +217,80 @@ export default class Element {
                     "%",
                     "%"
                 ],
-                "group": "Direction",
-                "description": "A beamsplitter",
-                "link": "./elements/beamsplitter",
-                "active": false,
-                "tiles": "",
-                "absorption": 0,
-                "matrix": []
+                group: "Direction",
+                description: "A beamsplitter",
+                link: "./elements/beamsplitter",
+                active: false,
+                tiles: "",
+                absorption: 0,
+                phase: 0,
+                matrix: []
             },
             {
-                "id": 7,
-                "name": "absorber",
-                "ascii": [
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%"
+                id: 7,
+                name: "absorber",
+                ascii: [
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-"
                 ],
-                "group": "Absorber",
-                "description": "A neutral density filter",
-                "link": "./elements/absorber",
-                "active": false,
-                "tiles": "",
-                "absorption": 0.5,
-                "matrix": []
+                group: "Absorber",
+                description: "A neutral density filter",
+                link: "./elements/absorber",
+                active: false,
+                tiles: "",
+                absorption: 0.5,
+                phase: 0,
+                matrix: []
+            },
+            {
+                id: 8,
+                name: "phaseinc",
+                ascii: [
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~"
+                ],
+                group: "Phase",
+                description: "A glass slab that increases phase.",
+                link: "./elements/phaseinc",
+                active: false,
+                tiles: "",
+                absorption: 0,
+                phase: 0.25,
+                matrix: []
+            },
+            {
+                id: 9,
+                name: "phasedec",
+                ascii: [
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~",
+                    "~"
+                ],
+                group: "Phase",
+                description: "Void that decreases phase.",
+                link: "./elements/phasedec",
+                active: false,
+                tiles: "",
+                absorption: 0.5,
+                phase: -0.25,
+                matrix: []
             }
         ]
 
@@ -252,6 +308,7 @@ export default class Element {
             elem!.active,
             elem!.tiles,
             elem!.absorption,
+            elem!.phase,
             elem!.matrix
         )
     }

@@ -3,24 +3,25 @@
 // Goal should extend Cell or should extend Coord
 
 import Coord from "./Coord"
-// import Cell from "./Cell"
 
-export default class Goal {
+export default class Goal extends Coord {
     coord: Coord
     threshold: number
     value: number
-    completed: boolean
 
     constructor(
         coord: Coord,
         threshold: number,
-        value: number = 0,
-        completed: boolean = false
+        value: number = 0
     ) {
+        super(coord.y, coord.x)
         this.coord = coord
         this.threshold = threshold
         this.value = value
-        this.completed = completed
+    }
+
+    get completed(): boolean {
+        return this.threshold > this.value
     }
 
     // check if the detector has reached its threshold
@@ -54,14 +55,16 @@ export default class Goal {
     static importJSON(jsonGoals: Array<{ x: number, y: number, threshold: number }>): Goal[] {
         const goals: Goal[] = []
         jsonGoals.forEach((goal) => {
-            const coord = new Coord(goal.x, goal.y)
+            const coord = new Coord(goal.y, goal.x)
             goals.push(new Goal(coord, goal.threshold))
         })
         return goals
     }
 
     // export JSON
-    exportJSON() {
-        return JSON.stringify(this)
-    }
+    // https://stackoverflow.com/questions/49929109/trying-to-override-and-extend-method-signature-in-child-class-in-typescript
+    // FIXME: extension breaks polymorphism
+    // exportJSON() {
+    //     return JSON.stringify(this)
+    // }
 }

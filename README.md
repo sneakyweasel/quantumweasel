@@ -40,6 +40,12 @@
 
 ## Indices and conventions
 
+Since this is a pain to debug and very error prone, those are the current conventions used in the game engine.
+
+## Percentages
+
+- Percentages are written in decimal ranging from 0 to 1.
+
 ### Rotations
 
 - 0 deg is top

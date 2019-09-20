@@ -1,23 +1,30 @@
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 import Coord from "./Coord"
+import Cell from "./Cell"
 
-export default class Pointer {
+export default class Pointer extends Coord {
     coord: Coord
     direction: number
     intensity: number
+    phase: number
     path: Coord[]
 
-    constructor(coord: Coord, direction: number, intensity: number = 1, path: Coord[] = []) {
+    constructor(coord: Coord, direction: number, intensity: number = 1, phase: number = 0, path: Coord[] = []) {
+        super(coord.y, coord.x)
         this.coord = coord
         this.direction = direction
         this.intensity = intensity
+        this.phase = phase
         this.path = path
     }
 
     // Check is a particle has any intensity
-    get alive(): Boolean {
-        return this.intensity > 0
+    get alive(): Boolean { return this.intensity > 0 }
+
+    // Pointer is on a specific cell shorthand
+    on(cell: Cell): Boolean {
+        return this.coord.equal(cell.coord)
     }
 
     // Compute next simulation step
@@ -40,9 +47,9 @@ export default class Pointer {
                 default:
                     throw Error(`Something went wrong with pointers and direction.`)
             }
+            // Update coord with latest computed path coordinates
+            this.coord = this.path[this.path.length - 1]
         }
-        // Update coord with latest computed path coordinates
-        this.coord = this.path[this.path.length - 1]
         return this
     }
 
@@ -54,7 +61,7 @@ export default class Pointer {
 
     // Override method to display nicely
     toString(): string {
-        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity. PATH: ${this.path.map((coord) => JSON.stringify(coord))}`
+        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity and ${this.phase} phase shift. PATH: ${this.path.map((coord) => JSON.stringify(coord))}`
     }
 
     // Format active particle list

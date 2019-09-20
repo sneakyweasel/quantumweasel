@@ -43,46 +43,48 @@ export default class Frame {
     get cells(): Cell[] { return this.level.grid.cells }
     get goals(): Goal[] { return this.level.goals }
     get completedGoals(): Goal[] { return this.level.goals.filter((goal) => { return goal.completed }) }
+    get victory(): Boolean { return this.completedGoals.length === this.goals.length }
 
     // Compute the next frame
     // Get next positions of different pointers
     // Set intensity to 0 if it exits the grid
     next(): Frame {
-        this.pointers.forEach((pointer) => {
-            const nxt = pointer.next()
-            if (!this.grid.includes(nxt.coord)) {
-                nxt.intensity = 0
-            }
-        })
-
         // Absorbers
         const detectors = this.grid.detectors
         const rocks = this.grid.rocks
         const mines = this.grid.mines
         const filters = this.grid.absorbers
         const absorbers: Cell[] = detectors.concat(rocks, mines, filters)
-        absorbers.forEach((absorber: Cell) => {
-            this.pointers.forEach((pointer) => {
-                if (absorber.coord.equal(pointer.coord)) {
-                    console.log(`\n${pointer.toString()} hitting an ${absorber.element.name} with ${absorber.element.absorption} % absorption.`)
-                    pointer.intensity *= absorber.element.absorption / 100
-                }
-            })
-        })
-
         // Reflectors
         const mirrors = this.grid.mirrors
-        mirrors.forEach((mirror: Cell) => {
-            this.pointers.forEach((pointer) => {
-                if (mirror.coord.equal(pointer.coord)) {
+        const beamsplitters = this.grid.beamsplitters
+        // Phase shifters
+        const phaseincs = this.grid.phaseincs
+        const phasedecs = this.grid.phasedecs
+        const phaseshifters: Cell[] = phaseincs.concat(phasedecs)
+
+        // Loop through pointers
+        this.pointers.forEach((pointer) => {
+            pointer.next()
+            if (!this.grid.includes(pointer)) {
+                pointer.intensity = 0
+            }
+
+            // Absorption
+            absorbers.forEach((absorber: Cell) => {
+                if (pointer.on(absorber)) {
+                    pointer.intensity *= absorber.element.absorption
+                }
+            })
+
+            // Reflection
+            mirrors.forEach((mirror: Cell) => {
+                if (pointer.on(mirror)) {
                     pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360
                 }
             })
-        })
-        const beamsplitters = this.grid.beamsplitters
-        beamsplitters.forEach((beamsplitter: Cell) => {
-            this.pointers.forEach((pointer) => {
-                if (beamsplitter.coord.equal(pointer.coord)) {
+            beamsplitters.forEach((beamsplitter: Cell) => {
+                if (pointer.on(beamsplitter)) {
                     // Dim the current pointer intensity
                     pointer.intensity /= 2
                     // Reflecting pointer (create new reflected faded pointer)
@@ -90,37 +92,42 @@ export default class Frame {
                     this.pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
                 }
             })
-        })
 
-        // Collision goals
-        this.level.goals.forEach((goal) => {
-            this.pointers.forEach((pointer) => {
+            // Phase shifters
+            phaseshifters.forEach((phaseshifter: Cell) => {
+                if (pointer.on(phaseshifter)) {
+                    pointer.phase = (pointer.phase + phaseshifter.element.phase) % 1
+                }
+            })
+
+            // Collision goals
+            // FIXME: Make a shorthand for goals
+            this.goals.forEach((goal) => {
                 if (goal.coord.equal(pointer.coord)) {
                     goal.value += pointer.intensity * 100
                     pointer.intensity = 0
-                    if (goal.threshold >= goal.value) {
-                        goal.completed = true
-                    }
                 }
             })
         })
-
-        // Check if goals are achieved
-        if (this.completedGoals.length === this.level.goals.length) {
-            this.level.completed = true
-        }
 
         // Erase null intensity pointers
         this.pointers = this.pointers.filter((pointer) => {
             return pointer.intensity > 0
         })
 
+        // Check if goals are achieved
+        if (this.victory) {
+            this.level.completed = true
+        }
+
         return new Frame(this.level, this.step + 1, this.pointers)
     }
 
+    // Create a laser path from the emitters
     laserPath(pointer: Pointer): Coord[] {
-        const repeat = pointer.coord.distanceToExit(pointer.direction, this.grid.rows, this.grid.cols)
-        return pointer.next(repeat).path
+        const repeat = this.grid.distanceToEscape(pointer)
+        const clone = _.cloneDeep(pointer)
+        return clone.next(repeat).path
     }
 
     // Overriden method
