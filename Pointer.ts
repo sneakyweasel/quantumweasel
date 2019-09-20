@@ -55,7 +55,9 @@ export default class Pointer extends Coord {
 
     // Compute next simulation step
     previous(): Pointer {
-        this.path.pop()
+        if (this.path.length > 0) {
+            this.coord = this.path.pop()!
+        }
         return this
     }
 

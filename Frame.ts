@@ -134,7 +134,7 @@ export default class Frame {
     // Find a way to clear the screen
     // process.stdout.write('\033c')
     toString() {
-        let result = `\nStep #${this.step} with ${this.pointers.length} active pointers.\n`
+        let result = `\n--- ${this.victory ? "VICTORY" : "IN PROGRESS"} --- Step #${this.step} with ${this.pointers.length} active pointers.\n`
         result += "\n"
         result += Pointer.manyToString(this.pointers)
         result += "\n"

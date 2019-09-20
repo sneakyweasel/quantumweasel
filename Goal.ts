@@ -21,12 +21,7 @@ export default class Goal extends Coord {
     }
 
     get completed(): boolean {
-        return this.threshold > this.value
-    }
-
-    // check if the detector has reached its threshold
-    check() {
-        return (this.value >= this.threshold)
+        return this.value >= this.threshold
     }
 
     percentage() {
@@ -60,11 +55,4 @@ export default class Goal extends Coord {
         })
         return goals
     }
-
-    // export JSON
-    // https://stackoverflow.com/questions/49929109/trying-to-override-and-extend-method-signature-in-child-class-in-typescript
-    // FIXME: extension breaks polymorphism
-    // exportJSON() {
-    //     return JSON.stringify(this)
-    // }
 }
