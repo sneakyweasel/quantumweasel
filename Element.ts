@@ -1,6 +1,5 @@
 // ELEMENT CLASS
 // Basic class related to game elements
-// TODO: Include v1 names
 
 export default class Element {
     id: number                  // required
@@ -41,6 +40,10 @@ export default class Element {
         this.matrix = matrix
     }
 
+    get rotationAngle(): number {
+        return 360 / this.ascii.length
+    }
+
     // Override of toString() method
     toString() {
         return `{#Element ${this.name}}`
@@ -78,15 +81,7 @@ export default class Element {
                 name: "void",
                 namev1: "void",
                 ascii: [
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    " ",
-                    " "
-                ],
+                    " "],
                 group: "Basic",
                 description: "The void...",
                 link: "./elements/void",
@@ -102,12 +97,8 @@ export default class Element {
                 namev1: "Source",
                 ascii: [
                     "^",
-                    "^",
-                    ">",
                     ">",
                     "v",
-                    "v",
-                    "<",
                     "<"
                 ],
                 group: "Emitter",
@@ -150,10 +141,6 @@ export default class Element {
                     "¤",
                     "¤",
                     "¤",
-                    "¤",
-                    "¤",
-                    "¤",
-                    "¤",
                     "¤"
                 ],
                 group: "Absorber",
@@ -170,13 +157,6 @@ export default class Element {
                 name: "rock",
                 namev1: "Rock",
                 ascii: [
-                    "#",
-                    "#",
-                    "#",
-                    "#",
-                    "#",
-                    "#",
-                    "#",
                     "#"
                 ],
                 group: "Absorber",
@@ -193,13 +173,6 @@ export default class Element {
                 name: "mine",
                 namev1: "Mine",
                 ascii: [
-                    "!",
-                    "!",
-                    "!",
-                    "!",
-                    "!",
-                    "!",
-                    "!",
                     "!"
                 ],
                 group: "Absorber",
@@ -216,14 +189,14 @@ export default class Element {
                 name: "beamsplitter",
                 namev1: "ThinSplitter",
                 ascii: [
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%",
-                    "%"
+                    "⇑",
+                    "⇗",
+                    "⇒",
+                    "⇘",
+                    "⇓",
+                    "⇙",
+                    "⇐",
+                    "⇖"
                 ],
                 group: "Direction",
                 description: "A beamsplitter",
@@ -239,13 +212,6 @@ export default class Element {
                 name: "absorber",
                 namev1: "Absorber",
                 ascii: [
-                    "-",
-                    "-",
-                    "-",
-                    "-",
-                    "-",
-                    "-",
-                    "-",
                     "-"
                 ],
                 group: "Absorber",
@@ -262,14 +228,7 @@ export default class Element {
                 name: "phaseinc",
                 namev1: "VacuumJar",
                 ascii: [
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~"
+                    "↝"
                 ],
                 group: "Phase",
                 description: "A glass slab that increases phase.",
@@ -285,14 +244,7 @@ export default class Element {
                 name: "phasedec",
                 namev1: "Glass",
                 ascii: [
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~",
-                    "~"
+                    "↜"
                 ],
                 group: "Phase",
                 description: "Void that decreases phase.",

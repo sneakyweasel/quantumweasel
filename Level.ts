@@ -95,10 +95,13 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         const grid = new Grid(json.width, json.height)
         const cells: Cell[] = []
         json.tiles.forEach((tile: { i: number, j: number, name: string, rotation: number, frozen: boolean }) => {
+            const coord = new Coord(tile.i, tile.j)
+            const element = Element.fromName(tile.name, 1)
+            const rotation = element.rotationAngle * tile.rotation
             cells.push(new Cell(
-                new Coord(tile.i, tile.j),
-                Element.fromName(tile.name, 1),
-                tile.rotation * 45,
+                coord,
+                element,
+                rotation,
                 tile.frozen
             ))
         })

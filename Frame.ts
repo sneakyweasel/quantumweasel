@@ -32,7 +32,7 @@ export default class Frame {
         // Initiate simulation with frame #0 and extract emitters
         if (step === 0) {
             this.lasers.forEach((laser) => {
-                this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0))
+                this.pointers.push(laser.fire())
             })
         }
     }

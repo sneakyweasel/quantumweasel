@@ -25,7 +25,7 @@ describe('Grid', () => {
     const coord = new Coord(1, 5)
     grid.set(new Cell(coord, Element.fromName('mirror')))
     const cell = grid.get(coord)
-    expect(cell.toString()).toEqual("{#Cell {#Element mirror} @ {#Coord [Y:1, X:5]}}")
+    expect(cell.toString()).toEqual("{#Cell {#Element mirror} @ {#Coord [Y:1, X:5]}} rotated 0°")
   })
 
   it('should forbid placing a cell outside of the grid', () => {
@@ -53,7 +53,7 @@ describe('Grid', () => {
     expect(grid.toString()).toEqual("000000\n020000\n000000\n")
   })
 
-  xit('should allow to filter cells by element type', () => {
+  it('should allow to filter cells by element type', () => {
     const grid = new Grid(3, 6)
     const coord1 = new Coord(1, 1)
     const coord2 = new Coord(2, 2)

@@ -10,13 +10,13 @@ export default class Pointer extends Coord {
     phase: number
     path: Coord[]
 
-    constructor(coord: Coord, direction: number, intensity: number = 1, phase: number = 0, path: Coord[] = []) {
+    constructor(coord: Coord, direction: number, intensity: number = 1, phase: number = 0) {
         super(coord.y, coord.x)
         this.coord = coord
         this.direction = direction
         this.intensity = intensity
         this.phase = phase
-        this.path = path
+        this.path = [coord]
     }
 
     // Check is a particle has any intensity
@@ -63,7 +63,7 @@ export default class Pointer extends Coord {
 
     // Override method to display nicely
     toString(): string {
-        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity and ${this.phase} phase shift. PATH: ${this.path.map((coord) => JSON.stringify(coord))}`
+        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity and ${this.phase} phase shift. PATH: ${this.path.map((coord) => coord.toString())}`
     }
 
     // Format active particle list
