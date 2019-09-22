@@ -76,7 +76,7 @@ function frameDisplay(frame: Frame) {
     // Laser lines
     const laserCoords: Coord[] = []
     frame.pointers.forEach((pointer) => {
-        frame.laserPath(pointer).forEach((coord) => {
+        pointer.laserPath(frame.grid, 50).forEach((coord) => {
             laserCoords.push(coord)
         })
     })

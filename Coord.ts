@@ -49,6 +49,7 @@ export default class Coord {
     get adjacent(): Coord[] {
         return [this.top, this.right, this.bottom, this.left]
     }
+    get array(): number[] { return [this.y, this.x] }
 
     // Check if two coordinates are adjacent
     isAdjacent(coord: Coord): boolean {
@@ -68,11 +69,6 @@ export default class Coord {
     // override of toString method for debugging
     toString() {
         return `{#Coord [Y:${this.y}, X:${this.x}]}`
-    }
-
-    // override for deep compare
-    toArray() {
-        return [this.y, this.x]
     }
 
     // Display coordinates

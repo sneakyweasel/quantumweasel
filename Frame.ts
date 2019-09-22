@@ -16,7 +16,6 @@ import Goal from "./Goal"
 import Grid from "./Grid"
 import Level from "./Level"
 import Pointer from "./Pointer"
-import Coord from "./Coord"
 
 export default class Frame {
     level: Level
@@ -127,16 +126,7 @@ export default class Frame {
         return new Frame(this.level, this.step + 1, this.pointers, this.end)
     }
 
-    // Create a laser path from the emitters
-    laserPath(pointer: Pointer): Coord[] {
-        const repeat = this.grid.distanceToEscape(pointer)
-        const clone = _.cloneDeep(pointer)
-        return clone.next(repeat).path
-    }
-
     // Overriden method
-    // Find a way to clear the screen
-    // process.stdout.write('\033c')
     toString() {
         let result = `\n--- ${this.victory ? "VICTORY" : "IN PROGRESS"} --- Step #${this.step} with ${this.pointers.length} active pointers.\n`
         result += "\n"
@@ -144,22 +134,6 @@ export default class Frame {
         result += "\n"
         result += Goal.manyToString(this.level.goals)
         return result
-    }
-
-    // Minimal display of current frame
-    minimalDisplay() {
-        if (this.level.completed) {
-            console.log(`---------------------------`)
-            console.log(`--CONGRATULATIONS WEASEL---`)
-            console.log(`--MISSION ACCOMPLISHED!1!--`)
-            console.log(`----- LHC DESTROYED -------`)
-            console.log(`----------->>>>>-----------`)
-            console.log(`---------------------------`)
-        } else {
-            console.log(`--- Frame #${this.step} of ${this.level.name} ---`)
-            console.log(this.level.grid.asciiRender(this.pointers))
-            console.log(this.toString())
-        }
     }
 
     // Display current frame

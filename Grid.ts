@@ -39,16 +39,23 @@ export default class Grid {
 
     // Cells getters
     get cells(): Cell[] { return [].concat.apply([], this.matrix) }
+    get void(): Cell[] { return this.filteredBy("void") }
+    // Emitters
     get lasers(): Cell[] { return this.filteredBy("laser") }
+    // Reflectors
     get mirrors(): Cell[] { return this.filteredBy("mirror") }
+    get beamsplitters(): Cell[] { return this.filteredBy("beamsplitter") }
+    get reflectors(): Cell[] { return this.mirrors.concat(this.beamsplitters) }
+    // Absorbers
     get mines(): Cell[] { return this.filteredBy("mine") }
     get detectors(): Cell[] { return this.filteredBy("detector") }
     get rocks(): Cell[] { return this.filteredBy("rock") }
-    get absorbers(): Cell[] { return this.filteredBy("absorber") }
-    get beamsplitters(): Cell[] { return this.filteredBy("beamsplitter") }
+    get filters(): Cell[] { return this.filteredBy("filter") }
+    get absorbers(): Cell[] { return this.mines.concat(this.detectors, this.rocks, this.filters) }
+    // Phasers
     get phaseincs(): Cell[] { return this.filteredBy("phaseinc") }
     get phasedecs(): Cell[] { return this.filteredBy("phasedec") }
-    get void(): Cell[] { return this.filteredBy("void") }
+    get phaseshifters(): Cell[] { return this.phasedecs.concat(this.phaseincs) }
 
     // Select cells by type
     filteredBy(name: string): Cell[] {

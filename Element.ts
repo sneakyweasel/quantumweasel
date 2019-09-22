@@ -79,7 +79,7 @@ export default class Element {
             {
                 id: 0,
                 name: "void",
-                namev1: "void",
+                namev1: "Void",
                 ascii: [
                     " "],
                 group: "Basic",
@@ -209,7 +209,7 @@ export default class Element {
             },
             {
                 id: 7,
-                name: "absorber",
+                name: "filter",
                 namev1: "Absorber",
                 ascii: [
                     "-"
