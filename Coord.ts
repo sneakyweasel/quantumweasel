@@ -42,10 +42,14 @@ export default class Coord {
     }
 
     // Adjacent cells
-    get top(): Coord { return new Coord(this.y - 1, this.x) }
-    get bottom(): Coord { return new Coord(this.y + 1, this.x) }
-    get left(): Coord { return new Coord(this.y, this.x - 1) }
-    get right(): Coord { return new Coord(this.y, this.x + 1) }
+    // get top(): Coord { return new Coord(this.y - 1, this.x) }
+    // get bottom(): Coord { return new Coord(this.y + 1, this.x) }
+    // get left(): Coord { return new Coord(this.y, this.x - 1) }
+    // get right(): Coord { return new Coord(this.y, this.x + 1) }
+    get top(): Coord { return new Coord(this.y, this.x - 1) }
+    get bottom(): Coord { return new Coord(this.y, this.x + 1) }
+    get left(): Coord { return new Coord(this.y - 1, this.x) }
+    get right(): Coord { return new Coord(this.y + 1, this.x) }
     get adjacent(): Coord[] {
         return [this.top, this.right, this.bottom, this.left]
     }

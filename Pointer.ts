@@ -59,13 +59,14 @@ export default class Pointer extends Coord {
     // Compute laser path
     laserPath(grid: Grid, maxFrames: number = 100): Coord[] {
         // Make a depp clone of the pointer
-        const pointers: Pointer[] = [this.clone]
+        let alive: Pointer[] = [this.clone]
+        const dead: Pointer[] = []
 
         // Simulate path with a specific number of frames
         for (let i = 0; i < maxFrames; i++) {
 
-            // Process list of pointers
-            pointers.forEach((pointer) => {
+            // Process each living pointer
+            alive.forEach((pointer) => {
                 pointer.next()
 
                 // Zero the intensity of escaping pointers
@@ -76,7 +77,7 @@ export default class Pointer extends Coord {
                 // Absorption
                 grid.absorbers.forEach((absorber: Cell) => {
                     if (pointer.on(absorber)) {
-                        pointer.intensity *= absorber.element.absorption
+                        pointer.intensity -= pointer.intensity * absorber.element.absorption
                     }
                 })
 
@@ -92,7 +93,7 @@ export default class Pointer extends Coord {
                         pointer.intensity /= 2
                         // Reflecting pointer (create new reflected faded pointer)
                         const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360
-                        pointers.push(new Pointer(pointer.coord, direction, pointer.intensity))
+                        alive.push(new Pointer(pointer.coord, direction, pointer.intensity))
                     }
                 })
 
@@ -103,19 +104,28 @@ export default class Pointer extends Coord {
                     }
                 })
             })
+
+            // Filter the living from the dead
+            alive.forEach((pointer) => {
+                if (!pointer.alive) {
+                    dead.push(pointer)
+                }
+            })
+            alive = alive.filter((pointer) => { return (pointer.alive) })
         }
 
         // Flatten and dedupe list of pointers
         const coords: Coord[][] = []
-        pointers.forEach((pointer) => {
+        alive = dead.concat(alive)
+        alive.forEach((pointer) => {
             coords.push(pointer.path)
-        } )
-        return _.flatMap(coords)
+        })
+        return _.uniq(_.flatMap(coords))
     }
 
     // Override method to display nicely
     toString(): string {
-        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity * 100}% intensity and ${this.phase} phase shift. PATH: ${this.path.map((coord) => coord.toString())}`
+        return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity} intensity and ${this.phase} phase shift. PATH: ${this.path.map((coord) => coord.toString())}`
     }
 
     // Format active particle list

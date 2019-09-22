@@ -106,7 +106,7 @@ export default class Element {
                 link: "./elements/laser",
                 active: true,
                 tiles: "",
-                absorption: 1,
+                absorption: 0,
                 phase: 0,
                 matrix: []
             },
@@ -189,14 +189,14 @@ export default class Element {
                 name: "beamsplitter",
                 namev1: "ThinSplitter",
                 ascii: [
-                    "⇑",
-                    "⇗",
-                    "⇒",
-                    "⇘",
-                    "⇓",
-                    "⇙",
-                    "⇐",
-                    "⇖"
+                    "|",
+                    "/",
+                    "-",
+                    "\\",
+                    "|",
+                    "/",
+                    "-",
+                    "\\"
                 ],
                 group: "Direction",
                 description: "A beamsplitter",
@@ -251,7 +251,7 @@ export default class Element {
                 link: "./elements/phasedec",
                 active: false,
                 tiles: "",
-                absorption: 0.5,
+                absorption: 0,
                 phase: -0.25,
                 matrix: []
             }

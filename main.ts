@@ -93,9 +93,17 @@ function frameDisplay(frame: Frame) {
                 const coord = new Coord(y, x)
                 const cell = frame.grid.get(coord)
                 const color = cell.frozen ? "lightblue" : "white"
-                const ascii = cell.element.ascii[cell.rotation / 45]
+                const element = cell.element
+                const ascii = element.ascii[cell.rotation / element.rotationAngle]
+
+                // Laser path
                 if (coord.isIncludedIn(laserCoords)) {
                     background = "darkred"
+
+                    // Active detectors
+                    if (coord.isIncludedIn(frame.level.grid.detectors.map((detector) => detector.coord))) {
+                        background = "green"
+                    }
                 }
 
                 // Active cell - change background

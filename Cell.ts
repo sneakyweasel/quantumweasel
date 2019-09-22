@@ -28,10 +28,14 @@ export default class Cell extends Coord {
     set freeze(_frozen: boolean) { this.frozen = true }
     set unfreeze(_frozen: boolean) { this.frozen = false }
 
-    // Rotate cell
-    // Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
-    rotate(angle: number = 1): void {
-        this.rotation = ((this.rotation + this.element.rotationAngle * angle) % 360 + 360) % 360
+    // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
+    // set rotate(angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
+    rotate(angle: number) {
+        if ((360 + angle) % this.element.rotationAngle !== 0) {
+            throw new Error("Error in the supplied angle compared to the element rotation angle.")
+        } else {
+            this.rotation = ((this.rotation + angle) % 360 + 360) % 360
+        }
     }
 
     // Fire the l4z0r5

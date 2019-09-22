@@ -9,16 +9,44 @@
     "cells": [
         {
             "x": 6,
-            "y": 3,
-            "element": "detector",
-            "rotation": 0,
+            "y": 11,
+            "element": "laser",
+            "rotation": 270,
+            "frozen": true
+        },
+        {
+            "x": 6,
+            "y": 7,
+            "element": "beamsplitter",
+            "rotation": 135,
             "frozen": false
         },
         {
             "x": 6,
             "y": 5,
             "element": "beamsplitter",
-            "rotation": 90,
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "x": 4,
+            "y": 7,
+            "element": "beamsplitter",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "x": 4,
+            "y": 9,
+            "element": "beamsplitter",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "element": "detector",
+            "rotation": 0,
             "frozen": false
         },
         {
@@ -36,20 +64,6 @@
             "frozen": true
         },
         {
-            "x": 4,
-            "y": 7,
-            "element": "beamsplitter",
-            "rotation": 90,
-            "frozen": false
-        },
-        {
-            "x": 6,
-            "y": 7,
-            "element": "beamsplitter",
-            "rotation": 270,
-            "frozen": false
-        },
-        {
             "x": 2,
             "y": 9,
             "element": "detector",
@@ -58,29 +72,15 @@
         },
         {
             "x": 4,
-            "y": 9,
-            "element": "beamsplitter",
-            "rotation": 90,
-            "frozen": false
-        },
-        {
-            "x": 5,
-            "y": 9,
-            "element": "rock",
-            "rotation": 0,
-            "frozen": true
-        },
-        {
-            "x": 4,
             "y": 11,
             "element": "detector",
             "rotation": 0,
             "frozen": true
         },
         {
-            "x": 6,
-            "y": 11,
-            "element": "laser",
+            "x": 5,
+            "y": 9,
+            "element": "rock",
             "rotation": 0,
             "frozen": true
         }
