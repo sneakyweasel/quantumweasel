@@ -23,6 +23,7 @@ export default class Pointer extends Coord {
 
     // Check is a particle has any intensity
     get alive(): Boolean { return this.intensity > 0 }
+    get origin(): Coord { return this.path[0] }
     get clone(): Pointer { return _.cloneDeep(this) }
 
     // Pointer is on a specific cell shorthand

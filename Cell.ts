@@ -3,25 +3,27 @@
 import Coord from "./Coord"
 import Element from "./Element"
 import Pointer from "./Pointer"
-// import Pointer from "./Pointer"
 
 export default class Cell extends Coord {
     coord: Coord        // required
     element: Element    // optional
     rotation: number    // default: void
     frozen: boolean     // default: false
+    active: boolean     // default: false
 
     constructor(
         coord: Coord,
         element: Element,
         rotation: number = 0,
         frozen: boolean = false,
+        active: boolean = false
     ) {
         super(coord.x, coord.y)
         this.coord = coord
         this.element = element
         this.rotation = rotation
         this.frozen = frozen
+        this.active = active
     }
 
     // Change frozen status of cell

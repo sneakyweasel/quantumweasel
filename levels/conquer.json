@@ -87,15 +87,30 @@
     ],
     "goals": [
         {
-            "x": 0,
-            "y": 0,
-            "threshold": 50
+            "x": 6,
+            "y": 3,
+            "threshold": 0.5
+        },
+        {
+            "x": 8,
+            "y": 5,
+            "threshold": 0.5
+        },
+        {
+            "x": 2,
+            "y": 7,
+            "threshold": 0.5
+        },
+        {
+            "x": 2,
+            "y": 9,
+            "threshold": 0.5
         }
     ],
     "hints": [
         {
-            "x": 0,
-            "y": 0,
+            "x": 8,
+            "y": 5,
             "message": "give each detector some chance of catching a photon"
         }
     ]
