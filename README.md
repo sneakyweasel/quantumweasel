@@ -66,6 +66,7 @@ Since this is a pain to debug and very error prone, those are the current conven
 - The typescript part will be mostly self-reliant.
 - TS-Jest is used to test the main components of the game.
 - SASS will be used to enforce consistent styling through the game.
+- Using TS-Loader for webpack from <https://github.com/TypeStrong/ts-loader>
 
 ## Quantum numerical "engine"
 

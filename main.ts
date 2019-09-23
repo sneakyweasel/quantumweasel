@@ -9,12 +9,10 @@ const tty = require('tty')
 import Coord from './Coord'
 import Level from './Level'
 import Frame from './Frame'
+import json from './levels/conquer.json'
 
 // Load json level
-const levelName = 'mirror'
-let level = Level.importJSON(levelName)
-// let level = Level.importV1JSON("conquerv1")
-// let level = Level.importV1JSON("interfrenzyv1")
+let level = Level.importJSON(json)
 
 // Rot terminal init
 const rot = new ROT.Display({
@@ -37,7 +35,7 @@ process.stdin.on('keypress', (_ch, key) => {
     }
     // Reset simulation
     if (key && key.name === 'r') {
-        level = Level.importJSON(levelName)
+        level = Level.importJSON(json)
         frame = new Frame(level)
         frames.push(frame)
         frameDisplay(frame)

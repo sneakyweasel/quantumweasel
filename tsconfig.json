@@ -1,7 +1,7 @@
 {
     "compilerOptions": { 
         "target": "es2017",
-        "module": "commonjs",
+        "moduleResolution": "node",
         "lib": ["es2019", "dom"],
         "alwaysStrict": true,
         "noUnusedLocals": true,
@@ -14,7 +14,12 @@
         "noImplicitReturns":true,
         "sourceMap": true,
         "noEmitOnError": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "module": "commonjs",
         "outDir": "./build"
+        // "module": "amd",
+        // "outFile": "./build/quantumweasel.js"
         // "types" : ["lodash", "mathjs"]
     },
     "compileOnSave": true

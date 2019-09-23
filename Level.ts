@@ -71,8 +71,17 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     }
 
     // import JSON file
-    static importJSON(name: string): Level {
-        const json = require(`../levels/${name}.json`)
+    static importJSON(json: {
+        cols: number,
+        rows: number,
+        cells: any,
+        goals: any,
+        hints: any,
+        id: number,
+        name: string,
+        group: string,
+        description: string
+    }): Level {
         const grid = new Grid(json.cols, json.rows)
         grid.importJSON(json.cells)
         const goals = Goal.importJSON(json.goals)
@@ -90,8 +99,13 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     }
 
     // import JSON file
-    static importV1JSON(name: string): Level {
-        const json = require(`../levels/${name}.json`)
+    static importV1JSON(json: {
+        width: number,
+        height: number,
+        name: string,
+        group: string,
+        tiles: any
+    }): Level {
         const grid = new Grid(json.width, json.height)
         const cells: Cell[] = []
         json.tiles.forEach((tile: { i: number, j: number, name: string, rotation: number, frozen: boolean }) => {
