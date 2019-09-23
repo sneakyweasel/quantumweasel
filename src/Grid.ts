@@ -40,6 +40,7 @@ export default class Grid {
 
     // Cells getters
     get cells(): Cell[] { return [].concat.apply([], this.matrix) }
+    get coords(): Coord[] { return this.cells.flatMap((cell) => cell.coord) }
     get void(): Cell[] { return this.filteredBy("void") }
     // Emitters
     get lasers(): Cell[] { return this.filteredBy("laser") }
@@ -150,9 +151,7 @@ export default class Grid {
             for (let x = 0; x < this.cols; x++) {
                 const coord = new Coord(y, x)
                 const cell = this.get(coord)
-                const element = cell.element
-                // const ascii = element.ascii[cell.rotation / element.rotationAngle]
-                game.draw(coord, element)
+                game.draw(cell)
             }
         }
     }

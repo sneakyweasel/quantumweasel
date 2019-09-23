@@ -28,11 +28,17 @@ export default class Cell extends Coord {
     // Change frozen status of cell
     set freeze(_frozen: boolean) { this.frozen = true }
     set unfreeze(_frozen: boolean) { this.frozen = false }
+    set rotateCW(_angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
+    set rotateCCW(_angle: number) { this.rotation = ((this.rotation - this.element.rotationAngle) % 360 + 360) % 360 }
+
+    get ascii(): string { return this.element.ascii[this.rotation / this.element.rotationAngle] }
+    get foregroundColor(): string { return this.element.foregroundColor }
+    get backgroundColor(): string { return this.element.backgroundColor }
 
     // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
     // set rotate(angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
     rotate(angle: number) {
-        if ((360 + angle) % this.element.rotationAngle !== 0) {
+        if (Math.abs(angle) % this.element.rotationAngle !== 0) {
             throw new Error("Error in the supplied angle compared to the element rotation angle.")
         } else {
             this.rotation = ((this.rotation + angle) % 360 + 360) % 360
@@ -51,13 +57,13 @@ export default class Cell extends Coord {
     // DISPLAY METHODS
     // Override toString() method
     draw(game: Game): void {
-        game.draw(this.coord, this.element)
+        game.draw(this)
     }
     toString(): string {
         return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}} rotated ${this.rotation}°`
     }
     display(): void {
-        console.log(`Cell at [X: ${this.x}, Y: ${this.y}] is a ${this.frozen ? "frozen" : "unfrozen"} element of type ${this.element.name}`)
+        console.log(`Cell at [X: ${this.x}, Y: ${this.y}] is a ${this.frozen ? "frozen" : "unfrozen"} element of type ${this.element.name} rotated ${this.rotation}°`)
     }
 
     // JSON METHODS

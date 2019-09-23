@@ -1,4 +1,4 @@
-import { padRight, padLeft } from "./Helpers"
+import { padRight } from "./Helpers"
 import Game from "./Game"
 import Coord from "./Coord"
 
@@ -7,31 +7,29 @@ export default class StatusLine {
     pineapples: number
     boxes: number
     maxBoxes: number
+    private game: Game
+    private coord: Coord
+    private maxWidth: number
 
     constructor(
-        private game: Game,
-        private position: Coord,
-        private maxWidth: number,
-        params?: any
+        game: Game,
+        coord: Coord,
+        maxWidth: number,
+        // tslint:disable-next-line: no-any
+        params: any = {}
     ) {
-        if (!params) {
-            params = {}
-        }
+        this.game = game
+        this.coord = coord
+        this.maxWidth = maxWidth
         this.turns = params.turns || 0
-        this.pineapples = params.ananas || 0
-        this.boxes = params.boxes || 0
-        this.maxBoxes = params.maxBoxes || 0
     }
 
     reset(): void {
         this.turns = 0
-        this.pineapples = 0
-        this.boxes = 0
-        this.maxBoxes = 0
     }
 
     draw(): void {
-        const text = `turns: ${padRight(this.turns.toString(), 6)} pineapples: ${padRight(this.pineapples.toString(), 6)} boxes: ${padLeft(this.boxes.toString(), 2)} / ${padLeft(this.maxBoxes.toString(), 2)}`
-        this.game.drawText(this.position, text, this.maxWidth)
+        const text = `turns: ${padRight(this.turns.toString(), 6)} player: ${padRight(this.game.playerCoord.toString(), 6)}`
+        this.game.drawText(this.coord, text, this.maxWidth)
     }
 }
