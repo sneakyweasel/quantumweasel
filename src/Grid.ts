@@ -4,6 +4,7 @@ import * as _ from 'lodash'
 import Coord from './Coord'
 import Cell from './Cell'
 import Element from './Element'
+import Game from './Game'
 import Pointer from './Pointer'
 import Cluster from './Cluster'
 
@@ -141,6 +142,19 @@ export default class Grid {
     // Basic display
     display(): void {
         console.log(this.matrix.valueOf())
+    }
+
+    // Draw
+    draw(game: Game): void {
+        for (let y = 0; y < this.rows; y++) {
+            for (let x = 0; x < this.cols; x++) {
+                const coord = new Coord(y, x)
+                const cell = this.get(coord)
+                const element = cell.element
+                // const ascii = element.ascii[cell.rotation / element.rotationAngle]
+                game.draw(coord, element)
+            }
+        }
     }
 
     // Include particle display in ascii render

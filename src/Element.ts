@@ -12,6 +12,8 @@ export default class Element {
     tiles: string               // default: none
     absorption: number          // default: none
     phase: number               // default: none
+    foregroundColor: string     // default white
+    backgroundColor: string     // default white
     matrix: number[][]          // default: zeros matrix
 
     constructor(
@@ -25,6 +27,8 @@ export default class Element {
         tiles: string = "tilemap.png",
         absorption: number = 0,
         phase: number = 0,
+        foregroundColor: string = "white",
+        backgroundColor: string = "black",
         matrix: number[][] = [[0, 0], [0, 0]]
     ) {
         this.id = id
@@ -37,6 +41,8 @@ export default class Element {
         this.tiles = tiles
         this.absorption = absorption
         this.phase = phase
+        this.foregroundColor = foregroundColor
+        this.backgroundColor = backgroundColor
         this.matrix = matrix
     }
 
@@ -67,6 +73,8 @@ export default class Element {
             tiles: this.tiles,
             absorption: this.absorption,
             phase: this.phase,
+            foregroundColor: this.foregroundColor,
+            backgroundColor: this.backgroundColor,
             matrix: this.matrix
         }
     }
@@ -89,6 +97,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -108,6 +118,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -131,6 +143,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -150,6 +164,8 @@ export default class Element {
                 tiles: "",
                 absorption: 1,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -166,6 +182,8 @@ export default class Element {
                 tiles: "",
                 absorption: 1,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -182,6 +200,8 @@ export default class Element {
                 tiles: "",
                 absorption: 1,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -205,6 +225,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -221,6 +243,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0.5,
                 phase: 0,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -237,6 +261,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0,
                 phase: 0.25,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             },
             {
@@ -253,6 +279,8 @@ export default class Element {
                 tiles: "",
                 absorption: 0,
                 phase: -0.25,
+                foregroundColor: "white",
+                backgroundColor: "black",
                 matrix: []
             }
         ]
@@ -272,6 +300,8 @@ export default class Element {
                 elem!.tiles,
                 elem!.absorption,
                 elem!.phase,
+                elem!.foregroundColor,
+                elem!.backgroundColor,
                 elem!.matrix
             )
         } else {
@@ -289,6 +319,8 @@ export default class Element {
                 elem!.tiles,
                 elem!.absorption,
                 elem!.phase,
+                elem!.foregroundColor,
+                elem!.backgroundColor,
                 elem!.matrix
             )
         }

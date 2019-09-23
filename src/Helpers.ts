@@ -46,3 +46,19 @@ export function symbolToAngle(direction: string): number {
             throw new Error("Something is wrong with provided direction string.")
     }
 }
+
+export function padLeft(text: string, length: number, character?: string): string {
+    const char = character || " "
+    while (text.length < length) {
+        text = char + text
+    }
+    return text
+}
+
+export function padRight(text: string, length: number, character?: string): string {
+    const char = character || " "
+    while (text.length < length) {
+        text += char
+    }
+    return text
+}

@@ -1,17 +1,20 @@
 {
-    "compilerOptions": { 
+    "compilerOptions": {
         "target": "es2017",
         "moduleResolution": "node",
-        "lib": ["es2019", "dom"],
+        "lib": [
+            "es2019",
+            "dom"
+        ],
         "alwaysStrict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
         "preserveConstEnums": true,
-        "noFallthroughCasesInSwitch":true,
-        "noImplicitThis":true,
-        "noImplicitReturns":true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
         "sourceMap": true,
         "noEmitOnError": true,
         "resolveJsonModule": true,
@@ -22,5 +25,8 @@
         // "outFile": "./build/quantumweasel.js"
         // "types" : ["lodash", "mathjs"]
     },
+    "include": [
+        "src/*"
+    ],
     "compileOnSave": true
 }

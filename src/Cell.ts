@@ -3,6 +3,7 @@
 import Coord from "./Coord"
 import Element from "./Element"
 import Pointer from "./Pointer"
+import Game from "./Game"
 // import Pointer from "./Pointer"
 
 export default class Cell extends Coord {
@@ -49,6 +50,9 @@ export default class Cell extends Coord {
 
     // DISPLAY METHODS
     // Override toString() method
+    draw(game: Game): void {
+        game.draw(this.coord, this.element)
+    }
     toString(): string {
         return `{#Cell${this.frozen ? " frozen " : " "}${this.element.toString()} @ ${this.coord.toString()}} rotated ${this.rotation}°`
     }

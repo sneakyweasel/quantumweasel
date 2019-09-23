@@ -1,18 +1,19 @@
-const elements = [
-    {
+{
+    [
+        {
         id: 0,
         name: "void",
         namev1: "void",
         ascii: [
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
-            " "
-        ],
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            ],
         group: "Basic",
         description: "The void...",
         link: "./elements/void",
@@ -21,21 +22,21 @@ const elements = [
         absorption: 0,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 1,
         name: "laser",
         namev1: "Source",
         ascii: [
-            "^",
-            "^",
-            ">",
-            ">",
-            "v",
-            "v",
-            "<",
-            "<"
-        ],
+                "^",
+                "^",
+                ">",
+                ">",
+                "v",
+                "v",
+                "<",
+                "<"
+            ],
         group: "Emitter",
         description: "A one-photon laser source",
         link: "./elements/laser",
@@ -44,21 +45,21 @@ const elements = [
         absorption: 1,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 2,
         name: "mirror",
         namev1: "ThinMirror",
         ascii: [
-            "|",
-            "/",
-            "-",
-            "\\",
-            "|",
-            "/",
-            "-",
-            "\\"
-        ],
+                "|",
+                "/",
+                "-",
+                "\\",
+                "|",
+                "/",
+                "-",
+                "\\"
+            ],
         group: "Direction",
         description: "A simple reflecting mirror",
         link: "./elements/mirror",
@@ -67,21 +68,21 @@ const elements = [
         absorption: 0,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 3,
         name: "detector",
         namev1: "Detector",
         ascii: [
-            "¤",
-            "¤",
-            "¤",
-            "¤",
-            "¤",
-            "¤",
-            "¤",
-            "¤"
-        ],
+                "¤",
+                "¤",
+                "¤",
+                "¤",
+                "¤",
+                "¤",
+                "¤",
+                "¤"
+            ],
         group: "Absorber",
         description: "A one-photon detector",
         link: "./elements/detector",
@@ -90,21 +91,21 @@ const elements = [
         absorption: 1,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 4,
         name: "rock",
         namev1: "Rock",
         ascii: [
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            "#"
-        ],
+                "#",
+                "#",
+                "#",
+                "#",
+                "#",
+                "#",
+                "#",
+                "#"
+            ],
         group: "Absorber",
         description: "An absorbing pet rock",
         link: "./elements/rock",
@@ -113,21 +114,21 @@ const elements = [
         absorption: 1,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 5,
         name: "mine",
         namev1: "Mine",
         ascii: [
-            "!",
-            "!",
-            "!",
-            "!",
-            "!",
-            "!",
-            "!",
-            "!"
-        ],
+                "!",
+                "!",
+                "!",
+                "!",
+                "!",
+                "!",
+                "!",
+                "!"
+            ],
         group: "Absorber",
         description: "An explosive mine (disarm Jean)",
         link: "./elements/mine",
@@ -136,21 +137,21 @@ const elements = [
         absorption: 1,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 6,
         name: "beamsplitter",
         namev1: "ThinSplitter",
         ascii: [
-            "%",
-            "%",
-            "%",
-            "%",
-            "%",
-            "%",
-            "%",
-            "%"
-        ],
+                "%",
+                "%",
+                "%",
+                "%",
+                "%",
+                "%",
+                "%",
+                "%"
+            ],
         group: "Direction",
         description: "A beamsplitter",
         link: "./elements/beamsplitter",
@@ -159,21 +160,21 @@ const elements = [
         absorption: 0,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 7,
         name: "absorber",
         namev1: "Absorber",
         ascii: [
-            "-",
-            "-",
-            "-",
-            "-",
-            "-",
-            "-",
-            "-",
-            "-"
-        ],
+                "-",
+                "-",
+                "-",
+                "-",
+                "-",
+                "-",
+                "-",
+                "-"
+            ],
         group: "Absorber",
         description: "A neutral density filter",
         link: "./elements/absorber",
@@ -182,21 +183,21 @@ const elements = [
         absorption: 0.5,
         phase: 0,
         matrix: []
-    },
-    {
+        },
+        {
         id: 8,
         name: "phaseinc",
         namev1: "VacuumJar",
         ascii: [
-            "~",
-            "~",
-            "~",
-            "~",
-            "~",
-            "~",
-            "~",
-            "~"
-        ],
+                "~",
+                "~",
+                "~",
+                "~",
+                "~",
+                "~",
+                "~",
+                "~"
+            ],
         group: "Phase",
         description: "A glass slab that increases phase.",
         link: "./elements/phaseinc",
@@ -205,21 +206,21 @@ const elements = [
         absorption: 0,
         phase: 0.25,
         matrix: []
-    },
-    {
+        },
+        {
         id: 9,
         name: "phasedec",
         namev1: "Glass",
         ascii: [
-            "~",
-            "~",
-            "~",
-            "~",
-            "~",
-            "~",
-            "~",
-            "~"
-        ],
+                "~",
+                "~",
+                "~",
+                "~",
+                "~",
+                "~",
+                "~",
+                "~"
+            ],
         group: "Phase",
         description: "Void that decreases phase.",
         link: "./elements/phasedec",
@@ -228,5 +229,5 @@ const elements = [
         absorption: 0.5,
         phase: -0.25,
         matrix: []
+        }
     }
-]
