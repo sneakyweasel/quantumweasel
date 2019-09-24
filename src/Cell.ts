@@ -26,11 +26,6 @@ export default class Cell extends Coord {
     }
 
     // Change frozen status of cell
-    set freeze(_frozen: boolean) { this.frozen = true }
-    set unfreeze(_frozen: boolean) { this.frozen = false }
-    set rotateCW(_angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
-    set rotateCCW(_angle: number) { this.rotation = ((this.rotation - this.element.rotationAngle) % 360 + 360) % 360 }
-
     get ascii(): string { return this.element.ascii[this.rotation / this.element.rotationAngle] }
     get foregroundColor(): string { return this.element.foregroundColor }
     get backgroundColor(): string { return this.element.backgroundColor }
@@ -38,11 +33,19 @@ export default class Cell extends Coord {
     // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
     // set rotate(angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
     rotate(angle: number = this.element.rotationAngle) {
-        if (Math.abs(angle) % this.element.rotationAngle !== 0) {
-            throw new Error("Error in the supplied angle compared to the element rotation angle.")
+        if (!this.frozen) {
+            if (Math.abs(angle) % this.element.rotationAngle !== 0) {
+                throw new Error("Error in the supplied angle compared to the element rotation angle.")
+            } else {
+                this.rotation = ((this.rotation + angle) % 360 + 360) % 360
+            }
         } else {
-            this.rotation = ((this.rotation + angle) % 360 + 360) % 360
+            console.log("This cell is frozen, you can't rotate it.")
         }
+    }
+
+    toggleFreeze() {
+        this.frozen = !this.frozen
     }
 
     // Fire the l4z0r5

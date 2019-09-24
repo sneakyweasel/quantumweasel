@@ -91,23 +91,18 @@ export default class Game {
 
     // Getters and setters
     get playerCoord(): Coord { return this.player.coord }
+    get playerCell(): Cell { return this.player.cell }
 
-    // draw(position: Coord, element: Element): void {
     draw(cell: Cell): void {
-        // const foreground = cell.element.foregroundColor || this.foregroundColor
-        // const background = cell.element.backgroundColor || this.backgroundColor
         this.display.draw(cell.x, cell.y, cell.ascii, cell.foregroundColor, cell.backgroundColor)
     }
 
     drawPlayer(coord: Coord, glyph: Glyph): void {
-        // const foreground = cell.element.foregroundColor || this.foregroundColor
-        // const background = cell.element.backgroundColor || this.backgroundColor
         this.display.draw(coord.y, coord.x, glyph.character, glyph.foregroundColor, glyph.backgroundColor)
     }
 
     drawText(position: Coord, text: string, maxWidth?: number): void {
         this.display.drawText(position.x, position.y, text, maxWidth)
-        // this.display.drawText(position.x, position.y, " ", maxWidth)
     }
 
     private initializeGame(): void {
@@ -171,9 +166,9 @@ export default class Game {
 
     private writeHelpMessage(): void {
         const helpMessage = [
-            `Welcome to the QuantumWeasel engine for Quantum Game.`,
-            `Move: ZQSD, Add: 123..., Rotate: AE`,
-            `Fire the laz0r5: Space Steps: RF`
+            `I - ${this.level.name}`,
+            // `Move: ZQSD, Add: 123..., Rotate: AE`,
+            // `Fire the laz0r5: Space Steps: RF`
         ]
         for (let index = helpMessage.length - 1; index >= 0; --index) {
             this.messageLog.appendText(helpMessage[index])
