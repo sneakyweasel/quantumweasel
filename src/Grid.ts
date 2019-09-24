@@ -159,7 +159,7 @@ export default class Grid {
                 if (coord.isIncludedIn(lasers)) {
                     game.draw(cell, "white", "red")
                 } else {
-                    game.draw(cell, "white", "#222")
+                    game.draw(cell, "white", "#2e006a")
                 }
             }
         }

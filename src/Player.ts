@@ -6,6 +6,7 @@ import Coord from "./Coord"
 import Cell from "./Cell"
 import Game from "./Game"
 import Element from "./Element"
+import FileSaver = require("file-saver")
 
 export default class Player implements Actor {
     glyph: Glyph
@@ -33,6 +34,7 @@ export default class Player implements Actor {
         let validInput = false
         let newCoord: Coord = this.coord
         switch (event.keyCode) {
+            // Movement
             case KEYS.VK_Z:
             case KEYS.VK_UP:
                 newCoord = this.coord.top
@@ -49,6 +51,8 @@ export default class Player implements Actor {
             case KEYS.VK_LEFT:
                 newCoord = this.coord.left
                 break
+
+            // Rotations, freezing
             case KEYS.VK_A:
                 this.cell.rotate(-this.cell.element.rotationAngle)
                 break
@@ -58,6 +62,15 @@ export default class Player implements Actor {
             case KEYS.VK_F:
                 this.cell.toggleFreeze()
                 break
+
+            // Save JSON file with level
+            case KEYS.VK_F1:
+                const json = this.game.frames[0].level.exportJSON()
+                const blob = new Blob([json], {type: "text/plain;charset=utf-8"})
+                FileSaver.saveAs(blob, "level.json")
+                break
+
+            // Elements
             case KEYS.VK_QUOTE:
                 this.cell.element = Element.fromName("void")
                 break

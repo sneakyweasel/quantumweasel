@@ -20,6 +20,7 @@
     "serve": "live-server --port=8085"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.1",
     "@types/jest": "^21.1.5",
     "@types/keypress": "^2.0.30",
     "@types/lodash": "^4.14.138",
@@ -38,6 +39,7 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
+    "file-saver": "^2.0.2",
     "keypress": "^0.2.1",
     "lodash": "^4.17.15",
     "mathjs": "^5.10.3",

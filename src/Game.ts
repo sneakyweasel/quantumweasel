@@ -31,55 +31,91 @@ export default class Game {
 
     constructor(level: Level) {
         this.mapSize = { width: level.grid.cols, height: level.grid.rows }
-        this.gameSize = { width: this.mapSize.width + 40, height: this.mapSize.height + 4 + 4 }
+        this.gameSize = { width: this.mapSize.width, height: this.mapSize.height + 4 }
         this.statusLinePosition = new Coord(this.gameSize.height - 4, 0)
         this.actionLogPosition = new Coord(this.gameSize.height - 3, 0)
         this.frames = []
 
         const tileSet = document.createElement("img")
         tileSet.src = "./tiles/tilemap.png"
-        // this.display = new Display({
-        //     layout: "tile",
-        //     bg: "transparent",
-        //     tileWidth: 64,
-        //     tileHeight: 64,
-        //     tileSet,
-        //     tileMap: {
-        //         // void
-        //         " ": [128, 128],
-        //         // Laser
-        //         // tslint:disable-next-line: object-literal-key-quotes
-        //         "v": [0, 0],
-        //         "^": [0, 0],
-        //         ">": [0, 0],
-        //         "<": [0, 0],
-        //         // mirror
-        //         "|": [0, 128],
-        //         "/": [0, 128],
-        //         "-": [0, 128],
-        //         "\\": [0, 128],
-        //         // mine
-        //         "*": [0, 192],
-        //         // rock
-        //         "#": [64, 0],
-        //         // detector
-        //         "¤": [64, 384],
-        //         // photon
-        //         "~": [128, 0],
-        //         // beamsplitter
-        //         "%": [0, 64]
-        //     },
-        //     width: this.gameSize.width,
-        //     height: this.gameSize.height,
-        //     fontSize: 20,
-        //     tileColorize: true
-        // })
         this.display = new Display({
+            layout: "tile-gl",
+            bg: "transparent",
+            tileWidth: 64,
+            tileHeight: 64,
+            // tileColorize: true,
+            tileSet,
+            tileMap: {
+                // Passive, energized, active elements
+                // void
+                " ": [256, 0],
+                "@": [0, 192],
+                // Laser
+                // tslint:disable: object-literal-key-quotes
+                "^": [0, 0],
+                ">": [64, 0],
+                "v": [128, 0],
+                "<": [192, 0],
+                // rock passive, energized and active
+                "r": [0, 64],
+                "re": [64, 64],
+                "R": [128, 64],
+                // detector passive, energized and active
+                "¤p0": [320, 0],
+                "¤p1": [320, 64],
+                "¤p2": [320, 128],
+                "¤p3": [320, 192],
+                "¤e0": [384, 0],
+                "¤e1": [384, 64],
+                "¤e2": [384, 128],
+                "¤e3": [384, 192],
+                "¤a0": [448, 384],
+                "¤a1": [448, 384],
+                "¤a2": [448, 384],
+                "¤a3": [448, 384],
+                // omni detector passive, energized, active
+                "¤": [0, 512],
+                "O": [0, 512],
+                // photon
+                "~0": [704, 0],
+                "~1": [768, 0],
+                // mine
+                "*p": [832, 0],
+                "*e": [896, 0],
+                "*a": [960, 0],
+                // mirror
+                "|": [0, 896],
+                "/": [64, 896],
+                "-": [128, 896],
+                "\\": [192, 896],
+                // beamsplitter
+                "↑": [0, 960],
+                "↗": [64, 960],
+                "→": [128, 960],
+                "↘": [192, 960],
+                "↓": [192, 960],
+                "↙": [192, 960],
+                "←": [192, 960],
+                "↖": [192, 960],
+                // glass slab
+                "G": [1152, 0],
+                // void
+                "V": [1216, 0],
+                // neutral density filter
+                "F": [1280, 0]
+
+            },
             width: this.gameSize.width,
             height: this.gameSize.height,
-            tileColorize: true,
-            fontSize: 30
+            fontSize: 20
         })
+        // TERMINAL STYLE
+        // this.display = new Display({
+        //     width: this.gameSize.width,
+        //     height: this.gameSize.height,
+        //     tileColorize: true,
+        //     fontSize: 30
+        // })
         document.body.appendChild(this.display.getContainer()!)
 
         // Game mechanics
@@ -98,7 +134,7 @@ export default class Game {
     get playerCoord(): Coord { return this.player.coord }
     get playerCell(): Cell { return this.player.cell }
 
-    draw(cell: Cell, foregroundColor: string = "white", backgroundColor: string = "black"): void {
+    draw(cell: Cell, foregroundColor: string = "white", backgroundColor: string = "#2e006a"): void {
         // this.display.draw(cell.x, cell.y, cell.ascii, cell.foregroundColor, cell.backgroundColor)
         this.display.draw(cell.x, cell.y, cell.ascii, foregroundColor, backgroundColor)
     }

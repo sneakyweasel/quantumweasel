@@ -98,7 +98,7 @@ export default class Element {
                 absorption: 0,
                 phase: 0,
                 foregroundColor: "white",
-                backgroundColor: "black",
+                backgroundColor: "#2e006a",
                 matrix: []
             },
             {
@@ -152,10 +152,7 @@ export default class Element {
                 name: "detector",
                 namev1: "Detector",
                 ascii: [
-                    "¤",
-                    "¤",
-                    "¤",
-                    "¤"
+                    "O"
                 ],
                 group: "Absorber",
                 description: "A one-photon detector",
@@ -209,14 +206,14 @@ export default class Element {
                 name: "beamsplitter",
                 namev1: "ThinSplitter",
                 ascii: [
-                    "|",
-                    "/",
-                    "-",
-                    "\\",
-                    "|",
-                    "/",
-                    "-",
-                    "\\"
+                    "↑",
+                    "↗",
+                    "→",
+                    "↘",
+                    "↓",
+                    "↙",
+                    "←",
+                    "↖"
                 ],
                 group: "Direction",
                 description: "A beamsplitter",
