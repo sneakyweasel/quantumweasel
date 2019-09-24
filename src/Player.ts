@@ -5,6 +5,7 @@ import InputUtility from "./InputUtility"
 import Coord from "./Coord"
 import Cell from "./Cell"
 import Game from "./Game"
+import Element from "./Element"
 
 export default class Player implements Actor {
     glyph: Glyph
@@ -56,6 +57,27 @@ export default class Player implements Actor {
                 break
             case KEYS.VK_F:
                 this.cell.toggleFreeze()
+                break
+            case KEYS.VK_QUOTE:
+                this.cell.element = Element.fromName("void")
+                break
+            case KEYS.VK_1:
+                this.cell.element = Element.fromName("mirror")
+                break
+            case KEYS.VK_2:
+                this.cell.element = Element.fromName("beamsplitter")
+                break
+            case KEYS.VK_3:
+                this.cell.element = Element.fromName("laser")
+                break
+            case KEYS.VK_4:
+                this.cell.element = Element.fromName("detector")
+                break
+            case KEYS.VK_5:
+                this.cell.element = Element.fromName("phaseinc")
+                break
+            case KEYS.VK_6:
+                this.cell.element = Element.fromName("phasedec")
                 break
             default:
                 break
