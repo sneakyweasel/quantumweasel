@@ -72,12 +72,12 @@ export default class Coord {
 
     // override of toString method for debugging
     toString() {
-        return `{#Coord [Y:${this.y}, X:${this.x}]}`
+        return `[Y:${this.y}, X:${this.x}]`
     }
 
     // Display coordinates
     display() {
-        console.log(`Coords: [Y:${this.y}, X:${this.x}] has [l,r,t,b] of: [${this.adjacent}]`)
+        console.log(`Coords: ${this.toString()} has [l,r,t,b] of: [${this.adjacent}]`)
     }
 
     // Export JSON

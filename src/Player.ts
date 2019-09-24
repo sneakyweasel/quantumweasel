@@ -5,7 +5,6 @@ import InputUtility from "./InputUtility"
 import Coord from "./Coord"
 import Cell from "./Cell"
 import Game from "./Game"
-// import Grid from "./Grid"
 
 export default class Player implements Actor {
     glyph: Glyph
@@ -34,19 +33,20 @@ export default class Player implements Actor {
         this.coord = coord
     }
 
+    // Getters and setters
+    get cell(): Cell { return this.game.grid.get(this.coord) }
+
     // tslint:disable-next-line: no-any
     act(): Promise<any> {
         return InputUtility.waitForInput(this.handleInput.bind(this))
     }
 
+    // Offset of movement
     private handleInput(event: KeyboardEvent): boolean {
         let validInput = false
         const code = event.keyCode
         console.log(this.keyMap[code])
-        // Direction
-        const currentCell: Cell = this.game.grid.get(this.coord)
         let newCoord: Coord = this.coord
-        currentCell.display()
 
         switch (this.keyMap[code]) {
             case 0:
@@ -62,14 +62,10 @@ export default class Player implements Actor {
                 newCoord = this.coord.left
                 break
             case 4:
-                currentCell.display()
-                currentCell.rotateCW
-                currentCell.display()
+                this.cell.rotate()
                 break
             case 5:
-                currentCell.display()
-                currentCell.rotateCCW
-                currentCell.display()
+                this.cell.rotate()
                 break
             case 6:
                 // Display next frame
@@ -83,7 +79,12 @@ export default class Player implements Actor {
         if (this.game.grid.includes(newCoord)) {
             this.coord = newCoord
             validInput = true
+            this.display()
         }
         return validInput
+    }
+
+    display() {
+        console.log(`Player ${this.coord.toString()} on cell ${this.cell.toString()}`)
     }
 }

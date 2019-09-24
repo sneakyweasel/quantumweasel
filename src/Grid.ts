@@ -37,6 +37,8 @@ export default class Grid {
             }
         }
     }
+    // Get center coordinates of grid
+    get center(): Coord { return new Coord(Math.floor(this.cols / 2), Math.floor(this.rows / 2)) }
 
     // Cells getters
     get cells(): Cell[] { return [].concat.apply([], this.matrix) }

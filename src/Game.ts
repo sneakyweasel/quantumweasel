@@ -121,7 +121,7 @@ export default class Game {
         }
         this.gameState.reset()
         this.grid.draw(this)
-        this.player = new Player(this, new Coord(3, 3))
+        this.player = new Player(this, this.grid.center)
         this.scheduler = new Scheduler.Simple()
         this.scheduler.add(this.player, true)
         this.drawPanel()

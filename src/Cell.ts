@@ -37,7 +37,7 @@ export default class Cell extends Coord {
 
     // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
     // set rotate(angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
-    rotate(angle: number) {
+    rotate(angle: number = this.element.rotationAngle) {
         if (Math.abs(angle) % this.element.rotationAngle !== 0) {
             throw new Error("Error in the supplied angle compared to the element rotation angle.")
         } else {
