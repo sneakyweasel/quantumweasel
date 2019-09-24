@@ -33,15 +33,19 @@ export default class Player implements Actor {
         let newCoord: Coord = this.coord
         switch (event.keyCode) {
             case KEYS.VK_Z:
+            case KEYS.VK_UP:
                 newCoord = this.coord.top
                 break
             case KEYS.VK_D:
+            case KEYS.VK_RIGHT:
                 newCoord = this.coord.right
                 break
             case KEYS.VK_S:
+            case KEYS.VK_DOWN:
                 newCoord = this.coord.bottom
                 break
             case KEYS.VK_Q:
+            case KEYS.VK_LEFT:
                 newCoord = this.coord.left
                 break
             case KEYS.VK_A:
@@ -52,10 +56,6 @@ export default class Player implements Actor {
                 break
             case KEYS.VK_F:
                 this.cell.toggleFreeze()
-                break
-            case KEYS.VK_RIGHT:
-                break
-            case KEYS.VK_LEFT:
                 break
             default:
                 break

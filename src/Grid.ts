@@ -5,8 +5,10 @@ import Coord from './Coord'
 import Cell from './Cell'
 import Element from './Element'
 import Game from './Game'
+// import Frame from './Frame'
 import Pointer from './Pointer'
 import Cluster from './Cluster'
+// import GameState from './GameState'
 
 export default class Grid {
     cols: number
@@ -153,7 +155,12 @@ export default class Grid {
             for (let x = 0; x < this.cols; x++) {
                 const coord = new Coord(y, x)
                 const cell = this.get(coord)
-                game.draw(cell)
+                const lasers = game.frames[game.frames.length - 1].laserCoords()
+                if (coord.isIncludedIn(lasers)) {
+                    game.draw(cell, "white", "red")
+                } else {
+                    game.draw(cell, "white", "#222")
+                }
             }
         }
     }

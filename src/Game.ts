@@ -10,6 +10,7 @@ import StatusLine from "./StatusLine"
 import InputUtility from "./InputUtility"
 import MessageLog from "./MessageLog"
 import Player from "./Player"
+import Frame from "./Frame"
 import { Actor, ActorType } from "./Actor"
 import { Glyph } from "./Glyph"
 
@@ -25,13 +26,15 @@ export default class Game {
     private statusLinePosition: Coord
     private actionLogPosition: Coord
     private gameState: GameState
-    grid: Grid
+    public grid: Grid
+    public frames: Frame[]
 
     constructor(level: Level) {
         this.mapSize = { width: level.grid.cols, height: level.grid.rows }
         this.gameSize = { width: this.mapSize.width + 40, height: this.mapSize.height + 4 + 4 }
         this.statusLinePosition = new Coord(this.gameSize.height - 4, 0)
         this.actionLogPosition = new Coord(this.gameSize.height - 3, 0)
+        this.frames = []
 
         const tileSet = document.createElement("img")
         tileSet.src = "./tiles/tilemap.png"
@@ -79,9 +82,11 @@ export default class Game {
         })
         document.body.appendChild(this.display.getContainer()!)
 
+        // Game mechanics
         this.gameState = new GameState()
         this.level = level
         this.grid = this.level.grid
+        this.frames.push(new Frame(level))
         this.statusLine = new StatusLine(this, this.statusLinePosition, this.gameSize.width, {})
         this.messageLog = new MessageLog(this, this.actionLogPosition, this.gameSize.width, 3)
 
@@ -93,10 +98,17 @@ export default class Game {
     get playerCoord(): Coord { return this.player.coord }
     get playerCell(): Cell { return this.player.cell }
 
-    draw(cell: Cell): void {
-        this.display.draw(cell.x, cell.y, cell.ascii, cell.foregroundColor, cell.backgroundColor)
+    draw(cell: Cell, foregroundColor: string = "white", backgroundColor: string = "black"): void {
+        // this.display.draw(cell.x, cell.y, cell.ascii, cell.foregroundColor, cell.backgroundColor)
+        this.display.draw(cell.x, cell.y, cell.ascii, foregroundColor, backgroundColor)
     }
-
+    // Laser lines
+    drawLaser(frame: Frame): void {
+        const laserCoords = frame.laserCoords()
+        laserCoords.forEach((coord: Coord) => {
+            this.display.draw(coord.y, coord.x, "", "", "#00ff00")
+        })
+    }
     drawPlayer(coord: Coord, glyph: Glyph): void {
         this.display.draw(coord.y, coord.x, glyph.character, glyph.foregroundColor, glyph.backgroundColor)
     }
