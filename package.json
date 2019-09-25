@@ -11,14 +11,19 @@
   },
   "scripts": {
     "test": "tsc --noEmit -p . && jest --no-cache",
-    "lint": "tsc --noEmit -p . && tslint \"*.ts?(x)\"",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "lintci": "tslint \"*.ts?(x)\" --force",
+    "lint": "tsc --noEmit -p . && eslint \"*.ts?(x)\"",
+    "lintci": "eslint \"*.ts?(x)\" --force",
     "start": "tsc --outDir ./build && node ./build/main.js",
     "build": "tsc --pretty --outDir ./build",
     "wbuild": "webpack --mode production",
     "wstart": "webpack-dev-server --mode development --progress --color",
     "serve": "live-server --port=8085"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint"
+    }
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.1",

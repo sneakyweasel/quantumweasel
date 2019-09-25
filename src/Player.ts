@@ -27,7 +27,7 @@ export default class Player implements Actor {
   }
 
   // tslint:disable-next-line: no-any
-  act(): Promise<any> {
+  act(): Promise<string> {
     return InputUtility.waitForInput(this.handleInput.bind(this));
   }
 
@@ -96,6 +96,12 @@ export default class Player implements Actor {
       case KEYS.VK_6:
         this.cell.element = Element.fromName("phasedec");
         break;
+      case KEYS.VK_7:
+        this.cell.element = Element.fromName("rock");
+        break;
+      case KEYS.VK_8:
+        this.cell.element = Element.fromName("mine");
+        break;
       default:
         break;
     }
@@ -103,15 +109,11 @@ export default class Player implements Actor {
     if (this.game.grid.includes(newCoord)) {
       this.coord = newCoord;
       validInput = true;
-      this.display();
     }
     return validInput;
   }
 
-  toString() {
+  toString(): string {
     return `Player ${this.coord.toString()}`;
-  }
-  display() {
-    console.log(this.toString());
   }
 }
