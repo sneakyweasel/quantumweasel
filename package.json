@@ -12,6 +12,7 @@
   "scripts": {
     "test": "tsc --noEmit -p . && jest --no-cache",
     "lint": "tsc --noEmit -p . && tslint \"*.ts?(x)\"",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lintci": "tslint \"*.ts?(x)\" --force",
     "start": "tsc --outDir ./build && node ./build/main.js",
     "build": "tsc --pretty --outDir ./build",
@@ -33,16 +34,24 @@
     "ts-loader": "^6.1.2",
     "ts-node": "^8.3.0",
     "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.5",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "file-saver": "^2.0.2",
+    "global": "^4.4.0",
     "keypress": "^0.2.1",
     "lodash": "^4.17.15",
     "mathjs": "^5.10.3",
+    "prettier": "^1.18.2",
     "rot-js": "^2.1.1",
     "vuedraggable": "^2.23.0"
   },

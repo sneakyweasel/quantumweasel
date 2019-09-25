@@ -1,15 +1,15 @@
-import Coord from "./Coord"
-import { Glyph } from "./Glyph"
+import Coord from "./Coord";
+import { Glyph } from "./Glyph";
 
 export const enum ActorType {
-    Player,
-    Pointer
+  Player,
+  Pointer
 }
 
 export interface Actor {
-    coord: Coord
-    glyph: Glyph
-    type: ActorType
+  coord: Coord;
+  glyph: Glyph;
+  type: ActorType;
 
-    act(): Promise<any>
+  act(): Promise<string>;
 }
