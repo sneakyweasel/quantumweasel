@@ -67,7 +67,17 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 
     // export JSON file to save state oi the game
     exportJSON() {
-        return JSON.stringify(this)
+        return {
+            id: this.id,
+            name: this.name,
+            group: this.group,
+            description: this.description,
+            cols: this.grid.cols,
+            rows: this.grid.rows,
+            cells: this.grid.cells.flatMap((cell) => JSON.stringify(cell)),
+            hints: this.hints.flatMap((hint) => JSON.stringify(hint)),
+            goals: this.goals.flatMap((goal) => JSON.stringify(goal))
+        }
     }
 
     // import JSON file

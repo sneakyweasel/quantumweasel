@@ -152,7 +152,10 @@ export default class Element {
                 name: "detector",
                 namev1: "Detector",
                 ascii: [
-                    "O"
+                    "⇑",
+                    "⇒",
+                    "⇓",
+                    "⇐"
                 ],
                 group: "Absorber",
                 description: "A one-photon detector",

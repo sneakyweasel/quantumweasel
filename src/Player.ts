@@ -57,7 +57,7 @@ export default class Player implements Actor {
                 this.cell.rotate(-this.cell.element.rotationAngle)
                 break
             case KEYS.VK_E:
-                this.cell.rotate(this.cell.element.rotationAngle)
+                this.cell.rotate(this.cell.element.rotationAngle)dd
                 break
             case KEYS.VK_F:
                 this.cell.toggleFreeze()
@@ -66,7 +66,7 @@ export default class Player implements Actor {
             // Save JSON file with level
             case KEYS.VK_F1:
                 const json = this.game.frames[0].level.exportJSON()
-                const blob = new Blob([json], {type: "text/plain;charset=utf-8"})
+                const blob = new Blob([JSON.stringify(json)], {type: "text/plain;charset=utf-8"})
                 FileSaver.saveAs(blob, "level.json")
                 break
 

@@ -57,22 +57,14 @@ export default class Game {
                 "v": [128, 0],
                 "<": [192, 0],
                 // rock passive, energized and active
-                "r": [0, 64],
-                "re": [64, 64],
+                "#": [0, 64],
+                "r": [64, 64],
                 "R": [128, 64],
                 // detector passive, energized and active
-                "¤p0": [320, 0],
-                "¤p1": [320, 64],
-                "¤p2": [320, 128],
-                "¤p3": [320, 192],
-                "¤e0": [384, 0],
-                "¤e1": [384, 64],
-                "¤e2": [384, 128],
-                "¤e3": [384, 192],
-                "¤a0": [448, 384],
-                "¤a1": [448, 384],
-                "¤a2": [448, 384],
-                "¤a3": [448, 384],
+                "⇑": [0, 384],
+                "⇒": [64, 384],
+                "⇓": [128, 384],
+                "⇐": [192, 384],
                 // omni detector passive, energized, active
                 "¤": [0, 512],
                 "O": [0, 512],
@@ -149,8 +141,9 @@ export default class Game {
         this.display.draw(coord.y, coord.x, glyph.character, glyph.foregroundColor, glyph.backgroundColor)
     }
 
-    drawText(position: Coord, text: string, maxWidth?: number): void {
-        this.display.drawText(position.x, position.y, text, maxWidth)
+    drawText(_coord: Coord, text: string, _maxWidth?: number): void {
+        // this.display.drawText(position.x, position.y, text, maxWidth)
+        console.log(text)
     }
 
     private initializeGame(): void {
