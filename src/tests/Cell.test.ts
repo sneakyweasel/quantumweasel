@@ -7,7 +7,7 @@ describe("Cell", () => {
     const coord = new Coord(1, 0);
     const mirror = new Cell(coord, Element.fromName("mirror"));
     expect(mirror.toString()).toEqual(
-      "{#Cell {#Element mirror} @ {#Coord [Y:1, X:0]}} rotated 0°"
+      "Cell @ [Y:1, X:0] is unfrozen mirror (Phase: 0, Absorption: 0%) rotated 0°"
     );
   });
 
@@ -19,15 +19,15 @@ describe("Cell", () => {
     const mirror = new Cell(coord, element3);
     mirror.rotate(135);
     expect(mirror.toString()).toEqual(
-      "{#Cell {#Element mirror} @ {#Coord [Y:1, X:0]}} rotated 135°"
+      "Cell @ [Y:1, X:0] is unfrozen mirror (Phase: 0, Absorption: 0%) rotated 135°"
     );
     mirror.rotate(-270);
     expect(mirror.toString()).toEqual(
-      "{#Cell {#Element mirror} @ {#Coord [Y:1, X:0]}} rotated 225°"
+      "Cell @ [Y:1, X:0] is unfrozen mirror (Phase: 0, Absorption: 0%) rotated 225°"
     );
     detector.rotate(270);
     expect(detector.toString()).toEqual(
-      "{#Cell {#Element detector} @ {#Coord [Y:1, X:0]}} rotated 270°"
+      "Cell @ [Y:1, X:0] is unfrozen detector (Phase: 0, Absorption: 100%) rotated 270°"
     );
   });
 
@@ -46,10 +46,10 @@ describe("Cell", () => {
     const laser = new Cell(coord, element);
     const pointer = laser.fire();
     expect(laser.toString()).toEqual(
-      "{#Cell {#Element laser} @ {#Coord [Y:1, X:0]}} rotated 0°"
+      "Cell @ [Y:1, X:0] is unfrozen laser (Phase: 0, Absorption: 0%) rotated 0°"
     );
     expect(pointer.toString()).toEqual(
-      "#Pointer @ {#Coord [Y:1, X:0]} moving 0° with 100% intensity and 0 phase shift. PATH: {#Coord [Y:1, X:0]}"
+      "#Pointer @ [Y:1, X:0] moving 0° with 1 intensity and 0 phase shift. PATH: [Y:1, X:0]"
     );
     pointer.next();
     expect(pointer.coord).toEqual(coord.top);
@@ -62,10 +62,10 @@ describe("Cell", () => {
     laser.rotate(90);
     const pointer = laser.fire();
     expect(laser.toString()).toEqual(
-      "{#Cell {#Element laser} @ {#Coord [Y:1, X:0]}} rotated 90°"
+      "Cell @ [Y:1, X:0] is unfrozen laser (Phase: 0, Absorption: 0%) rotated 90°"
     );
     expect(pointer.toString()).toEqual(
-      "#Pointer @ {#Coord [Y:1, X:0]} moving 90° with 100% intensity and 0 phase shift. PATH: {#Coord [Y:1, X:0]}"
+      "#Pointer @ [Y:1, X:0] moving 90° with 1 intensity and 0 phase shift. PATH: [Y:1, X:0]"
     );
     pointer.next();
     expect(pointer.coord).toEqual(coord.right);

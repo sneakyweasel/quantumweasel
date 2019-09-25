@@ -1,13 +1,12 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
+// FIXME: Figure out blank cells in constructor
 import Cell from "./Cell";
 import Cluster from "./Cluster";
 import Coord from "./Coord";
 import Element from "./Element";
 import Game from "./Game";
-// import Frame from './Frame'
 import Pointer from "./Pointer";
-// import GameState from './GameState'
 
 export default class Grid {
   public cols: number;
@@ -24,7 +23,6 @@ export default class Grid {
     if (matrix) {
       this.matrix = matrix;
     } else {
-      // FIXME: Kinda ugly
       // Else create blank cells
       this.matrix = new Array(this.rows)
         .fill(0)
@@ -43,7 +41,7 @@ export default class Grid {
 
   // Cells getters
   get cells(): Cell[] {
-    return this.matrix.flat(1);
+    return this.matrix.reduce((acc, val) => acc.concat(val), []);
   }
   get coords(): Coord[] {
     return this.cells.flatMap(cell => cell.coord);

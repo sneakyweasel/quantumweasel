@@ -14,7 +14,9 @@ describe("Elements", () => {
       matrix: [],
       phase: 0,
       name: "laser",
-      tiles: ""
+      tiles: "",
+      foregroundColor: "white",
+      backgroundColor: "black"
     });
   });
 

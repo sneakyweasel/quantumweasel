@@ -13,15 +13,15 @@
     "test": "tsc --noEmit -p . && jest --no-cache",
     "lint": "tsc --noEmit -p . && eslint \"*.ts?(x)\"",
     "lintci": "eslint \"*.ts?(x)\" --force",
-    "start": "tsc --outDir ./build && node ./build/main.js",
-    "build": "tsc --pretty --outDir ./build",
-    "wbuild": "webpack --mode production",
-    "wstart": "webpack-dev-server --mode development --progress --color",
-    "serve": "live-server --port=8085"
+    "tsc-start": "tsc --outDir ./build && node ./build/main.js",
+    "tsc-build": "tsc --pretty --outDir ./build",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --progress --color",
+    "serve": "live-server --port=8085 --open=/html/"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "",
+      "pre-commit": "yarn test",
       "pre-push": ""
     }
   },

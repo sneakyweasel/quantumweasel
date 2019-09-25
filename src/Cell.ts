@@ -4,7 +4,6 @@ import Coord from "./Coord";
 import Element from "./Element";
 import Pointer from "./Pointer";
 import Game from "./Game";
-// import Pointer from "./Pointer"
 
 export default class Cell extends Coord {
   coord: Coord; // required
@@ -32,7 +31,6 @@ export default class Cell extends Coord {
   }
 
   // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
-  // set rotate(angle: number) { this.rotation = ((this.rotation + this.element.rotationAngle) % 360 + 360) % 360 }
   rotate(angle: number = this.element.rotationAngle): void {
     if (!this.frozen) {
       if (Math.abs(angle) % this.element.rotationAngle !== 0) {
@@ -61,26 +59,17 @@ export default class Cell extends Coord {
   }
 
   // DISPLAY METHODS
-  // Override toString() method
   draw(game: Game): void {
     game.draw(this);
   }
+
+  // Override toString() method
   toString(): string {
-    return `{#Cell${
-      this.frozen ? " frozen " : " "
-    }${this.element.toString()} @ ${this.coord.toString()}} rotated ${
-      this.rotation
-    }°`;
-  }
-  display(): void {
-    console.log(
-      `Cell at [X: ${this.x}, Y: ${this.y}] is a ${
-        this.frozen ? "frozen" : "unfrozen"
-      } element of type ${this.element.name} rotated ${this.rotation}°`
-    );
+    return `Cell @ ${this.coord.toString()} is ${
+      this.frozen ? "frozen" : "unfrozen"
+    } ${this.element.toString()} rotated ${this.rotation}°`;
   }
 
-  // JSON METHODS
   // Export to JSON format
   exportCellJSON(): {} {
     return {
@@ -93,15 +82,15 @@ export default class Cell extends Coord {
   }
 
   // Import from JSON
-  static importJSON(params: {
+  static importJSON(json: {
     x: number;
     y: number;
     element: string;
     rotation: number;
     frozen: boolean;
   }): Cell {
-    const coord = new Coord(params.x, params.y);
-    const element = Element.fromName(params.element);
-    return new Cell(coord, element, params.rotation, params.frozen);
+    const coord = new Coord(json.y, json.x);
+    const element = Element.fromName(json.element);
+    return new Cell(coord, element, json.rotation, json.frozen);
   }
 }

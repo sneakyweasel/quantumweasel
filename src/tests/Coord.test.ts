@@ -5,10 +5,10 @@ describe("Coordinates", () => {
   it("should generate adjacency list of a coord", () => {
     const coord = new Coord(4, 4);
     expect(coord.adjacent).toEqual([
-      new Coord(3, 4),
-      new Coord(4, 5),
+      new Coord(4, 3),
       new Coord(5, 4),
-      new Coord(4, 3)
+      new Coord(4, 5),
+      new Coord(3, 4)
     ]);
   });
 

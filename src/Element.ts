@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // ELEMENT CLASS
 // Basic class related to game elements
+// FIXME: This class needs rewrite with glyphs and func
 
 export default class Element {
   id: number;
@@ -47,13 +48,15 @@ export default class Element {
     this.matrix = matrix;
   }
 
+  // Compute the rotation angle from the number of sprites
   get rotationAngle(): number {
     return 360 / this.ascii.length;
   }
 
   // Override of toString() method
   toString(): string {
-    return `{#Element ${this.name}}`;
+    return `${this.name} (Phase: ${this.phase}, Absorption: ${this.absorption *
+      100}%)`;
   }
 
   // Export JSON

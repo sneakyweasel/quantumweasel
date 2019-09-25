@@ -90,6 +90,7 @@ Since this is a pain to debug and very error prone, those are the current conven
 - Using ESLint Typescript as AST linter <https://eslint.org/>
 - Using Prettier for automated code formatting <https://prettier.io/>
 - Using Husky to lint, test before commits <https://github.com/typicode/husky>
+- Using live-server <https://github.com/tapio/live-server#readme>
 
 ## Quantum numerical "engine"
 

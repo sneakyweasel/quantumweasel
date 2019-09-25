@@ -85,8 +85,8 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
       rotation: number;
       frozen: boolean;
     }[];
-    goals: any;
-    hints: any;
+    goals: { x: number; y: number; threshold: number }[];
+    hints: { x: number; y: number; message: string }[];
     id: number;
     name: string;
     group: string;
@@ -114,7 +114,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     height: number;
     name: string;
     group: string;
-    tiles: any;
+    tiles: {}[];
   }): Level {
     const grid = new Grid(json.width, json.height);
     const cells: Cell[] = [];

@@ -24,7 +24,7 @@ describe("Grid", () => {
     grid.set(new Cell(coord, Element.fromName("mirror")));
     const cell = grid.get(coord);
     expect(cell.toString()).toEqual(
-      "{#Cell {#Element mirror} @ {#Coord [Y:1, X:5]}} rotated 0°"
+      "Cell @ [Y:1, X:5] is unfrozen mirror (Phase: 0, Absorption: 0%) rotated 0°"
     );
   });
 
