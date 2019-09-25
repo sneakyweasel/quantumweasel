@@ -2,166 +2,151 @@
 // Levels are loaded as working solutions to the puzzle
 // Then the frozen elements are removed and put in the toolbox
 
-import Coord from './Coord'
-import Cell from './Cell'
-import Element from './Element'
-import Grid from './Grid'
-import Hint from './Hint'
-import Goal from './Goal'
-import Pointer from './Pointer'
+import Coord from "./Coord";
+import Cell from "./Cell";
+import Element from "./Element";
+import Grid from "./Grid";
+import Hint from "./Hint";
+import Goal from "./Goal";
 
 export default class Level {
-    id: number
-    name: string
-    group: string
-    description: string
-    grid: Grid
-    goals: Goal[]
-    hints: Hint[]
-    toolbox: _.Dictionary<number>
+  id: number;
+  name: string;
+  group: string;
+  description: string;
+  grid: Grid;
+  goals: Goal[];
+  hints: Hint[];
+  toolbox: _.Dictionary<number>;
+  completed: boolean;
+
+  constructor(
+    id: number,
+    name: string,
+    group: string,
+    description: string,
+    grid: Grid = new Grid(8, 8),
+    goals: Goal[],
+    hints: Hint[],
     completed: boolean
+  ) {
+    // Basic infos
+    this.id = id;
+    this.group = group;
+    this.name = name;
+    this.description = description;
+    // Basic grid definition
+    this.grid = grid;
+    this.goals = goals;
+    this.hints = hints;
+    this.completed = completed;
 
-    constructor(
-        id: number,
-        name: string,
-        group: string,
-        description: string,
-        grid: Grid = new Grid(8, 8),
-        goals: Goal[],
-        hints: Hint[],
-        completed: boolean
-    ) {
-        // Basic infos
-        this.id = id
-        this.group = group
-        this.name = name
-        this.description = description
-        // Basic grid definition
-        this.grid = grid
-        this.goals = goals
-        this.hints = hints
-        this.completed = completed
+    // Extract non frozen elements and put them in the toolbox
+    // const unfrozenCells = this.grid.cells.filter((cell) => !cell.frozen).map((cell) => cell.element.name)
+  }
 
-        // Extract non frozen elements and put them in the toolbox
-        // const unfrozenCells = this.grid.cells.filter((cell) => !cell.frozen).map((cell) => cell.element.name)
-    }
-
-    // Override toString method in order to display ascii level
-    toString() {
-        return `\
+  // Override toString method in order to display ascii level
+  toString(): string {
+    return `\
 LEVEL: ${this.name} [${this.grid.cols}x${this.grid.rows}]\n\
 DESC: ${this.description}\n\
 GROUP: ${this.group}\n\
 ${this.grid.asciiRender()}\n\
-GOALS: ${this.goals.map((i) => i.toString())}\n\
+GOALS: ${this.goals.map(i => i.toString())}\n\
 GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
-HINTS: ${this.hints.map((i) => i.toString())}\n
+HINTS: ${this.hints.map(i => i.toString())}\n
 TOOLBOX: ${JSON.stringify(this.toolbox)}\n
-`
-    }
+`;
+  }
 
-    // Display level informations
-    display() {
-        console.log(`Level ${this.id}: ${this.name} has size [${this.grid.rows}x${this.grid.cols}] and ${this.toolbox.length} starting elements for a ${this.grid.cells} elements puzzle.`)
-    }
+  // export JSON file to save state oi the game
+  exportJSON(): {} {
+    return {
+      id: this.id,
+      name: this.name,
+      group: this.group,
+      description: this.description,
+      cols: this.grid.cols,
+      rows: this.grid.rows,
+      cells: this.grid.cells.flatMap(cell => JSON.stringify(cell)),
+      hints: this.hints.flatMap(hint => JSON.stringify(hint)),
+      goals: this.goals.flatMap(goal => JSON.stringify(goal))
+    };
+  }
 
-    // export JSON file to save state oi the game
-    exportJSON() {
-        return {
-            id: this.id,
-            name: this.name,
-            group: this.group,
-            description: this.description,
-            cols: this.grid.cols,
-            rows: this.grid.rows,
-            cells: this.grid.cells.flatMap((cell) => JSON.stringify(cell)),
-            hints: this.hints.flatMap((hint) => JSON.stringify(hint)),
-            goals: this.goals.flatMap((goal) => JSON.stringify(goal))
-        }
-    }
+  // import JSON file
+  static importJSON(json: {
+    cols: number;
+    rows: number;
+    cells: {
+      y: number;
+      x: number;
+      element: string;
+      rotation: number;
+      frozen: boolean;
+    }[];
+    goals: any;
+    hints: any;
+    id: number;
+    name: string;
+    group: string;
+    description: string;
+  }): Level {
+    const grid = new Grid(json.cols, json.rows);
+    grid.importJSON(json.cells);
+    const goals = Goal.importJSON(json.goals);
+    const hints = Hint.importJSON(json.hints);
+    return new Level(
+      json.id,
+      json.name,
+      json.group,
+      json.description,
+      grid,
+      goals,
+      hints,
+      false
+    );
+  }
 
-    // import JSON file
-    static importJSON(json: {
-        cols: number,
-        rows: number,
-        cells: any,
-        goals: any,
-        hints: any,
-        id: number,
-        name: string,
-        group: string,
-        description: string
-    }): Level {
-        const grid = new Grid(json.cols, json.rows)
-        grid.importJSON(json.cells)
-        const goals = Goal.importJSON(json.goals)
-        const hints = Hint.importJSON(json.hints)
-        return new Level(
-            json.id,
-            json.name,
-            json.group,
-            json.description,
-            grid,
-            goals,
-            hints,
-            false
-        )
-    }
-
-    // import JSON file
-    static importV1JSON(json: {
-        width: number,
-        height: number,
-        name: string,
-        group: string,
-        tiles: any
-    }): Level {
-        const grid = new Grid(json.width, json.height)
-        const cells: Cell[] = []
-        json.tiles.forEach((tile: { i: number, j: number, name: string, rotation: number, frozen: boolean }) => {
-            const coord = new Coord(tile.i, tile.j)
-            const element = Element.fromName(tile.name, 1)
-            const rotation = element.rotationAngle * tile.rotation
-            cells.push(new Cell(
-                coord,
-                element,
-                rotation,
-                tile.frozen
-            ))
-        })
-        grid.setMany(...cells)
-        const goals: Goal[] = []
-        grid.detectors.forEach((detector) => {
-            goals.push(new Goal(detector.coord, 1))
-        })
-        const hints: Hint[] = []
-        return new Level(
-            0,
-            json.name,
-            json.group,
-            "V1 level imported",
-            grid,
-            goals,
-            hints,
-            false
-        )
-    }
-
-    computePaths() {
-        // Fire the lasers
-        const particles: Pointer[] = []
-        this.grid.lasers.forEach((laser) => {
-            particles.push(new Pointer(laser.coord, laser.rotation, 100))
-        })
-
-        // Compute path for each particle
-        // particles.forEach((particle: Pointer) => {
-
-        // Compute coords path until the end of the grid
-        // Distance to grid border
-        // this.grid.colCount - particle.coord.x
-        // this.grid.rowCount
-        // let coord = particle.next().coord
-        // })
-    }
+  // import JSON file
+  static importV1JSON(json: {
+    width: number;
+    height: number;
+    name: string;
+    group: string;
+    tiles: any;
+  }): Level {
+    const grid = new Grid(json.width, json.height);
+    const cells: Cell[] = [];
+    json.tiles.forEach(
+      (tile: {
+        i: number;
+        j: number;
+        name: string;
+        rotation: number;
+        frozen: boolean;
+      }) => {
+        const coord = new Coord(tile.i, tile.j);
+        const element = Element.fromName(tile.name, 1);
+        const rotation = element.rotationAngle * tile.rotation;
+        cells.push(new Cell(coord, element, rotation, tile.frozen));
+      }
+    );
+    grid.setMany(...cells);
+    const goals: Goal[] = [];
+    grid.detectors.forEach(detector => {
+      goals.push(new Goal(detector.coord, 1));
+    });
+    const hints: Hint[] = [];
+    return new Level(
+      0,
+      json.name,
+      json.group,
+      "V1 level imported",
+      grid,
+      goals,
+      hints,
+      false
+    );
+  }
 }
