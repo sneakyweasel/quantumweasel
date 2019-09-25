@@ -73,11 +73,7 @@ export default class Coord {
 
   // Test inclusion in array of coords using deep compare from lodash
   isIncludedIn(coords: Coord[]): boolean {
-    return (
-      _.findIndex(coords, coord => {
-        return this.equal(coord);
-      }) > -1
-    );
+    return coords.filter((coord) => {return this.equal(coord)}).length > 0
   }
 
   // override of toString method for debugging
