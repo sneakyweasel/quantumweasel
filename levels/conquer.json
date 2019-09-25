@@ -4,8 +4,8 @@
     "group": "Game",
     "description": "Divide, ..., then conquer!",
     "completed": false,
-    "cols": 15,
-    "rows": 10,
+    "cols": 20,
+    "rows": 20,
     "cells": [
         {
             "x": 6,

@@ -51,7 +51,6 @@ export default class Game {
       tileMap: {
         // Passive, energized, active elements
         // void
-        " ": [256, 0],
         "@": [0, 192],
         // Laser
         // tslint:disable: object-literal-key-quotes
@@ -97,7 +96,12 @@ export default class Game {
         // void
         V: [1216, 0],
         // neutral density filter
-        F: [1280, 0]
+        F: [1280, 0],
+        // Blank tile
+        // " ": [1344, 0],
+        " ": [1408, 0],
+        b: [1472, 0],
+        n: [1536, 0]
       },
       width: this.gameSize.width,
       height: this.gameSize.height,
