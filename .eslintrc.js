@@ -8,7 +8,8 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript"
   ],
-  "rules": {
+  rules: {
     "prettier/prettier": "error"
-  }
+  },
+  root: true
 };
