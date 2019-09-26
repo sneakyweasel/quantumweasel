@@ -23,7 +23,6 @@
         "outDir": "./build"
         // "module": "amd",
         // "outFile": "./build/quantumweasel.js"
-        // "types" : ["lodash", "mathjs"]
     },
     "include": [
         "src/*"

@@ -42,14 +42,14 @@ export default class Goal extends Coord {
   }
 
   // Import JSON
-  static importJSON(
-    jsonGoals: Array<{ x: number; y: number; threshold: number }>
-  ): Goal[] {
-    const goals: Goal[] = [];
-    jsonGoals.forEach(goal => {
-      const coord = new Coord(goal.y, goal.x);
-      goals.push(new Goal(coord, goal.threshold));
-    });
-    return goals;
-  }
+  // static importJSON(
+  //   jsonGoals: Array<{ x: number; y: number; threshold: number }>
+  // ): Goal[] {
+  //   const goals: Goal[] = [];
+  //   jsonGoals.forEach(goal => {
+  //     const coord = new Coord(goal.y, goal.x);
+  //     goals.push(new Goal(coord, goal.threshold));
+  //   });
+  //   return goals;
+  // }
 }

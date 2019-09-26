@@ -1,6 +1,6 @@
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
-import * as _ from "lodash";
+// FIXME: Duplicate between path and coord
 import Coord from "./Coord";
 import Cell from "./Cell";
 import Grid from "./Grid";
@@ -12,21 +12,35 @@ export default class Pointer extends Coord {
   phase: number;
   path: Coord[];
 
-  constructor(coord: Coord, direction: number, intensity = 1, phase = 0) {
+  constructor(
+    coord: Coord,
+    direction: number,
+    intensity = 1,
+    phase = 0,
+    path: Coord[] = [coord]
+  ) {
     super(coord.y, coord.x);
     this.coord = coord;
     this.direction = direction;
     this.intensity = intensity;
     this.phase = phase;
-    this.path = [coord];
+    this.path = path;
   }
 
   // Check is a particle has any intensity
   get alive(): boolean {
     return this.intensity > 0;
   }
+
+  // Deep clone of the pointer
   get clone(): Pointer {
-    return _.cloneDeep(this);
+    return new Pointer(
+      this.coord,
+      this.direction,
+      this.intensity,
+      this.phase,
+      this.path
+    );
   }
 
   // Pointer is on a specific cell shorthand
@@ -59,9 +73,9 @@ export default class Pointer extends Coord {
     }
     return this;
   }
-
+  // FIXME: Add intensity to the Coord
   // Compute laser path
-  laserPath(grid: Grid, maxFrames = 100): Coord[] {
+  laserPath(grid: Grid, maxFrames = 50): Coord[] {
     // Make a depp clone of the pointer
     let alive: Pointer[] = [this.clone];
     const dead: Pointer[] = [];
@@ -130,7 +144,7 @@ export default class Pointer extends Coord {
     alive.forEach(pointer => {
       coords.push(pointer.path);
     });
-    return _.uniq(_.flatMap(coords));
+    return [...new Set(coords.flat())];
   }
 
   // Override method to display nicely
@@ -140,6 +154,40 @@ export default class Pointer extends Coord {
     }° with ${this.intensity} intensity and ${
       this.phase
     } phase shift. PATH: ${this.path.map(coord => coord.toString())}`;
+  }
+
+  // Export JSON object
+  exportJSON(): {
+    x: number;
+    y: number;
+    direction: number;
+    intensity: number;
+    phase: number;
+    path: { y: number; x: number }[];
+  } {
+    const path = this.path.map((coord: Coord) => coord.exportJSON());
+    return {
+      x: this.coord.x,
+      y: this.coord.y,
+      direction: this.direction,
+      intensity: this.intensity,
+      phase: this.phase,
+      path: path
+    };
+  }
+
+  // Import JSON object
+  static importJSON(json: {
+    x: number;
+    y: number;
+    direction: number;
+    intensity: number;
+    phase: number;
+    path: { y: number; x: number }[];
+  }): Pointer {
+    const path = json.path.map(jsonCoord => Coord.importJSON(jsonCoord));
+    const coord = new Coord(json.y, json.x);
+    return new Pointer(coord, json.direction, json.intensity, json.phase, path);
   }
 
   // Format active particle list

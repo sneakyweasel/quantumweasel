@@ -154,6 +154,7 @@ export default class Game {
       backgroundColor
     );
   }
+
   // Laser lines
   drawLaser(frame: Frame): void {
     const laserCoords = frame.laserCoords();
@@ -161,6 +162,8 @@ export default class Game {
       this.display.draw(coord.y, coord.x, "", "", "#00ff00");
     });
   }
+
+  // Draw player
   drawPlayer(coord: Coord, glyph: Glyph): void {
     this.display.draw(
       coord.y,
@@ -171,10 +174,12 @@ export default class Game {
     );
   }
 
+  // Log state to console
   drawText(coord: Coord, text: string, maxWidth?: number): void {
     console.log(coord.y, coord.x, text, maxWidth);
   }
 
+  // Init game
   private initializeGame(): void {
     this.display.clear();
     this.messageLog.clear();
@@ -216,7 +221,7 @@ export default class Game {
 
   private drawPanel(): void {
     this.display.clear();
-    this.grid.draw(this);
+    // this.grid.draw(this);
     this.statusLine.draw();
     this.messageLog.draw();
     this.drawPlayer(this.player.coord, this.player.glyph);

@@ -1,8 +1,6 @@
 // COORDINATES CLASS
 // Low level coordinate functions
 // Coord is a [x, y, z?] convenient way to deal with coordinates.
-import * as _ from "lodash";
-
 export default class Coord {
   x: number;
   y: number;
@@ -71,9 +69,13 @@ export default class Coord {
     return this.x === coord.x && this.y === coord.y;
   }
 
-  // Test inclusion in array of coords using deep compare from lodash
+  // Test inclusion in array of coords
   isIncludedIn(coords: Coord[]): boolean {
-    return coords.filter((coord) => {return this.equal(coord)}).length > 0
+    return (
+      coords.filter(coord => {
+        return this.equal(coord);
+      }).length > 0
+    );
   }
 
   // override of toString method for debugging
@@ -82,11 +84,16 @@ export default class Coord {
   }
 
   // Export JSON
-  exportJSON(): {} {
+  exportJSON(): { y: number; x: number } {
     return {
       y: this.y,
       x: this.x
     };
+  }
+
+  // Export JSON
+  static importJSON(json: { y: number; x: number }): Coord {
+    return new Coord(json.y, json.x);
   }
 
   // Create from array of numbers

@@ -8,6 +8,7 @@ import Element from "./Element";
 import Grid from "./Grid";
 import Hint from "./Hint";
 import Goal from "./Goal";
+import Inventory from "./Inventory";
 
 export default class Level {
   id: number;
@@ -17,7 +18,7 @@ export default class Level {
   grid: Grid;
   goals: Goal[];
   hints: Hint[];
-  toolbox: _.Dictionary<number>;
+  toolbox: Inventory;
   completed: boolean;
 
   constructor(
@@ -94,8 +95,10 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
   }): Level {
     const grid = new Grid(json.cols, json.rows);
     grid.importJSON(json.cells);
-    const goals = Goal.importJSON(json.goals);
-    const hints = Hint.importJSON(json.hints);
+    // const goals = Goal.importJSON(json.goals);
+    // const hints = Hint.importJSON(json.hints);
+    const goals: Goal[] = [];
+    const hints: Hint[] = [];
     return new Level(
       json.id,
       json.name,

@@ -107,15 +107,20 @@ export default class Grid {
   }
 
   // Set one cell
-  // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
   public set(cell: Cell): boolean {
     if (this.includes(cell.coord)) {
       this.matrix[cell.coord.y][cell.coord.x] = cell;
       return true;
     } else {
+      // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
       // console.error(`Coordinate out of bounds. ${cell.coord.toString()}`)
       return false;
     }
+  }
+
+  // Get one cell
+  public get(coord: Coord): Cell {
+    return this.matrix[coord.y][coord.x];
   }
 
   // Set many cells
@@ -130,11 +135,6 @@ export default class Grid {
       this.set(cell);
     });
     return errorToggle;
-  }
-
-  // Get one cell
-  public get(coord: Coord): Cell {
-    return this.matrix[coord.y][coord.x];
   }
 
   // Get many cells
