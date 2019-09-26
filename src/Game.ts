@@ -1,3 +1,5 @@
+// TODO: Have a superposition of tiles and images
+
 import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
 
@@ -41,72 +43,74 @@ export default class Game {
 
     const tileSet = document.createElement("img");
     tileSet.src = "./tiles/tilemap.png";
+
     this.display = new Display({
-      layout: "tile-gl",
+      // layout: "tile-gl",
       bg: "transparent",
-      tileWidth: 64,
-      tileHeight: 64,
-      // tileColorize: true,
-      tileSet,
-      tileMap: {
-        // Passive, energized, active elements
-        // void
-        "@": [0, 192],
-        // Laser
-        // tslint:disable: object-literal-key-quotes
-        "^": [0, 0],
-        ">": [64, 0],
-        v: [128, 0],
-        "<": [192, 0],
-        // rock passive, energized and active
-        "#": [0, 64],
-        r: [64, 64],
-        R: [128, 64],
-        // detector passive, energized and active
-        "⇑": [0, 384],
-        "⇒": [64, 384],
-        "⇓": [128, 384],
-        "⇐": [192, 384],
-        // omni detector passive, energized, active
-        "¤": [0, 512],
-        O: [0, 512],
-        // photon
-        "~0": [704, 0],
-        "~1": [768, 0],
-        // mine
-        "*p": [832, 0],
-        "*e": [896, 0],
-        "*a": [960, 0],
-        // mirror
-        "|": [0, 896],
-        "/": [64, 896],
-        "-": [128, 896],
-        "\\": [192, 896],
-        // beamsplitter
-        "↑": [0, 960],
-        "↗": [64, 960],
-        "→": [128, 960],
-        "↘": [192, 960],
-        "↓": [192, 960],
-        "↙": [192, 960],
-        "←": [192, 960],
-        "↖": [192, 960],
-        // glass slab
-        G: [1152, 0],
-        // void
-        V: [1216, 0],
-        // neutral density filter
-        F: [1280, 0],
-        // Blank tile
-        // " ": [1344, 0],
-        " ": [1408, 0],
-        b: [1472, 0],
-        n: [1536, 0]
-      },
       width: this.gameSize.width,
       height: this.gameSize.height,
-      fontSize: 20
+      fontSize: 20,
+      tileWidth: 64,
+      tileHeight: 64,
+      tileSet,
+      tileMap: {}
     });
+    // tiles: {
+    //   // Passive, energized, active elements
+    //   // void
+    //   "@": [0, 192],
+    //   // Laser
+    //   // tslint:disable: object-literal-key-quotes
+    //   "^": [0, 0],
+    //   ">": [64, 0],
+    //   v: [128, 0],
+    //   "<": [192, 0],
+    //   // rock passive, energized and active
+    //   "#": [0, 64],
+    //   r: [64, 64],
+    //   R: [128, 64],
+    //   // detector passive, energized and active
+    //   "⇑": [0, 384],
+    //   "⇒": [64, 384],
+    //   "⇓": [128, 384],
+    //   "⇐": [192, 384],
+    //   // omni detector passive, energized, active
+    //   "¤": [0, 512],
+    //   O: [0, 512],
+    //   // photon
+    //   "~0": [704, 0],
+    //   "~1": [768, 0],
+    //   // mine
+    //   "*p": [832, 0],
+    //   "*e": [896, 0],
+    //   "*a": [960, 0],
+    //   // mirror
+    //   "|": [0, 896],
+    //   "/": [64, 896],
+    //   "-": [128, 896],
+    //   "\\": [192, 896],
+    //   // beamsplitter
+    //   "↑": [0, 960],
+    //   "↗": [64, 960],
+    //   "→": [128, 960],
+    //   "↘": [192, 960],
+    //   "↓": [192, 960],
+    //   "↙": [192, 960],
+    //   "←": [192, 960],
+    //   "↖": [192, 960],
+    //   // glass slab
+    //   G: [1152, 0],
+    //   // void
+    //   V: [1216, 0],
+    //   // neutral density filter
+    //   F: [1280, 0],
+    //   // Blank tile
+    //   // " ": [1344, 0],
+    //   " ": [1408, 0],
+    //   b: [1472, 0],
+    //   n: [1536, 0]
+    // }
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.body.appendChild(this.display.getContainer()!);
 
@@ -145,7 +149,6 @@ export default class Game {
     foregroundColor = "white",
     backgroundColor = "#2e006a"
   ): void {
-    // this.display.draw(cell.x, cell.y, cell.ascii, cell.foregroundColor, cell.backgroundColor)
     this.display.draw(
       cell.x,
       cell.y,
@@ -221,9 +224,9 @@ export default class Game {
 
   private drawPanel(): void {
     this.display.clear();
-    // this.grid.draw(this);
     this.statusLine.draw();
     this.messageLog.draw();
+    // this.grid.draw(this);
     this.drawPlayer(this.player.coord, this.player.glyph);
     // for (let enemy of this.enemies) {
     //     this.draw(enemy.position, enemy.glyph);
