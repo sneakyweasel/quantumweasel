@@ -6,7 +6,6 @@ describe("Elements", () => {
     expect(elem.exportJSON()).toEqual({
       active: true,
       absorption: 0,
-      ascii: ["^", ">", "v", "<"],
       description: "A one-photon laser source",
       group: "Emitter",
       id: 1,
@@ -14,9 +13,10 @@ describe("Elements", () => {
       matrix: [],
       phase: 0,
       name: "laser",
-      tiles: "",
       foregroundColor: "white",
-      backgroundColor: "black"
+      backgroundColor: "black",
+      ascii: ["^", ">", "v", "<"],
+      tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
     });
   });
 

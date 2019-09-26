@@ -1,15 +1,18 @@
 export class Glyph {
   public character: string;
-  public foregroundColor: string;
   public backgroundColor: string;
+  public foregroundColor: string;
+  public tile: [number, number];
 
   constructor(
     character: string,
-    foregroundColor = "white",
-    backgroundColor = "black"
+    tile: [number, number],
+    backgroundColor = "black",
+    foregroundColor = "white"
   ) {
     this.character = character;
-    this.foregroundColor = foregroundColor;
     this.backgroundColor = backgroundColor;
+    this.foregroundColor = foregroundColor;
+    this.tile = tile;
   }
 }

@@ -4,6 +4,7 @@ import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
 
 import Coord from "./Coord";
+import Element from "./Element";
 import Cell from "./Cell";
 import Grid from "./Grid";
 import Level from "./Level";
@@ -43,9 +44,10 @@ export default class Game {
 
     const tileSet = document.createElement("img");
     tileSet.src = "./tiles/tilemap.png";
+    const tiles = Element.processTileMap(64);
 
     this.display = new Display({
-      // layout: "tile-gl",
+      layout: "tile-gl",
       bg: "transparent",
       width: this.gameSize.width,
       height: this.gameSize.height,
@@ -53,63 +55,8 @@ export default class Game {
       tileWidth: 64,
       tileHeight: 64,
       tileSet,
-      tileMap: {}
+      tileMap: tiles
     });
-    // tiles: {
-    //   // Passive, energized, active elements
-    //   // void
-    //   "@": [0, 192],
-    //   // Laser
-    //   // tslint:disable: object-literal-key-quotes
-    //   "^": [0, 0],
-    //   ">": [64, 0],
-    //   v: [128, 0],
-    //   "<": [192, 0],
-    //   // rock passive, energized and active
-    //   "#": [0, 64],
-    //   r: [64, 64],
-    //   R: [128, 64],
-    //   // detector passive, energized and active
-    //   "⇑": [0, 384],
-    //   "⇒": [64, 384],
-    //   "⇓": [128, 384],
-    //   "⇐": [192, 384],
-    //   // omni detector passive, energized, active
-    //   "¤": [0, 512],
-    //   O: [0, 512],
-    //   // photon
-    //   "~0": [704, 0],
-    //   "~1": [768, 0],
-    //   // mine
-    //   "*p": [832, 0],
-    //   "*e": [896, 0],
-    //   "*a": [960, 0],
-    //   // mirror
-    //   "|": [0, 896],
-    //   "/": [64, 896],
-    //   "-": [128, 896],
-    //   "\\": [192, 896],
-    //   // beamsplitter
-    //   "↑": [0, 960],
-    //   "↗": [64, 960],
-    //   "→": [128, 960],
-    //   "↘": [192, 960],
-    //   "↓": [192, 960],
-    //   "↙": [192, 960],
-    //   "←": [192, 960],
-    //   "↖": [192, 960],
-    //   // glass slab
-    //   G: [1152, 0],
-    //   // void
-    //   V: [1216, 0],
-    //   // neutral density filter
-    //   F: [1280, 0],
-    //   // Blank tile
-    //   // " ": [1344, 0],
-    //   " ": [1408, 0],
-    //   b: [1472, 0],
-    //   n: [1536, 0]
-    // }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.body.appendChild(this.display.getContainer()!);
@@ -133,6 +80,7 @@ export default class Game {
     );
 
     this.initializeGame();
+    this.grid.draw(this);
     this.mainLoop();
   }
 
@@ -259,5 +207,6 @@ export default class Game {
 //     width: this.gameSize.width,
 //     height: this.gameSize.height,
 //     tileColorize: true,
-//     fontSize: 30
+//     fontSize: 30,
+//     forceSquareRatio:true
 // })

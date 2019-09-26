@@ -15,7 +15,7 @@ export default class Player implements Actor {
   public coord: Coord;
 
   constructor(game: Game, coord: Coord) {
-    this.glyph = new Glyph("@", "#ff0", "#ff00ff");
+    this.glyph = new Glyph("@", [0, 0]);
     this.type = ActorType.Player;
     this.game = game;
     this.coord = coord;

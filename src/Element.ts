@@ -4,50 +4,63 @@
 // FIXME: This class needs rewrite with glyphs and func
 
 import { jsonElements } from "../elements/elements";
+import { Glyph } from "./Glyph";
 
 export default class Element {
   id: number;
   name: string;
-  ascii: string[];
   group: string;
   description: string;
   link: string;
   active: boolean;
-  tiles: string;
   absorption: number;
   phase: number;
+  matrix: number[][];
   foregroundColor: string;
   backgroundColor: string;
-  matrix: number[][];
+  ascii: string[];
+  tiles: number[][];
+  glyph: Glyph;
 
   constructor(
     id: number,
     name: string,
-    ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
     group = "",
     description = "",
     link = "",
     active = false,
-    tiles = "tilemap.png",
     absorption = 0,
     phase = 0,
+    matrix: number[][] = [[0, 0], [0, 0]],
     foregroundColor = "white",
     backgroundColor = "black",
-    matrix: number[][] = [[0, 0], [0, 0]]
+    ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
+    tiles: number[][] = [
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0]
+    ],
+    glyph: Glyph = new Glyph(" ", [0, 0])
   ) {
     this.id = id;
     this.name = name;
-    this.ascii = ascii;
     this.group = group;
     this.description = description;
     this.link = link;
     this.active = active;
-    this.tiles = tiles;
     this.absorption = absorption;
     this.phase = phase;
+    this.matrix = matrix;
     this.foregroundColor = foregroundColor;
     this.backgroundColor = backgroundColor;
-    this.matrix = matrix;
+    this.ascii = ascii;
+    this.tiles = tiles;
+    this.glyph = glyph;
   }
 
   // Compute the rotation angle from the number of sprites
@@ -66,62 +79,82 @@ export default class Element {
     return {
       id: this.id,
       name: this.name,
-      ascii: this.ascii,
       group: this.group,
       description: this.description,
       link: this.link,
       active: this.active,
-      tiles: this.tiles,
       absorption: this.absorption,
       phase: this.phase,
+      matrix: this.matrix,
       foregroundColor: this.foregroundColor,
       backgroundColor: this.backgroundColor,
-      matrix: this.matrix
+      ascii: this.ascii,
+      tiles: this.tiles
     };
+  }
+
+  // Use the element id to get their row in the tilemap file multiplied bu the tile size
+  // static processTileMap(tilesize = 64): { [x: number; y: number]: string } {
+  static processTileMap(tilesize = 64): { [symbol: string]: [number, number] } {
+    const tileMap: { [symbol: string]: [number, number] } = {};
+    jsonElements.forEach(elem => {
+      const id = elem.id;
+      elem.ascii.forEach((symbol, index) => {
+        const x = id * tilesize;
+        const y = index * tilesize;
+        console.log(
+          `Processing ${elem.name}: Position: ${symbol} - [X:${x}, Y:${y}]`
+        );
+        tileMap[symbol] = [x, y];
+      });
+    });
+    return tileMap;
   }
 
   // Static JSON load
   // FIXME: It's goddamn ugly
   static fromName(name: string, version = 2): Element {
-    // const jsonElements = require(`../elements/elements.json`)
-
     if (version === 2) {
-      const elem = jsonElements.find((elem: { name: string }) => {
-        return elem.name === name;
-      });
+      const elem = jsonElements.find(
+        (elem: { name: string; tiles: number[][] }) => {
+          return elem.name === name;
+        }
+      );
       return new Element(
         elem!.id,
         elem!.name,
-        elem!.ascii,
         elem!.group,
         elem!.description,
         elem!.link,
         elem!.active,
-        elem!.tiles,
         elem!.absorption,
         elem!.phase,
+        elem!.matrix,
         elem!.foregroundColor,
         elem!.backgroundColor,
-        elem!.matrix
+        elem!.ascii,
+        elem!.tiles
       );
     } else {
-      const elem = jsonElements.find((elem: { namev1: string }) => {
-        return elem.namev1 === name;
-      });
+      const elem = jsonElements.find(
+        (elem: { namev1: string; tiles: number[][] }) => {
+          return elem.namev1 === name;
+        }
+      );
       return new Element(
         elem!.id,
         elem!.name,
-        elem!.ascii,
         elem!.group,
         elem!.description,
         elem!.link,
         elem!.active,
-        elem!.tiles,
         elem!.absorption,
         elem!.phase,
+        elem!.matrix,
         elem!.foregroundColor,
         elem!.backgroundColor,
-        elem!.matrix
+        elem!.ascii,
+        elem!.tiles
       );
     }
   }
