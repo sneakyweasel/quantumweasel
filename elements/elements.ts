@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const jsonElements = [
   {
-    id: 0,
     name: "void",
     namev1: "Void",
     group: "Basic",
@@ -12,13 +11,13 @@ export const jsonElements = [
     phase: 0,
     matrix: [],
 
+    id: 19,
     foregroundColor: "white",
     backgroundColor: "#2e006a",
     ascii: [" "],
-    tiles: [[0, 0]]
+    tiles: [[0, 20]]
   },
   {
-    id: 1,
     name: "laser",
     namev1: "Source",
     group: "Emitter",
@@ -29,13 +28,13 @@ export const jsonElements = [
     phase: 0,
     matrix: [],
 
+    id: 0,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["^", ">", "v", "<"],
-    tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+    tiles: [[1, 0], [1, 0], [2, 0], [3, 0]]
   },
   {
-    id: 2,
     name: "mirror",
     namev1: "ThinMirror",
     group: "Direction",
@@ -46,13 +45,22 @@ export const jsonElements = [
     phase: 0,
     matrix: [],
 
+    id: 14,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
-    tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+    tiles: [
+      [15, 0],
+      [15, 1],
+      [15, 2],
+      [15, 3],
+      [15, 4],
+      [15, 5],
+      [15, 6],
+      [15, 7]
+    ]
   },
   {
-    id: 3,
     name: "detector",
     namev1: "Detector",
     group: "Absorber",
@@ -63,13 +71,30 @@ export const jsonElements = [
     phase: 0,
     matrix: [],
 
+    id: 6,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["⇑", "⇒", "⇓", "⇐"],
     tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
   },
   {
-    id: 4,
+    name: "omnidetector",
+    namev1: "OmniDetector?",
+    group: "Absorber",
+    description: "A omni-direction one-photon detector",
+    link: "./elements/omnidetector",
+    active: false,
+    absorption: 1,
+    phase: 0,
+    matrix: [],
+
+    id: 8,
+    foregroundColor: "white",
+    backgroundColor: "black",
+    ascii: ["O"],
+    tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+  },
+  {
     name: "rock",
     namev1: "Rock",
     group: "Absorber",
@@ -80,13 +105,13 @@ export const jsonElements = [
     phase: 0,
     matrix: [],
 
+    id: 1,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["#"],
     tiles: [[0, 0]]
   },
   {
-    id: 5,
     name: "mine",
     namev1: "Mine",
     group: "Absorber",
@@ -97,13 +122,13 @@ export const jsonElements = [
     phase: 0,
     matrix: [],
 
+    id: 11,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["!"],
     tiles: [[0, 0]]
   },
   {
-    id: 6,
     name: "beamsplitter",
     namev1: "ThinSplitter",
     group: "Direction",
@@ -113,6 +138,7 @@ export const jsonElements = [
     absorption: 0,
     phase: 0,
 
+    id: 15,
     matrix: [],
     foregroundColor: "white",
     backgroundColor: "black",
@@ -120,7 +146,6 @@ export const jsonElements = [
     tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
   },
   {
-    id: 7,
     name: "filter",
     namev1: "Absorber",
     group: "Absorber",
@@ -129,15 +154,15 @@ export const jsonElements = [
     active: false,
     absorption: 0.5,
     phase: 0,
-
     matrix: [],
+
+    id: 19,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["-"],
     tiles: [[0, 0]]
   },
   {
-    id: 8,
     name: "phaseinc",
     namev1: "VacuumJar",
     group: "Phase",
@@ -146,15 +171,15 @@ export const jsonElements = [
     active: false,
     absorption: 0,
     phase: 0.25,
-
     matrix: [],
+
+    id: 17,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["↝"],
     tiles: [[0, 0]]
   },
   {
-    id: 9,
     name: "phasedec",
     namev1: "Glass",
     group: "Phase",
@@ -163,8 +188,9 @@ export const jsonElements = [
     active: false,
     absorption: 0,
     phase: -0.25,
-
     matrix: [],
+
+    id: 16,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["↜"],

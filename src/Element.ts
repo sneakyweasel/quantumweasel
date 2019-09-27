@@ -98,14 +98,13 @@ export default class Element {
   static processTileMap(tilesize = 64): { [symbol: string]: [number, number] } {
     const tileMap: { [symbol: string]: [number, number] } = {};
     jsonElements.forEach(elem => {
-      const id = elem.id;
-      elem.ascii.forEach((symbol, index) => {
-        const x = id * tilesize;
-        const y = index * tilesize;
+      elem.tiles.forEach((_tile, index) => {
+        const y = elem.id * tilesize;
+        const x = index * tilesize;
         console.log(
-          `Processing ${elem.name}: Position: ${symbol} - [X:${x}, Y:${y}]`
+          `Processing ${elem.name}: Position: ${elem.ascii[index]} - [X:${x}, Y:${y}]`
         );
-        tileMap[symbol] = [x, y];
+        tileMap[elem.ascii[index]] = [x, y];
       });
     });
     return tileMap;

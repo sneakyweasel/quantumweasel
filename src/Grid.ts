@@ -186,12 +186,12 @@ export default class Grid {
       for (let x = 0; x < this.cols; x++) {
         const coord = new Coord(y, x);
         const cell = this.get(coord);
-        const lasers = game.frames[game.frames.length - 1].laserCoords();
-        if (coord.isIncludedIn(lasers)) {
-          game.draw(cell, "white", "red");
-        } else {
-          game.draw(cell, "white", "#2e006a");
-        }
+        game.draw(cell, "white", "#2e006a");
+        // const lasers = game.frames[game.frames.length - 1].laserCoords();
+        // if (coord.isIncludedIn(lasers)) {
+        //   game.draw(cell, "white", "red");
+        // } else {
+        // }
       }
     }
   }

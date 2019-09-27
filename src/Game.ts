@@ -45,9 +45,11 @@ export default class Game {
     const tileSet = document.createElement("img");
     tileSet.src = "./tiles/tilemap.png";
     const tiles = Element.processTileMap(64);
+    tiles["@"] = [0, 3 * 64];
+    console.log(JSON.stringify(tiles));
 
     this.display = new Display({
-      layout: "tile-gl",
+      layout: "tile",
       bg: "transparent",
       width: this.gameSize.width,
       height: this.gameSize.height,
@@ -141,11 +143,11 @@ export default class Game {
       this.statusLine.boxes = 0;
     }
     this.gameState.reset();
-    this.grid.draw(this);
     this.player = new Player(this, this.grid.center);
     this.scheduler = new Scheduler.Simple();
     this.scheduler.add(this.player, true);
     this.drawPanel();
+    this.grid.draw(this);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -172,9 +174,9 @@ export default class Game {
 
   private drawPanel(): void {
     this.display.clear();
+    this.grid.draw(this);
     this.statusLine.draw();
     this.messageLog.draw();
-    // this.grid.draw(this);
     this.drawPlayer(this.player.coord, this.player.glyph);
     // for (let enemy of this.enemies) {
     //     this.draw(enemy.position, enemy.glyph);

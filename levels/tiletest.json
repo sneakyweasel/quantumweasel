@@ -5,7 +5,7 @@
     "group": "Dev",
     "description": "Debugging level",
     "completed": false,
-    "rows": 10,
+    "rows": 18,
     "cols": 10,
     "cells": [
         {
@@ -16,9 +16,58 @@
             "frozen": true
         },        
         {
-            "y": 5,
+            "y": 3,
             "x": 6,
             "element": "mirror",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 4,
+            "x": 6,
+            "element": "beamsplitter",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 5,
+            "x": 6,
+            "element": "filter",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 6,
+            "x": 6,
+            "element": "detector",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 7,
+            "x": 6,
+            "element": "phaseinc",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 8,
+            "x": 6,
+            "element": "phasedec",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 9,
+            "x": 6,
+            "element": "filter",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "y": 9,
+            "x": 6,
+            "element": "mine",
             "rotation": 0,
             "frozen": false
         }
@@ -26,7 +75,7 @@
     "goals": [
         {
             "y": 6,
-            "x": 20,
+            "x": 6,
             "threshold": 1
         }
     ],
