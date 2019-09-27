@@ -1,10 +1,15 @@
 // HINT CLASS
 // Structure extracted for v1: https://github.com/stared/quantum-game/blob/master/data/levels_game.json
+// TODO: Link hint activation with goals
 
 import Coord from "./Coord";
 
-// TODO: Check if an uid is needed for hints
-// TODO: Check what triangleI means
+export interface HintInterface {
+  x: number;
+  y: number;
+  message: string;
+}
+
 export default class Hint {
   coord: Coord;
   width: number;
@@ -38,9 +43,7 @@ export default class Hint {
   }
 
   // Import JSON
-  static importJSON(
-    jsonHints: Array<{ x: number; y: number; message: string }>
-  ): Hint[] {
+  static importJSON(jsonHints: HintInterface[]): Hint[] {
     const hints: Hint[] = [];
     jsonHints.forEach(hint => {
       const coord = new Coord(hint.x, hint.y);

@@ -3,7 +3,7 @@
 // FIXME: Duplicate between path and coord
 // FIXME: Class needs rework
 import Coord from "./Coord";
-import Cell from "./Cell";
+import { Cell } from "./Cell";
 import Grid from "./Grid";
 
 export interface PathPointer {

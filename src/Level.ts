@@ -3,11 +3,11 @@
 // Then the frozen elements are removed and put in the toolbox
 
 import Coord from "./Coord";
-import Cell from "./Cell";
+import { Cell } from "./Cell";
 import Element from "./Element";
 import Grid from "./Grid";
 import Hint from "./Hint";
-import Goal from "./Goal";
+import { Goal } from "./Goal";
 import Inventory from "./Inventory";
 
 export default class Level {

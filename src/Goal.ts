@@ -1,16 +1,22 @@
 // GOAL CLASS
 // Each detector should have a related threshold level in order to achieve the level.
 // Goal should extend Cell or should extend Coord
-
+// FIXME: Extend Coord in a nice way
 import Coord from "./Coord";
 
-export default class Goal extends Coord {
+export interface GoalInterface {
+  coord: Coord;
+  threshold: number;
+  value: number;
+}
+
+export class Goal {
   coord: Coord;
   threshold: number;
   value: number;
 
   constructor(coord: Coord, threshold: number, value = 0) {
-    super(coord.y, coord.x);
+    // super(coord.y, coord.x);
     this.coord = coord;
     this.threshold = threshold;
     this.value = value;
@@ -42,14 +48,12 @@ export default class Goal extends Coord {
   }
 
   // Import JSON
-  // static importJSON(
-  //   jsonGoals: Array<{ x: number; y: number; threshold: number }>
-  // ): Goal[] {
-  //   const goals: Goal[] = [];
-  //   jsonGoals.forEach(goal => {
-  //     const coord = new Coord(goal.y, goal.x);
-  //     goals.push(new Goal(coord, goal.threshold));
-  //   });
-  //   return goals;
-  // }
+  static importJSON(jsonGoals: GoalInterface[]): Goal[] {
+    const goals: Goal[] = [];
+    jsonGoals.forEach(goal => {
+      const coord = goal.coord;
+      goals.push(new Goal(coord, goal.threshold));
+    });
+    return goals;
+  }
 }

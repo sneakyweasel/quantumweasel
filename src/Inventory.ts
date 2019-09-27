@@ -2,24 +2,27 @@
 // Toolbox class includes the various elements accessible to the player for a specific level.
 // Sandbox mode would have infinite tools available to the player
 
-import Element from "./Element";
+export interface Tool {
+  element: string;
+  quantity: number;
+}
 
 export default class Inventory {
-  tools: Array<[Element, number]>;
+  tools: Tool[];
 
-  constructor(tools: Array<[Element, number]> = []) {
+  constructor(tools: Tool[] = []) {
     this.tools = tools;
   }
 
-  add(element: Element, quantity = 1): void {
+  add(tool: Tool): void {
     // Check if element exists in list to update its value otherzise create it
-    this.tools.push([element, quantity]);
+    this.tools.push(tool);
   }
 
   toString(): string {
     let resultStr = "Toolbox contains:\n";
-    this.tools.forEach((tool: [Element, number]) => {
-      resultStr += JSON.stringify(tool[0]);
+    this.tools.forEach((tool: Tool) => {
+      resultStr += JSON.stringify(tool);
     });
     return resultStr;
   }

@@ -5,7 +5,15 @@ import Element from "./Element";
 import { Pointer } from "./Pointer";
 import Game from "./Game";
 
-export default class Cell extends Coord {
+export interface CellInterface {
+  x: number;
+  y: number;
+  element: string;
+  rotation: number;
+  frozen: boolean;
+}
+
+export class Cell extends Coord {
   coord: Coord; // required
   element: Element; // optional
   rotation: number; // default: void
@@ -71,16 +79,10 @@ export default class Cell extends Coord {
   }
 
   // Export to JSON format
-  exportCellJSON(): {
-    y: number;
-    x: number;
-    element: string;
-    rotation: number;
-    frozen: boolean;
-  } {
+  exportCellJSON(): CellInterface {
     return {
-      x: this.coord.x,
       y: this.coord.y,
+      x: this.coord.x,
       element: this.element.name,
       rotation: this.rotation,
       frozen: this.frozen
@@ -88,13 +90,7 @@ export default class Cell extends Coord {
   }
 
   // Import from JSON
-  static importJSON(json: {
-    x: number;
-    y: number;
-    element: string;
-    rotation: number;
-    frozen: boolean;
-  }): Cell {
+  static importJSON(json: CellInterface): Cell {
     const coord = new Coord(json.y, json.x);
     const element = Element.fromName(json.element);
     return new Cell(coord, element, json.rotation, json.frozen);

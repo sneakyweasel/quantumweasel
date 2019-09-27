@@ -9,8 +9,8 @@
 // - No more particles
 
 // TODO: Check that the required conditions are met for starting the sim (begin - end)
-import Cell from "./Cell";
-import Goal from "./Goal";
+import { Cell } from "./Cell";
+import { Goal } from "./Goal";
 import Grid from "./Grid";
 import Level from "./Level";
 import { Pointer } from "./Pointer";
@@ -141,17 +141,6 @@ export default class Frame {
 
     return new Frame(this.level, this.step + 1, this.pointers, this.end);
   }
-
-  // Laser lines
-  // laserCoords(): Coord[] {
-  //   const laserCoords: Coord[] = [];
-  //   this.pointers.forEach(pointer => {
-  //     pointer.laserPath(this.grid, 30).forEach((coord: Coord) => {
-  //       laserCoords.push(coord);
-  //     });
-  //   });
-  //   return laserCoords;
-  // }
 
   // Overriden method
   toString(): string {

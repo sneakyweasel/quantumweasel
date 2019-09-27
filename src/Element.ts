@@ -6,6 +6,23 @@
 import { jsonElements } from "../elements/elements";
 import { Glyph } from "./Glyph";
 
+export interface ElementInterface {
+  id: number;
+  name: string;
+  group: string;
+  description: string;
+  link: string;
+  active: boolean;
+  absorption: number;
+  phase: number;
+  matrix: number[][];
+  foregroundColor: string;
+  backgroundColor: string;
+  ascii: string[];
+  tiles: number[][];
+  glyph: Glyph;
+}
+
 export default class Element {
   id: number;
   name: string;
@@ -75,7 +92,7 @@ export default class Element {
   }
 
   // Export JSON
-  exportJSON(): {} {
+  exportJSON(): ElementInterface {
     return {
       id: this.id,
       name: this.name,
@@ -89,7 +106,8 @@ export default class Element {
       foregroundColor: this.foregroundColor,
       backgroundColor: this.backgroundColor,
       ascii: this.ascii,
-      tiles: this.tiles
+      tiles: this.tiles,
+      glyph: this.glyph
     };
   }
 

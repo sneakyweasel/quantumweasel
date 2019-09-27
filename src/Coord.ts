@@ -1,6 +1,12 @@
 // COORDINATES CLASS
 // Low level coordinate functions
 // Coord is a [x, y, z?] convenient way to deal with coordinates.
+
+export interface CoordInterface {
+  x: number;
+  y: number;
+}
+
 export default class Coord {
   x: number;
   y: number;
@@ -84,7 +90,7 @@ export default class Coord {
   }
 
   // Export JSON
-  exportJSON(): { y: number; x: number } {
+  exportJSON(): CoordInterface {
     return {
       y: this.y,
       x: this.x
@@ -92,13 +98,8 @@ export default class Coord {
   }
 
   // Export JSON
-  static importJSON(json: { y: number; x: number }): Coord {
+  static importJSON(json: CoordInterface): Coord {
     return new Coord(json.y, json.x);
-  }
-
-  // Create from array of numbers
-  static fromArray(numArray: number[]): Coord {
-    return new Coord(numArray[0], numArray[1]);
   }
 
   // Conversion: uid -> coord

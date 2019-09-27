@@ -3,7 +3,7 @@ import Simple from "rot-js/lib/scheduler/simple";
 
 import Coord from "./Coord";
 import Element from "./Element";
-import Cell from "./Cell";
+import { Cell } from "./Cell";
 import Grid from "./Grid";
 import Level from "./Level";
 import GameState from "./GameState";
@@ -46,8 +46,6 @@ export default class Game {
     tileSet.src = `./tiles/tilemap_${this.tilesize}.png`;
     const tiles = Element.processTileMap(this.tilesize);
     tiles["@"] = [0, 29 * this.tilesize];
-    tiles[".."] = [0, 29 * this.tilesize];
-    tiles[":"] = [0, 29 * this.tilesize];
     console.log(JSON.stringify(tiles));
 
     this.display = new Display({

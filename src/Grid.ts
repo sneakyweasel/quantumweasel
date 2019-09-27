@@ -1,7 +1,7 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
-import Cell from "./Cell";
+import { Cell, CellInterface } from "./Cell";
 import Cluster from "./Cluster";
 import Coord from "./Coord";
 import Element from "./Element";
@@ -250,16 +250,7 @@ export default class Grid {
   }
 
   // import cells
-  // {x: 2, y: 2, element: "laser", rotation: 90, frozen: true}
-  public importJSON(
-    cells: Array<{
-      y: number;
-      x: number;
-      element: string;
-      rotation: number;
-      frozen: boolean;
-    }>
-  ): void {
+  public importJSON(cells: CellInterface[]): void {
     cells.forEach(cell => {
       const coord = new Coord(cell.y, cell.x);
       const element = Element.fromName(cell.element);
@@ -268,15 +259,8 @@ export default class Grid {
   }
 
   // export JSON file to save state oi the game
-  public exportJSON(): any {
-    const cells: {
-      y: number;
-      x: number;
-      element: string;
-      rotation: number;
-      frozen: boolean;
-    }[] = [];
-    // const cells: {} = [];
+  public exportJSON(): CellInterface[] {
+    const cells: CellInterface[] = [];
     this.unvoid.forEach(cell => {
       cells.push(cell.exportCellJSON());
     });
