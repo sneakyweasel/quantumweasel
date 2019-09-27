@@ -49,6 +49,9 @@ export default class Grid {
   get void(): Cell[] {
     return this.filteredBy("void");
   }
+  get unvoid(): Cell[] {
+    return this.filteredByNot("void");
+  }
   // Emitters
   get lasers(): Cell[] {
     return this.filteredBy("laser");
@@ -94,6 +97,12 @@ export default class Grid {
   public filteredBy(name: string): Cell[] {
     return this.cells.filter(cell => {
       return cell.element.name === name;
+    });
+  }
+  // Select cells by not type
+  public filteredByNot(name: string): Cell[] {
+    return this.cells.filter(cell => {
+      return cell.element.name !== name;
     });
   }
 
@@ -186,14 +195,25 @@ export default class Grid {
       for (let x = 0; x < this.cols; x++) {
         const coord = new Coord(y, x);
         const cell = this.get(coord);
-        game.draw(cell, "white", "#2e006a");
-        // const lasers = game.frames[game.frames.length - 1].laserCoords();
-        // if (coord.isIncludedIn(lasers)) {
-        //   game.draw(cell, "white", "red");
-        // } else {
-        // }
+        if (coord.isIncludedIn(game.lasers)) {
+          game.draw(cell, "white", "purple");
+        } else {
+          game.draw(cell);
+        }
       }
     }
+  }
+
+  // Laser lines
+  laserCoords(): Coord[] {
+    const laserCoords: Coord[] = [];
+    const pointers = this.lasers.map(laser => laser.fire());
+    pointers.forEach(pointer => {
+      pointer.laserPath(this, 30).forEach((coord: Coord) => {
+        laserCoords.push(coord);
+      });
+    });
+    return laserCoords;
   }
 
   // Include particle display in ascii render
@@ -248,7 +268,18 @@ export default class Grid {
   }
 
   // export JSON file to save state oi the game
-  public exportJSON(): string {
-    return JSON.stringify(this);
+  public exportJSON(): any {
+    const cells: {
+      y: number;
+      x: number;
+      element: string;
+      rotation: number;
+      frozen: boolean;
+    }[] = [];
+    // const cells: {} = [];
+    this.unvoid.forEach(cell => {
+      cells.push(cell.exportCellJSON());
+    });
+    return cells;
   }
 }

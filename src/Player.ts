@@ -20,17 +20,17 @@ export default class Player implements Actor {
     this.game = game;
     this.coord = coord;
   }
-
+  
   // Getters and setters
   get cell(): Cell {
     return this.game.grid.get(this.coord);
   }
-
+  
   // tslint:disable-next-line: no-any
   act(): Promise<string> {
     return InputUtility.waitForInput(this.handleInput.bind(this));
   }
-
+  
   // Offset of movement
   private handleInput(event: KeyboardEvent): boolean {
     let validInput = false;
@@ -67,7 +67,7 @@ export default class Player implements Actor {
 
       // Save JSON file with level
       case KEYS.VK_F1:
-        const json = this.game.frames[0].level.exportJSON();
+        const json = this.game.level.exportJSON();
         const blob = new Blob([JSON.stringify(json)], {
           type: "text/plain;charset=utf-8"
         });

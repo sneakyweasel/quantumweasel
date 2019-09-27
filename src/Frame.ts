@@ -147,7 +147,7 @@ export default class Frame {
   laserCoords(): Coord[] {
     const laserCoords: Coord[] = [];
     this.pointers.forEach(pointer => {
-      pointer.laserPath(this.grid, 50).forEach((coord: Coord) => {
+      pointer.laserPath(this.grid, 30).forEach((coord: Coord) => {
         laserCoords.push(coord);
       });
     });

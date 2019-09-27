@@ -1,5 +1,3 @@
-// TODO: Have a superposition of tiles and images
-
 import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
 
@@ -15,12 +13,10 @@ import MessageLog from "./MessageLog";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor, ActorType } from "./Actor";
-import { Glyph } from "./Glyph";
 
 export default class Game {
   private display: Display;
   private scheduler: Simple;
-  private level: Level;
   private player: Player;
   private statusLine: StatusLine;
   private messageLog: MessageLog;
@@ -29,8 +25,11 @@ export default class Game {
   private statusLinePosition: Coord;
   private actionLogPosition: Coord;
   private gameState: GameState;
+  private tilesize = 64;
+  public level: Level;
   public grid: Grid;
   public frames: Frame[];
+  public lasers: Coord[];
 
   constructor(level: Level) {
     this.mapSize = { width: level.grid.cols, height: level.grid.rows };
@@ -43,19 +42,19 @@ export default class Game {
     this.frames = [];
 
     const tileSet = document.createElement("img");
-    tileSet.src = "./tiles/tilemap.png";
-    const tiles = Element.processTileMap(64);
-    tiles["@"] = [0, 3 * 64];
+    tileSet.src = `./tiles/tilemap_${this.tilesize}.png`;
+    const tiles = Element.processTileMap(this.tilesize);
+    tiles["@"] = [0, 29 * this.tilesize];
     console.log(JSON.stringify(tiles));
 
     this.display = new Display({
-      layout: "tile",
+      layout: "tile-gl",
       bg: "transparent",
       width: this.gameSize.width,
       height: this.gameSize.height,
       fontSize: 20,
-      tileWidth: 64,
-      tileHeight: 64,
+      tileWidth: this.tilesize,
+      tileHeight: this.tilesize,
       tileSet,
       tileMap: tiles
     });
@@ -99,10 +98,14 @@ export default class Game {
     foregroundColor = "white",
     backgroundColor = "#2e006a"
   ): void {
+    const charList: string[] = [cell.ascii];
+    if (this.player.coord.equal(cell.coord)) {
+      charList.push("@");
+    }
     this.display.draw(
-      cell.x,
-      cell.y,
-      cell.ascii,
+      cell.coord.y,
+      cell.coord.x,
+      charList,
       foregroundColor,
       backgroundColor
     );
@@ -112,19 +115,8 @@ export default class Game {
   drawLaser(frame: Frame): void {
     const laserCoords = frame.laserCoords();
     laserCoords.forEach((coord: Coord) => {
-      this.display.draw(coord.y, coord.x, "", "", "#00ff00");
+      this.display.draw(coord.y, coord.x, "", "", "#ff0000");
     });
-  }
-
-  // Draw player
-  drawPlayer(coord: Coord, glyph: Glyph): void {
-    this.display.draw(
-      coord.y,
-      coord.x,
-      glyph.character,
-      glyph.foregroundColor,
-      glyph.backgroundColor
-    );
   }
 
   // Log state to console
@@ -147,9 +139,8 @@ export default class Game {
     this.scheduler = new Scheduler.Simple();
     this.scheduler.add(this.player, true);
     this.drawPanel();
-    this.grid.draw(this);
   }
-
+  
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async mainLoop(): Promise<any> {
     let actor: Actor;
@@ -158,12 +149,12 @@ export default class Game {
       if (!actor) {
         break;
       }
-
+      
       await actor.act();
       if (actor.type === ActorType.Player) {
         this.statusLine.turns += 1;
       }
-
+      
       this.drawPanel();
       if (this.gameState.isGameOver()) {
         await InputUtility.waitForInput(this.handleInput.bind(this));
@@ -171,15 +162,15 @@ export default class Game {
       }
     }
   }
-
+  
   private drawPanel(): void {
     this.display.clear();
-    this.grid.draw(this);
     this.statusLine.draw();
     this.messageLog.draw();
-    this.drawPlayer(this.player.coord, this.player.glyph);
+    this.lasers = this.frames[this.frames.length - 1].laserCoords();
+    this.grid.draw(this);
     // for (let enemy of this.enemies) {
-    //     this.draw(enemy.position, enemy.glyph);
+      //     this.draw(enemy.position, enemy.glyph);
     // }
   }
 
@@ -194,9 +185,9 @@ export default class Game {
 
   private writeHelpMessage(): void {
     const helpMessage = [
-      `I - ${this.level.name}`
-      // `Move: ZQSD, Add: 123..., Rotate: AE`,
-      // `Fire the laz0r5: Space Steps: RF`
+      `I - ${this.level.name}`,
+      `Move: ZQSD, Add: 123..., Rotate: AE`,
+      `Fire the laz0r5: Space Steps: RF`
     ];
     for (let index = helpMessage.length - 1; index >= 0; --index) {
       this.messageLog.appendText(helpMessage[index]);

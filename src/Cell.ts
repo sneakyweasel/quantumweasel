@@ -71,7 +71,13 @@ export default class Cell extends Coord {
   }
 
   // Export to JSON format
-  exportCellJSON(): {} {
+  exportCellJSON(): {
+    y: number;
+    x: number;
+    element: string;
+    rotation: number;
+    frozen: boolean;
+  } {
     return {
       x: this.coord.x,
       y: this.coord.y,

@@ -69,7 +69,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
       description: this.description,
       cols: this.grid.cols,
       rows: this.grid.rows,
-      cells: this.grid.cells.flatMap(cell => JSON.stringify(cell)),
+      cells: this.grid.exportJSON(),
       hints: this.hints.flatMap(hint => JSON.stringify(hint)),
       goals: this.goals.flatMap(goal => JSON.stringify(goal))
     };
@@ -86,14 +86,14 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
       rotation: number;
       frozen: boolean;
     }[];
-    goals: { x: number; y: number; threshold: number }[];
-    hints: { x: number; y: number; message: string }[];
+    goals: { y: number; x: number; threshold: number }[];
+    hints: { y: number; x: number; message: string }[];
     id: number;
     name: string;
     group: string;
     description: string;
   }): Level {
-    const grid = new Grid(json.cols, json.rows);
+    const grid = new Grid(json.rows, json.cols);
     grid.importJSON(json.cells);
     // const goals = Goal.importJSON(json.goals);
     // const hints = Hint.importJSON(json.hints);
