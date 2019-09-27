@@ -20,17 +20,17 @@ export default class Player implements Actor {
     this.game = game;
     this.coord = coord;
   }
-  
+
   // Getters and setters
   get cell(): Cell {
     return this.game.grid.get(this.coord);
   }
-  
+
   // tslint:disable-next-line: no-any
   act(): Promise<string> {
     return InputUtility.waitForInput(this.handleInput.bind(this));
   }
-  
+
   // Offset of movement
   private handleInput(event: KeyboardEvent): boolean {
     let validInput = false;
@@ -109,6 +109,7 @@ export default class Player implements Actor {
     if (this.game.grid.includes(newCoord)) {
       this.coord = newCoord;
       validInput = true;
+      this.game.grid.draw(this.game);
     }
     return validInput;
   }

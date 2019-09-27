@@ -2,7 +2,7 @@
 // Basic class for the grid cells
 import Coord from "./Coord";
 import Element from "./Element";
-import Pointer from "./Pointer";
+import { Pointer } from "./Pointer";
 import Game from "./Game";
 
 export default class Cell extends Coord {

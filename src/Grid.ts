@@ -6,7 +6,7 @@ import Cluster from "./Cluster";
 import Coord from "./Coord";
 import Element from "./Element";
 import Game from "./Game";
-import Pointer from "./Pointer";
+import { Pointer, PathPointer } from "./Pointer";
 
 export default class Grid {
   public cols: number;
@@ -195,7 +195,7 @@ export default class Grid {
       for (let x = 0; x < this.cols; x++) {
         const coord = new Coord(y, x);
         const cell = this.get(coord);
-        if (coord.isIncludedIn(game.lasers)) {
+        if (coord.isIncludedIn(game.lasers.map(pointer => pointer.coord))) {
           game.draw(cell, "white", "purple");
         } else {
           game.draw(cell);
@@ -205,12 +205,12 @@ export default class Grid {
   }
 
   // Laser lines
-  laserCoords(): Coord[] {
-    const laserCoords: Coord[] = [];
+  laserCoords(): PathPointer[] {
+    const laserCoords: PathPointer[] = [];
     const pointers = this.lasers.map(laser => laser.fire());
     pointers.forEach(pointer => {
-      pointer.laserPath(this, 30).forEach((coord: Coord) => {
-        laserCoords.push(coord);
+      pointer.laserPath(this, 30).forEach((laserPoint: PathPointer) => {
+        laserCoords.push(laserPoint);
       });
     });
     return laserCoords;

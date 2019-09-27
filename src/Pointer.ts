@@ -1,23 +1,33 @@
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
+// FIXME: Class needs rework
 import Coord from "./Coord";
 import Cell from "./Cell";
 import Grid from "./Grid";
 
-export default class Pointer extends Coord {
+export interface PathPointer {
   coord: Coord;
   direction: number;
   intensity: number;
   phase: number;
-  path: Coord[];
+}
+
+export class Pointer extends Coord {
+  coord: Coord;
+  direction: number;
+  intensity: number;
+  phase: number;
+  path: PathPointer[];
 
   constructor(
     coord: Coord,
     direction: number,
     intensity = 1,
     phase = 0,
-    path: Coord[] = [coord]
+    path: PathPointer[] = [
+      { coord: coord, direction: direction, intensity: intensity, phase: phase }
+    ]
   ) {
     super(coord.y, coord.x);
     this.coord = coord;
@@ -27,6 +37,11 @@ export default class Pointer extends Coord {
     this.path = path;
   }
 
+  // Origin of the pointer
+  get origin(): Coord {
+    return this.path[0].coord;
+  }
+
   // Check is a particle has any intensity
   get alive(): boolean {
     return this.intensity > 0;
@@ -34,13 +49,7 @@ export default class Pointer extends Coord {
 
   // Deep clone of the pointer
   get clone(): Pointer {
-    return new Pointer(
-      this.coord,
-      this.direction,
-      this.intensity,
-      this.phase,
-      this.path
-    );
+    return new Pointer(this.coord, this.direction, this.intensity, this.phase);
   }
 
   // Pointer is on a specific cell shorthand
@@ -69,13 +78,18 @@ export default class Pointer extends Coord {
           throw Error(`Something went wrong with pointers and direction.`);
       }
       // Update coord with latest computed path coordinates
-      this.path.push(this.coord);
+      this.path.push({
+        coord: this.coord,
+        direction: this.direction,
+        intensity: this.intensity,
+        phase: this.phase
+      });
     }
     return this;
   }
-  // FIXME: Add intensity to the Coord
+
   // Compute laser path
-  laserPath(grid: Grid, maxFrames = 50): Coord[] {
+  laserPath(grid: Grid, maxFrames = 50): PathPointer[] {
     // Make a depp clone of the pointer
     let alive: Pointer[] = [this.clone];
     const dead: Pointer[] = [];
@@ -139,12 +153,12 @@ export default class Pointer extends Coord {
     }
 
     // Flatten and dedupe list of pointers
-    const coords: Coord[][] = [];
+    const pathPointers: PathPointer[][] = [];
     alive = dead.concat(alive);
     alive.forEach(pointer => {
-      coords.push(pointer.path);
+      pathPointers.push(pointer.path);
     });
-    return [...new Set(coords.flat())];
+    return [...new Set(pathPointers.flat())];
   }
 
   // Override method to display nicely
@@ -163,9 +177,15 @@ export default class Pointer extends Coord {
     direction: number;
     intensity: number;
     phase: number;
-    path: { y: number; x: number }[];
+    path: { coord: Coord; direction: number; phase: number }[];
   } {
-    const path = this.path.map((coord: Coord) => coord.exportJSON());
+    const path = this.path.map((position: any) => {
+      return {
+        coord: position.coord.exportJSON(),
+        direction: this.direction,
+        phase: this.phase
+      };
+    });
     return {
       x: this.coord.x,
       y: this.coord.y,
@@ -185,9 +205,9 @@ export default class Pointer extends Coord {
     phase: number;
     path: { y: number; x: number }[];
   }): Pointer {
-    const path = json.path.map(jsonCoord => Coord.importJSON(jsonCoord));
+    // const path = json.path.map(jsonCoord => Coord.importJSON(jsonCoord));
     const coord = new Coord(json.y, json.x);
-    return new Pointer(coord, json.direction, json.intensity, json.phase, path);
+    return new Pointer(coord, json.direction, json.intensity, json.phase);
   }
 
   // Format active particle list

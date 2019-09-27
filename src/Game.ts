@@ -13,6 +13,7 @@ import MessageLog from "./MessageLog";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor, ActorType } from "./Actor";
+import { PathPointer } from "./Pointer";
 
 export default class Game {
   private display: Display;
@@ -29,7 +30,7 @@ export default class Game {
   public level: Level;
   public grid: Grid;
   public frames: Frame[];
-  public lasers: Coord[];
+  public lasers: PathPointer[];
 
   constructor(level: Level) {
     this.mapSize = { width: level.grid.cols, height: level.grid.rows };
@@ -45,6 +46,8 @@ export default class Game {
     tileSet.src = `./tiles/tilemap_${this.tilesize}.png`;
     const tiles = Element.processTileMap(this.tilesize);
     tiles["@"] = [0, 29 * this.tilesize];
+    tiles[".."] = [0, 29 * this.tilesize];
+    tiles[":"] = [0, 29 * this.tilesize];
     console.log(JSON.stringify(tiles));
 
     this.display = new Display({
@@ -86,11 +89,11 @@ export default class Game {
   }
 
   // Getters and setters
-  get playerCoord(): Coord {
-    return this.player.coord;
-  }
   get playerCell(): Cell {
     return this.player.cell;
+  }
+  get playerCoord(): Coord {
+    return this.player.coord;
   }
 
   draw(
@@ -109,14 +112,6 @@ export default class Game {
       foregroundColor,
       backgroundColor
     );
-  }
-
-  // Laser lines
-  drawLaser(frame: Frame): void {
-    const laserCoords = frame.laserCoords();
-    laserCoords.forEach((coord: Coord) => {
-      this.display.draw(coord.y, coord.x, "", "", "#ff0000");
-    });
   }
 
   // Log state to console
@@ -140,7 +135,7 @@ export default class Game {
     this.scheduler.add(this.player, true);
     this.drawPanel();
   }
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async mainLoop(): Promise<any> {
     let actor: Actor;
@@ -149,12 +144,12 @@ export default class Game {
       if (!actor) {
         break;
       }
-      
+
       await actor.act();
       if (actor.type === ActorType.Player) {
         this.statusLine.turns += 1;
       }
-      
+
       this.drawPanel();
       if (this.gameState.isGameOver()) {
         await InputUtility.waitForInput(this.handleInput.bind(this));
@@ -162,15 +157,15 @@ export default class Game {
       }
     }
   }
-  
+
   private drawPanel(): void {
     this.display.clear();
     this.statusLine.draw();
     this.messageLog.draw();
-    this.lasers = this.frames[this.frames.length - 1].laserCoords();
+    this.lasers = this.grid.laserCoords();
     this.grid.draw(this);
     // for (let enemy of this.enemies) {
-      //     this.draw(enemy.position, enemy.glyph);
+    //     this.draw(enemy.position, enemy.glyph);
     // }
   }
 

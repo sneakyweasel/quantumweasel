@@ -4,8 +4,8 @@
   "name": "Divide and conquer!",
   "group": "Game",
   "description": "Divide, ..., then conquer!",
-  "cols": 15,
-  "rows": 12,
+  "cols": 20,
+  "rows": 20,
   "cells": [
     { "x": 6, "y": 3, "element": "detector", "rotation": 90, "frozen": true },
     {
