@@ -45,6 +45,7 @@ export default class Player implements Actor {
       const elemIndex = (list.indexOf(this.element.name) + 1) % list.length;
       this.cell.element = Element.fromName(list[elemIndex]);
     } else {
+      this.cell.rotation = 0;
       this.cell.element = Element.fromName(list[0]);
     }
   }

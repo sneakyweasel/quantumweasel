@@ -56,10 +56,12 @@ export default class Grid {
   get unvoid(): Cell[] {
     return this.filteredByNot("void");
   }
+
   // Emitters
   get lasers(): Cell[] {
     return this.filteredBy("laser");
   }
+
   // Reflectors
   get mirrors(): Cell[] {
     return this.filteredBy("mirror");
@@ -67,25 +69,70 @@ export default class Grid {
   get beamsplitters(): Cell[] {
     return this.filteredBy("beamsplitter");
   }
+  get coatedsplitters(): Cell[] {
+    return this.filteredBy("coatedsplitter");
+  }
+  get polarsplitters(): Cell[] {
+    return this.filteredBy("polarsplitter");
+  }
   get reflectors(): Cell[] {
-    return this.mirrors.concat(this.beamsplitters);
+    return this.mirrors.concat(
+      this.beamsplitters,
+      this.coatedsplitters,
+      this.polarsplitters
+    );
   }
+
   // Absorbers
-  get mines(): Cell[] {
-    return this.filteredBy("mine");
-  }
   get detectors(): Cell[] {
     return this.filteredBy("detector");
+  }
+  get mines(): Cell[] {
+    return this.filteredBy("mine");
   }
   get rocks(): Cell[] {
     return this.filteredBy("rock");
   }
+  get omnidetectors(): Cell[] {
+    return this.filteredBy("omnidetectors");
+  }
   get filters(): Cell[] {
     return this.filteredBy("filter");
   }
-  get absorbers(): Cell[] {
-    return this.mines.concat(this.detectors, this.rocks, this.filters);
+  get walls(): Cell[] {
+    return this.filteredBy("wall");
   }
+  get absorbers(): Cell[] {
+    return this.detectors.concat(
+      this.mines,
+      this.rocks,
+      this.omnidetectors,
+      this.filters,
+      this.walls
+    );
+  }
+
+  // Polarizers
+  get absorbPolarizers(): Cell[] {
+    return this.filteredBy("absorb-polarizer");
+  }
+  get waveplates(): Cell[] {
+    return this.filteredBy("waveplate");
+  }
+  get sugars(): Cell[] {
+    return this.filteredBy("sugar");
+  }
+  get faradays(): Cell[] {
+    return this.filteredBy("faraday");
+  }
+  get polarizers(): Cell[] {
+    return this.absorbPolarizers.concat(
+      this.waveplates,
+      this.sugars,
+      this.faradays
+    );
+  }
+
   // Phasers
   get phaseincs(): Cell[] {
     return this.filteredBy("phaseinc");
@@ -164,10 +211,14 @@ export default class Grid {
     if (!cellSrc.frozen && !cellDst.frozen) {
       this.set(new Cell(src, cellDst.element, cellDst.rotation));
       this.set(new Cell(dst, cellSrc.element, cellSrc.rotation));
-      // console.log(`Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`)
+      console.log(
+        `Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`
+      );
       return true;
     } else {
-      // console.error(`Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`)
+      console.error(
+        `Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`
+      );
       return false;
     }
   }

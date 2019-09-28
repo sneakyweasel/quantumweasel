@@ -1,89 +1,309 @@
-
 {
     "id": 0,
     "name": "Tile tester",
     "group": "Dev",
     "description": "Debugging level",
-    "completed": false,
-    "rows": 18,
-    "cols": 10,
+    "cols": 18,
+    "rows": 10,
     "cells": [
         {
-            "y": 2,
-            "x": 6,
-            "element": "laser",
-            "rotation": 90,
-            "frozen": true
-        },        
+            "coord": {
+                "y": 0,
+                "x": 1
+            },
+            "element": "wall",
+            "rotation": 0,
+            "frozen": false
+        },
         {
-            "y": 3,
-            "x": 6,
+            "coord": {
+                "y": 0,
+                "x": 2
+            },
+            "element": "gate",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 0,
+                "x": 3
+            },
+            "element": "laser",
+            "rotation": 0,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 0,
+                "x": 4
+            },
             "element": "mirror",
             "rotation": 0,
             "frozen": false
         },
         {
-            "y": 4,
-            "x": 6,
+            "coord": {
+                "y": 0,
+                "x": 5
+            },
             "element": "beamsplitter",
             "rotation": 0,
             "frozen": false
         },
         {
-            "y": 5,
-            "x": 6,
-            "element": "filter",
+            "coord": {
+                "y": 0,
+                "x": 6
+            },
+            "element": "coatedsplitter",
             "rotation": 0,
             "frozen": false
         },
         {
-            "y": 6,
-            "x": 6,
-            "element": "detector",
+            "coord": {
+                "y": 0,
+                "x": 7
+            },
+            "element": "polarsplitter",
             "rotation": 0,
             "frozen": false
         },
         {
-            "y": 7,
-            "x": 6,
-            "element": "phaseinc",
+            "coord": {
+                "y": 1,
+                "x": 2
+            },
+            "element": "gate",
+            "rotation": 180,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 1,
+                "x": 3
+            },
+            "element": "laser",
+            "rotation": 90,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 1,
+                "x": 4
+            },
+            "element": "mirror",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 1,
+                "x": 5
+            },
+            "element": "beamsplitter",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 1,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 1,
+                "x": 7
+            },
+            "element": "polarsplitter",
+            "rotation": 180,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 2,
+                "x": 3
+            },
+            "element": "laser",
+            "rotation": 180,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 2,
+                "x": 4
+            },
+            "element": "mirror",
+            "rotation": 90,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 2,
+                "x": 5
+            },
+            "element": "beamsplitter",
+            "rotation": 90,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 2,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 90,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 3,
+                "x": 3
+            },
+            "element": "laser",
+            "rotation": 270,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 3,
+                "x": 4
+            },
+            "element": "mirror",
+            "rotation": 135,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 3,
+                "x": 5
+            },
+            "element": "beamsplitter",
+            "rotation": 135,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 3,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 135,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 4,
+                "x": 4
+            },
+            "element": "mirror",
             "rotation": 0,
             "frozen": false
         },
         {
-            "y": 8,
-            "x": 6,
-            "element": "phasedec",
+            "coord": {
+                "y": 4,
+                "x": 5
+            },
+            "element": "beamsplitter",
             "rotation": 0,
             "frozen": false
         },
         {
-            "y": 9,
-            "x": 6,
-            "element": "filter",
-            "rotation": 0,
+            "coord": {
+                "y": 4,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 180,
             "frozen": false
         },
         {
-            "y": 9,
-            "x": 6,
-            "element": "mine",
-            "rotation": 0,
+            "coord": {
+                "y": 5,
+                "x": 4
+            },
+            "element": "mirror",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 5,
+                "x": 5
+            },
+            "element": "beamsplitter",
+            "rotation": 45,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 5,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 225,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 6,
+                "x": 4
+            },
+            "element": "mirror",
+            "rotation": 90,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 6,
+                "x": 5
+            },
+            "element": "beamsplitter",
+            "rotation": 90,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 6,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 270,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 7,
+                "x": 4
+            },
+            "element": "mirror",
+            "rotation": 135,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 7,
+                "x": 5
+            },
+            "element": "beamsplitter",
+            "rotation": 135,
+            "frozen": false
+        },
+        {
+            "coord": {
+                "y": 7,
+                "x": 6
+            },
+            "element": "coatedsplitter",
+            "rotation": 315,
             "frozen": false
         }
     ],
-    "goals": [
-        {
-            "y": 6,
-            "x": 6,
-            "threshold": 1
-        }
-    ],
-    "hints": [
-        {
-            "y": 10,
-            "x": 2,
-            "message": "Weasel save the world fast!"
-        }
-    ]
+    "hints": [],
+    "goals": []
 }
