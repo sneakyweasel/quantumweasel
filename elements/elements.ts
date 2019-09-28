@@ -1,3 +1,12 @@
+export const jsonGroups: { [symbol: string]: string[] } = {
+  Basic: ["void", "wall", "gate"],
+  Emitter: ["laser"],
+  Direction: ["mirror", "beamsplitter", "coatedsplitter", "polarsplitter"],
+  Absorption: ["detector", "mine", "rock", "omnidetector", "filter"],
+  Polarization: ["absorb-polarizer", "waveplate", "sugar", "faraday"],
+  Phase: ["phaseinc", "phasedec"]
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const jsonElements = [
   {
@@ -151,6 +160,23 @@ export const jsonElements = [
     backgroundColor: "black",
     ascii: ["!"],
     tiles: [[0, 0]]
+  },
+  {
+    name: "polarsplitter",
+    namev1: "polarsplitter",
+    group: "Direction",
+    description:
+      "Reflects vertical polarization (↕), transmitts horizonal polarization (↔).",
+    link: "./elements/polarsplitter",
+    active: false,
+    absorption: 0,
+    phase: 0,
+    matrix: [],
+    id: 12,
+    foregroundColor: "white",
+    backgroundColor: "black",
+    ascii: ["⬲", "⟴"],
+    tiles: [[0, 0], [0, 0]]
   },
   {
     name: "void",

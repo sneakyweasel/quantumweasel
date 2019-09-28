@@ -7,6 +7,7 @@ import { Cell } from "./Cell";
 import Game from "./Game";
 import Element from "./Element";
 import FileSaver = require("file-saver");
+import { jsonGroups } from "../elements/elements";
 
 export default class Player implements Actor {
   glyph: Glyph;
@@ -35,27 +36,9 @@ export default class Player implements Actor {
     return InputUtility.waitForInput(this.handleInput.bind(this));
   }
 
+  // Cycle through groups of elements
   cycleNext(group: string): void {
-    const groups: { [symbol: string]: string[] } = {};
-    groups["Basic"] = ["void", "wall", "gate"];
-    groups["Emitter"] = ["laser"];
-    groups["Direction"] = ["mirror", "beamsplitter", "coatedsplitter"];
-    groups["Absorption"] = [
-      "detector",
-      "mine",
-      "rock",
-      "omnidetector",
-      "filter"
-    ];
-    groups["Polarization"] = [
-      "absorb-polarizer",
-      "waveplate",
-      "sugar",
-      "faraday"
-    ];
-    groups["Phase"] = ["phaseinc", "phasedec"];
-    // };
-    const list: string[] = groups[group];
+    const list: string[] = jsonGroups[group];
     console.log(list);
 
     if (group === this.element.group) {
