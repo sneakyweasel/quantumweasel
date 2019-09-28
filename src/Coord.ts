@@ -106,6 +106,6 @@ export default class Coord {
   static fromId(index: number, cols: number): Coord {
     const x = index % cols;
     const y = Math.floor(index / cols);
-    return new Coord(x, y);
+    return new Coord(y, x);
   }
 }

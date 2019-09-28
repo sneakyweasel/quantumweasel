@@ -10,7 +10,6 @@ export const jsonElements = [
     absorption: 0,
     phase: 0,
     matrix: [],
-
     id: 19,
     foregroundColor: "white",
     backgroundColor: "#2e006a",
@@ -27,7 +26,6 @@ export const jsonElements = [
     absorption: 0,
     phase: 0,
     matrix: [],
-
     id: 0,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -44,7 +42,6 @@ export const jsonElements = [
     absorption: 0,
     phase: 0,
     matrix: [],
-
     id: 14,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -70,7 +67,6 @@ export const jsonElements = [
     absorption: 1,
     phase: 0,
     matrix: [],
-
     id: 6,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -87,12 +83,43 @@ export const jsonElements = [
     absorption: 1,
     phase: 0,
     matrix: [],
-
     id: 8,
     foregroundColor: "white",
     backgroundColor: "black",
     ascii: ["O"],
     tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+  },
+  {
+    name: "wall",
+    namev1: "Wall",
+    group: "Basic",
+    description: "An standard wall",
+    link: "./elements/wall",
+    active: false,
+    absorption: 1,
+    phase: 0,
+    matrix: [],
+    id: 20,
+    foregroundColor: "white",
+    backgroundColor: "black",
+    ascii: ["&"],
+    tiles: [[0, 0], [0, 0]]
+  },
+  {
+    name: "gate",
+    namev1: "Gate",
+    group: "Basic",
+    description: "An active gate",
+    link: "./elements/gate",
+    active: false,
+    absorption: 1,
+    phase: 0,
+    matrix: [],
+    id: 21,
+    foregroundColor: "white",
+    backgroundColor: "black",
+    ascii: ["W", "M"],
+    tiles: [[0, 0], [0, 0]]
   },
   {
     name: "rock",
@@ -104,7 +131,6 @@ export const jsonElements = [
     absorption: 1,
     phase: 0,
     matrix: [],
-
     id: 1,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -121,7 +147,6 @@ export const jsonElements = [
     absorption: 1,
     phase: 0,
     matrix: [],
-
     id: 11,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -137,7 +162,6 @@ export const jsonElements = [
     active: false,
     absorption: 0,
     phase: 0,
-
     id: 15,
     matrix: [],
     foregroundColor: "white",
@@ -155,7 +179,6 @@ export const jsonElements = [
     absorption: 0.5,
     phase: 0,
     matrix: [],
-
     id: 19,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -172,7 +195,6 @@ export const jsonElements = [
     absorption: 0,
     phase: 0.25,
     matrix: [],
-
     id: 17,
     foregroundColor: "white",
     backgroundColor: "black",
@@ -189,7 +211,6 @@ export const jsonElements = [
     absorption: 0,
     phase: -0.25,
     matrix: [],
-
     id: 16,
     foregroundColor: "white",
     backgroundColor: "black",
