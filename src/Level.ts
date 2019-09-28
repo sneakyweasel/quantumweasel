@@ -3,12 +3,24 @@
 // Then the frozen elements are removed and put in the toolbox
 
 import Coord from "./Coord";
-import { Cell } from "./Cell";
+import { Cell, CellInterface } from "./Cell";
 import Element from "./Element";
 import Grid from "./Grid";
-import Hint from "./Hint";
-import { Goal } from "./Goal";
+import Hint, { HintInterface } from "./Hint";
+import { Goal, GoalInterface } from "./Goal";
 import Inventory from "./Inventory";
+
+interface LevelInterface {
+  id: number;
+  name: string;
+  group: string;
+  description: string;
+  cols: number;
+  rows: number;
+  cells: CellInterface[];
+  goals: GoalInterface[];
+  hints: HintInterface[];
+}
 
 export default class Level {
   id: number;
@@ -52,7 +64,7 @@ export default class Level {
 LEVEL: ${this.name} [${this.grid.cols}x${this.grid.rows}]\n\
 DESC: ${this.description}\n\
 GROUP: ${this.group}\n\
-${this.grid.asciiRender()}\n\
+${this.grid.toString()}\n\
 GOALS: ${this.goals.map(i => i.toString())}\n\
 GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
 HINTS: ${this.hints.map(i => i.toString())}\n
@@ -76,29 +88,13 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
   }
 
   // import JSON file
-  static importJSON(json: {
-    cols: number;
-    rows: number;
-    cells: {
-      y: number;
-      x: number;
-      element: string;
-      rotation: number;
-      frozen: boolean;
-    }[];
-    goals: { y: number; x: number; threshold: number }[];
-    hints: { y: number; x: number; message: string }[];
-    id: number;
-    name: string;
-    group: string;
-    description: string;
-  }): Level {
+  static importJSON(json: LevelInterface): Level {
     const grid = new Grid(json.rows, json.cols);
     grid.importJSON(json.cells);
-    // const goals = Goal.importJSON(json.goals);
-    // const hints = Hint.importJSON(json.hints);
-    const goals: Goal[] = [];
-    const hints: Hint[] = [];
+    const goals = Goal.importJSON(json.goals);
+    const hints = Hint.importJSON(json.hints);
+    // const goals: Goal[] = [];
+    // const hints: Hint[] = [];
     return new Level(
       json.id,
       json.name,
@@ -129,7 +125,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         rotation: number;
         frozen: boolean;
       }) => {
-        const coord = new Coord(tile.i, tile.j);
+        const coord = Coord.importJSON({ y: tile.i, x: tile.j });
         const element = Element.fromName(tile.name, 1);
         const rotation = element.rotationAngle * tile.rotation;
         cells.push(new Cell(coord, element, rotation, tile.frozen));

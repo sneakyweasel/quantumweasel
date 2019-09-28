@@ -205,8 +205,7 @@ export class Pointer extends Coord {
     phase: number;
     path: { y: number; x: number }[];
   }): Pointer {
-    // const path = json.path.map(jsonCoord => Coord.importJSON(jsonCoord));
-    const coord = new Coord(json.y, json.x);
+    const coord = Coord.importJSON({ y: json.y, x: json.x });
     return new Pointer(coord, json.direction, json.intensity, json.phase);
   }
 

@@ -6,21 +6,19 @@ import { Pointer } from "./Pointer";
 import Game from "./Game";
 
 export interface CellInterface {
-  x: number;
-  y: number;
+  coord: { y: number; x: number };
   element: string;
   rotation: number;
   frozen: boolean;
 }
 
-export class Cell extends Coord {
+export class Cell {
   coord: Coord; // required
   element: Element; // optional
   rotation: number; // default: void
   frozen: boolean; // default: false
 
   constructor(coord: Coord, element: Element, rotation = 0, frozen = false) {
-    super(coord.x, coord.y);
     this.coord = coord;
     this.element = element;
     this.rotation = rotation;
@@ -81,8 +79,7 @@ export class Cell extends Coord {
   // Export to JSON format
   exportCellJSON(): CellInterface {
     return {
-      y: this.coord.y,
-      x: this.coord.x,
+      coord: this.coord,
       element: this.element.name,
       rotation: this.rotation,
       frozen: this.frozen
@@ -91,7 +88,7 @@ export class Cell extends Coord {
 
   // Import from JSON
   static importJSON(json: CellInterface): Cell {
-    const coord = new Coord(json.y, json.x);
+    const coord = Coord.importJSON(json.coord);
     const element = Element.fromName(json.element);
     return new Cell(coord, element, json.rotation, json.frozen);
   }

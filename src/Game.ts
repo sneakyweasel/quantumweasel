@@ -38,8 +38,14 @@ export default class Game {
       width: this.mapSize.width,
       height: this.mapSize.height
     };
-    this.statusLinePosition = new Coord(this.gameSize.height - 4, 0);
-    this.actionLogPosition = new Coord(this.gameSize.height - 3, 0);
+    this.statusLinePosition = Coord.importJSON({
+      y: this.gameSize.height - 4,
+      x: 0
+    });
+    this.actionLogPosition = Coord.importJSON({
+      y: this.gameSize.height - 3,
+      x: 0
+    });
     this.frames = [];
 
     const tileSet = document.createElement("img");
@@ -162,9 +168,6 @@ export default class Game {
     this.messageLog.draw();
     this.lasers = this.grid.laserCoords();
     this.grid.draw(this);
-    // for (let enemy of this.enemies) {
-    //     this.draw(enemy.position, enemy.glyph);
-    // }
   }
 
   private handleInput(event: KeyboardEvent): boolean {
@@ -178,9 +181,10 @@ export default class Game {
 
   private writeHelpMessage(): void {
     const helpMessage = [
-      `I - ${this.level.name}`,
-      `Move: ZQSD, Add: 123..., Rotate: AE`,
-      `Fire the laz0r5: Space Steps: RF`
+      ""
+      // `I - ${this.level.name}`,
+      // `Move: ZQSD, Add: 123..., Rotate: AE`,
+      // `Fire the laz0r5: Space Steps: RF`
     ];
     for (let index = helpMessage.length - 1; index >= 0; --index) {
       this.messageLog.appendText(helpMessage[index]);

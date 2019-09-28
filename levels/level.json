@@ -1,53 +1,17 @@
-
 {
   "id": 0,
   "name": "Divide and conquer!",
   "group": "Game",
   "description": "Divide, ..., then conquer!",
-  "cols": 20,
-  "rows": 20,
+  "cols": 10,
+  "rows": 10,
   "cells": [
-    { "x": 6, "y": 3, "element": "detector", "rotation": 90, "frozen": true },
     {
-      "x": 6,
-      "y": 5,
-      "element": "beamsplitter",
-      "rotation": 45,
-      "frozen": false
-    },
-    { "x": 8, "y": 5, "element": "detector", "rotation": 0, "frozen": true },
-    { "x": 2, "y": 7, "element": "detector", "rotation": 180, "frozen": true },
-    {
-      "x": 4,
-      "y": 7,
-      "element": "beamsplitter",
-      "rotation": 45,
-      "frozen": false
-    },
-    {
-      "x": 6,
-      "y": 7,
-      "element": "beamsplitter",
-      "rotation": 135,
-      "frozen": false
-    },
-    { "x": 2, "y": 9, "element": "detector", "rotation": 180, "frozen": true },
-    {
-      "x": 4,
-      "y": 9,
-      "element": "beamsplitter",
-      "rotation": 45,
-      "frozen": false
-    },
-    { "x": 5, "y": 9, "element": "rock", "rotation": 0, "frozen": true },
-    {
-      "x": 4,
-      "y": 11,
+      "coord": { "y": 3, "x": 3 },
       "element": "detector",
-      "rotation": 270,
-      "frozen": false
-    },
-    { "x": 6, "y": 11, "element": "laser", "rotation": 270, "frozen": true }
+      "rotation": 90,
+      "frozen": true
+    }
   ],
   "hints": [],
   "goals": []

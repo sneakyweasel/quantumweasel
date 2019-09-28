@@ -47,16 +47,16 @@ export default class Coord {
 
   // Adjacent cells
   get top(): Coord {
-    return new Coord(this.y, this.x - 1);
+    return Coord.importJSON({ y: this.y, x: this.x - 1 });
   }
   get bottom(): Coord {
-    return new Coord(this.y, this.x + 1);
+    return Coord.importJSON({ y: this.y, x: this.x + 1 });
   }
   get left(): Coord {
-    return new Coord(this.y - 1, this.x);
+    return Coord.importJSON({ y: this.y - 1, x: this.x });
   }
   get right(): Coord {
-    return new Coord(this.y + 1, this.x);
+    return Coord.importJSON({ y: this.y + 1, x: this.x });
   }
   get adjacent(): Coord[] {
     return [this.top, this.right, this.bottom, this.left];
@@ -106,6 +106,6 @@ export default class Coord {
   static fromId(index: number, cols: number): Coord {
     const x = index % cols;
     const y = Math.floor(index / cols);
-    return new Coord(y, x);
+    return Coord.importJSON({ y: y, x: x });
   }
 }

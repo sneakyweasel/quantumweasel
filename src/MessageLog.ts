@@ -25,7 +25,10 @@ export default class MessageLog {
   }
 
   draw(): void {
-    const linePosition = new Coord(this.position.x, this.position.y);
+    const linePosition = Coord.importJSON({
+      y: this.position.y,
+      x: this.position.x
+    });
     for (
       let index = 0;
       index < this.maxLines && index < this.lines.length;

@@ -29,14 +29,18 @@ export default class Grid {
         .map(() => new Array(this.cols).fill(0));
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          this.set(new Cell(new Coord(y, x), Element.fromName("void")));
+          const coord = Coord.importJSON({ y: y, x: x });
+          this.set(new Cell(coord, Element.fromName("void")));
         }
       }
     }
   }
   // Get center coordinates of grid
   get center(): Coord {
-    return new Coord(Math.floor(this.cols / 2), Math.floor(this.rows / 2));
+    return Coord.importJSON({
+      y: Math.floor(this.cols / 2),
+      x: Math.floor(this.rows / 2)
+    });
   }
 
   // Cells getters
@@ -193,7 +197,7 @@ export default class Grid {
   public draw(game: Game): void {
     for (let y = 0; y < this.rows; y++) {
       for (let x = 0; x < this.cols; x++) {
-        const coord = new Coord(y, x);
+        const coord = Coord.importJSON({ y: y, x: x });
         const cell = this.get(coord);
         if (coord.isIncludedIn(game.lasers.map(pointer => pointer.coord))) {
           game.draw(cell, "white", "purple");
@@ -217,44 +221,23 @@ export default class Grid {
   }
 
   // Include particle display in ascii render
-  public asciiRender(pointers: Pointer[] = []): string {
-    let result = "##".repeat(this.cols + 1) + "\n";
+  public toString(): string {
+    let result = "";
     for (let y = 0; y < this.rows; y++) {
-      let asciiLine = "#";
       for (let x = 0; x < this.cols; x++) {
-        // Add some sort of ascii z-index
-        const coord = new Coord(y, x);
-        if (coord.isIncludedIn(Pointer.manyToCoords(pointers))) {
-          asciiLine += "* ";
-        } else {
-          const rotation = this.get(coord).rotation / 45;
-          asciiLine += this.get(new Coord(y, x)).element.ascii[rotation] + " ";
-        }
+        const coord = Coord.importJSON({ y: y, x: x });
+        result += this.get(coord).ascii;
       }
-      result += asciiLine + "#\n";
+      result += "\n";
     }
-    result += "##".repeat(this.cols + 1);
     return result;
   }
 
-  public toString(): string {
-    let basic = "";
-    for (let y = 0; y < this.rows; y++) {
-      let asciiLine = "";
-      for (let x = 0; x < this.cols; x++) {
-        asciiLine += this.get(new Coord(y, x)).element.id;
-      }
-      basic += asciiLine + "\n";
-    }
-    return basic;
-  }
-
   // import cells
-  public importJSON(cells: CellInterface[]): void {
-    cells.forEach(cell => {
-      const coord = new Coord(cell.y, cell.x);
-      const element = Element.fromName(cell.element);
-      this.set(new Cell(coord, element, cell.rotation, cell.frozen));
+  public importJSON(jsonCells: CellInterface[]): void {
+    jsonCells.forEach(jsonCell => {
+      const cell = Cell.importJSON(jsonCell);
+      this.set(cell);
     });
   }
 

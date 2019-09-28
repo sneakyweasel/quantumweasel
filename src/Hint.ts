@@ -5,9 +5,8 @@
 import Coord from "./Coord";
 
 export interface HintInterface {
-  x: number;
-  y: number;
-  message: string;
+  coord: { x: number; y: number };
+  text: string;
 }
 
 export default class Hint {
@@ -37,17 +36,19 @@ export default class Hint {
   }
 
   // export JSON
-  // TODO: Nice JSON export
-  exportJSON(): {} {
-    return JSON.stringify(this);
+  exportJSON(): HintInterface {
+    return {
+      coord: this.coord.exportJSON(),
+      text: this.text
+    };
   }
 
   // Import JSON
   static importJSON(jsonHints: HintInterface[]): Hint[] {
     const hints: Hint[] = [];
     jsonHints.forEach(hint => {
-      const coord = new Coord(hint.x, hint.y);
-      hints.push(new Hint(coord, hint.message));
+      const coord = Coord.importJSON(hint.coord);
+      hints.push(new Hint(coord, hint.text));
     });
     return hints;
   }
