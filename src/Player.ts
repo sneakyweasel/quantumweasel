@@ -25,24 +25,51 @@ export default class Player implements Actor {
   get cell(): Cell {
     return this.game.grid.get(this.coord);
   }
+  // Getters and setters
+  get element(): Element {
+    return this.cell.element;
+  }
 
   // tslint:disable-next-line: no-any
   act(): Promise<string> {
     return InputUtility.waitForInput(this.handleInput.bind(this));
   }
 
+  cycleNext(group: string): void {
+    const groups: { [symbol: string]: string[] } = {};
+    groups["Basic"] = ["void", "wall", "gate"];
+    groups["Emitter"] = ["laser"];
+    groups["Direction"] = ["mirror", "beamsplitter", "coatedsplitter"];
+    groups["Absorption"] = [
+      "detector",
+      "mine",
+      "rock",
+      "omnidetector",
+      "filter"
+    ];
+    groups["Polarization"] = [
+      "absorb-polarizer",
+      "waveplate",
+      "sugar",
+      "faraday"
+    ];
+    groups["Phase"] = ["phaseinc", "phasedec"];
+    // };
+    const list: string[] = groups[group];
+    console.log(list);
+
+    if (group === this.element.group) {
+      const elemIndex = (list.indexOf(this.element.name) + 1) % list.length;
+      this.cell.element = Element.fromName(list[elemIndex]);
+    } else {
+      this.cell.element = Element.fromName(list[0]);
+    }
+  }
+
   // Offset of movement
   private handleInput(event: KeyboardEvent): boolean {
     let validInput = false;
     let newCoord: Coord = this.coord;
-    const cycles = [
-      ["void", "wall", "gate"],
-      ["mine", "rock", "detector", "omnidetector", "filter"],
-      ["mirror", "beamsplitter"],
-      ["laser"],
-      ["phaseinc", "phasedec"]
-    ];
-    let elemIndex = 0;
     switch (event.keyCode) {
       // Movement
       case KEYS.VK_Z:
@@ -84,50 +111,23 @@ export default class Player implements Actor {
 
       // Elements
       // Cycle through elements in group
-      // BASICS
       case KEYS.VK_QUOTE:
-        if (this.cell.element.group === "Basic") {
-          elemIndex =
-            (cycles[0].indexOf(this.cell.element.name) + 1) % cycles[0].length;
-        } else {
-          elemIndex = 0;
-        }
-        this.cell.element = Element.fromName(cycles[0][elemIndex]);
+        this.cycleNext("Basic");
         break;
-
-      // ABSORBERS
       case KEYS.VK_1:
-        if (this.cell.element.group === "Absorber") {
-          elemIndex =
-            (cycles[1].indexOf(this.cell.element.name) + 1) % cycles[1].length;
-        } else {
-          elemIndex = 0;
-        }
-        this.cell.element = Element.fromName(cycles[1][elemIndex]);
+        this.cycleNext("Emitter");
         break;
-
-      // REFLECTORS
       case KEYS.VK_2:
-        if (this.cell.element.group === "Direction") {
-          elemIndex =
-            (cycles[2].indexOf(this.cell.element.name) + 1) % cycles[2].length;
-        } else {
-          elemIndex = 0;
-        }
-        this.cell.element = Element.fromName(cycles[2][elemIndex]);
+        this.cycleNext("Direction");
         break;
-
       case KEYS.VK_3:
-        this.cell.element = Element.fromName("laser");
+        this.cycleNext("Absorption");
         break;
       case KEYS.VK_4:
-        this.cell.element = Element.fromName("detector");
+        this.cycleNext("Polarization");
         break;
       case KEYS.VK_5:
-        this.cell.element = Element.fromName("phaseinc");
-        break;
-      case KEYS.VK_6:
-        this.cell.element = Element.fromName("phasedec");
+        this.cycleNext("Phase");
         break;
       default:
         break;
