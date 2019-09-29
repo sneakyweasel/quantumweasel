@@ -56,10 +56,16 @@ export default class Grid {
   get unvoid(): Cell[] {
     return this.filteredByNot("void");
   }
+  get activeCells(): Cell[] {
+    return this.cells.filter(cell => cell.active);
+  }
 
   // Emitters
   get lasers(): Cell[] {
     return this.filteredBy("laser");
+  }
+  get activeLasers(): Cell[] {
+    return this.filteredBy("laser").filter(laser => laser.active === true);
   }
 
   // Reflectors
@@ -250,7 +256,7 @@ export default class Grid {
       for (let x = 0; x < this.cols; x++) {
         const coord = Coord.importJSON({ y: y, x: x });
         const cell = this.get(coord);
-        if (coord.isIncludedIn(game.lasers.map(pointer => pointer.coord))) {
+        if (coord.isIncludedIn(game.laserPaths.map(pointer => pointer.coord))) {
           game.draw(cell, "white", "purple");
         } else {
           game.draw(cell);
@@ -262,7 +268,10 @@ export default class Grid {
   // Laser lines
   laserCoords(): PathPointer[] {
     const laserCoords: PathPointer[] = [];
-    const pointers = this.lasers.map(laser => laser.fire());
+    const pointers: Pointer[] = [];
+    this.activeLasers.map(laser => {
+      pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
+    });
     pointers.forEach(pointer => {
       pointer.laserPath(this, 30).forEach((laserPoint: PathPointer) => {
         laserCoords.push(laserPoint);

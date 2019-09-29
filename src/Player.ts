@@ -73,7 +73,7 @@ export default class Player implements Actor {
         newCoord = this.coord.left;
         break;
 
-      // Rotations, freezing
+      // Rotations, freezing, activation
       case KEYS.VK_A:
         this.cell.rotate(-this.cell.element.rotationAngle);
         break;
@@ -82,6 +82,9 @@ export default class Player implements Actor {
         break;
       case KEYS.VK_F:
         this.cell.toggleFreeze();
+        break;
+      case KEYS.VK_CONTROL:
+        this.cell.toggleActive();
         break;
 
       // Save JSON file with level

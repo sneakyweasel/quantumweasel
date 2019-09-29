@@ -30,7 +30,7 @@ export default class Game {
   public level: Level;
   public grid: Grid;
   public frames: Frame[];
-  public lasers: PathPointer[];
+  public laserPaths: PathPointer[];
 
   constructor(level: Level) {
     this.mapSize = { width: level.grid.cols, height: level.grid.rows };
@@ -166,7 +166,7 @@ export default class Game {
     this.display.clear();
     this.statusLine.draw();
     this.messageLog.draw();
-    this.lasers = this.grid.laserCoords();
+    this.laserPaths = this.grid.laserCoords();
     this.grid.draw(this);
   }
 

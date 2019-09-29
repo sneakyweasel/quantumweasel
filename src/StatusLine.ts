@@ -35,9 +35,7 @@ export default class StatusLine {
       6
     )} player: ${padLeft(this.game.playerCoord.toString(), 8)}`;
     this.game.drawText(this.coord, playerText, this.maxWidth);
-    const cellText = `Cell: ${playerCell.element.name} - Rotation: ${
-      playerCell.rotation
-    }° ${playerCell.frozen ? "frozen" : ""}`;
+    const cellText = playerCell.toString();
     this.game.drawText(this.coord.right, cellText, this.maxWidth);
   }
 }

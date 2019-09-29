@@ -28,8 +28,10 @@ export default class Frame {
     this.end = end;
     // Initiate simulation with frame #0 and extract emitters
     if (step === 0) {
-      this.lasers.forEach(laser => {
-        this.pointers.push(laser.fire());
+      this.activeLasers.forEach(laser => {
+        if (laser.active) {
+          this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
+        }
       });
     }
   }
@@ -43,6 +45,9 @@ export default class Frame {
   }
   get lasers(): Cell[] {
     return this.level.grid.lasers;
+  }
+  get activeLasers(): Cell[] {
+    return this.level.grid.activeLasers;
   }
   get goals(): Goal[] {
     return this.level.goals;

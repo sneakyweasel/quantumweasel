@@ -10,19 +10,32 @@ export interface CellInterface {
   element: string;
   rotation: number;
   frozen: boolean;
+  active?: boolean;
+  energized?: boolean;
 }
 
 export class Cell {
-  coord: Coord; // required
-  element: Element; // optional
-  rotation: number; // default: void
-  frozen: boolean; // default: false
+  coord: Coord;
+  element: Element;
+  rotation: number;
+  frozen: boolean;
+  active: boolean;
+  energized: boolean;
 
-  constructor(coord: Coord, element: Element, rotation = 0, frozen = false) {
+  constructor(
+    coord: Coord,
+    element: Element,
+    rotation = 0,
+    frozen = false,
+    active = true,
+    energized = false
+  ) {
     this.coord = coord;
     this.element = element;
     this.rotation = rotation;
     this.frozen = frozen;
+    this.active = active;
+    this.energized = energized;
   }
 
   // Change frozen status of cell
@@ -54,13 +67,20 @@ export class Cell {
   toggleFreeze(): void {
     this.frozen = !this.frozen;
   }
+  toggleActive(): void {
+    this.active = !this.active;
+  }
+  toggleEnergized(): void {
+    this.energized = !this.energized;
+  }
 
-  // Fire the l4z0r5
+  // Fire the l4z0r5 for active lasers
   fire(): Pointer {
-    if (this.element.name === "laser") {
+    if (this.element.name === "laser" && this.active) {
       return new Pointer(this.coord, this.rotation, 1, 0);
     } else {
-      throw new Error("Only lasers can fire a particle.");
+      // return new Pointer(this.coord, this.rotation, 0, 0);
+      throw new Error("Only active lasers can fire a particle.");
     }
   }
 
@@ -73,6 +93,8 @@ export class Cell {
   toString(): string {
     return `Cell @ ${this.coord.toString()} is ${
       this.frozen ? "frozen" : "unfrozen"
+    } ${
+      this.active ? "active" : "inactive"
     } ${this.element.toString()} rotated ${this.rotation}°`;
   }
 
@@ -82,7 +104,9 @@ export class Cell {
       coord: this.coord,
       element: this.element.name,
       rotation: this.rotation,
-      frozen: this.frozen
+      frozen: this.frozen,
+      active: this.active,
+      energized: this.energized
     };
   }
 
@@ -90,6 +114,13 @@ export class Cell {
   static importJSON(json: CellInterface): Cell {
     const coord = Coord.importJSON(json.coord);
     const element = Element.fromName(json.element);
-    return new Cell(coord, element, json.rotation, json.frozen);
+    return new Cell(
+      coord,
+      element,
+      json.rotation,
+      json.frozen,
+      json.active,
+      json.energized
+    );
   }
 }
