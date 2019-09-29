@@ -105,6 +105,13 @@ export default class Game {
     foregroundColor = "white",
     backgroundColor = "#2e006a"
   ): void {
+    if (cell.frozen) {
+      backgroundColor = "turquoise";
+    }
+    if (cell.energized) {
+      backgroundColor = "red";
+    }
+    // Charlist array
     const charList: string[] = [cell.ascii];
     if (this.player.coord.equal(cell.coord)) {
       charList.push("@");
@@ -167,6 +174,7 @@ export default class Game {
     this.statusLine.draw();
     this.messageLog.draw();
     this.laserPaths = this.grid.laserCoords();
+    this.grid.energizeCells(this.laserPaths);
     this.grid.draw(this);
   }
 

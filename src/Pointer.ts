@@ -171,28 +171,13 @@ export class Pointer extends Coord {
   }
 
   // Export JSON object
-  exportJSON(): {
-    x: number;
-    y: number;
-    direction: number;
-    intensity: number;
-    phase: number;
-    path: { coord: Coord; direction: number; phase: number }[];
-  } {
-    const path = this.path.map((position: any) => {
-      return {
-        coord: position.coord.exportJSON(),
-        direction: this.direction,
-        phase: this.phase
-      };
-    });
+  // FIXME: Rework extends and JSON export
+  exportPointerJSON(): PathPointer {
     return {
-      x: this.coord.x,
-      y: this.coord.y,
+      coord: this.coord,
       direction: this.direction,
       intensity: this.intensity,
-      phase: this.phase,
-      path: path
+      phase: this.phase
     };
   }
 

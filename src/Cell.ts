@@ -2,7 +2,6 @@
 // Basic class for the grid cells
 import Coord from "./Coord";
 import Element from "./Element";
-import { Pointer } from "./Pointer";
 import Game from "./Game";
 
 export interface CellInterface {
@@ -75,14 +74,14 @@ export class Cell {
   }
 
   // Fire the l4z0r5 for active lasers
-  fire(): Pointer {
-    if (this.element.name === "laser" && this.active) {
-      return new Pointer(this.coord, this.rotation, 1, 0);
-    } else {
-      // return new Pointer(this.coord, this.rotation, 0, 0);
-      throw new Error("Only active lasers can fire a particle.");
-    }
-  }
+  // fire(): Pointer {
+  //   if (this.element.name === "laser" && this.active) {
+  //     return new Pointer(this.coord, this.rotation, 1, 0);
+  //   } else {
+  //     return new Pointer(this.coord, this.rotation, 0, 0);
+  //     throw new Error("Only active lasers can fire a particle.");
+  //   }
+  // }
 
   // DISPLAY METHODS
   draw(game: Game): void {

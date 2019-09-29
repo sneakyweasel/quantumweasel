@@ -274,10 +274,25 @@ export default class Grid {
     });
     pointers.forEach(pointer => {
       pointer.laserPath(this, 30).forEach((laserPoint: PathPointer) => {
-        laserCoords.push(laserPoint);
+        if (laserPoint.coord.isIncludedIn(this.coords)) {
+          laserCoords.push(laserPoint);
+        }
       });
     });
     return laserCoords;
+  }
+
+  // Energize cells according to laser paths
+  // Should update also the unergizes cells
+  energizeCells(paths: PathPointer[]): void {
+    const pathCoords: Coord[] = paths.map(pathPointer => pathPointer.coord);
+    this.unvoid.forEach(cell => {
+      if (cell.coord.isIncludedIn(pathCoords)) {
+        cell.energized = true;
+      } else {
+        cell.energized = false;
+      }
+    });
   }
 
   // Include particle display in ascii render

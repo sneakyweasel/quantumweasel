@@ -17,7 +17,7 @@
     "tsc-build": "tsc --pretty --outDir ./build",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --progress --color",
-    "serve": "live-server --port=8085 --open=/html/",
+    "serve": "live-server --port=3000 --open=/html/",
     "graph": "madge --circular ./src/app.ts"
   },
   "husky": {
