@@ -111,6 +111,9 @@ export default class Game {
     if (cell.energized) {
       backgroundColor = "red";
     }
+    // if (cell.active) {
+    //   backgroundColor = "green";
+    // }
     // Charlist array
     const charList: string[] = [cell.ascii];
     if (this.player.coord.equal(cell.coord)) {
@@ -175,6 +178,7 @@ export default class Game {
     this.messageLog.draw();
     this.laserPaths = this.grid.laserCoords();
     this.grid.energizeCells(this.laserPaths);
+    this.grid.activateCells();
     this.grid.draw(this);
   }
 

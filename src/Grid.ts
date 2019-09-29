@@ -59,6 +59,9 @@ export default class Grid {
   get activeCells(): Cell[] {
     return this.cells.filter(cell => cell.active);
   }
+  get energizedDetectors(): Cell[] {
+    return this.detectors.filter(detector => detector.energized);
+  }
 
   // Emitters
   get lasers(): Cell[] {
@@ -292,6 +295,15 @@ export default class Grid {
       } else {
         cell.energized = false;
       }
+    });
+  }
+
+  // Activate cells closed to an energized detector
+  activateCells(): void {
+    this.energizedDetectors.forEach(energizedDetector => {
+      energizedDetector.coord.adjacent.forEach(closeCoord => {
+        this.get(closeCoord).active = true;
+      });
     });
   }
 
