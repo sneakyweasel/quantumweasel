@@ -39,8 +39,10 @@ export default class Player implements Actor {
   // Cycle through groups of elements
   cycleNext(group: string): void {
     const list: string[] = jsonGroups[group];
-    console.log(list);
-
+    if (this.cell.frozen) {
+      return;
+    }
+    // Cycle through elements of the same group
     if (group === this.element.group) {
       const elemIndex = (list.indexOf(this.element.name) + 1) % list.length;
       this.cell.element = Element.fromName(list[elemIndex]);
