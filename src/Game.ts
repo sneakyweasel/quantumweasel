@@ -26,7 +26,7 @@ export default class Game {
   private statusLinePosition: Coord;
   private actionLogPosition: Coord;
   private gameState: GameState;
-  private tilesize = 64;
+  private tilesize = 32;
   public level: Level;
   public grid: Grid;
   public frames: Frame[];
@@ -120,8 +120,8 @@ export default class Game {
       charList.push("@");
     }
     this.display.draw(
-      cell.coord.y,
       cell.coord.x,
+      cell.coord.y,
       charList,
       foregroundColor,
       backgroundColor
