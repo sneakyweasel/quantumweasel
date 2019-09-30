@@ -272,8 +272,8 @@ export default class Grid {
 	// Should update also the unergizes cells
 	energizeCells(paths: PathPointer[]): void {
 		const pathCoords: Coord[] = paths.map(pathPointer => pathPointer.coord);
-		this.unvoid.forEach(cell => {
-			if (cell.coord.isIncludedIn(pathCoords)) {
+		this.cells.forEach(cell => {
+			if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "void") {
 				cell.energized = true;
 			} else {
 				cell.energized = false;
