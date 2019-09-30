@@ -47,16 +47,16 @@ export default class Coord {
 
   // Adjacent cells
   get top(): Coord {
-    return Coord.importJSON({ y: this.y, x: this.x - 1 });
-  }
-  get bottom(): Coord {
-    return Coord.importJSON({ y: this.y, x: this.x + 1 });
-  }
-  get left(): Coord {
     return Coord.importJSON({ y: this.y - 1, x: this.x });
   }
-  get right(): Coord {
+  get bottom(): Coord {
     return Coord.importJSON({ y: this.y + 1, x: this.x });
+  }
+  get left(): Coord {
+    return Coord.importJSON({ y: this.y, x: this.x - 1 });
+  }
+  get right(): Coord {
+    return Coord.importJSON({ y: this.y, x: this.x + 1 });
   }
   get adjacent(): Coord[] {
     return [this.top, this.right, this.bottom, this.left];

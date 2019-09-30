@@ -147,6 +147,8 @@ export default class Game {
     this.player = new Player(this, this.grid.center);
     this.scheduler = new Scheduler.Simple();
     this.scheduler.add(this.player, true);
+    document.getElementById("title")!.textContent = this.level.name;
+    document.getElementById("desc")!.textContent = this.level.description;
     this.drawPanel();
   }
 

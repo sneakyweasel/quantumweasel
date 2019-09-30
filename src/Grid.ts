@@ -7,6 +7,7 @@ import Coord from "./Coord";
 import Element from "./Element";
 import Game from "./Game";
 import { Pointer, PathPointer } from "./Pointer";
+import { Color } from "rot-js/lib/index";
 
 export default class Grid {
   public cols: number;
@@ -259,8 +260,13 @@ export default class Grid {
       for (let x = 0; x < this.cols; x++) {
         const coord = Coord.importJSON({ y: y, x: x });
         const cell = this.get(coord);
+
         if (coord.isIncludedIn(game.laserPaths.map(pointer => pointer.coord))) {
-          game.draw(cell, "white", "purple");
+          game.laserPaths.forEach(laserPath => {
+            const hsl = Color.hsl2rgb([0.338, 1, laserPath.intensity]);
+            const rgb = Color.toHex(hsl);
+            game.draw(cell, "white", rgb.toString());
+          });
         } else {
           game.draw(cell);
         }
