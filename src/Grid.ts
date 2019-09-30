@@ -263,9 +263,10 @@ export default class Grid {
 
         if (coord.isIncludedIn(game.laserPaths.map(pointer => pointer.coord))) {
           game.laserPaths.forEach(laserPath => {
-            const hsl = Color.hsl2rgb([0.338, 1, laserPath.intensity]);
+            // const hsl = Color.hsl2rgb([0.338, 1, laserPath.intensity / 2]);
+            const hsl = Color.hsl2rgb([0.7, laserPath.intensity / 2, 0.5]);
             const rgb = Color.toHex(hsl);
-            game.draw(cell, "white", rgb.toString());
+            game.draw(cell, "white", rgb);
           });
         } else {
           game.draw(cell);
