@@ -7,7 +7,7 @@ import { Cell } from "./Cell";
 import Game from "./Game";
 import Element from "./Element";
 import FileSaver = require("file-saver");
-import { jsonGroups } from "../elements/elements";
+import { jsonGroups } from "../data/elements";
 
 export default class Player implements Actor {
   glyph: Glyph;

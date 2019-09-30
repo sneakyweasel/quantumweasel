@@ -3,7 +3,7 @@
 // Basic class related to game elements
 // FIXME: This class needs rewrite with glyphs and func
 
-import { jsonElements } from "../elements/elements";
+import { jsonElements } from "../data/elements";
 import { Glyph } from "./Glyph";
 
 export interface ElementInterface {
