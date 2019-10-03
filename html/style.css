@@ -2,6 +2,7 @@
   color: aliceblue;
   font-family: "Montserrat", sans-serif;
   text-align: center;
+  padding-bottom: 0px; 
 }
 
 #desc {
@@ -10,10 +11,11 @@
   text-align: center;
 }
 
-#status {
-  color: aliceblue;
+#status, #cell {
+  color: lightgrey;
   font-family: "Montserrat", sans-serif;
   text-align: center;
+  font-size: 12px;
 }
 
 body {

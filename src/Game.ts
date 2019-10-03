@@ -7,9 +7,7 @@ import { Cell } from "./Cell";
 import Grid from "./Grid";
 import Level from "./Level";
 import GameState from "./GameState";
-import StatusLine from "./StatusLine";
 import InputUtility from "./InputUtility";
-import MessageLog from "./MessageLog";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor, ActorType } from "./Actor";
@@ -19,14 +17,11 @@ export default class Game {
 	private display: Display;
 	private scheduler: Simple;
 	private player: Player;
-	private statusLine: StatusLine;
-	private messageLog: MessageLog;
 	private gameSize: { width: number; height: number };
 	private mapSize: { width: number; height: number };
-	private statusLinePosition: Coord;
-	private actionLogPosition: Coord;
 	private gameState: GameState;
 	private tilesize = 32;
+	private turns = 0;
 	public level: Level;
 	public grid: Grid;
 	public frames: Frame[];
@@ -38,14 +33,6 @@ export default class Game {
 			width: this.mapSize.width,
 			height: this.mapSize.height
 		};
-		this.statusLinePosition = Coord.importJSON({
-			y: this.gameSize.height - 4,
-			x: 0
-		});
-		this.actionLogPosition = Coord.importJSON({
-			y: this.gameSize.height - 3,
-			x: 0
-		});
 		this.frames = [];
 
 		const tileSet = document.createElement("img");
@@ -67,15 +54,13 @@ export default class Game {
 		});
 
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		document.body.appendChild(this.display.getContainer()!);
+		document.getElementById("grid")!.appendChild(this.display.getContainer()!);
 
 		// Game mechanics
 		this.gameState = new GameState();
 		this.level = level;
 		this.grid = this.level.grid;
 		this.frames.push(new Frame(level));
-		this.statusLine = new StatusLine(this, this.statusLinePosition, this.gameSize.width, {});
-		this.messageLog = new MessageLog(this, this.actionLogPosition, this.gameSize.width);
 
 		this.initializeGame();
 		this.grid.draw(this);
@@ -97,9 +82,6 @@ export default class Game {
 		if (cell.energized) {
 			backgroundColor = "red";
 		}
-		// if (cell.active) {
-		//   backgroundColor = "green";
-		// }
 		// Charlist array
 		const charList: string[] = [cell.ascii];
 		if (this.player.coord.equal(cell.coord)) {
@@ -109,27 +91,27 @@ export default class Game {
 	}
 
 	// Log state to console
-	drawText(_coord: Coord, text: string, _maxWidth?: number): void {
-		document.getElementById("status")!.textContent = text;
+	drawText(): void {
+		document.getElementById("status")!.textContent = `Turns: ${this.turns} player: ${this.playerCoord.toString()}`;
+		document.getElementById("cell")!.textContent = this.player.cell.toString();
 	}
 
 	// Init game
 	private initializeGame(): void {
 		this.display.clear();
-		this.messageLog.clear();
 		if (!this.gameState.isGameOver() || this.gameState.doRestartGame()) {
 			this.resetStatusLine();
-			this.writeHelpMessage();
 		} else {
-			this.statusLine.boxes = 0;
+			console.log("Victory!");
 		}
 		this.gameState.reset();
 		this.player = new Player(this, this.grid.center);
 		this.scheduler = new Scheduler.Simple();
 		this.scheduler.add(this.player, true);
 		document.getElementById("title")!.textContent = this.level.name;
-		document.getElementById("desc")!.textContent = this.level.description;
-		document.getElementById("statusLine")!.textContent = "";
+		// document.getElementById("desc")!.textContent = this.level.description;
+		document.getElementById("status")!.textContent = "status informations...";
+		document.getElementById("cell")!.textContent = "cell informations...";
 		this.drawPanel();
 	}
 
@@ -144,7 +126,7 @@ export default class Game {
 
 			await actor.act();
 			if (actor.type === ActorType.Player) {
-				this.statusLine.turns += 1;
+				this.turns += 1;
 			}
 
 			this.drawPanel();
@@ -157,11 +139,10 @@ export default class Game {
 
 	private drawPanel(): void {
 		this.display.clear();
-		this.statusLine.draw();
-		this.messageLog.draw();
 		this.laserPaths = this.grid.laserCoords();
 		this.grid.energizeCells(this.laserPaths);
 		this.grid.activateCells();
+		this.drawText();
 		this.grid.draw(this);
 	}
 
@@ -171,19 +152,8 @@ export default class Game {
 	}
 
 	private resetStatusLine(): void {
-		this.statusLine.reset();
-	}
-
-	private writeHelpMessage(): void {
-		const helpMessage = [
-			""
-			// `I - ${this.level.name}`,
-			// `Move: ZQSD, Add: 123..., Rotate: AE`,
-			// `Fire the laz0r5: Space Steps: RF`
-		];
-		for (let index = helpMessage.length - 1; index >= 0; --index) {
-			this.messageLog.appendText(helpMessage[index]);
-		}
+		document.getElementById("status")!.textContent = "status informations...";
+		document.getElementById("cell")!.textContent = "cell informations...";
 	}
 }
 
