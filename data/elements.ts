@@ -13,7 +13,7 @@ export const jsonElements = [
 		name: "laser",
 		namev1: "Source",
 		group: "Emitter",
-		description: "A one-photon laser sourceAn on-demand single photon source.",
+		description: "An on-demand single photon source.",
 		link: "./elements/laser",
 		active: true,
 		absorption: 0,
