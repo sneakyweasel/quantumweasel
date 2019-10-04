@@ -109,7 +109,7 @@ export default class Element {
 			elem.tiles.forEach((_tile, index) => {
 				const y = elem.id * tilesize;
 				const x = index * tilesize;
-				console.log(`Processing ${elem.name}: Position: ${elem.ascii[index]} - [X:${x}, Y:${y}]`);
+				// console.log(`Processing ${elem.name}: Position: ${elem.ascii[index]} - [X:${x}, Y:${y}]`);
 				tileMap[elem.ascii[index]] = [x, y];
 			});
 		});

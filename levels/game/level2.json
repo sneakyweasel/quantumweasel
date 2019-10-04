@@ -3,8 +3,8 @@
   "name": "Reflection",
   "group": "Game",
   "description": "Get this laser off my face!",
-  "cols": 15,
-  "rows": 15,
+  "cols": 12,
+  "rows": 12,
   "cells": [
     {
       "coord": { "y": 2, "x": 6 },

@@ -20,7 +20,8 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "module": "commonjs",
-        "outDir": "./build"
+        "outDir": "./build",
+        "allowSyntheticDefaultImports": true
         // "module": "amd",
         // "outFile": "./build/quantumweasel.js"
     },

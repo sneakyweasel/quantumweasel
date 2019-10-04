@@ -5,9 +5,7 @@ import { Cell, CellInterface } from "./Cell";
 import Cluster from "./Cluster";
 import Coord from "./Coord";
 import Element from "./Element";
-import Game from "./Game";
 import { Pointer, PathPointer } from "./Pointer";
-import { Color } from "rot-js/lib/index";
 
 export default class Grid {
 	public cols: number;
@@ -101,7 +99,7 @@ export default class Grid {
 		return this.filteredBy("rock");
 	}
 	get omnidetectors(): Cell[] {
-		return this.filteredBy("omnidetectors");
+		return this.filteredBy("omnidetector");
 	}
 	get filters(): Cell[] {
 		return this.filteredBy("filter");
@@ -184,13 +182,9 @@ export default class Grid {
 		}
 	}
 
-	// Get one cell
+	// Get one cell - Does not check if coord is in grid
 	public get(coord: Coord): Cell {
-		if (this.includes(coord)) {
-			return this.matrix[coord.y][coord.x];
-		} else {
-			throw new Error("Trying to get a coord outside of the grid.");
-		}
+		return this.matrix[coord.y][coord.x];
 	}
 
 	// Set many cells
@@ -250,36 +244,15 @@ export default class Grid {
 		console.log(this.matrix.valueOf());
 	}
 
-	// Draw
-	public draw(game: Game): void {
-		for (let y = 0; y < this.rows; y++) {
-			for (let x = 0; x < this.cols; x++) {
-				const coord = Coord.importJSON({ y: y, x: x });
-				const cell = this.get(coord);
-
-				if (coord.isIncludedIn(game.laserPaths.map(pointer => pointer.coord))) {
-					game.laserPaths.forEach(laserPath => {
-						// const hsl = Color.hsl2rgb([0.338, 1, laserPath.intensity / 2]);
-						const hsl = Color.hsl2rgb([0.7, laserPath.intensity / 2, 0.5]);
-						const rgb = Color.toHex(hsl);
-						game.draw(cell, "white", rgb);
-					});
-				} else {
-					game.draw(cell);
-				}
-			}
-		}
-	}
-
 	// Laser lines
-	laserCoords(): PathPointer[] {
+	get laserCoords(): PathPointer[] {
 		const laserCoords: PathPointer[] = [];
 		const pointers: Pointer[] = [];
 		this.activeLasers.map(laser => {
 			pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
 		});
 		pointers.forEach(pointer => {
-			pointer.laserPath(this, 30).forEach((laserPoint: PathPointer) => {
+			pointer.laserPath(this, 40).forEach((laserPoint: PathPointer) => {
 				if (laserPoint.coord.isIncludedIn(this.coords)) {
 					laserCoords.push(laserPoint);
 				}
@@ -321,7 +294,9 @@ export default class Grid {
 	adjacentCells(coord: Coord): Cell[] {
 		const adjacents: Cell[] = [];
 		coord.adjacent.forEach(adjacent => {
-			adjacents.push(this.get(adjacent));
+			if (this.includes(adjacent)) {
+				adjacents.push(this.get(adjacent));
+			}
 		});
 		return adjacents;
 	}

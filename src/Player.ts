@@ -125,7 +125,6 @@ export default class Player implements Actor {
 		if (this.game.grid.includes(newCoord)) {
 			this.coord = newCoord;
 			validInput = true;
-			this.game.grid.draw(this.game);
 		}
 		return validInput;
 	}

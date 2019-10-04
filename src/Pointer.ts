@@ -1,3 +1,4 @@
+import { PathPointer } from "./Pointer";
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
@@ -5,6 +6,7 @@
 import Coord from "./Coord";
 import { Cell } from "./Cell";
 import Grid from "./Grid";
+import { toPercent } from "./Helpers";
 
 export interface PathPointer {
 	coord: Coord;
@@ -108,7 +110,7 @@ export class Pointer extends Coord {
 					if (pointer.on(absorber)) {
 						pointer.intensity -= pointer.intensity * absorber.element.absorption;
 					}
-        });
+				});
 
 				// Reflection
 				grid.mirrors.forEach((mirror: Cell) => {
@@ -156,9 +158,9 @@ export class Pointer extends Coord {
 
 	// Override method to display nicely
 	toString(): string {
-		return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${this.intensity} intensity and ${
-			this.phase
-		} phase shift. PATH: ${this.path.map(coord => coord.toString())}`;
+		return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${toPercent(
+			this.intensity
+		)} intensity and ${this.phase} phase shift. PATH: ${this.path.map(coord => coord.toString())}`;
 	}
 
 	// Export JSON object
@@ -183,6 +185,17 @@ export class Pointer extends Coord {
 	}): Pointer {
 		const coord = Coord.importJSON({ y: json.y, x: json.x });
 		return new Pointer(coord, json.direction, json.intensity, json.phase);
+	}
+
+	// USed for debugging
+	static toString(pathPointers: PathPointer[]): string {
+		let result = "";
+		pathPointers.forEach(pathPointer => {
+			result += `<li>Laser at ${pathPointer.coord} going ${pathPointer.direction} with ${toPercent(
+				pathPointer.intensity
+			)} and ${pathPointer.phase} phase shift</li>`;
+		});
+		return result;
 	}
 
 	// Format active particle list

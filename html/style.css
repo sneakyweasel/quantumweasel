@@ -11,7 +11,7 @@
   text-align: center;
 }
 
-#status, #cell, #quantum {
+#player, #cell, #quantum, #laser {
   color: lightgrey;
   font-family: "Montserrat", sans-serif;
   text-align: center;
