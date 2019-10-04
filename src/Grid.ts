@@ -308,10 +308,10 @@ export default class Grid {
 				cell.active = false;
 			}
 			const energizedAdjacent = this.adjacentCells(cell.coord).filter(adjacent => {
-				adjacent.energized && adjacent.element.name === "detector";
+				return adjacent.energized && adjacent.element.name === "detector";
 			});
-			console.log(`Cell ${cell.toString()} has 1+ active detectors as adjacent cell.`);
 			if (energizedAdjacent.length > 0) {
+				console.log(`Cell ${cell.toString()} has 1+ active detectors as adjacent cell.`);
 				cell.active = true;
 			}
 		});

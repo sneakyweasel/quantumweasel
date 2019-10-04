@@ -27,13 +27,14 @@ export default class Game {
 	public frames: Frame[];
 	public laserPaths: PathPointer[];
 
-	constructor(level: Level) {
+	constructor(level: Level, tilesize = 32) {
 		this.mapSize = { width: level.grid.cols, height: level.grid.rows };
 		this.gameSize = {
 			width: this.mapSize.width,
 			height: this.mapSize.height
 		};
 		this.frames = [];
+		this.tilesize = tilesize;
 
 		const tileSet = document.createElement("img");
 		tileSet.src = `./tiles/tilemap_${this.tilesize}.png`;
@@ -64,6 +65,7 @@ export default class Game {
 
 		this.initializeGame();
 		this.grid.draw(this);
+		this.drawPanel();
 		this.mainLoop();
 	}
 
@@ -111,14 +113,14 @@ export default class Game {
 		if (!this.gameState.isGameOver() || this.gameState.doRestartGame()) {
 			console.log("Starting game...");
 		} else {
-			console.log("Victory!");
+			alert("Victory!");
 		}
 		this.gameState.reset();
 		this.player = new Player(this, this.grid.center);
 		this.scheduler = new Scheduler.Simple();
 		this.scheduler.add(this.player, true);
 		document.getElementById("title")!.textContent = this.level.name;
-		// document.getElementById("desc")!.textContent = this.level.description;
+		document.getElementById("desc")!.textContent = this.level.description;
 		document.getElementById("player")!.textContent = "player informations...";
 		document.getElementById("cell")!.textContent = "cell informations...";
 		this.drawPanel();
