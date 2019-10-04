@@ -61,6 +61,9 @@ export default class Grid {
 	get energizedDetectors(): Cell[] {
 		return this.detectors.filter(detector => detector.energized);
 	}
+	get unenergizedDetectors(): Cell[] {
+		return this.detectors.filter(detector => !detector.energized);
+	}
 
 	// Emitters
 	get lasers(): Cell[] {
@@ -106,8 +109,21 @@ export default class Grid {
 	get walls(): Cell[] {
 		return this.filteredBy("wall");
 	}
+	get closedGates(): Cell[] {
+		return this.filteredBy("gate").filter(gate => !gate.active);
+	}
+	get openedGates(): Cell[] {
+		return this.filteredBy("gate").filter(gate => gate.active);
+	}
 	get absorbers(): Cell[] {
-		return this.detectors.concat(this.mines, this.rocks, this.omnidetectors, this.filters, this.walls);
+		return this.detectors.concat(
+			this.mines,
+			this.rocks,
+			this.omnidetectors,
+			this.filters,
+			this.walls,
+			this.closedGates
+		);
 	}
 
 	// Polarizers
@@ -170,7 +186,11 @@ export default class Grid {
 
 	// Get one cell
 	public get(coord: Coord): Cell {
-		return this.matrix[coord.y][coord.x];
+		if (this.includes(coord)) {
+			return this.matrix[coord.y][coord.x];
+		} else {
+			throw new Error("Trying to get a coord outside of the grid.");
+		}
 	}
 
 	// Set many cells
@@ -283,11 +303,27 @@ export default class Grid {
 
 	// Activate cells closed to an energized detector
 	activateCells(): void {
-		this.energizedDetectors.forEach(energizedDetector => {
-			energizedDetector.coord.adjacent.forEach(closeCoord => {
-				this.get(closeCoord).active = true;
+		this.unvoid.forEach(cell => {
+			if (cell.element.name !== "laser") {
+				cell.active = false;
+			}
+			const energizedAdjacent = this.adjacentCells(cell.coord).filter(adjacent => {
+				adjacent.energized && adjacent.element.name === "detector";
 			});
+			console.log(`Cell ${cell.toString()} has 1+ active detectors as adjacent cell.`);
+			if (energizedAdjacent.length > 0) {
+				cell.active = true;
+			}
 		});
+	}
+
+	// Retrieve the adjacent cells to a coordinate in the grid
+	adjacentCells(coord: Coord): Cell[] {
+		const adjacents: Cell[] = [];
+		coord.adjacent.forEach(adjacent => {
+			adjacents.push(this.get(adjacent));
+		});
+		return adjacents;
 	}
 
 	// Include particle display in ascii render

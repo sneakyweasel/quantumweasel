@@ -11,7 +11,7 @@
   text-align: center;
 }
 
-#status, #cell {
+#status, #cell, #quantum {
   color: lightgrey;
   font-family: "Montserrat", sans-serif;
   text-align: center;

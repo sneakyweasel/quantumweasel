@@ -40,6 +40,20 @@ export class Cell {
 	get backgroundColor(): string {
 		return this.element.backgroundColor;
 	}
+	get rotationAscii(): string {
+		switch (this.element.rotationAngle) {
+			case 0:
+				return "^";
+			case 90:
+				return ">";
+			case 180:
+				return "v";
+			case 270:
+				return "<";
+			default:
+				throw new Error("Wrong angle given...");
+		}
+	}
 
 	// Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
 	rotate(angle: number = this.element.rotationAngle): void {
@@ -73,7 +87,7 @@ export class Cell {
 	toString(): string {
 		return `Cell @ ${this.coord.toString()} is ${this.frozen ? "frozen" : "unfrozen"} ${
 			this.active ? "active" : "inactive"
-		} ${this.element.toString()} rotated ${this.rotation}°`;
+		} and ${this.energized ? "powered" : "unpowered"} ${this.element.toString()} rotated ${this.rotation}°`;
 	}
 
 	// Export to JSON format

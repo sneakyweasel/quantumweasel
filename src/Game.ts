@@ -60,7 +60,7 @@ export default class Game {
 		this.gameState = new GameState();
 		this.level = level;
 		this.grid = this.level.grid;
-		this.frames.push(new Frame(level));
+		this.frames.push(new Frame(this, level));
 
 		this.initializeGame();
 		this.grid.draw(this);
@@ -90,17 +90,26 @@ export default class Game {
 		this.display.draw(cell.coord.x, cell.coord.y, charList, foregroundColor, backgroundColor);
 	}
 
-	// Log state to console
-	drawText(): void {
-		document.getElementById("status")!.textContent = `Turns: ${this.turns} player: ${this.playerCoord.toString()}`;
-		document.getElementById("cell")!.textContent = this.player.cell.toString();
+	// Display relevant informations in html
+	displayPlayer(): void {
+		document.getElementById("player")!.textContent = `Turns: ${this.turns} player: ${this.playerCoord.toString()}`;
+	}
+	displayQuantum(text: string): void {
+		document.getElementById("quantum")!.textContent = text;
+	}
+	displayCell(cell: Cell = this.player.cell): void {
+		document.getElementById("cell")!.textContent = cell.toString();
+	}
+	displayDebug(): void {
+		this.displayCell();
+		this.displayPlayer();
 	}
 
 	// Init game
 	private initializeGame(): void {
 		this.display.clear();
 		if (!this.gameState.isGameOver() || this.gameState.doRestartGame()) {
-			this.resetStatusLine();
+			console.log("Starting game...");
 		} else {
 			console.log("Victory!");
 		}
@@ -110,7 +119,7 @@ export default class Game {
 		this.scheduler.add(this.player, true);
 		document.getElementById("title")!.textContent = this.level.name;
 		// document.getElementById("desc")!.textContent = this.level.description;
-		document.getElementById("status")!.textContent = "status informations...";
+		document.getElementById("player")!.textContent = "player informations...";
 		document.getElementById("cell")!.textContent = "cell informations...";
 		this.drawPanel();
 	}
@@ -142,18 +151,13 @@ export default class Game {
 		this.laserPaths = this.grid.laserCoords();
 		this.grid.energizeCells(this.laserPaths);
 		this.grid.activateCells();
-		this.drawText();
+		this.displayDebug();
 		this.grid.draw(this);
 	}
 
 	private handleInput(event: KeyboardEvent): boolean {
 		const code = event.keyCode;
 		return code === KEYS.VK_SPACE || code === KEYS.VK_RETURN;
-	}
-
-	private resetStatusLine(): void {
-		document.getElementById("status")!.textContent = "status informations...";
-		document.getElementById("cell")!.textContent = "cell informations...";
 	}
 }
 
