@@ -24,7 +24,8 @@
 		"build": "webpack --mode production",
 		"start": "webpack-dev-server --mode development --progress --color",
 		"serve": "live-server --port=3000 --open=/html/",
-		"graph": "madge --circular ./src/app.ts"
+		"graph": "madge --circular ./src/app.ts",
+		"upgrade-quantum-tensors": "yarn upgrade quantum-tensors && cd node_modules/quantum-tensors && tsc --outDir ./build"
 	},
 	"husky": {
 		"hooks": {
@@ -57,7 +58,7 @@
 	},
 	"dependencies": {
 		"file-saver": "^2.0.2",
-		"quantum-tensors": "https://github.com/stared/quantum-tensors.git",
+		"quantum-tensors": "stared/quantum-tensors#master",
 		"rot-js": "^2.1.1"
 	},
 	"jest": {

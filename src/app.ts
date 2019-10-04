@@ -1,7 +1,3 @@
-// import json from "../levels/tiletest.json";
-// import json from "../levels/conquer.json";
-// import json from "../levels/logic/AND.json";
-// import json from "../levels/logic/NOT.json";
 import json from "../levels/game/level15.json";
 import Level from "./Level";
 import Game from "./Game";

@@ -16,8 +16,8 @@ import Level from "./Level";
 import { Pointer } from "./Pointer";
 
 // Quantum
-import Photons from "./numerics/Step";
 import Game from "./Game";
+import * as q from "quantum-tensors";
 // import Operator from "./numerics/Operator";
 // import Dimension from "./numerics/Dimension";
 
@@ -41,9 +41,14 @@ export default class Frame {
 					this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
 
 					// Quantum code
-					const state = new Photons(this.grid.cols, this.grid.rows);
-					state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
-					game.displayQuantum(state.vector.toString());
+					// const state = new Photons(this.grid.cols, this.grid.rows);
+					const complex = q.Cx(2, 1);
+					// const qtest = q
+					console.log(complex.toString());
+					console.log(game.grid.toString());
+
+					// state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
+					// game.displayQuantum(state.vector.toString());
 				}
 			});
 
