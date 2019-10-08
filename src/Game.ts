@@ -61,7 +61,7 @@ export default class Game {
 		this.gameState = new GameState();
 		this.level = level;
 		this.grid = this.level.grid;
-		this.frames.push(new Frame(this, level));
+		this.frames.push(new Frame(this));
 
 		this.initializeGame();
 		this.mainLoop();
@@ -165,7 +165,7 @@ export default class Game {
 		console.log(`Rendering WebGL game grid...`);
 		for (let y = 0; y < this.grid.rows; y++) {
 			for (let x = 0; x < this.grid.cols; x++) {
-				const coord = Coord.importJSON({ y: y, x: x });
+				const coord = Coord.importCoord({ y: y, x: x });
 				const cell = this.grid.get(coord);
 
 				//  Find the laserPath object on a specific cell

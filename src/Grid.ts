@@ -26,7 +26,7 @@ export default class Grid {
 			this.matrix = new Array(this.rows).fill(0).map(() => new Array(this.cols).fill(0));
 			for (let y = 0; y < rows; y++) {
 				for (let x = 0; x < cols; x++) {
-					const coord = Coord.importJSON({ y: y, x: x });
+					const coord = Coord.importCoord({ y: y, x: x });
 					this.set(new Cell(coord, Element.fromName("void")));
 				}
 			}
@@ -34,7 +34,7 @@ export default class Grid {
 	}
 	// Get center coordinates of grid
 	get center(): Coord {
-		return Coord.importJSON({
+		return Coord.importCoord({
 			y: Math.floor(this.cols / 2),
 			x: Math.floor(this.rows / 2)
 		});
@@ -223,22 +223,6 @@ export default class Grid {
 		}
 	}
 
-	// Distance to exiting grid
-	public distanceToEscape(pointer: Pointer): number {
-		switch (pointer.direction % 360) {
-			case 0: // TOP
-				return pointer.y;
-			case 90: // RIGHT
-				return this.cols - pointer.x - 1;
-			case 180: // BOTTOM
-				return this.rows - pointer.y - 1;
-			case 270: // LEFT
-				return pointer.x;
-			default:
-				throw new Error("Something went wrong with directions...");
-		}
-	}
-
 	// Basic display
 	public display(): void {
 		console.log(this.matrix.valueOf());
@@ -306,7 +290,7 @@ export default class Grid {
 		let result = "";
 		for (let y = 0; y < this.rows; y++) {
 			for (let x = 0; x < this.cols; x++) {
-				const coord = Coord.importJSON({ y: y, x: x });
+				const coord = Coord.importCoord({ y: y, x: x });
 				result += this.get(coord).ascii;
 			}
 			result += "\n";
@@ -333,18 +317,18 @@ export default class Grid {
 	}
 
 	// import cells
-	public importJSON(jsonCells: CellInterface[]): void {
+	public importGrid(jsonCells: CellInterface[]): void {
 		jsonCells.forEach(jsonCell => {
-			const cell = Cell.importJSON(jsonCell);
+			const cell = Cell.importCell(jsonCell);
 			this.set(cell);
 		});
 	}
 
 	// export JSON file to save state oi the game
-	public exportJSON(): CellInterface[] {
+	public exportGrid(): CellInterface[] {
 		const cells: CellInterface[] = [];
 		this.unvoid.forEach(cell => {
-			cells.push(cell.exportCellJSON());
+			cells.push(cell.exportCell());
 		});
 		return cells;
 	}

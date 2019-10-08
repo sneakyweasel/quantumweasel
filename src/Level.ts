@@ -70,7 +70,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 	}
 
 	// export JSON file to save state oi the game
-	exportJSON(): {} {
+	exportLevel(): {} {
 		return {
 			id: this.id,
 			name: this.name,
@@ -78,20 +78,18 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 			description: this.description,
 			cols: this.grid.cols,
 			rows: this.grid.rows,
-			cells: this.grid.exportJSON(),
+			cells: this.grid.exportGrid(),
 			hints: this.hints.flatMap(hint => JSON.stringify(hint)),
 			goals: this.goals.flatMap(goal => JSON.stringify(goal))
 		};
 	}
 
 	// import JSON file
-	static importJSON(json: LevelInterface): Level {
+	static importLevel(json: LevelInterface): Level {
 		const grid = new Grid(json.rows, json.cols);
-		grid.importJSON(json.cells);
-		const goals = Goal.importJSON(json.goals);
-		const hints = Hint.importJSON(json.hints);
-		// const goals: Goal[] = [];
-		// const hints: Hint[] = [];
+		grid.importGrid(json.cells);
+		const goals = Goal.importGoal(json.goals);
+		const hints = Hint.importHint(json.hints);
 		return new Level(json.id, json.name, json.group, json.description, grid, goals, hints, false);
 	}
 
@@ -100,7 +98,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 		const grid = new Grid(json.width, json.height);
 		const cells: Cell[] = [];
 		json.tiles.forEach((tile: { i: number; j: number; name: string; rotation: number; frozen: boolean }) => {
-			const coord = Coord.importJSON({ y: tile.i, x: tile.j });
+			const coord = Coord.importCoord({ y: tile.i, x: tile.j });
 			const element = Element.fromName(tile.name, 1);
 			const rotation = element.rotationAngle * tile.rotation;
 			cells.push(new Cell(coord, element, rotation, tile.frozen));

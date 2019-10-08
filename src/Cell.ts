@@ -2,7 +2,7 @@
 // Basic class for the grid cells
 import Coord from "./Coord";
 import Element from "./Element";
-import Game from "./Game";
+import { angleToSymbol } from "./Helpers";
 
 export interface CellInterface {
 	coord: { y: number; x: number };
@@ -34,25 +34,14 @@ export class Cell {
 	get ascii(): string {
 		return this.element.ascii[this.rotation / this.element.rotationAngle];
 	}
+	get rotationAscii(): string {
+		return angleToSymbol(this.element.rotationAngle);
+	}
 	get foregroundColor(): string {
 		return this.element.foregroundColor;
 	}
 	get backgroundColor(): string {
 		return this.element.backgroundColor;
-	}
-	get rotationAscii(): string {
-		switch (this.element.rotationAngle) {
-			case 0:
-				return "^";
-			case 90:
-				return ">";
-			case 180:
-				return "v";
-			case 270:
-				return "<";
-			default:
-				throw new Error("Wrong angle given...");
-		}
 	}
 
 	// Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
@@ -67,7 +56,6 @@ export class Cell {
 			console.log("This cell is frozen, you can't rotate it.");
 		}
 	}
-
 	toggleFreeze(): void {
 		this.frozen = !this.frozen;
 	}
@@ -78,11 +66,6 @@ export class Cell {
 		this.energized = !this.energized;
 	}
 
-	// DISPLAY METHODS
-	draw(game: Game): void {
-		game.draw(this);
-	}
-
 	// Override toString() method
 	toString(): string {
 		return `Cell @ ${this.coord.toString()} is ${this.frozen ? "frozen" : "unfrozen"} ${
@@ -91,7 +74,7 @@ export class Cell {
 	}
 
 	// Export to JSON format
-	exportCellJSON(): CellInterface {
+	exportCell(): CellInterface {
 		return {
 			coord: this.coord,
 			element: this.element.name,
@@ -102,10 +85,10 @@ export class Cell {
 		};
 	}
 
-	// Import from JSON
-	static importJSON(json: CellInterface): Cell {
-		const coord = Coord.importJSON(json.coord);
-		const element = Element.fromName(json.element);
-		return new Cell(coord, element, json.rotation, json.frozen, json.active, json.energized);
+	// Import from Object
+	static importCell(obj: CellInterface): Cell {
+		const coord = Coord.importCoord(obj.coord);
+		const element = Element.fromName(obj.element);
+		return new Cell(coord, element, obj.rotation, obj.frozen, obj.active, obj.energized);
 	}
 }

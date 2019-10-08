@@ -30,6 +30,7 @@ export default class Coord {
 
 	// Distance to exiting grid
 	// Array offset corrected
+	// TODO: Move to pointer class
 	distanceToExit(direction = 0, rows: number, cols: number): number {
 		switch (direction % 360) {
 			case 0: // TOP
@@ -47,16 +48,16 @@ export default class Coord {
 
 	// Adjacent cells
 	get top(): Coord {
-		return Coord.importJSON({ y: this.y - 1, x: this.x });
+		return Coord.importCoord({ y: this.y - 1, x: this.x });
 	}
 	get bottom(): Coord {
-		return Coord.importJSON({ y: this.y + 1, x: this.x });
+		return Coord.importCoord({ y: this.y + 1, x: this.x });
 	}
 	get left(): Coord {
-		return Coord.importJSON({ y: this.y, x: this.x - 1 });
+		return Coord.importCoord({ y: this.y, x: this.x - 1 });
 	}
 	get right(): Coord {
-		return Coord.importJSON({ y: this.y, x: this.x + 1 });
+		return Coord.importCoord({ y: this.y, x: this.x + 1 });
 	}
 	get adjacent(): Coord[] {
 		return [this.top, this.right, this.bottom, this.left];
@@ -90,7 +91,7 @@ export default class Coord {
 	}
 
 	// Export JSON
-	exportJSON(): CoordInterface {
+	exportCoord(): CoordInterface {
 		return {
 			y: this.y,
 			x: this.x
@@ -98,7 +99,7 @@ export default class Coord {
 	}
 
 	// Export JSON
-	static importJSON(json: CoordInterface): Coord {
+	static importCoord(json: CoordInterface): Coord {
 		return new Coord(json.y, json.x);
 	}
 
@@ -106,6 +107,6 @@ export default class Coord {
 	static fromId(index: number, cols: number): Coord {
 		const x = index % cols;
 		const y = Math.floor(index / cols);
-		return Coord.importJSON({ y: y, x: x });
+		return Coord.importCoord({ y: y, x: x });
 	}
 }

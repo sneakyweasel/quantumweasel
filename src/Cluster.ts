@@ -43,23 +43,22 @@ export default class Cluster {
 	}
 
 	// import cells
-	public importJSON(jsonCells: CellInterface[]): void {
+	public importCluster(jsonCells: CellInterface[]): void {
 		jsonCells.forEach(jsonCell => {
-			const cell = Cell.importJSON(jsonCell);
+			const cell = Cell.importCell(jsonCell);
 			this.cells.push(cell);
 		});
 	}
 
-	//FIXME: Code close to the Grid code
 	// export JSON file to save state oi the game
-	public exportJSON(): CellInterface[] {
+	public exportCluster(): CellInterface[] {
 		const cells: CellInterface[] = [];
 		this.cells
 			.filter(cell => {
 				return cell.element.name !== "void";
 			})
-			.forEach((cell: { exportCellJSON: () => CellInterface }) => {
-				cells.push(cell.exportCellJSON());
+			.forEach(cell => {
+				cells.push(cell.exportCell());
 			});
 		return cells;
 	}

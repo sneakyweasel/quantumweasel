@@ -57,6 +57,22 @@ export class Pointer extends Coord {
 		return this.coord.equal(cell.coord);
 	}
 
+	// Steps/distance towards exiting the grid
+	stepsToExit(grid: Grid): number {
+		switch (this.direction % 360) {
+			case 0: // TOP
+				return this.y;
+			case 90: // RIGHT
+				return grid.cols - this.x - 1;
+			case 180: // BOTTOM
+				return grid.rows - this.y - 1;
+			case 270: // LEFT
+				return this.x;
+			default:
+				throw new Error("Something went wrong with directions...");
+		}
+	}
+
 	// Compute next simulation step
 	next(repeat = 1): Pointer {
 		// Moving CW in increment of 90°
@@ -165,7 +181,7 @@ export class Pointer extends Coord {
 
 	// Export JSON object
 	// FIXME: Rework extends and JSON export
-	exportPointerJSON(): PathPointer {
+	exportPointer(): PathPointer {
 		return {
 			coord: this.coord,
 			direction: this.direction,
@@ -175,7 +191,7 @@ export class Pointer extends Coord {
 	}
 
 	// Import JSON object
-	static importJSON(json: {
+	static importPointer(json: {
 		x: number;
 		y: number;
 		direction: number;
@@ -183,7 +199,7 @@ export class Pointer extends Coord {
 		phase: number;
 		path: { y: number; x: number }[];
 	}): Pointer {
-		const coord = Coord.importJSON({ y: json.y, x: json.x });
+		const coord = Coord.importCoord({ y: json.y, x: json.x });
 		return new Pointer(coord, json.direction, json.intensity, json.phase);
 	}
 

@@ -91,7 +91,7 @@ export default class Player implements Actor {
 
 			// Save JSON file with level
 			case KEYS.VK_F1:
-				const json = this.game.level.exportJSON();
+				const json = this.game.level.exportLevel();
 				const blob = new Blob([JSON.stringify(json)], {
 					type: "text/plain;charset=utf-8"
 				});

@@ -8,29 +8,26 @@
 // - Not enough intensity
 // - No more particles
 
-// TODO: Check that the required conditions are met for starting the sim (begin - end)
 import { Cell } from "./Cell";
 import { Goal } from "./Goal";
 import Grid from "./Grid";
-import Level from "./Level";
 import { Pointer } from "./Pointer";
+import Game from "./Game";
 
 // Quantum
-import Game from "./Game";
-import * as q from "quantum-tensors";
+// import Photons from "quantum-tensors/src/Step";
 // import Operator from "./numerics/Operator";
 // import Dimension from "./numerics/Dimension";
 
 export default class Frame {
-	level: Level;
 	game: Game;
 	step: number;
 	pointers: Pointer[];
 	end: boolean;
 
-	constructor(game: Game, level: Level, step = 0, pointers: Pointer[] = [], end = false) {
+	constructor(game: Game, step = 0, pointers: Pointer[] = [], end = false) {
+		this.game = game;
 		this.step = step;
-		this.level = level;
 		this.pointers = pointers;
 		this.end = end;
 		// Initiate simulation with frame #0 and extract emitters
@@ -42,9 +39,7 @@ export default class Frame {
 
 					// Quantum code
 					// const state = new Photons(this.grid.cols, this.grid.rows);
-					const complex = q.Cx(2, 1);
-					// const qtest = q
-					console.log(complex.toString());
+
 					console.log(game.grid.toString());
 
 					// state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
@@ -68,22 +63,22 @@ export default class Frame {
 
 	// Convenient getters
 	get grid(): Grid {
-		return this.level.grid;
+		return this.game.grid;
 	}
 	get cells(): Cell[] {
-		return this.level.grid.cells;
+		return this.grid.cells;
 	}
 	get lasers(): Cell[] {
-		return this.level.grid.lasers;
+		return this.grid.lasers;
 	}
 	get activeLasers(): Cell[] {
-		return this.level.grid.activeLasers;
+		return this.grid.activeLasers;
 	}
 	get goals(): Goal[] {
-		return this.level.goals;
+		return this.game.level.goals;
 	}
 	get completedGoals(): Goal[] {
-		return this.level.goals.filter(goal => {
+		return this.game.level.goals.filter(goal => {
 			return goal.completed;
 		});
 	}
@@ -175,16 +170,16 @@ export default class Frame {
 
 		// Victory conditions
 		if (this.victory) {
-			this.level.completed = true;
+			this.game.level.completed = true;
 			this.end = true;
 		}
 		// Defeat conditions
 		if (this.pointers.length === 0) {
-			this.level.completed = false;
+			this.game.level.completed = false;
 			this.end = true;
 		}
 
-		return new Frame(this.game, this.level, this.step + 1, this.pointers, this.end);
+		return new Frame(this.game, this.step + 1, this.pointers, this.end);
 	}
 
 	// Overriden method
@@ -195,7 +190,7 @@ export default class Frame {
 		result += "\n";
 		result += Pointer.manyToString(this.pointers);
 		result += "\n";
-		result += Goal.manyToString(this.level.goals);
+		result += Goal.manyToString(this.game.level.goals);
 		return result;
 	}
 }

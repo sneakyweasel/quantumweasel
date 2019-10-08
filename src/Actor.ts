@@ -1,3 +1,5 @@
+// Linked to the player, not needed for QuantumGame
+
 import Coord from "./Coord";
 import { Glyph } from "./Glyph";
 
