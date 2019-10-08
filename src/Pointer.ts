@@ -1,11 +1,9 @@
-import { PathPointer } from "./Pointer";
 // POINTER CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
 // FIXME: Class needs rework
 import Coord from "./Coord";
-import { Cell } from "./Cell";
-import Grid from "./Grid";
+import Cell from "./Cell";
 import { toPercent } from "./Helpers";
 
 export interface PathPointer {
@@ -15,7 +13,7 @@ export interface PathPointer {
 	phase: number;
 }
 
-export class Pointer extends Coord {
+export default class Pointer extends Coord {
 	coord: Coord;
 	direction: number;
 	intensity: number;
@@ -58,14 +56,14 @@ export class Pointer extends Coord {
 	}
 
 	// Steps/distance towards exiting the grid
-	stepsToExit(grid: Grid): number {
+	stepsToExit(cols: number, rows: number): number {
 		switch (this.direction % 360) {
 			case 0: // TOP
 				return this.y;
 			case 90: // RIGHT
-				return grid.cols - this.x - 1;
+				return cols - this.x - 1;
 			case 180: // BOTTOM
-				return grid.rows - this.y - 1;
+				return rows - this.y - 1;
 			case 270: // LEFT
 				return this.x;
 			default:
@@ -102,81 +100,6 @@ export class Pointer extends Coord {
 			});
 		}
 		return this;
-	}
-
-	// Compute laser path
-	laserPath(grid: Grid, maxFrames = 50): PathPointer[] {
-		// Make a depp clone of the pointer
-		let alive: Pointer[] = [this.clone];
-		const dead: Pointer[] = [];
-
-		// Simulate path with a specific number of frames
-		for (let i = 0; i < maxFrames; i++) {
-			// Process each living pointer
-			alive.forEach(pointer => {
-				pointer.next();
-
-				// Zero the intensity of escaping pointers
-				if (!grid.includes(pointer.coord)) {
-					pointer.intensity = 0;
-				}
-
-				// Absorption
-				grid.absorbers.forEach((absorber: Cell) => {
-					if (pointer.on(absorber)) {
-						pointer.intensity -= pointer.intensity * absorber.element.absorption;
-					}
-				});
-
-				// Reflection
-				grid.mirrors.forEach((mirror: Cell) => {
-					if (pointer.on(mirror)) {
-						pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360;
-					}
-				});
-				grid.beamsplitters.forEach((beamsplitter: Cell) => {
-					if (pointer.on(beamsplitter)) {
-						// Dim the current pointer intensity
-						pointer.intensity /= 2;
-						// Reflecting pointer (create new reflected faded pointer)
-						const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360;
-						alive.push(new Pointer(pointer.coord, direction, pointer.intensity));
-					}
-				});
-
-				// Phase shifters
-				grid.phaseshifters.forEach((phaseshifter: Cell) => {
-					if (pointer.on(phaseshifter)) {
-						pointer.phase = (pointer.phase + phaseshifter.element.phase) % 1;
-					}
-				});
-			});
-
-			// Filter the living from the dead
-			alive.forEach(pointer => {
-				if (!pointer.alive) {
-					dead.push(pointer);
-				}
-			});
-			alive = alive.filter(pointer => {
-				return pointer.alive;
-			});
-		}
-
-		// Flatten and dedupe list of pointers
-		const pathPointers: PathPointer[][] = [];
-		alive = dead.concat(alive);
-		alive.forEach(pointer => {
-			pathPointers.push(pointer.path);
-		});
-		return [...new Set(pathPointers.flat())];
-	}
-
-	// Override method to display nicely
-	toString(): string {
-		return `#Pointer @ ${this.coord.toString()} moving ${this.direction}° with ${toPercent(
-			this.intensity
-		)} intensity and ${this.phase} phase shift. PATH: ${this.path.map(coord => coord.toString())}`;
 	}
 
 	// Export JSON object

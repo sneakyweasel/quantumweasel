@@ -8,10 +8,10 @@
 // - Not enough intensity
 // - No more particles
 
-import { Cell } from "./Cell";
+import Cell from "./Cell";
 import { Goal } from "./Goal";
 import Grid from "./Grid";
-import { Pointer } from "./Pointer";
+import Pointer from "./Pointer";
 import Game from "./Game";
 
 // Quantum

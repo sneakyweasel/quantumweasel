@@ -3,7 +3,7 @@ import Simple from "rot-js/lib/scheduler/simple";
 
 import Coord from "./Coord";
 import Element from "./Element";
-import { Cell } from "./Cell";
+import Cell from "./Cell";
 import Grid from "./Grid";
 import Level from "./Level";
 import GameState from "./GameState";
@@ -11,7 +11,7 @@ import InputUtility from "./InputUtility";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor, ActorType } from "./Actor";
-import { PathPointer, Pointer } from "./Pointer";
+import Pointer, { PathPointer } from "./Pointer";
 
 export default class Game {
 	private display: Display;
@@ -102,9 +102,13 @@ export default class Game {
 		this.player = new Player(this, this.grid.center);
 		this.scheduler = new Scheduler.Simple();
 		this.scheduler.add(this.player, true);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("title")!.textContent = this.level.id + " - " + this.level.name;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("desc")!.textContent = this.level.description;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("player")!.textContent = "player informations...";
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("cell")!.textContent = "cell informations...";
 		this.drawPanel();
 	}
@@ -133,15 +137,19 @@ export default class Game {
 
 	// Display relevant informations in html
 	displayPlayer(): void {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("player")!.textContent = `Turns: ${this.turns} player: ${this.playerCoord.toString()}`;
 	}
 	displayQuantum(text: string): void {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("quantum")!.textContent = text;
 	}
 	displayCell(cell: Cell = this.player.cell): void {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("cell")!.textContent = cell.toString();
 	}
 	displayLaser(laserPaths: PathPointer[] = this.laserPaths): void {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("laser")!.innerHTML = Pointer.toString(laserPaths);
 	}
 	displayDebug(): void {

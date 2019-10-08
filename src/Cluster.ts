@@ -4,7 +4,7 @@
 
 import Coord from "./Coord";
 import Element from "./Element";
-import { Cell, CellInterface } from "./Cell";
+import Cell, { CellInterface } from "./Cell";
 
 export default class Cluster {
 	cells: Cell[];

@@ -1,11 +1,11 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
-import { Cell, CellInterface } from "./Cell";
+import Cell, { CellInterface } from "./Cell";
 import Cluster from "./Cluster";
 import Coord from "./Coord";
 import Element from "./Element";
-import { Pointer, PathPointer } from "./Pointer";
+import Pointer, { PathPointer } from "./Pointer";
 
 export default class Grid {
 	public cols: number;
@@ -228,6 +228,84 @@ export default class Grid {
 		console.log(this.matrix.valueOf());
 	}
 
+	// Front-end updates
+	public frontendUpdate(cellI: CellInterface): PathPointer[] {
+		const cell = Cell.importCell(cellI);
+		if (this.set(cell)) {
+			return this.laserCoords;
+		} else {
+			throw new Error("Error from frontend...");
+		}
+	}
+
+	// Compute laser path
+	laserPath(pointer: Pointer, maxFrames = 50): PathPointer[] {
+		// Make a depp clone of the pointer
+		let alive: Pointer[] = [pointer];
+		const dead: Pointer[] = [];
+
+		// Simulate path with a specific number of frames
+		for (let i = 0; i < maxFrames; i++) {
+			// Process each living pointer
+			alive.forEach(pointer => {
+				pointer.next();
+
+				// Zero the intensity of escaping pointers
+				if (!this.includes(pointer.coord)) {
+					pointer.intensity = 0;
+				}
+
+				// Absorption
+				this.absorbers.forEach((absorber: Cell) => {
+					if (pointer.on(absorber)) {
+						pointer.intensity -= pointer.intensity * absorber.element.absorption;
+					}
+				});
+
+				// Reflection
+				this.mirrors.forEach((mirror: Cell) => {
+					if (pointer.on(mirror)) {
+						pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360;
+					}
+				});
+				this.beamsplitters.forEach((beamsplitter: Cell) => {
+					if (pointer.on(beamsplitter)) {
+						// Dim the current pointer intensity
+						pointer.intensity /= 2;
+						// Reflecting pointer (create new reflected faded pointer)
+						const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360;
+						alive.push(new Pointer(pointer.coord, direction, pointer.intensity));
+					}
+				});
+
+				// Phase shifters
+				this.phaseshifters.forEach((phaseshifter: Cell) => {
+					if (pointer.on(phaseshifter)) {
+						pointer.phase = (pointer.phase + phaseshifter.element.phase) % 1;
+					}
+				});
+			});
+
+			// Filter the living from the dead
+			alive.forEach(pointer => {
+				if (!pointer.alive) {
+					dead.push(pointer);
+				}
+			});
+			alive = alive.filter(pointer => {
+				return pointer.alive;
+			});
+		}
+
+		// Flatten and dedupe list of pointers
+		const pathPointers: PathPointer[][] = [];
+		alive = dead.concat(alive);
+		alive.forEach(pointer => {
+			pathPointers.push(pointer.path);
+		});
+		return [...new Set(pathPointers.flat())];
+	}
+
 	// Laser lines
 	get laserCoords(): PathPointer[] {
 		const laserCoords: PathPointer[] = [];
@@ -236,7 +314,7 @@ export default class Grid {
 			pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
 		});
 		pointers.forEach(pointer => {
-			pointer.laserPath(this, 40).forEach((laserPoint: PathPointer) => {
+			this.laserPath(pointer, 40).forEach((laserPoint: PathPointer) => {
 				if (laserPoint.coord.isIncludedIn(this.coords)) {
 					laserCoords.push(laserPoint);
 				}

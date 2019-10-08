@@ -3,7 +3,7 @@ import { Glyph } from "./Glyph";
 import { Actor, ActorType } from "./Actor";
 import InputUtility from "./InputUtility";
 import Coord from "./Coord";
-import { Cell } from "./Cell";
+import Cell from "./Cell";
 import Game from "./Game";
 import Element from "./Element";
 import FileSaver = require("file-saver");

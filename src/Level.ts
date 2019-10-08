@@ -3,7 +3,7 @@
 // Then the frozen elements are removed and put in the toolbox
 
 import Coord from "./Coord";
-import { Cell, CellInterface } from "./Cell";
+import Cell, { CellInterface } from "./Cell";
 import Element from "./Element";
 import Grid from "./Grid";
 import Hint, { HintInterface } from "./Hint";

@@ -13,7 +13,7 @@ export interface CellInterface {
 	energized?: boolean;
 }
 
-export class Cell {
+export default class Cell {
 	coord: Coord;
 	element: Element;
 	rotation: number;
