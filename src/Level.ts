@@ -10,7 +10,7 @@ import Hint, { HintInterface } from "./Hint";
 import Goal, { GoalInterface } from "./Goal";
 import Inventory from "./Inventory";
 
-interface LevelInterface {
+export interface LevelInterface {
 	id: number;
 	name: string;
 	group: string;

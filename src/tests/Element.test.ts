@@ -17,7 +17,7 @@ describe("Elements", () => {
 			backgroundColor: "black",
 			ascii: ["⮝", "⮞", "⮟", "⮜"],
 			tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
-    });
+		});
 	});
 
 	it("should deduce the angle of rotation by the length of its ascii", () => {

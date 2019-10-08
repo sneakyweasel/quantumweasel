@@ -1,6 +1,6 @@
 import Coord from "../Coord";
 import Element from "../Element";
-import { Cell } from "../Cell";
+import Cell from "../Cell";
 import Grid from "../Grid";
 
 describe("Grid", () => {

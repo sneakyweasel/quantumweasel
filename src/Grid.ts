@@ -1,10 +1,10 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
-import Cell, { CellInterface } from "./Cell";
-import Cluster from "./Cluster";
 import Coord from "./Coord";
 import Element from "./Element";
+import Cell, { CellInterface } from "./Cell";
+import Cluster from "./Cluster";
 import Pointer, { PathPointer } from "./Pointer";
 
 export default class Grid {
@@ -236,6 +236,17 @@ export default class Grid {
 		} else {
 			throw new Error("Error from frontend...");
 		}
+	}
+
+	// Set the initial lasers pointers from the active lasers on grid
+	public initiateLasers(): Pointer[] {
+		const pointers: Pointer[] = [];
+		this.activeLasers.forEach(laser => {
+			if (laser.active) {
+				pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
+			}
+		});
+		return pointers;
 	}
 
 	// Compute laser path

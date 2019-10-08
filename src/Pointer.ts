@@ -145,13 +145,4 @@ export default class Pointer extends Coord {
 		});
 		return result;
 	}
-
-	// Extract coordinates in a list
-	static manyToCoords(pointers: Pointer[]): Coord[] {
-		const result: Coord[] = [];
-		pointers.map(pointer => {
-			result.push(pointer.coord);
-		});
-		return result;
-	}
 }
