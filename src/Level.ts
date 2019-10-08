@@ -7,7 +7,7 @@ import Cell, { CellInterface } from "./Cell";
 import Element from "./Element";
 import Grid from "./Grid";
 import Hint, { HintInterface } from "./Hint";
-import { Goal, GoalInterface } from "./Goal";
+import Goal, { GoalInterface } from "./Goal";
 import Inventory from "./Inventory";
 
 interface LevelInterface {

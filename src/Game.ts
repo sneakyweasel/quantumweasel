@@ -61,7 +61,7 @@ export default class Game {
 		this.gameState = new GameState();
 		this.level = level;
 		this.grid = this.level.grid;
-		this.frames.push(new Frame(this));
+		this.frames.push(new Frame(this.level));
 
 		this.initializeGame();
 		this.mainLoop();
@@ -99,7 +99,7 @@ export default class Game {
 			alert("Victory!");
 		}
 		this.gameState.reset();
-		this.player = new Player(this, this.grid.center);
+		this.player = new Player(this.level, this.grid.center);
 		this.scheduler = new Scheduler.Simple();
 		this.scheduler.add(this.player, true);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -9,10 +9,11 @@
 // - No more particles
 
 import Cell from "./Cell";
-import { Goal } from "./Goal";
+import Goal from "./Goal";
+import Hint from "./Hint";
 import Grid from "./Grid";
 import Pointer from "./Pointer";
-import Game from "./Game";
+import Level from "./Level";
 
 // Quantum
 // import Photons from "quantum-tensors/src/Step";
@@ -20,13 +21,13 @@ import Game from "./Game";
 // import Dimension from "./numerics/Dimension";
 
 export default class Frame {
-	game: Game;
+	level: Level;
 	step: number;
 	pointers: Pointer[];
 	end: boolean;
 
-	constructor(game: Game, step = 0, pointers: Pointer[] = [], end = false) {
-		this.game = game;
+	constructor(level: Level, step = 0, pointers: Pointer[] = [], end = false) {
+		this.level = level;
 		this.step = step;
 		this.pointers = pointers;
 		this.end = end;
@@ -40,7 +41,7 @@ export default class Frame {
 					// Quantum code
 					// const state = new Photons(this.grid.cols, this.grid.rows);
 
-					console.log(game.grid.toString());
+					console.log(level.grid.toString());
 
 					// state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
 					// game.displayQuantum(state.vector.toString());
@@ -63,7 +64,7 @@ export default class Frame {
 
 	// Convenient getters
 	get grid(): Grid {
-		return this.game.grid;
+		return this.level.grid;
 	}
 	get cells(): Cell[] {
 		return this.grid.cells;
@@ -75,10 +76,13 @@ export default class Frame {
 		return this.grid.activeLasers;
 	}
 	get goals(): Goal[] {
-		return this.game.level.goals;
+		return this.level.goals;
+	}
+	get hints(): Hint[] {
+		return this.level.hints;
 	}
 	get completedGoals(): Goal[] {
-		return this.game.level.goals.filter(goal => {
+		return this.level.goals.filter(goal => {
 			return goal.completed;
 		});
 	}
@@ -170,16 +174,16 @@ export default class Frame {
 
 		// Victory conditions
 		if (this.victory) {
-			this.game.level.completed = true;
+			this.level.completed = true;
 			this.end = true;
 		}
 		// Defeat conditions
 		if (this.pointers.length === 0) {
-			this.game.level.completed = false;
+			this.level.completed = false;
 			this.end = true;
 		}
 
-		return new Frame(this.game, this.step + 1, this.pointers, this.end);
+		return new Frame(this.level, this.step + 1, this.pointers, this.end);
 	}
 
 	// Overriden method
@@ -190,7 +194,7 @@ export default class Frame {
 		result += "\n";
 		result += Pointer.manyToString(this.pointers);
 		result += "\n";
-		result += Goal.manyToString(this.game.level.goals);
+		result += Goal.manyToString(this.level.goals);
 		return result;
 	}
 }

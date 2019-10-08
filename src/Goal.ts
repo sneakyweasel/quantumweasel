@@ -10,7 +10,7 @@ export interface GoalInterface {
 	value: number;
 }
 
-export class Goal {
+export default class Goal {
 	coord: Coord;
 	threshold: number;
 	value: number;
