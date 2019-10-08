@@ -1,8 +1,9 @@
-import { Display, Scheduler, KEYS, Color } from "rot-js/lib/index";
+import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
 
+import { hsl2hexrgb } from "./Helpers";
 import Coord from "./Coord";
-import Element from "./Element";
+import Glyph from "./Glyph";
 import Cell from "./Cell";
 import Grid from "./Grid";
 import Level from "./Level";
@@ -14,55 +15,45 @@ import { Actor, ActorType } from "./Actor";
 import Pointer, { PathPointer } from "./Pointer";
 
 export default class Game {
+	// Game logic
+	public level: Level;
+	public frames: Frame[];
+	public laserPaths: PathPointer[];
+	private gameState: GameState;
+	// Game display
 	private display: Display;
 	private scheduler: Simple;
 	private player: Player;
-	private gameSize: { width: number; height: number };
-	private mapSize: { width: number; height: number };
-	private gameState: GameState;
 	private tilesize = 32;
 	private turns = 0;
-	public level: Level;
-	public grid: Grid;
-	public frames: Frame[];
-	public laserPaths: PathPointer[];
 
 	constructor(level: Level, tilesize = 32) {
-		this.mapSize = { width: level.grid.cols, height: level.grid.rows };
-		this.gameSize = {
-			width: this.mapSize.width,
-			height: this.mapSize.height
-		};
+		// Game mechanics
+		this.level = level;
+		this.gameState = new GameState();
 		this.frames = [];
-		this.tilesize = tilesize;
+		this.frames.push(new Frame(level));
 
+		// Game display
+		this.tilesize = tilesize;
 		const tileSet = document.createElement("img");
 		tileSet.src = `./tiles/tilemap_${this.tilesize}.png`;
-		const tiles = Element.processTileMap(this.tilesize);
-		tiles["@"] = [0, 29 * this.tilesize];
-		console.log(JSON.stringify(tiles));
-
+		const tileMap = Glyph.processTileMap(this.tilesize);
 		this.display = new Display({
 			layout: "tile-gl",
 			bg: "transparent",
-			width: this.gameSize.width,
-			height: this.gameSize.height,
+			width: level.grid.cols,
+			height: level.grid.rows,
 			fontSize: 20,
 			tileWidth: this.tilesize,
 			tileHeight: this.tilesize,
 			tileSet,
-			tileMap: tiles
+			tileMap
 		});
-
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementById("grid")!.appendChild(this.display.getContainer()!);
 
-		// Game mechanics
-		this.gameState = new GameState();
-		this.level = level;
-		this.grid = this.level.grid;
-		this.frames.push(new Frame(this.level));
-
+		// Enter main loop
 		this.initializeGame();
 		this.mainLoop();
 	}
@@ -74,20 +65,8 @@ export default class Game {
 	get playerCoord(): Coord {
 		return this.player.coord;
 	}
-
-	draw(cell: Cell, foregroundColor = "white", backgroundColor = "#2e006a"): void {
-		if (cell.frozen) {
-			backgroundColor = "turquoise";
-		}
-		if (cell.energized) {
-			backgroundColor = "red";
-		}
-		// Charlist array
-		const charList: string[] = [cell.ascii];
-		if (this.player.coord.equal(cell.coord)) {
-			charList.push("@");
-		}
-		this.display.draw(cell.coord.x, cell.coord.y, charList, foregroundColor, backgroundColor);
+	get grid(): Grid {
+		return this.level.grid;
 	}
 
 	// Init game
@@ -168,7 +147,7 @@ export default class Game {
 		this.drawGrid();
 	}
 
-	// Draw
+	// Draw the main grid
 	public drawGrid(): void {
 		console.log(`Rendering WebGL game grid...`);
 		for (let y = 0; y < this.grid.rows; y++) {
@@ -179,10 +158,8 @@ export default class Game {
 				//  Find the laserPath object on a specific cell
 				const sum = this.coordIntensitySum(coord);
 				if (sum > 0) {
-					const hsl = Color.hsl2rgb([0.45, sum, 0.5]);
-					const rgb = Color.toHex(hsl);
-					// console.log(`Laser intensity: ${sum} - HSL: ${hsl} - RGB: ${rgb}`);
-					this.draw(cell, "white", rgb);
+					const rgbhex = hsl2hexrgb(0, 1, sum / 3 + 0.2);
+					this.draw(cell, "white", rgbhex);
 				} else {
 					this.draw(cell);
 				}
@@ -190,18 +167,36 @@ export default class Game {
 		}
 	}
 
+	// Draw indivdual cells
+	draw(cell: Cell, foregroundColor = "white", backgroundColor = "#2e006a"): void {
+		if (cell.frozen) {
+			backgroundColor = "turquoise";
+		}
+		if (cell.energized) {
+			backgroundColor = "red";
+		}
+		// Charlist array
+		const charList: string[] = [cell.ascii];
+		if (this.player.coord.equal(cell.coord)) {
+			charList.push("@");
+		}
+		this.display.draw(cell.coord.x, cell.coord.y, charList, foregroundColor, backgroundColor);
+	}
+
 	// Pointers on a specific coord
 	coordIntensitySum(coord: Coord): number {
 		let sum = 0;
-		const pointers = this.laserPaths.filter(pathPointer => {
-			return coord.equal(pathPointer.coord);
-		});
-		pointers.forEach(pointer => {
-			sum += pointer.intensity;
-		});
+		this.laserPaths
+			.filter(pathPointer => {
+				return coord.equal(pathPointer.coord);
+			})
+			.map(pointer => {
+				sum += pointer.intensity;
+			});
 		return sum;
 	}
 
+	// Handle user input
 	private handleInput(event: KeyboardEvent): boolean {
 		const code = event.keyCode;
 		return code === KEYS.VK_SPACE || code === KEYS.VK_RETURN;

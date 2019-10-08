@@ -1,5 +1,5 @@
 import { KEYS } from "rot-js";
-import { Glyph } from "./Glyph";
+import Glyph from "./Glyph";
 import { Actor, ActorType } from "./Actor";
 import InputUtility from "./InputUtility";
 import Coord from "./Coord";

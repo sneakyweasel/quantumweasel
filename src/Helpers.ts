@@ -1,3 +1,5 @@
+import { Color } from "rot-js/lib/index";
+
 // Convert angles to unicode symbols
 // https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
 export function angleToSymbol(angle: number): string {
@@ -65,4 +67,9 @@ export function padRight(text: string, length: number, character?: string): stri
 
 export function toPercent(value: number): string {
 	return `${(value * 100).toFixed(2)}%`;
+}
+
+export function hsl2hexrgb(hue = 0.45, saturation = 0, light = 0.5): string {
+	const hsl = Color.hsl2rgb([hue, saturation, light]);
+	return Color.toHex(hsl);
 }

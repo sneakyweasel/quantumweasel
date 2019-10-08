@@ -4,7 +4,7 @@
 // FIXME: This class needs rewrite with glyphs and func
 
 import { jsonElements } from "../data/elements";
-import { Glyph } from "./Glyph";
+import Glyph from "./Glyph";
 
 export interface ElementInterface {
 	id: number;
@@ -99,21 +99,6 @@ export default class Element {
 			tiles: this.tiles,
 			glyph: this.glyph
 		};
-	}
-
-	// Use the element id to get their row in the tilemap file multiplied bu the tile size
-	// static processTileMap(tilesize = 64): { [x: number; y: number]: string } {
-	static processTileMap(tilesize = 64): { [symbol: string]: [number, number] } {
-		const tileMap: { [symbol: string]: [number, number] } = {};
-		jsonElements.forEach(elem => {
-			elem.tiles.forEach((_tile, index) => {
-				const y = elem.id * tilesize;
-				const x = index * tilesize;
-				// console.log(`Processing ${elem.name}: Position: ${elem.ascii[index]} - [X:${x}, Y:${y}]`);
-				tileMap[elem.ascii[index]] = [x, y];
-			});
-		});
-		return tileMap;
 	}
 
 	// Static JSON load
