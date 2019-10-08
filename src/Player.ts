@@ -4,7 +4,7 @@ import { Actor, ActorType } from "./Actor";
 import InputUtility from "./InputUtility";
 import Coord from "./Coord";
 import Cell from "./Cell";
-import Game from "./Game";
+import Level from "./Level";
 import Element from "./Element";
 import FileSaver = require("file-saver");
 import { jsonGroups } from "../data/elements";
@@ -12,19 +12,19 @@ import { jsonGroups } from "../data/elements";
 export default class Player implements Actor {
 	glyph: Glyph;
 	type: ActorType;
-	private game: Game;
+	private level: Level;
 	public coord: Coord;
 
-	constructor(game: Game, coord: Coord) {
+	constructor(level: Level, coord: Coord) {
 		this.glyph = new Glyph("@", [0, 0]);
 		this.type = ActorType.Player;
-		this.game = game;
+		this.level = level;
 		this.coord = coord;
 	}
 
 	// Getters and setters
 	get cell(): Cell {
-		return this.game.grid.get(this.coord);
+		return this.level.grid.get(this.coord);
 	}
 	// Getters and setters
 	get element(): Element {
@@ -91,7 +91,7 @@ export default class Player implements Actor {
 
 			// Save JSON file with level
 			case KEYS.VK_F1:
-				const json = this.game.level.exportLevel();
+				const json = this.level.exportLevel();
 				const blob = new Blob([JSON.stringify(json)], {
 					type: "text/plain;charset=utf-8"
 				});
@@ -122,7 +122,7 @@ export default class Player implements Actor {
 				break;
 		}
 		// Check that player is in game grid borders
-		if (this.game.grid.includes(newCoord)) {
+		if (this.level.grid.includes(newCoord)) {
 			this.coord = newCoord;
 			validInput = true;
 		}
