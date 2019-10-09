@@ -5,7 +5,7 @@
   padding-bottom: 0px; 
 }
 
-#desc {
+#description {
   color: aliceblue;
   font-family: "Montserrat", sans-serif;
   text-align: center;
@@ -17,6 +17,18 @@
   text-align: center;
   font-size: 12px;
 }
+
+#controls {
+  position: absolute;
+  color: lightgrey;
+  font-family: "Montserrat", sans-serif;
+  text-align: left;
+  font-size: 12px;
+}
+#controls td {
+    padding: 10px;
+}
+
 
 body {
   background-color: black;

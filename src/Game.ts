@@ -18,6 +18,7 @@ export default class Game {
 	// Game logic
 	public level: Level;
 	public frames: Frame[];
+	private frameNumber: number;
 	public laserPaths: PathPointer[];
 	private gameState: GameState;
 	// Game display
@@ -25,7 +26,6 @@ export default class Game {
 	private scheduler: Simple;
 	private player: Player;
 	private tilesize = 32;
-	private frameNumber = 0;
 
 	constructor(level: Level, tilesize = 32, frames = []) {
 		// Game mechanics
@@ -33,6 +33,7 @@ export default class Game {
 		this.gameState = new GameState();
 		this.frames = frames;
 		this.frames.push(new Frame(level));
+		this.frameNumber = 0;
 
 		// Game display
 		this.tilesize = tilesize;
@@ -110,13 +111,7 @@ export default class Game {
 				break;
 			}
 			await actor.act();
-			// if (actor.type === ActorType.Player) {
-			// 	this.turns += 1;
-			// }
-			// if (this.gameState.isGameOver()) {
 			await InputUtility.waitForInput(this.handleInput.bind(this));
-			// this.initializeGame();
-			// }
 			this.drawGame();
 		}
 	}
@@ -125,13 +120,13 @@ export default class Game {
 	private drawGame(): void {
 		this.display.clear();
 		// Allow activated elements to compute gates etc.
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < 1; i++) {
 			this.laserPaths = this.grid.laserCoords;
 			this.grid.energizeCells(this.laserPaths);
 			this.grid.activateCells();
 		}
 		this.displayDebug();
-		this.drawGrid();
+		this.drawFrame();
 	}
 
 	// Display relevant informations in html
@@ -142,8 +137,7 @@ export default class Game {
 			`Turns: ${this.frameNumber}/${this.maxFrameNumber} | player: ${this.playerCoord.toString()}`
 		);
 		displayText("laser", `Active particles: ${Pointer.manyToString(this.currentFrame.pointers)}`);
-		// displayText("laser", Pointer.toString(this.laserPaths));
-		// displayText("laser", "");
+		displayText("quantum", "Waiting for quantum sim...");
 	}
 
 	// Draw the main grid
@@ -242,7 +236,6 @@ export default class Game {
 		console.log(`--- Displaying frame ${this.frameNumber} ---`);
 		console.log(this.currentFrame.toString());
 		displayText("laser", `Active particles: ${Pointer.manyToString(frame.pointers)}`);
-		this.displayDebug();
 		this.drawGrid();
 	}
 }

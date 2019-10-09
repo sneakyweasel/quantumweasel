@@ -32,9 +32,12 @@ export default class Glyph {
 		// Gate open horizontal and vertical
 		tileMap["H"] = [0 * tilesize, 22 * tilesize];
 		tileMap["V"] = [1 * tilesize, 22 * tilesize];
-		// Laser lines
+		// Photon
 		tileMap["P"] = [0 * tilesize, 10 * tilesize];
 		tileMap["d"] = [1 * tilesize, 10 * tilesize];
+		// Laser lines
+		tileMap["v"] = [0 * tilesize, 23 * tilesize];
+		tileMap["h"] = [1 * tilesize, 23 * tilesize];
 
 		return tileMap;
 	}
