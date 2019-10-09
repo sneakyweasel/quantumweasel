@@ -22,7 +22,8 @@ export const jsonElements = [
 		id: 0,
 		foregroundColor: "white",
 		backgroundColor: "black",
-		ascii: ["⮝", "⮞", "⮟", "⮜"],
+		// ascii: ["⮝", "⮞", "⮟", "⮜"],
+		ascii: ["^", ">", "v", "<"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
 	},
 	{

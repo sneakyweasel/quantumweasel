@@ -14,20 +14,19 @@ import Hint from "./Hint";
 import Grid from "./Grid";
 import Pointer from "./Pointer";
 import Level from "./Level";
-import { displayText } from "./Helpers";
 
 // Quantum
 import { Photons } from "quantum-tensors";
-// import Operator from "./numerics/Operator";
-// import Dimension from "./numerics/Dimension";
 
 export default class Frame {
 	level: Level;
 	step: number;
 	pointers: Pointer[];
+	state: Photons;
 	end: boolean;
 
 	constructor(level: Level, step = 0, pointers: Pointer[] = [], end = false) {
+		// new Photons(level.grid.cols, level.grid.rows);
 		this.level = level;
 		this.step = step;
 		this.pointers = pointers;
@@ -38,27 +37,8 @@ export default class Frame {
 				if (laser.active) {
 					// Classical code
 					this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
-
-					// Quantum code
-					const state = new Photons(this.grid.cols, this.grid.rows);
-					console.log(level.grid.toString());
-
-					// state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
-					displayText("quantum", state.vector.toString());
 				}
 			});
-
-			// console.log("Propagated:");
-			// state.propagatePhotons();
-			// console.log(state.vector.toString());
-
-			// console.log("Add:");
-			// state.addPhotonIndicator(sizeX - 1, sizeY - 1, "^", "H");
-			// console.log(state.vector.toString());
-
-			// console.log("Propagated 2:");
-			// state.propagatePhotons();
-			// console.log(state.vector.toString());
 		}
 	}
 
@@ -89,20 +69,6 @@ export default class Frame {
 	get victory(): boolean {
 		return this.completedGoals.length === this.goals.length;
 	}
-
-	// nextQuantum(): Frame {
-	// console.log("Propagated:")
-	// state.propagatePhotons()
-	// console.log(state.vector.toString())
-
-	// console.log("Add:")
-	// state.addPhotonIndicator(sizeX - 1, sizeY - 1, '^', 'H')
-	// console.log(state.vector.toString())
-
-	// console.log("Propagated 2:")
-	// state.propagatePhotons()
-	// console.log(state.vector.toString())
-	// }
 
 	// Compute the next frame by computing the next positions of different pointers
 	next(): Frame {

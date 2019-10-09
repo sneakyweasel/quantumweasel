@@ -232,7 +232,7 @@ export default class Grid {
 	public frontendUpdate(cellI: CellInterface): PathPointer[] {
 		const cell = Cell.importCell(cellI);
 		if (this.set(cell)) {
-			return this.laserCoords;
+			return this.laserCoords();
 		} else {
 			throw new Error("Error from frontend...");
 		}
@@ -244,7 +244,7 @@ export default class Grid {
 			const cell = Cell.importCell(cellI);
 			grid.set(cell);
 		});
-		return grid.laserCoords;
+		return grid.laserCoords();
 	}
 
 	// Set the initial lasers pointers from the active lasers on grid
@@ -327,14 +327,14 @@ export default class Grid {
 	}
 
 	// Laser lines
-	get laserCoords(): PathPointer[] {
-		const laserCoords: PathPointer[] = [];
+	laserCoords(): Pointer[] {
+		const laserCoords: Pointer[] = [];
 		const pointers: Pointer[] = [];
 		this.activeLasers.map(laser => {
-			pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
+			pointers.push(laser.fire());
 		});
 		pointers.forEach(pointer => {
-			this.laserPath(pointer, 40).forEach((laserPoint: PathPointer) => {
+			this.laserPath(pointer, 40).forEach((laserPoint: Pointer) => {
 				if (laserPoint.coord.isIncludedIn(this.coords)) {
 					laserCoords.push(laserPoint);
 				}

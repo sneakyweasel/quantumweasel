@@ -12,14 +12,14 @@ import InputUtility from "./InputUtility";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor } from "./Actor";
-import Pointer, { PathPointer } from "./Pointer";
+import Pointer from "./Pointer";
 
 export default class Game {
 	// Game logic
 	public level: Level;
 	public frames: Frame[];
 	private frameNumber: number;
-	public laserPaths: PathPointer[];
+	public laserPaths: Pointer[];
 	private gameState: GameState;
 	// Game display
 	private display: Display;
@@ -121,7 +121,7 @@ export default class Game {
 		this.display.clear();
 		// Allow activated elements to compute gates etc.
 		for (let i = 0; i < 1; i++) {
-			this.laserPaths = this.grid.laserCoords;
+			this.laserPaths = this.grid.laserCoords();
 			this.grid.energizeCells(this.laserPaths);
 			this.grid.activateCells();
 		}
@@ -137,7 +137,6 @@ export default class Game {
 			`Turns: ${this.frameNumber}/${this.maxFrameNumber} | player: ${this.playerCoord.toString()}`
 		);
 		displayText("laser", `Active particles: ${Pointer.manyToString(this.currentFrame.pointers)}`);
-		displayText("quantum", "Waiting for quantum sim...");
 	}
 
 	// Draw the main grid
@@ -225,11 +224,10 @@ export default class Game {
 				const nextFrame = this.lastFrame.next();
 				this.frames.push(nextFrame);
 			}
-			this.drawFrame();
 		} else {
 			this.player.handleInput(event);
-			this.drawFrame();
 		}
+		this.drawFrame();
 	}
 
 	// Display frame
