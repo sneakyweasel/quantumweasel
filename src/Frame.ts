@@ -1,7 +1,7 @@
 // TIME FRAME CLASS
 // Allow time-travel debugging with step by step inc/dec of time
 // Generate a new frame for every move of the particle
-// Pointers are [coord, direction]
+// Particles are [coord, direction]
 
 // Exit conditions
 // - All goals done
@@ -21,28 +21,28 @@ import { Photons } from "quantum-tensors";
 export default class Frame {
 	level: Level;
 	step: number;
-	pointers: Particle[];
+	particles: Particle[];
 	state: Photons;
 	end: boolean;
 
 	constructor(
 		level: Level,
 		step = 0,
-		pointers: Particle[] = [],
+		particles: Particle[] = [],
 		state = new Photons(level.grid.cols, level.grid.rows),
 		end = false
 	) {
 		// new Photons(level.grid.cols, level.grid.rows);
 		this.level = level;
 		this.step = step;
-		this.pointers = pointers;
+		this.particles = particles;
 		this.end = end;
 		// Initiate simulation with frame #0 and extract emitters
 		if (step === 0) {
 			this.activeLasers.forEach(laser => {
 				if (laser.active) {
 					// Classical code
-					this.pointers.push(new Particle(laser.coord, laser.rotation, 1, 0));
+					this.particles.push(new Particle(laser.coord, laser.rotation, 1, 0));
 
 					// Quantum code
 					this.state = state;
@@ -84,7 +84,7 @@ export default class Frame {
 	nextQuantum(): void {
 	}
 
-	// Compute the next frame by computing the next positions of different pointers
+	// Compute the next frame by computing the next positions of different particles
 	next(): Frame {
 		// Absorbers
 		const detectors = this.grid.detectors;
@@ -100,56 +100,56 @@ export default class Frame {
 		const phasedecs = this.grid.phasedecs;
 		const phaseshifters: Cell[] = phaseincs.concat(phasedecs);
 
-		// Loop through pointers
-		this.pointers.forEach(pointer => {
-			pointer.next();
-			if (!this.grid.includes(pointer.coord)) {
-				pointer.intensity = 0;
+		// Loop through particles
+		this.particles.forEach(particle => {
+			particle.next();
+			if (!this.grid.includes(particle.coord)) {
+				particle.intensity = 0;
 			}
 
 			// Absorption
 			absorbers.forEach((absorber: Cell) => {
-				if (pointer.on(absorber)) {
-					pointer.intensity *= absorber.element.absorption;
+				if (particle.on(absorber)) {
+					particle.intensity *= absorber.element.absorption;
 				}
 			});
 
 			// Reflection
 			mirrors.forEach((mirror: Cell) => {
-				if (pointer.on(mirror)) {
-					pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360;
+				if (particle.on(mirror)) {
+					particle.direction = (2 * mirror.rotation - particle.direction + 360) % 360;
 				}
 			});
 			beamsplitters.forEach((beamsplitter: Cell) => {
-				if (pointer.on(beamsplitter)) {
-					// Dim the current pointer intensity
-					pointer.intensity /= 2;
-					// Reflecting pointer (create new reflected faded pointer)
-					const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360;
-					this.pointers.push(new Particle(pointer.coord, direction, pointer.intensity));
+				if (particle.on(beamsplitter)) {
+					// Dim the current particle intensity
+					particle.intensity /= 2;
+					// Reflecting particle (create new reflected faded particle)
+					const direction = (2 * beamsplitter.rotation - particle.direction + 360) % 360;
+					this.particles.push(new Particle(particle.coord, direction, particle.intensity));
 				}
 			});
 
 			// Phase shifters
 			phaseshifters.forEach((phaseshifter: Cell) => {
-				if (pointer.on(phaseshifter)) {
-					pointer.phase = (pointer.phase + phaseshifter.element.phase) % 1;
+				if (particle.on(phaseshifter)) {
+					particle.phase = (particle.phase + phaseshifter.element.phase) % 1;
 				}
 			});
 
 			// Collision goals
 			// FIXME: Make a shorthand for goals
 			this.goals.forEach(goal => {
-				if (goal.coord.equal(pointer.coord)) {
-					goal.value += pointer.intensity * 100;
-					pointer.intensity = 0;
+				if (goal.coord.equal(particle.coord)) {
+					goal.value += particle.intensity * 100;
+					particle.intensity = 0;
 				}
 			});
 		});
 
-		// Erase null intensity pointers
-		this.pointers = this.pointers.filter(pointer => {
-			return pointer.intensity > 0;
+		// Erase null intensity particles
+		this.particles = this.particles.filter(particle => {
+			return particle.intensity > 0;
 		});
 
 		// Victory conditions
@@ -158,21 +158,21 @@ export default class Frame {
 			this.end = true;
 		}
 		// Defeat conditions
-		if (this.pointers.length === 0) {
+		if (this.particles.length === 0) {
 			this.level.completed = false;
 			this.end = true;
 		}
 
-		return new Frame(this.level, this.step + 1, this.pointers, this.state, this.end);
+		return new Frame(this.level, this.step + 1, this.particles, this.state, this.end);
 	}
 
 	// Overriden method
 	toString(): string {
 		let result = `\n--- ${this.victory ? "VICTORY" : "IN PROGRESS"} --- Step #${this.step} with ${
-			this.pointers.length
-		} active pointers.\n`;
+			this.particles.length
+		} active particles.\n`;
 		result += "\n";
-		result += Particle.manyToString(this.pointers);
+		result += Particle.manyToString(this.particles);
 		result += "\n";
 		result += Goal.manyToString(this.level.goals);
 		return result;

@@ -247,94 +247,94 @@ export default class Grid {
 		return grid.laserCoords();
 	}
 
-	// Set the initial lasers pointers from the active lasers on grid
+	// Set the initial lasers particles from the active lasers on grid
 	public initiateLasers(): Particle[] {
-		const pointers: Particle[] = [];
+		const particles: Particle[] = [];
 		this.activeLasers.forEach(laser => {
 			if (laser.active) {
-				pointers.push(laser.fire());
+				particles.push(laser.fire());
 			}
 		});
-		return pointers;
+		return particles;
 	}
 
 	// Compute laser path
-	laserPath(pointer: Particle, maxFrames = 50): ParticleInterface[] {
-		// Make a depp clone of the pointer
-		let alive: Particle[] = [pointer];
+	laserPath(particle: Particle, maxFrames = 50): ParticleInterface[] {
+		// Make a depp clone of the particle
+		let alive: Particle[] = [particle];
 		const dead: Particle[] = [];
 
 		// Simulate path with a specific number of frames
 		for (let i = 0; i < maxFrames; i++) {
-			// Process each living pointer
-			alive.forEach(pointer => {
-				pointer.next();
+			// Process each living particle
+			alive.forEach(particle => {
+				particle.next();
 
-				// Zero the intensity of escaping pointers
-				if (!this.includes(pointer.coord)) {
-					pointer.intensity = 0;
+				// Zero the intensity of escaping particles
+				if (!this.includes(particle.coord)) {
+					particle.intensity = 0;
 				}
 
 				// Absorption
 				this.absorbers.forEach((absorber: Cell) => {
-					if (pointer.on(absorber)) {
-						pointer.intensity -= pointer.intensity * absorber.element.absorption;
+					if (particle.on(absorber)) {
+						particle.intensity -= particle.intensity * absorber.element.absorption;
 					}
 				});
 
 				// Reflection
 				this.mirrors.forEach((mirror: Cell) => {
-					if (pointer.on(mirror)) {
-						pointer.direction = (2 * mirror.rotation - pointer.direction + 360) % 360;
+					if (particle.on(mirror)) {
+						particle.direction = (2 * mirror.rotation - particle.direction + 360) % 360;
 					}
 				});
 				this.beamsplitters.forEach((beamsplitter: Cell) => {
-					if (pointer.on(beamsplitter)) {
-						// Dim the current pointer intensity
-						pointer.intensity /= 2;
-						// Reflecting pointer (create new reflected faded pointer)
-						const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360;
-						alive.push(new Particle(pointer.coord, direction, pointer.intensity));
+					if (particle.on(beamsplitter)) {
+						// Dim the current particle intensity
+						particle.intensity /= 2;
+						// Reflecting particle (create new reflected faded particle)
+						const direction = (2 * beamsplitter.rotation - particle.direction + 360) % 360;
+						alive.push(new Particle(particle.coord, direction, particle.intensity));
 					}
 				});
 
 				// Phase shifters
 				this.phaseshifters.forEach((phaseshifter: Cell) => {
-					if (pointer.on(phaseshifter)) {
-						pointer.phase = (pointer.phase + phaseshifter.element.phase) % 1;
+					if (particle.on(phaseshifter)) {
+						particle.phase = (particle.phase + phaseshifter.element.phase) % 1;
 					}
 				});
 			});
 
 			// Filter the living from the dead
-			alive.forEach(pointer => {
-				if (!pointer.alive) {
-					dead.push(pointer);
+			alive.forEach(particle => {
+				if (!particle.alive) {
+					dead.push(particle);
 				}
 			});
-			alive = alive.filter(pointer => {
-				return pointer.alive;
+			alive = alive.filter(particle => {
+				return particle.alive;
 			});
 		}
 
-		// Flatten and dedupe list of pointers
-		const pathPointers: ParticleInterface[][] = [];
+		// Flatten and dedupe list of particles
+		const pathParticles: ParticleInterface[][] = [];
 		alive = dead.concat(alive);
-		alive.forEach(pointer => {
-			pathPointers.push(pointer.path);
+		alive.forEach(particle => {
+			pathParticles.push(particle.path);
 		});
-		return [...new Set(pathPointers.flat())];
+		return [...new Set(pathParticles.flat())];
 	}
 
 	// Laser lines
 	laserCoords(): Particle[] {
 		const laserCoords: Particle[] = [];
-		const pointers: Particle[] = [];
+		const particles: Particle[] = [];
 		this.activeLasers.map(laser => {
-			pointers.push(laser.fire());
+			particles.push(laser.fire());
 		});
-		pointers.forEach(pointer => {
-			this.laserPath(pointer, 40).forEach((laserPoint: Particle) => {
+		particles.forEach(particle => {
+			this.laserPath(particle, 40).forEach((laserPoint: Particle) => {
 				if (laserPoint.coord.isIncludedIn(this.coords)) {
 					laserCoords.push(laserPoint);
 				}
@@ -346,7 +346,7 @@ export default class Grid {
 	// Energize cells according to laser paths
 	// Should update also the unergizes cells
 	energizeCells(paths: ParticleInterface[]): void {
-		const pathCoords: Coord[] = paths.map(pathPointer => pathPointer.coord);
+		const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord);
 		this.cells.forEach(cell => {
 			if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "void") {
 				cell.energized = true;

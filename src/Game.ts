@@ -136,7 +136,7 @@ export default class Game {
 			"player",
 			`Turns: ${this.frameNumber}/${this.maxFrameNumber} | player: ${this.playerCoord.toString()}`
 		);
-		displayText("laser", `Active particles: ${Particle.manyToString(this.currentFrame.pointers)}`);
+		displayText("laser", `Active particles: ${Particle.manyToString(this.currentFrame.particles)}`);
 	}
 
 	// Draw the main grid
@@ -175,11 +175,11 @@ export default class Game {
 		}
 
 		// Display photon
-		this.currentFrame.pointers.forEach(pointer => {
-			if (pointer && pointer.coord.equal(cell.coord) && pointer.isVertical) {
+		this.currentFrame.particles.forEach(particle => {
+			if (particle && particle.coord.equal(cell.coord) && particle.isVertical) {
 				charList.push("P");
 			}
-			if (pointer && pointer.coord.equal(cell.coord) && !pointer.isVertical) {
+			if (particle && particle.coord.equal(cell.coord) && !particle.isVertical) {
 				charList.push("d");
 			}
 		});
@@ -187,15 +187,15 @@ export default class Game {
 		this.display.draw(cell.coord.x, cell.coord.y, charList, foregroundColor, backgroundColor);
 	}
 
-	// Pointers on a specific coord
+	// Particles on a specific coord
 	coordIntensitySum(coord: Coord): number {
 		let sum = 0;
 		this.laserPaths
-			.filter(pathPointer => {
-				return coord.equal(pathPointer.coord);
+			.filter(particleInterface => {
+				return coord.equal(particleInterface.coord);
 			})
-			.map(pointer => {
-				sum += pointer.intensity;
+			.map(particle => {
+				sum += particle.intensity;
 			});
 		return sum;
 	}
@@ -234,7 +234,7 @@ export default class Game {
 	private drawFrame(frame = this.currentFrame): void {
 		console.log(`--- Displaying frame ${this.frameNumber} ---`);
 		console.log(this.currentFrame.toString());
-		displayText("laser", `Active particles: ${Particle.manyToString(frame.pointers)}`);
+		displayText("laser", `Active particles: ${Particle.manyToString(frame.particles)}`);
 		this.drawGrid();
 	}
 }

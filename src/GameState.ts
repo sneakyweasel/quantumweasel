@@ -1,6 +1,6 @@
 export default class GameState {
 	achievedGoals: boolean;
-	noPointers: boolean;
+	noParticles: boolean;
 	notEnoughIntensity: boolean;
 
 	constructor() {
@@ -9,19 +9,19 @@ export default class GameState {
 
 	reset(): void {
 		this.achievedGoals = false;
-		this.noPointers = false;
+		this.noParticles = false;
 		this.notEnoughIntensity = false;
 	}
 
 	doStartNextRound(): boolean {
-		return !this.noPointers;
+		return !this.noParticles;
 	}
 
 	doRestartGame(): boolean {
-		return this.noPointers || this.notEnoughIntensity;
+		return this.noParticles || this.notEnoughIntensity;
 	}
 
 	isGameOver(): boolean {
-		return this.achievedGoals || this.noPointers || this.notEnoughIntensity;
+		return this.achievedGoals || this.noParticles || this.notEnoughIntensity;
 	}
 }

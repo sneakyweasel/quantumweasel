@@ -1,4 +1,4 @@
-// POINTER CLASS
+// PARTICLE CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
 // FIXME: Class needs rework
@@ -35,7 +35,7 @@ export default class Particle extends Coord {
 		this.path = path;
 	}
 
-	// Origin of the pointer
+	// Origin of the particle
 	get origin(): Coord {
 		return this.path[0].coord;
 	}
@@ -45,7 +45,7 @@ export default class Particle extends Coord {
 		return this.intensity > 0;
 	}
 
-	// Deep clone of the pointer
+	// Deep clone of the particle
 	get clone(): Particle {
 		return new Particle(this.coord, this.direction, this.intensity, this.phase);
 	}
@@ -55,7 +55,7 @@ export default class Particle extends Coord {
 		return this.direction === 0 || this.direction === 180;
 	}
 
-	// Pointer is on a specific cell shorthand
+	// Particle is on a specific cell shorthand
 	on(cell: Cell): boolean {
 		return this.coord.equal(cell.coord);
 	}
@@ -94,7 +94,7 @@ export default class Particle extends Coord {
 					this.coord = this.coord.left;
 					break;
 				default:
-					throw Error(`Something went wrong with pointers and direction.`);
+					throw Error(`Something went wrong with particles and direction.`);
 			}
 			// Update coord with latest computed path coordinates
 			this.path.push({
@@ -109,7 +109,7 @@ export default class Particle extends Coord {
 
 	// Export JSON object
 	// FIXME: Rework extends and JSON export
-	exportPointer(): ParticleInterface {
+	exportParticle(): ParticleInterface {
 		return {
 			coord: this.coord,
 			direction: this.direction,
@@ -125,7 +125,7 @@ export default class Particle extends Coord {
 	}
 
 	// Import JSON object
-	static importPointer(json: {
+	static importParticle(json: {
 		x: number;
 		y: number;
 		direction: number;
@@ -138,10 +138,10 @@ export default class Particle extends Coord {
 	}
 
 	// USed for debugging
-	static manyToString(pointers: Particle[]): string {
+	static manyToString(particles: Particle[]): string {
 		let result = "";
-		pointers.forEach(pointer => {
-			result += pointer.toString();
+		particles.forEach(particle => {
+			result += particle.toString();
 		});
 		return result;
 	}

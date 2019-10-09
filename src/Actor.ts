@@ -5,7 +5,7 @@ import Glyph from "./Glyph";
 
 export const enum ActorType {
 	Player,
-	Pointer
+	Particle
 }
 
 export interface Actor {

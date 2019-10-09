@@ -32,32 +32,17 @@ describe("Cell", () => {
 		expect(rock.rotate(270)).toThrowError("Error in the supplied angle compared to the element rotation angle.");
 	});
 
-	// it("should fire a particle pointer going up", () => {
-	//   const coord = new Coord(1, 0);
-	//   const element = Element.fromName("laser");
-	//   const laser = new Cell(coord, element);
-	//   const pointer = laser.fire();
-	//   expect(laser.toString()).toEqual(
-	//     "Cell @ [Y:1, X:0] is unfrozen laser (Phase: 0, Absorption: 0%) rotated 0°"
-	//   );
-	//   expect(pointer.toString()).toEqual(
-	//     "#Pointer @ [Y:1, X:0] moving 0° with 1 intensity and 0 phase shift. PATH: [Y:1, X:0]"
-	//   );
-	//   pointer.next();
-	//   expect(pointer.coord).toEqual(coord.top);
-	// });
-
-	it("should fire a particle pointer going right", () => {
+	it("should fire a particle particle going right", () => {
 		const coord = new Coord(1, 0);
 		const element = Element.fromName("laser");
 		const laser = new Cell(coord, element);
 		laser.rotate(90);
-		const pointer = laser.fire();
+		const particle = laser.fire();
 		expect(laser.toString()).toEqual("Cell @ [Y:1, X:0] is unfrozen laser (Phase: 0, Absorption: 0%) rotated 90°");
-		expect(pointer.toString()).toEqual(
-			"#Pointer @ [Y:1, X:0] moving 90° with 1 intensity and 0 phase shift. PATH: [Y:1, X:0]"
+		expect(particle.toString()).toEqual(
+			"#Particle @ [Y:1, X:0] moving 90° with 1 intensity and 0 phase shift. PATH: [Y:1, X:0]"
 		);
-		pointer.next();
-		expect(pointer.coord).toEqual(coord.right);
+		particle.next();
+		expect(particle.coord).toEqual(coord.right);
 	});
 });

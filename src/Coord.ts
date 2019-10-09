@@ -28,24 +28,6 @@ export default class Coord {
 		return [y, x];
 	}
 
-	// Distance to exiting grid
-	// Array offset corrected
-	// TODO: Move to pointer class
-	distanceToExit(direction = 0, rows: number, cols: number): number {
-		switch (direction % 360) {
-			case 0: // TOP
-				return this.y;
-			case 90: // RIGHT
-				return cols - this.x - 1;
-			case 180: // BOTTOM
-				return rows - this.y - 1;
-			case 270: // LEFT
-				return this.x;
-			default:
-				throw new Error("Something went wrong with directions...");
-		}
-	}
-
 	// Adjacent cells
 	get top(): Coord {
 		return Coord.importCoord({ y: this.y - 1, x: this.x });

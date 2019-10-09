@@ -67,7 +67,7 @@ export default class Cell {
 		this.energized = !this.energized;
 	}
 
-	// Fire the laser and get a pointer
+	// Fire the laser and get a particle
 	fire(): Particle {
 		if (this.active) {
 			return new Particle(this.coord, this.rotation, 1, 0);
