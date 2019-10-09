@@ -12,20 +12,26 @@ import Cell from "./Cell";
 import Goal from "./Goal";
 import Hint from "./Hint";
 import Grid from "./Grid";
-import Pointer from "./Pointer";
 import Level from "./Level";
-
+import Particle from "./Particle";
+import { displayText } from "./Helpers";
 // Quantum
 import { Photons } from "quantum-tensors";
 
 export default class Frame {
 	level: Level;
 	step: number;
-	pointers: Pointer[];
+	pointers: Particle[];
 	state: Photons;
 	end: boolean;
 
-	constructor(level: Level, step = 0, pointers: Pointer[] = [], end = false) {
+	constructor(
+		level: Level,
+		step = 0,
+		pointers: Particle[] = [],
+		state = new Photons(level.grid.cols, level.grid.rows),
+		end = false
+	) {
 		// new Photons(level.grid.cols, level.grid.rows);
 		this.level = level;
 		this.step = step;
@@ -36,7 +42,12 @@ export default class Frame {
 			this.activeLasers.forEach(laser => {
 				if (laser.active) {
 					// Classical code
-					this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
+					this.pointers.push(new Particle(laser.coord, laser.rotation, 1, 0));
+
+					// Quantum code
+					this.state = state;
+					this.state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.ascii, "V");
+					displayText("quantum", this.state.vector.toString());
 				}
 			});
 		}
@@ -68,6 +79,9 @@ export default class Frame {
 	}
 	get victory(): boolean {
 		return this.completedGoals.length === this.goals.length;
+	}
+
+	nextQuantum(): void {
 	}
 
 	// Compute the next frame by computing the next positions of different pointers
@@ -112,7 +126,7 @@ export default class Frame {
 					pointer.intensity /= 2;
 					// Reflecting pointer (create new reflected faded pointer)
 					const direction = (2 * beamsplitter.rotation - pointer.direction + 360) % 360;
-					this.pointers.push(new Pointer(pointer.coord, direction, pointer.intensity));
+					this.pointers.push(new Particle(pointer.coord, direction, pointer.intensity));
 				}
 			});
 
@@ -149,7 +163,7 @@ export default class Frame {
 			this.end = true;
 		}
 
-		return new Frame(this.level, this.step + 1, this.pointers, this.end);
+		return new Frame(this.level, this.step + 1, this.pointers, this.state, this.end);
 	}
 
 	// Overriden method
@@ -158,7 +172,7 @@ export default class Frame {
 			this.pointers.length
 		} active pointers.\n`;
 		result += "\n";
-		result += Pointer.manyToString(this.pointers);
+		result += Particle.manyToString(this.pointers);
 		result += "\n";
 		result += Goal.manyToString(this.level.goals);
 		return result;

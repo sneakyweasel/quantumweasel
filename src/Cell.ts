@@ -2,7 +2,7 @@
 // Basic class for the grid cells
 import Coord from "./Coord";
 import Element from "./Element";
-import Pointer from "./Pointer";
+import Particle from "./Particle";
 import { angleToSymbol } from "./Helpers";
 
 export interface CellInterface {
@@ -68,9 +68,9 @@ export default class Cell {
 	}
 
 	// Fire the laser and get a pointer
-	fire(): Pointer {
+	fire(): Particle {
 		if (this.active) {
-			return new Pointer(this.coord, this.rotation, 1, 0);
+			return new Particle(this.coord, this.rotation, 1, 0);
 		} else {
 			throw new Error("Laser is inactive");
 		}

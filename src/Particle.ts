@@ -6,26 +6,26 @@ import Coord from "./Coord";
 import Cell from "./Cell";
 import { toPercent } from "./Helpers";
 
-export interface PathPointer {
+export interface ParticleInterface {
 	coord: Coord;
 	direction: number;
 	intensity: number;
 	phase: number;
 }
 
-export default class Pointer extends Coord {
+export default class Particle extends Coord {
 	coord: Coord;
 	direction: number;
 	intensity: number;
 	phase: number;
-	path: PathPointer[];
+	path: ParticleInterface[];
 
 	constructor(
 		coord: Coord,
 		direction: number,
 		intensity = 1,
 		phase = 0,
-		path: PathPointer[] = [{ coord: coord, direction: direction, intensity: intensity, phase: phase }]
+		path: ParticleInterface[] = [{ coord: coord, direction: direction, intensity: intensity, phase: phase }]
 	) {
 		super(coord.y, coord.x);
 		this.coord = coord;
@@ -46,8 +46,8 @@ export default class Pointer extends Coord {
 	}
 
 	// Deep clone of the pointer
-	get clone(): Pointer {
-		return new Pointer(this.coord, this.direction, this.intensity, this.phase);
+	get clone(): Particle {
+		return new Particle(this.coord, this.direction, this.intensity, this.phase);
 	}
 
 	// Vertical or horizontal orientation
@@ -77,7 +77,7 @@ export default class Pointer extends Coord {
 	}
 
 	// Compute next simulation step
-	next(repeat = 1): Pointer {
+	next(repeat = 1): Particle {
 		// Moving CW in increment of 90°
 		for (let i = 0; i < repeat; i++) {
 			switch (this.direction % 360) {
@@ -109,7 +109,7 @@ export default class Pointer extends Coord {
 
 	// Export JSON object
 	// FIXME: Rework extends and JSON export
-	exportPointer(): PathPointer {
+	exportPointer(): ParticleInterface {
 		return {
 			coord: this.coord,
 			direction: this.direction,
@@ -132,13 +132,13 @@ export default class Pointer extends Coord {
 		intensity: number;
 		phase: number;
 		path: { y: number; x: number }[];
-	}): Pointer {
+	}): Particle {
 		const coord = Coord.importCoord({ y: json.y, x: json.x });
-		return new Pointer(coord, json.direction, json.intensity, json.phase);
+		return new Particle(coord, json.direction, json.intensity, json.phase);
 	}
 
 	// USed for debugging
-	static manyToString(pointers: Pointer[]): string {
+	static manyToString(pointers: Particle[]): string {
 		let result = "";
 		pointers.forEach(pointer => {
 			result += pointer.toString();

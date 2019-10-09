@@ -12,14 +12,14 @@ import InputUtility from "./InputUtility";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor } from "./Actor";
-import Pointer from "./Pointer";
+import Particle from "./Particle";
 
 export default class Game {
 	// Game logic
 	public level: Level;
 	public frames: Frame[];
 	private frameNumber: number;
-	public laserPaths: Pointer[];
+	public laserPaths: Particle[];
 	private gameState: GameState;
 	// Game display
 	private display: Display;
@@ -136,7 +136,7 @@ export default class Game {
 			"player",
 			`Turns: ${this.frameNumber}/${this.maxFrameNumber} | player: ${this.playerCoord.toString()}`
 		);
-		displayText("laser", `Active particles: ${Pointer.manyToString(this.currentFrame.pointers)}`);
+		displayText("laser", `Active particles: ${Particle.manyToString(this.currentFrame.pointers)}`);
 	}
 
 	// Draw the main grid
@@ -234,7 +234,7 @@ export default class Game {
 	private drawFrame(frame = this.currentFrame): void {
 		console.log(`--- Displaying frame ${this.frameNumber} ---`);
 		console.log(this.currentFrame.toString());
-		displayText("laser", `Active particles: ${Pointer.manyToString(frame.pointers)}`);
+		displayText("laser", `Active particles: ${Particle.manyToString(frame.pointers)}`);
 		this.drawGrid();
 	}
 }
