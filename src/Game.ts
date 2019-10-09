@@ -77,6 +77,9 @@ export default class Game {
 	get currentFrame(): Frame {
 		return this.frames[this.frameNumber];
 	}
+	get maxFrameNumber(): number {
+		return this.frames.length;
+	}
 
 	// Init game
 	private initializeGame(): void {
@@ -134,57 +137,59 @@ export default class Game {
 	// Display relevant informations in html
 	private displayDebug(): void {
 		displayText("cell", this.player.cell.toString());
-		displayText("player", `Turns: ${this.frameNumber} | player: ${this.playerCoord.toString()}`);
+		displayText(
+			"player",
+			`Turns: ${this.frameNumber}/${this.maxFrameNumber} | player: ${this.playerCoord.toString()}`
+		);
+		displayText("laser", `Active particles: ${Pointer.manyToString(this.currentFrame.pointers)}`);
 		// displayText("laser", Pointer.toString(this.laserPaths));
-		displayText("laser", "");
+		// displayText("laser", "");
 	}
 
 	// Draw the main grid
 	public drawGrid(): void {
+		this.display.clear();
 		console.log(`Rendering WebGL game grid...`);
 		for (let y = 0; y < this.grid.rows; y++) {
 			for (let x = 0; x < this.grid.cols; x++) {
 				const coord = Coord.importCoord({ y: y, x: x });
-				const cell = this.grid.get(coord);
-
-				//  Find the laserPath object on a specific cell
-				const sum = this.coordIntensitySum(coord);
-				if (sum > 0) {
-					const rgbhex = hsl2hexrgb(0, 1, sum / 3 + 0.2);
-					this.drawCell(cell, "white", rgbhex);
-				} else {
-					this.drawCell(cell);
-				}
+				this.drawCoord(coord);
 			}
 		}
 	}
 
 	// Draw indivdual cells
-	drawCell(cell: Cell, foregroundColor = "white", backgroundColor = "#2e006a"): void {
+	drawCoord(coord: Coord, foregroundColor = "white", backgroundColor = "#2e006a"): void {
+		const cell = this.grid.get(coord);
+
+		//  Color variables
+		const sum = this.coordIntensitySum(cell.coord);
+		if (sum > 0) {
+			const rgbhex = hsl2hexrgb(0, 1, sum / 3 + 0.2);
+			backgroundColor = rgbhex;
+		}
 		if (cell.frozen) {
 			backgroundColor = "turquoise";
 		}
 		if (cell.energized) {
 			backgroundColor = "red";
 		}
-		// Append to the charlist array
-		const charList: string[] = [cell.ascii];
 
-		// Append player to charlist
-		if (this.player.coord.equal(cell.coord)) {
+		// Tile variables - Element, player, laser, photon
+		const charList: string[] = [cell.ascii];
+		if (this.player.coord.equal(coord)) {
 			charList.push("@");
 		}
 
-		// Display frame pointers
-		const pointer = this.currentFrame.pointers.filter(pointer => {
-			return pointer.coord.equal(cell.coord);
-		})[0];
-		if (pointer && pointer.isVertical) {
-			charList.push("P");
-		}
-		if (pointer && !pointer.isVertical) {
-			charList.push("d");
-		}
+		// Display photon
+		this.currentFrame.pointers.forEach(pointer => {
+			if (pointer && pointer.coord.equal(cell.coord) && pointer.isVertical) {
+				charList.push("P");
+			}
+			if (pointer && pointer.coord.equal(cell.coord) && !pointer.isVertical) {
+				charList.push("d");
+			}
+		});
 
 		this.display.draw(cell.coord.x, cell.coord.y, charList, foregroundColor, backgroundColor);
 	}
@@ -221,18 +226,23 @@ export default class Game {
 			if (this.frameNumber <= 0) {
 				this.frameNumber = 0;
 			}
-			if (this.frameNumber > this.frames.length - 1) {
+			if (this.frameNumber >= this.frames.length - 1) {
 				this.frameNumber = this.frames.length - 1;
-				const nextFrame = this.currentFrame.next();
+				const nextFrame = this.lastFrame.next();
 				this.frames.push(nextFrame);
 			}
 			this.drawFrame();
+		} else {
+			// Send keycode to Player
 		}
 	}
 
 	// Display frame
 	private drawFrame(frame = this.currentFrame): void {
-		console.log(`--- Displaying frame ${frame.step} ---`);
+		console.log(`--- Displaying frame ${this.frameNumber} ---`);
+		console.log(this.currentFrame.toString());
 		displayText("laser", `Active particles: ${Pointer.manyToString(frame.pointers)}`);
+		this.displayDebug();
+		this.drawGrid();
 	}
 }

@@ -118,6 +118,12 @@ export default class Pointer extends Coord {
 		};
 	}
 
+	toString(): string {
+		return `Laser at ${this.coord.toString()} going ${this.direction} with ${toPercent(this.intensity)} and ${
+			this.phase
+		} phase shift\n`;
+	}
+
 	// Import JSON object
 	static importPointer(json: {
 		x: number;
@@ -132,21 +138,10 @@ export default class Pointer extends Coord {
 	}
 
 	// USed for debugging
-	static toString(pathPointers: PathPointer[]): string {
-		let result = "";
-		pathPointers.forEach(pathPointer => {
-			result += `<li>Laser at ${pathPointer.coord} going ${pathPointer.direction} with ${toPercent(
-				pathPointer.intensity
-			)} and ${pathPointer.phase} phase shift</li>`;
-		});
-		return result;
-	}
-
-	// Format active particle list
 	static manyToString(pointers: Pointer[]): string {
-		let result = `${pointers.length} active particles...\n`;
+		let result = "";
 		pointers.forEach(pointer => {
-			result += `- ${pointer.toString()}\n`;
+			result += pointer.toString();
 		});
 		return result;
 	}
