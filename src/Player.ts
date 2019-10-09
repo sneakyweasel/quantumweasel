@@ -53,7 +53,7 @@ export default class Player implements Actor {
 	}
 
 	// Offset of movement
-	private handleInput(event: KeyboardEvent): boolean {
+	handleInput(event: KeyboardEvent): boolean {
 		let validInput = false;
 		let newCoord: Coord = this.coord;
 		switch (event.keyCode) {
@@ -80,6 +80,7 @@ export default class Player implements Actor {
 				this.cell.rotate(-this.cell.element.rotationAngle);
 				break;
 			case KEYS.VK_E:
+			case KEYS.VK_R:
 				this.cell.rotate(this.cell.element.rotationAngle);
 				break;
 			case KEYS.VK_F:

@@ -227,7 +227,8 @@ export default class Game {
 			}
 			this.drawFrame();
 		} else {
-			// Send keycode to Player
+			this.player.handleInput(event);
+			this.drawFrame();
 		}
 	}
 
