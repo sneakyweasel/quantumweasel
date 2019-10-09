@@ -2,11 +2,6 @@ import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
 import { hsl2hexrgb, displayText } from "./Helpers";
 
-import json1 from "../levels/game/level1.json";
-import json2 from "../levels/game/level2.json";
-import json3 from "../levels/game/level3.json";
-import json4 from "../levels/game/level4.json";
-
 import Coord from "./Coord";
 import Glyph from "./Glyph";
 import Cell from "./Cell";
@@ -16,7 +11,7 @@ import GameState from "./GameState";
 import InputUtility from "./InputUtility";
 import Player from "./Player";
 import Frame from "./Frame";
-import { Actor, ActorType } from "./Actor";
+import { Actor } from "./Actor";
 import { PathPointer } from "./Pointer";
 
 export default class Game {
@@ -30,7 +25,7 @@ export default class Game {
 	private scheduler: Simple;
 	private player: Player;
 	private tilesize = 32;
-	private turns = 0;
+	private frameNumber = 0;
 
 	constructor(level: Level, tilesize = 32, frames = []) {
 		// Game mechanics
@@ -73,6 +68,9 @@ export default class Game {
 	get grid(): Grid {
 		return this.level.grid;
 	}
+	get currentFrame(): Frame {
+		return this.frames[this.frames.length - 1];
+	}
 
 	// Init game
 	private initializeGame(): void {
@@ -89,7 +87,7 @@ export default class Game {
 
 		displayText("title", this.level.id + " - " + this.level.name);
 		displayText("description", this.level.description);
-		displayText("player", `Turns: ${this.turns} player: ${this.playerCoord.toString()}`);
+		displayText("player", `Turns: ${this.frameNumber} player: ${this.playerCoord.toString()}`);
 		displayText("cell", this.playerCell.toString());
 		this.drawGame();
 	}
@@ -103,13 +101,13 @@ export default class Game {
 				break;
 			}
 			await actor.act();
-			if (actor.type === ActorType.Player) {
-				this.turns += 1;
-			}
-			if (this.gameState.isGameOver()) {
-				await InputUtility.waitForInput(this.handleInput.bind(this));
-				this.initializeGame();
-			}
+			// if (actor.type === ActorType.Player) {
+			// 	this.turns += 1;
+			// }
+			// if (this.gameState.isGameOver()) {
+			await InputUtility.waitForInput(this.handleInput.bind(this));
+			// this.initializeGame();
+			// }
 			this.drawGame();
 		}
 	}
@@ -130,7 +128,7 @@ export default class Game {
 	// Display relevant informations in html
 	private displayDebug(): void {
 		displayText("cell", this.player.cell.toString());
-		displayText("player", `Turns: ${this.turns} player: ${this.playerCoord.toString()}`);
+		displayText("player", `Turns: ${this.frameNumber} | player: ${this.playerCoord.toString()}`);
 		// displayText("laser", Pointer.toString(this.laserPaths));
 		displayText("laser", "");
 	}
@@ -163,11 +161,25 @@ export default class Game {
 		if (cell.energized) {
 			backgroundColor = "red";
 		}
-		// Charlist array
+		// Append to the charlist array
 		const charList: string[] = [cell.ascii];
+
+		// Append player to charlist
 		if (this.player.coord.equal(cell.coord)) {
 			charList.push("@");
 		}
+
+		// Display frame pointers
+		const pointer = this.currentFrame.pointers.filter(pointer => {
+			return pointer.coord.equal(cell.coord);
+		})[0];
+		if (pointer && pointer.isVertical) {
+			charList.push("P");
+		}
+		if (pointer && !pointer.isVertical) {
+			charList.push("d");
+		}
+
 		this.display.draw(cell.coord.x, cell.coord.y, charList, foregroundColor, backgroundColor);
 	}
 
@@ -184,43 +196,39 @@ export default class Game {
 		return sum;
 	}
 
-	// Handle user input
+	// Move through different frames
 	private handleInput(event: KeyboardEvent): void {
+		// Filter key events
 		const code = event.keyCode;
-		let levelNumber = 1;
-		switch (code) {
-			case KEYS.VK_PAGE_DOWN:
-			case KEYS.VK_PLUS:
-				levelNumber -= 1;
-				break;
-			case KEYS.VK_PAGE_UP:
-			case KEYS.VK_MULTIPLY:
-				levelNumber += 1;
-				break;
-			default:
-				break;
+		if (code === KEYS.VK_SUBTRACT || code === KEYS.VK_ADD) {
+			switch (code) {
+				case KEYS.VK_SUBTRACT:
+					this.frameNumber -= 1;
+					break;
+				case KEYS.VK_ADD:
+					this.frameNumber += 1;
+					break;
+				default:
+					break;
+			}
+			// Don't go out of bounds
+			if (this.frameNumber <= 0) {
+				this.frameNumber = 0;
+			}
+			if (this.frameNumber > this.frames.length - 1) {
+				this.frameNumber = this.frames.length - 1;
+			}
+			const nextFrame = this.currentFrame.next();
+			this.frames.push(nextFrame);
+			this.drawFrame(this.frameNumber);
 		}
-		// Avoid out of range level numbers
-		let level;
-		switch (levelNumber) {
-			case 1:
-				level = json1;
-				break;
-			case 2:
-				level = json2;
-				break;
-			case 3:
-				level = json3;
-				break;
-			case 4:
-				level = json4;
-				break;
-			default:
-				level = json1;
-				break;
-		}
-		this.level = Level.importLevel(level);
-		this.initializeGame();
-		this.mainLoop();
+	}
+
+	// Display frame
+	private drawFrame(frameNumber: number): void {
+		console.log(`--- Displaying frame ${frameNumber} ---`);
+		console.log(this.frames[frameNumber].toString());
+		this.displayDebug();
+		this.drawGrid();
 	}
 }

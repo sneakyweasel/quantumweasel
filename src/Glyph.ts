@@ -33,6 +33,8 @@ export default class Glyph {
 		tileMap["H"] = [0 * tilesize, 22 * tilesize];
 		tileMap["V"] = [1 * tilesize, 22 * tilesize];
 		// Laser lines
+		tileMap["P"] = [0 * tilesize, 10 * tilesize];
+		tileMap["d"] = [1 * tilesize, 10 * tilesize];
 
 		return tileMap;
 	}

@@ -50,6 +50,11 @@ export default class Pointer extends Coord {
 		return new Pointer(this.coord, this.direction, this.intensity, this.phase);
 	}
 
+	// Vertical or horizontal orientation
+	get isVertical(): boolean {
+		return this.direction === 0 || this.direction === 180;
+	}
+
 	// Pointer is on a specific cell shorthand
 	on(cell: Cell): boolean {
 		return this.coord.equal(cell.coord);
