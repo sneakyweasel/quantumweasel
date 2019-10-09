@@ -12,7 +12,7 @@ import InputUtility from "./InputUtility";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor } from "./Actor";
-import { PathPointer } from "./Pointer";
+import Pointer, { PathPointer } from "./Pointer";
 
 export default class Game {
 	// Game logic
@@ -68,8 +68,14 @@ export default class Game {
 	get grid(): Grid {
 		return this.level.grid;
 	}
-	get currentFrame(): Frame {
+	get lastFrame(): Frame {
 		return this.frames[this.frames.length - 1];
+	}
+	get firstFrame(): Frame {
+		return this.frames[0];
+	}
+	get currentFrame(): Frame {
+		return this.frames[this.frameNumber];
 	}
 
 	// Init game
@@ -217,18 +223,16 @@ export default class Game {
 			}
 			if (this.frameNumber > this.frames.length - 1) {
 				this.frameNumber = this.frames.length - 1;
+				const nextFrame = this.currentFrame.next();
+				this.frames.push(nextFrame);
 			}
-			const nextFrame = this.currentFrame.next();
-			this.frames.push(nextFrame);
-			this.drawFrame(this.frameNumber);
+			this.drawFrame();
 		}
 	}
 
 	// Display frame
-	private drawFrame(frameNumber: number): void {
-		console.log(`--- Displaying frame ${frameNumber} ---`);
-		console.log(this.frames[frameNumber].toString());
-		this.displayDebug();
-		this.drawGrid();
+	private drawFrame(frame = this.currentFrame): void {
+		console.log(`--- Displaying frame ${frame.step} ---`);
+		displayText("laser", `Active particles: ${Pointer.manyToString(frame.pointers)}`);
 	}
 }
