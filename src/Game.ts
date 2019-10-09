@@ -1,7 +1,7 @@
 import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
 
-import { hsl2hexrgb } from "./Helpers";
+import { hsl2hexrgb, displayCell, displayLaser, displayPlayer } from "./Helpers";
 import Coord from "./Coord";
 import Glyph from "./Glyph";
 import Cell from "./Cell";
@@ -12,7 +12,7 @@ import InputUtility from "./InputUtility";
 import Player from "./Player";
 import Frame from "./Frame";
 import { Actor, ActorType } from "./Actor";
-import Pointer, { PathPointer } from "./Pointer";
+import { PathPointer } from "./Pointer";
 
 export default class Game {
 	// Game logic
@@ -115,34 +115,21 @@ export default class Game {
 	}
 
 	// Display relevant informations in html
-	displayPlayer(): void {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		document.getElementById("player")!.textContent = `Turns: ${this.turns} player: ${this.playerCoord.toString()}`;
-	}
-	displayQuantum(text: string): void {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		document.getElementById("quantum")!.textContent = text;
-	}
-	displayCell(cell: Cell = this.player.cell): void {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		document.getElementById("cell")!.textContent = cell.toString();
-	}
-	displayLaser(laserPaths: PathPointer[] = this.laserPaths): void {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		document.getElementById("laser")!.innerHTML = Pointer.toString(laserPaths);
-	}
-	displayDebug(): void {
-		this.displayCell();
-		this.displayPlayer();
-		// this.displayLaser();
+	private displayDebug(): void {
+		displayCell(this.player.cell);
+		displayPlayer(this.turns, this.playerCoord);
+		displayLaser(this.laserPaths);
 	}
 
+	// Find a way to detect looping laser paths
 	private drawPanel(): void {
 		this.display.clear();
-		this.laserPaths = this.grid.laserCoords;
-		this.grid.energizeCells(this.laserPaths);
-		this.grid.activateCells();
-		this.laserPaths = this.grid.laserCoords;
+		// Allow activated elements to compute gates etc.
+		for (let i = 0; i < 3; i++) {
+			this.laserPaths = this.grid.laserCoords;
+			this.grid.energizeCells(this.laserPaths);
+			this.grid.activateCells();
+		}
 		this.displayDebug();
 		this.drawGrid();
 	}

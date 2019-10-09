@@ -14,9 +14,10 @@ import Hint from "./Hint";
 import Grid from "./Grid";
 import Pointer from "./Pointer";
 import Level from "./Level";
+import { displayQuantum } from "./Helpers";
 
 // Quantum
-// import Photons from "quantum-tensors/src/Step";
+import { Photons } from "quantum-tensors";
 // import Operator from "./numerics/Operator";
 // import Dimension from "./numerics/Dimension";
 
@@ -39,12 +40,12 @@ export default class Frame {
 					this.pointers.push(new Pointer(laser.coord, laser.rotation, 1, 0));
 
 					// Quantum code
-					// const state = new Photons(this.grid.cols, this.grid.rows);
+					const state = new Photons(this.grid.cols, this.grid.rows);
 
 					console.log(level.grid.toString());
 
-					// state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
-					// game.displayQuantum(state.vector.toString());
+					state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
+					displayQuantum(state.vector.toString());
 				}
 			});
 
