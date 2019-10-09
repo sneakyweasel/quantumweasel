@@ -237,6 +237,15 @@ export default class Grid {
 			throw new Error("Error from frontend...");
 		}
 	}
+	// Front-end updates
+	static frontendUpdateFull(cols: number, rows: number, cellsI: CellInterface[]): PathPointer[] {
+		const grid = new Grid(cols, rows);
+		cellsI.forEach((cellI: CellInterface) => {
+			const cell = Cell.importCell(cellI);
+			grid.set(cell);
+		});
+		return grid.laserCoords;
+	}
 
 	// Set the initial lasers pointers from the active lasers on grid
 	public initiateLasers(): Pointer[] {

@@ -14,7 +14,7 @@ import Hint from "./Hint";
 import Grid from "./Grid";
 import Pointer from "./Pointer";
 import Level from "./Level";
-import { displayQuantum } from "./Helpers";
+import { displayText } from "./Helpers";
 
 // Quantum
 import { Photons } from "quantum-tensors";
@@ -41,11 +41,10 @@ export default class Frame {
 
 					// Quantum code
 					const state = new Photons(this.grid.cols, this.grid.rows);
-
 					console.log(level.grid.toString());
 
-					state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
-					displayQuantum(state.vector.toString());
+					// state.addPhotonIndicator(laser.coord.y, laser.coord.x, laser.rotationAscii, "V");
+					displayText("quantum", state.vector.toString());
 				}
 			});
 

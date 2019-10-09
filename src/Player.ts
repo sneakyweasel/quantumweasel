@@ -101,6 +101,7 @@ export default class Player implements Actor {
 			// Elements
 			// Cycle through elements in group
 			case KEYS.VK_QUOTE:
+			case KEYS.VK_0:
 				this.cycleNext("Basic");
 				break;
 			case KEYS.VK_1:

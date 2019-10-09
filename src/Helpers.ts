@@ -1,7 +1,4 @@
 import { Color } from "rot-js/lib/index";
-import Coord from "./Coord";
-import Cell from "./Cell";
-import Pointer, { PathPointer } from "./Pointer";
 
 // Convert angles to unicode symbols
 // https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
@@ -77,22 +74,8 @@ export function hsl2hexrgb(hue = 0.45, saturation = 0, light = 0.5): string {
 	return Color.toHex(hsl);
 }
 
-// Display relevant informations in html
-export function displayPlayer(turns: number, coord: Coord): void {
+// Display Helpers
+export function displayText(elementId: string, text: string): void {
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	document.getElementById("player")!.textContent = `Turns: ${turns} player: ${coord.toString()}`;
-}
-export function displayQuantum(text: string): void {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	document.getElementById("quantum")!.textContent = text;
-}
-
-export function displayCell(cell: Cell): void {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	document.getElementById("cell")!.textContent = cell.toString();
-}
-
-export function displayLaser(laserPaths: PathPointer[]): void {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	document.getElementById("laser")!.innerHTML = Pointer.toString(laserPaths);
+	document.getElementById(elementId)!.textContent = text;
 }
