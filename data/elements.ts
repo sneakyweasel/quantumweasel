@@ -22,7 +22,7 @@ export const jsonElements = [
 		id: 0,
 		// ascii: ["⮝", "⮞", "⮟", "⮜"],
 		ascii: ["^", ">", "v", "<"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[0, 0], [0, 1], [0, 2], [0, 3]]
 	},
 	{
 		name: "rock",
@@ -36,7 +36,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 1,
 		ascii: ["♜"],
-		tiles: [[0, 0]]
+		tiles: [[1, 0]]
 	},
 	{
 		name: "absorb-polarizer",
@@ -51,7 +51,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 2,
 		ascii: ["🡡", "🡥", "🡢", "🡦", "🡣", "🡧", "🡠", "🡤"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7]]
 	},
 	{
 		name: "waveplate",
@@ -66,7 +66,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 3,
 		ascii: ["🡩", "🡭", "🡪", "🡮", "🡫", "🡯", "🡨", "🡬"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7]]
 	},
 	{
 		name: "detector",
@@ -81,7 +81,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 4,
 		ascii: ["⭱", "⭲", "⭳", "⭰"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[4, 0], [4, 1], [4, 2], [4, 3]]
 	},
 	{
 		name: "omnidetector",
@@ -96,7 +96,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 7,
 		ascii: ["O"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[7, 0], [7, 1], [7, 2], [7, 3]]
 	},
 	{
 		name: "sugar",
@@ -111,7 +111,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 8,
 		ascii: ["S"],
-		tiles: [[0, 20]]
+		tiles: [[8, 0]]
 	},
 	{
 		name: "coatedsplitter",
@@ -126,7 +126,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 9,
 		ascii: ["⇑", "⇗", "⇒", "⇘", "⇓", "⇙", "⇐", "⇖"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[9, 0], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7]]
 	},
 	{
 		name: "mine",
@@ -141,7 +141,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 11,
 		ascii: ["!"],
-		tiles: [[0, 0]]
+		tiles: [[11, 0]]
 	},
 	{
 		name: "polarsplitter",
@@ -155,21 +155,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 12,
 		ascii: ["⬲", "⟴"],
-		tiles: [[0, 0], [0, 0]]
-	},
-	{
-		name: "void",
-		namev1: "Void",
-		group: "Basic",
-		description: "The void...",
-		link: "./elements/void",
-		active: false,
-		absorption: 0,
-		phase: 0,
-		matrix: [],
-		id: 19,
-		ascii: ["."],
-		tiles: [[0, 20]]
+		tiles: [[12, 0], [12, 1]]
 	},
 	{
 		name: "mirror",
@@ -183,35 +169,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 14,
 		ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-	},
-	{
-		name: "wall",
-		namev1: "Wall",
-		group: "Basic",
-		description: "A standard wall.",
-		link: "./elements/wall",
-		active: false,
-		absorption: 1,
-		phase: 0,
-		matrix: [],
-		id: 20,
-		ascii: ["▓"],
-		tiles: [[0, 0], [0, 0]]
-	},
-	{
-		name: "gate",
-		namev1: "Gate",
-		group: "Basic",
-		description: "A controlled gate.",
-		link: "./elements/gate",
-		active: false,
-		absorption: 1,
-		phase: 0,
-		matrix: [],
-		id: 21,
-		ascii: ["W", "M"],
-		tiles: [[0, 0], [0, 0]]
+		tiles: [[14, 0], [14, 1], [14, 2], [14, 3], [14, 4], [14, 5], [14, 6], [14, 7]]
 	},
 	{
 		name: "beamsplitter",
@@ -225,7 +183,7 @@ export const jsonElements = [
 		id: 15,
 		matrix: [],
 		ascii: ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[15, 0], [15, 1], [15, 2], [15, 3], [15, 4], [15, 5], [15, 6], [15, 7]]
 	},
 	{
 		name: "phasedec",
@@ -240,21 +198,7 @@ export const jsonElements = [
 		matrix: [],
 		id: 16,
 		ascii: ["↜"],
-		tiles: [[0, 0]]
-	},
-	{
-		name: "filter",
-		namev1: "Absorber",
-		group: "Absorption",
-		description: "Filter with 50% absorption probability.",
-		link: "./elements/absorber",
-		active: false,
-		absorption: 0.5,
-		phase: 0,
-		matrix: [],
-		id: 18,
-		ascii: ["░"],
-		tiles: [[0, 0]]
+		tiles: [[16, 0]]
 	},
 	{
 		name: "phaseinc",
@@ -269,7 +213,63 @@ export const jsonElements = [
 		matrix: [],
 		id: 17,
 		ascii: ["↝"],
-		tiles: [[0, 0]]
+		tiles: [[17, 0]]
+	},
+	{
+		name: "filter",
+		namev1: "Absorber",
+		group: "Absorption",
+		description: "Filter with 50% absorption probability.",
+		link: "./elements/absorber",
+		active: false,
+		absorption: 0.5,
+		phase: 0,
+		matrix: [],
+		id: 18,
+		ascii: ["░"],
+		tiles: [[18, 0]]
+	},
+	{
+		name: "void",
+		namev1: "Void",
+		group: "Basic",
+		description: "The void...",
+		link: "./elements/void",
+		active: false,
+		absorption: 0,
+		phase: 0,
+		matrix: [],
+		id: 19,
+		ascii: ["."],
+		tiles: [[19, 0]]
+	},
+	{
+		name: "wall",
+		namev1: "Wall",
+		group: "Basic",
+		description: "A standard wall.",
+		link: "./elements/wall",
+		active: false,
+		absorption: 1,
+		phase: 0,
+		matrix: [],
+		id: 20,
+		ascii: ["▓"],
+		tiles: [[20, 0], [20, 1]]
+	},
+	{
+		name: "gate",
+		namev1: "Gate",
+		group: "Basic",
+		description: "A controlled gate.",
+		link: "./elements/gate",
+		active: false,
+		absorption: 1,
+		phase: 0,
+		matrix: [],
+		id: 21,
+		ascii: ["W", "M"],
+		tiles: [[21, 0], [21, 1]]
 	},
 	{
 		name: "faraday",
@@ -284,6 +284,6 @@ export const jsonElements = [
 		matrix: [],
 		id: 30,
 		ascii: ["🠵", "🠶", "🠷", "🠴"],
-		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
+		tiles: [[30, 0], [30, 1], [30, 2], [30, 3]]
 	}
 ];
