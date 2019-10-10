@@ -39,10 +39,10 @@ export default class Cell {
 		return angleToSymbol(this.element.rotationAngle);
 	}
 	get foregroundColor(): string {
-		return this.element.foregroundColor;
+		return this.element.glyph.foregroundColor;
 	}
 	get backgroundColor(): string {
-		return this.element.backgroundColor;
+		return this.element.glyph.backgroundColor;
 	}
 
 	// Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm

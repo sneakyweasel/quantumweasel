@@ -20,8 +20,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 0,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		// ascii: ["⮝", "⮞", "⮟", "⮜"],
 		ascii: ["^", ">", "v", "<"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
@@ -37,8 +35,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 1,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["♜"],
 		tiles: [[0, 0]]
 	},
@@ -54,8 +50,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 2,
-		foregroundColor: "white",
-		backgroundColor: "#2e006a",
 		ascii: ["🡡", "🡥", "🡢", "🡦", "🡣", "🡧", "🡠", "🡤"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -71,8 +65,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 3,
-		foregroundColor: "white",
-		backgroundColor: "#2e006a",
 		ascii: ["🡩", "🡭", "🡪", "🡮", "🡫", "🡯", "🡨", "🡬"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -88,8 +80,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 4,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["⭱", "⭲", "⭳", "⭰"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -105,8 +95,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 7,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["O"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -122,8 +110,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 8,
-		foregroundColor: "white",
-		backgroundColor: "#2e006a",
 		ascii: ["S"],
 		tiles: [[0, 20]]
 	},
@@ -139,8 +125,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 9,
-		foregroundColor: "white",
-		backgroundColor: "#2e006a",
 		ascii: ["⇑", "⇗", "⇒", "⇘", "⇓", "⇙", "⇐", "⇖"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -156,8 +140,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 11,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["!"],
 		tiles: [[0, 0]]
 	},
@@ -172,8 +154,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 12,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["⬲", "⟴"],
 		tiles: [[0, 0], [0, 0]]
 	},
@@ -188,8 +168,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 19,
-		foregroundColor: "white",
-		backgroundColor: "#2e006a",
 		ascii: ["."],
 		tiles: [[0, 20]]
 	},
@@ -204,8 +182,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 14,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -220,8 +196,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 20,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["▓"],
 		tiles: [[0, 0], [0, 0]]
 	},
@@ -236,8 +210,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 21,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["W", "M"],
 		tiles: [[0, 0], [0, 0]]
 	},
@@ -252,8 +224,6 @@ export const jsonElements = [
 		phase: 0,
 		id: 15,
 		matrix: [],
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 	},
@@ -269,8 +239,6 @@ export const jsonElements = [
 		phase: -0.25,
 		matrix: [],
 		id: 16,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["↜"],
 		tiles: [[0, 0]]
 	},
@@ -285,8 +253,6 @@ export const jsonElements = [
 		phase: 0,
 		matrix: [],
 		id: 18,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["░"],
 		tiles: [[0, 0]]
 	},
@@ -302,8 +268,6 @@ export const jsonElements = [
 		phase: 0.25,
 		matrix: [],
 		id: 17,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["↝"],
 		tiles: [[0, 0]]
 	},
@@ -319,8 +283,6 @@ export const jsonElements = [
 		phase: -0.25,
 		matrix: [],
 		id: 30,
-		foregroundColor: "white",
-		backgroundColor: "black",
 		ascii: ["🠵", "🠶", "🠷", "🠴"],
 		tiles: [[0, 0], [0, 0], [0, 0], [0, 0]]
 	}

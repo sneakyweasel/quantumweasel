@@ -16,8 +16,6 @@ export interface ElementInterface {
 	absorption: number;
 	phase: number;
 	matrix: number[][];
-	foregroundColor: string;
-	backgroundColor: string;
 	ascii: string[];
 	tiles: number[][];
 	glyph: Glyph;
@@ -33,8 +31,6 @@ export default class Element {
 	absorption: number;
 	phase: number;
 	matrix: number[][];
-	foregroundColor: string;
-	backgroundColor: string;
 	ascii: string[];
 	tiles: number[][];
 	glyph: Glyph;
@@ -49,8 +45,6 @@ export default class Element {
 		absorption = 0,
 		phase = 0,
 		matrix: number[][] = [[0, 0], [0, 0]],
-		foregroundColor = "white",
-		backgroundColor = "black",
 		ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
 		tiles: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
 		glyph: Glyph = new Glyph(" ", [0, 0])
@@ -64,8 +58,6 @@ export default class Element {
 		this.absorption = absorption;
 		this.phase = phase;
 		this.matrix = matrix;
-		this.foregroundColor = foregroundColor;
-		this.backgroundColor = backgroundColor;
 		this.ascii = ascii;
 		this.tiles = tiles;
 		this.glyph = glyph;
@@ -93,8 +85,6 @@ export default class Element {
 			absorption: this.absorption,
 			phase: this.phase,
 			matrix: this.matrix,
-			foregroundColor: this.foregroundColor,
-			backgroundColor: this.backgroundColor,
 			ascii: this.ascii,
 			tiles: this.tiles,
 			glyph: this.glyph
@@ -118,8 +108,6 @@ export default class Element {
 				elem!.absorption,
 				elem!.phase,
 				elem!.matrix,
-				elem!.foregroundColor,
-				elem!.backgroundColor,
 				elem!.ascii,
 				elem!.tiles
 			);
@@ -137,8 +125,6 @@ export default class Element {
 				elem!.absorption,
 				elem!.phase,
 				elem!.matrix,
-				elem!.foregroundColor,
-				elem!.backgroundColor,
 				elem!.ascii,
 				elem!.tiles
 			);

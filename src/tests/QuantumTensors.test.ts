@@ -29,9 +29,4 @@ describe("Complex", () => {
 		console.log(vector2.toString());
 		expect(true).toEqual(true);
 	});
-
-	it("should create a Photon and propagate in a straight line..."),
-		() => {
-			// const frame = Frame
-		};
 });

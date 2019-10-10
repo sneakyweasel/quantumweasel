@@ -8,7 +8,7 @@ describe("Elements", () => {
 			absorption: 0,
 			description: "An on-demand single photon source.",
 			group: "Emitter",
-			id: 1,
+			id: 0,
 			link: "./elements/laser",
 			matrix: [],
 			phase: 0,

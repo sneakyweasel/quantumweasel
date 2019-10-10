@@ -22,7 +22,9 @@ describe("Grid", () => {
 		const coord = new Coord(1, 5);
 		grid.set(new Cell(coord, Element.fromName("mirror")));
 		const cell = grid.get(coord);
-		expect(cell.toString()).toEqual("Cell @ [Y:1, X:5] is unfrozen mirror (Phase: 0, Absorption: 0%) rotated 0°");
+		expect(cell.toString()).toEqual(
+			"Cell @ [Y:1, X:5] is unfrozen inactive and unpowered mirror (Phase: 0, Absorption: 0%) rotated 0°"
+		);
 	});
 
 	it("should forbid placing a cell outside of the grid", () => {

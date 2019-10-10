@@ -22,32 +22,4 @@ describe("Coordinates", () => {
 		const coords = [coord2, coord3, coord4];
 		expect(coord1.isIncludedIn(coords)).toBe(true);
 	});
-
-	it("should give the distance to the top edge from a coordinate", () => {
-		const coord = new Coord(2, 0);
-		const cols = 4;
-		const rows = 3;
-		expect(coord.distanceToExit(0, rows, cols)).toEqual(2);
-	});
-
-	it("should give the distance to the bottom edge from a coordinate", () => {
-		const coord = new Coord(2, 0);
-		const cols = 4;
-		const rows = 3;
-		expect(coord.distanceToExit(180, rows, cols)).toEqual(0);
-	});
-
-	it("should give the distance to the right edge from a coordinate", () => {
-		const coord = new Coord(2, 0);
-		const cols = 4;
-		const rows = 3;
-		expect(coord.distanceToExit(90, rows, cols)).toEqual(3);
-	});
-
-	it("should give the distance to the left edge from a coordinate", () => {
-		const coord = new Coord(2, 0);
-		const cols = 4;
-		const rows = 3;
-		expect(coord.distanceToExit(270, rows, cols)).toEqual(0);
-	});
 });

@@ -1,3 +1,6 @@
+// GLYPH CLASS
+// The glyph class is responsible for the display of grid tiles
+
 import { jsonElements } from "../data/elements";
 
 export interface GlyphInterface {
