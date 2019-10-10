@@ -1,0 +1,32 @@
+{
+	"id": 0,
+	"name": "Interface tester",
+	"group": "Dev",
+	"description": "Debugging level",
+	"grid": {
+		"cols": 5,
+		"rows": 5,
+		"cells": [
+			{
+				"coord": {
+					"y": 0,
+					"x": 2
+				},
+				"element": "gate",
+				"rotation": 0,
+				"frozen": false
+			},
+			{
+				"coord": {
+					"y": 0,
+					"x": 3
+				},
+				"element": "laser",
+				"rotation": 0,
+				"frozen": false
+			}
+		]
+	},
+	"hints": [],
+	"goals": []
+}

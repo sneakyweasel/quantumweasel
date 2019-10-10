@@ -62,4 +62,22 @@ describe("Grid", () => {
 		grid.set(mirror2);
 		expect(grid.mirrors).toEqual([mirror1, mirror2]);
 	});
+
+	it("should export a grid to a GridInterface", () => {
+		const grid = new Grid(3, 6);
+		const coord1 = new Coord(1, 1);
+		const coord2 = new Coord(2, 2);
+		const mirror1 = new Cell(coord1, Element.fromName("mirror"));
+		const mirror2 = new Cell(coord2, Element.fromName("mirror"));
+		grid.set(mirror1);
+		grid.set(mirror2);
+		expect(grid.exportGrid()).toEqual({
+			cells: [
+				{ active: false, coord: { x: 1, y: 1 }, element: "mirror", energized: false, frozen: false, rotation: 0 },
+				{ active: false, coord: { x: 2, y: 2 }, element: "mirror", energized: false, frozen: false, rotation: 0 }
+			],
+			cols: 6,
+			rows: 3
+		});
+	});
 });

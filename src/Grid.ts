@@ -4,8 +4,15 @@
 import Coord from "./Coord";
 import Element from "./Element";
 import Cell, { CellInterface } from "./Cell";
+import { GridInterface } from "./Grid";
 import Cluster from "./Cluster";
 import Particle, { ParticleInterface } from "./Particle";
+
+export interface GridInterface {
+	cols: number;
+	rows: number;
+	cells: CellInterface[];
+}
 
 export default class Grid {
 	public cols: number;
@@ -424,11 +431,15 @@ export default class Grid {
 	}
 
 	// export JSON file to save state oi the game
-	public exportGrid(): CellInterface[] {
+	public exportGrid(): GridInterface {
 		const cells: CellInterface[] = [];
 		this.unvoid.forEach(cell => {
 			cells.push(cell.exportCell());
 		});
-		return cells;
+		return {
+			cols: this.cols,
+			rows: this.rows,
+			cells: cells
+		};
 	}
 }

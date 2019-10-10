@@ -2,11 +2,6 @@ import Coord from "../Coord";
 
 // Coordinates testing
 describe("Coordinates", () => {
-	xit("should generate adjacency list of a coord", () => {
-		const coord = new Coord(4, 4);
-		expect(coord.adjacent).toEqual([new Coord(4, 3), new Coord(3, 4), new Coord(3, 5), new Coord(3, 4)]);
-	});
-
 	it("should test for adjacency of two coords", () => {
 		const coord1 = new Coord(4, 4);
 		const coord2 = new Coord(4, 5);

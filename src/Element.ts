@@ -70,7 +70,7 @@ export default class Element {
 	}
 
 	// Export JSON
-	exportJSON(): ElementInterface {
+	exportElement(): ElementInterface {
 		return {
 			id: this.id,
 			name: this.name,

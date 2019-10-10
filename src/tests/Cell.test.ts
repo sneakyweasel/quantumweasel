@@ -31,10 +31,12 @@ describe("Cell", () => {
 		);
 	});
 
-	xit("should error when the angle doesnt match the element rotation angle", () => {
+	it("should error when the angle doesnt match the element rotation angle", () => {
 		const coord = new Coord(1, 0);
 		const element = Element.fromName("rock"); // Angles of 360°
 		const rock = new Cell(coord, element);
-		expect(rock.rotate(270)).toThrowError("Error in the supplied angle compared to the element rotation angle.");
+		expect(() => {
+			return rock.rotate(270);
+		}).toThrowError("Error in the supplied angle compared to the element rotation angle.");
 	});
 });

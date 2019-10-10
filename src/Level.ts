@@ -3,9 +3,9 @@
 // Then the frozen elements are removed and put in the toolbox
 
 import Coord from "./Coord";
-import Cell, { CellInterface } from "./Cell";
+import Cell from "./Cell";
 import Element from "./Element";
-import Grid from "./Grid";
+import Grid, { GridInterface } from "./Grid";
 import Hint, { HintInterface } from "./Hint";
 import Goal, { GoalInterface } from "./Goal";
 import Inventory from "./Inventory";
@@ -15,9 +15,7 @@ export interface LevelInterface {
 	name: string;
 	group: string;
 	description: string;
-	cols: number;
-	rows: number;
-	cells: CellInterface[];
+	grid: GridInterface;
 	goals: GoalInterface[];
 	hints: HintInterface[];
 }
@@ -86,8 +84,8 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 
 	// import JSON file
 	static importLevel(json: LevelInterface): Level {
-		const grid = new Grid(json.rows, json.cols);
-		grid.importGrid(json.cells);
+		const grid = new Grid(json.grid.rows, json.grid.cols);
+		grid.importGrid(json.grid.cells);
 		const goals = Goal.importGoal(json.goals);
 		const hints = Hint.importHint(json.hints);
 		return new Level(json.id, json.name, json.group, json.description, grid, goals, hints, false);

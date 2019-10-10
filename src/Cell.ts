@@ -1,12 +1,12 @@
 // CELL CLASS
 // Basic class for the grid cells
-import Coord from "./Coord";
+import Coord, { CoordInterface } from "./Coord";
 import Element from "./Element";
 import Particle from "./Particle";
 import { angleToSymbol } from "./Helpers";
 
 export interface CellInterface {
-	coord: { y: number; x: number };
+	coord: CoordInterface;
 	element: string;
 	rotation: number;
 	frozen: boolean;
@@ -72,7 +72,7 @@ export default class Cell {
 		if (this.active) {
 			return new Particle(this.coord, this.rotation, 1, 0);
 		} else {
-			throw new Error("Laser is inactive");
+			throw Error("Laser is inactive...");
 		}
 	}
 
@@ -86,7 +86,7 @@ export default class Cell {
 	// Export to JSON format
 	exportCell(): CellInterface {
 		return {
-			coord: this.coord,
+			coord: this.coord.exportCoord(),
 			element: this.element.name,
 			rotation: this.rotation,
 			frozen: this.frozen,
