@@ -229,7 +229,7 @@ export default class Grid {
 	}
 
 	// Front-end updates
-	public frontendUpdate(cellI: CellInterface): ParticleInterface[] {
+	public frontendUpdate(cellI: CellInterface): Particle[] {
 		const cell = Cell.importCell(cellI);
 		if (this.set(cell)) {
 			return this.laserCoords();
@@ -238,7 +238,7 @@ export default class Grid {
 		}
 	}
 	// Front-end updates
-	static frontendUpdateFull(cols: number, rows: number, cellsI: CellInterface[]): ParticleInterface[] {
+	static frontendUpdateFull(cols: number, rows: number, cellsI: CellInterface[]): Particle[] {
 		const grid = new Grid(cols, rows);
 		cellsI.forEach((cellI: CellInterface) => {
 			const cell = Cell.importCell(cellI);
@@ -259,7 +259,7 @@ export default class Grid {
 	}
 
 	// Compute laser path
-	laserPath(particle: Particle, maxFrames = 50): ParticleInterface[] {
+	laserPath(particle: Particle, maxFrames = 50): Particle[] {
 		// Make a depp clone of the particle
 		let alive: Particle[] = [particle];
 		const dead: Particle[] = [];
@@ -318,10 +318,11 @@ export default class Grid {
 		}
 
 		// Flatten and dedupe list of particles
-		const pathParticles: ParticleInterface[][] = [];
+		const pathParticles: Particle[][] = [];
 		alive = dead.concat(alive);
 		alive.forEach(particle => {
-			pathParticles.push(particle.path);
+			// particle.path
+			pathParticles.push(particle.pathParticle);
 		});
 		return [...new Set(pathParticles.flat())];
 	}
@@ -334,9 +335,9 @@ export default class Grid {
 			particles.push(laser.fire());
 		});
 		particles.forEach(particle => {
-			this.laserPath(particle, 40).forEach((laserPoint: Particle) => {
-				if (laserPoint.coord.isIncludedIn(this.coords)) {
-					laserCoords.push(laserPoint);
+			this.laserPath(particle, 40).forEach((particle: Particle) => {
+				if (particle.coord.isIncludedIn(this.coords)) {
+					laserCoords.push(particle);
 				}
 			});
 		});

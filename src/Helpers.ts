@@ -1,4 +1,4 @@
-import { Color } from "rot-js/lib/index";
+import { Color } from "rot-js";
 
 // Convert angles to unicode symbols
 // https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows

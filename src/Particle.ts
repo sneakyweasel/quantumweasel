@@ -2,15 +2,19 @@
 // Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
 // FIXME: Class needs rework
+// Rework the path
 import Coord from "./Coord";
 import Cell from "./Cell";
 import { toPercent } from "./Helpers";
+import { Complex, Cx } from "quantum-tensors";
 
 export interface ParticleInterface {
 	coord: Coord;
 	direction: number;
 	intensity: number;
 	phase: number;
+	a: Complex;
+	b: Complex;
 }
 
 export default class Particle extends Coord {
@@ -18,6 +22,8 @@ export default class Particle extends Coord {
 	direction: number;
 	intensity: number;
 	phase: number;
+	a: Complex;
+	b: Complex;
 	path: ParticleInterface[];
 
 	constructor(
@@ -25,13 +31,19 @@ export default class Particle extends Coord {
 		direction: number,
 		intensity = 1,
 		phase = 0,
-		path: ParticleInterface[] = [{ coord: coord, direction: direction, intensity: intensity, phase: phase }]
+		a: Complex = Cx(1),
+		b: Complex = Cx(0),
+		path: ParticleInterface[] = [
+			{ coord: coord, direction: direction, intensity: intensity, phase: phase, a: a, b: b }
+		]
 	) {
 		super(coord.y, coord.x);
 		this.coord = coord;
 		this.direction = direction;
 		this.intensity = intensity;
 		this.phase = phase;
+		this.a = a;
+		this.b = b;
 		this.path = path;
 	}
 
@@ -53,6 +65,15 @@ export default class Particle extends Coord {
 	// Vertical or horizontal orientation
 	get isVertical(): boolean {
 		return this.direction === 0 || this.direction === 180;
+	}
+
+	// Convert path to particle instances
+	get pathParticle(): Particle[] {
+		const result: Particle[] = [];
+		this.path.forEach(particleI => {
+			result.push(Particle.importParticle(particleI));
+		});
+		return result;
 	}
 
 	// Particle is on a specific cell shorthand
@@ -101,7 +122,9 @@ export default class Particle extends Coord {
 				coord: this.coord,
 				direction: this.direction,
 				intensity: this.intensity,
-				phase: this.phase
+				phase: this.phase,
+				a: this.a,
+				b: this.b
 			});
 		}
 		return this;
@@ -114,27 +137,33 @@ export default class Particle extends Coord {
 			coord: this.coord,
 			direction: this.direction,
 			intensity: this.intensity,
-			phase: this.phase
+			phase: this.phase,
+			a: this.a,
+			b: this.b
 		};
 	}
 
 	toString(): string {
-		return `Laser at ${this.coord.toString()} going ${this.direction} with ${toPercent(this.intensity)} and ${
-			this.phase
-		} phase shift\n`;
+		return `Laser at ${this.coord.toString()} going ${this.direction} with ${toPercent(
+			this.intensity
+		)} and polarization | A:${this.a.re} + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i \n`;
 	}
 
 	// Import JSON object
 	static importParticle(json: {
-		x: number;
-		y: number;
+		// x: number;
+		// y: number;
+		coord: Coord;
 		direction: number;
 		intensity: number;
 		phase: number;
-		path: { y: number; x: number }[];
+		a: Complex;
+		b: Complex;
 	}): Particle {
-		const coord = Coord.importCoord({ y: json.y, x: json.x });
-		return new Particle(coord, json.direction, json.intensity, json.phase);
+		// const coord = Coord.importCoord({ y: json.y, x: json.x });
+		// const cxA = Cx(json.a[0], json.a[1]);
+		// const cxB = Cx(json.b[0], json.b[1]);
+		return new Particle(json.coord, json.direction, json.intensity, json.phase, json.a, json.b);
 	}
 
 	// USed for debugging

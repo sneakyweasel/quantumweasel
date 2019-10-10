@@ -7,7 +7,6 @@
 // - All goals done
 // - Not enough intensity
 // - No more particles
-
 import Cell from "./Cell";
 import Goal from "./Goal";
 import Hint from "./Hint";
@@ -17,6 +16,7 @@ import Particle from "./Particle";
 import { displayText } from "./Helpers";
 // Quantum
 import { Photons } from "quantum-tensors";
+import Coord from "./Coord";
 
 export default class Frame {
 	level: Level;
@@ -32,7 +32,6 @@ export default class Frame {
 		state = new Photons(level.grid.cols, level.grid.rows),
 		end = false
 	) {
-		// new Photons(level.grid.cols, level.grid.rows);
 		this.level = level;
 		this.step = step;
 		this.particles = particles;
@@ -81,7 +80,22 @@ export default class Frame {
 		return this.completedGoals.length === this.goals.length;
 	}
 
-	nextQuantum(): void {
+	// Compute quantum frame
+	// [number, number, number, Complex, Complex][]
+	nextQuantum(): Particle[] {
+		const particles: Particle[] = [];
+		this.state.propagatePhotons();
+		const quantumParticles = this.state.aggregatePolarization();
+		quantumParticles.forEach(quantumParticle => {
+			const x = quantumParticle[0];
+			const y = quantumParticle[1];
+			const direction = quantumParticle[2] * 90;
+			const a = quantumParticle[3];
+			const b = quantumParticle[4];
+			const coord = new Coord(y, x);
+			particles.push(new Particle(coord, direction, 0, 0, a, b));
+		});
+		return particles;
 	}
 
 	// Compute the next frame by computing the next positions of different particles
