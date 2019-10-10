@@ -111,8 +111,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     tiles: {}[];
   }): Level {
     const grid = new Grid(json.width, json.height);
-    const cells: Cell[] = [];
-    json.tiles.forEach(
+    const cells: Cell[] = json.tiles.map(
       (tile: {
         i: number;
         j: number;
@@ -123,13 +122,13 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         const coord = Coord.importCoord({ y: tile.i, x: tile.j });
         const element = Element.fromName(tile.name);
         const rotation = element.rotationAngle * tile.rotation;
-        cells.push(new Cell(coord, element, rotation, tile.frozen));
+        return new Cell(coord, element, rotation, tile.frozen);
       }
     );
     grid.setMany(...cells);
-    const goals: Goal[] = [];
-    grid.detectors.forEach(detector => {
-      goals.push(new Goal(detector.coord, 1));
+    // const goals: Goal[] = [];
+    const goals: Goal[] = grid.detectors.map(detector => {
+      return new Goal(detector.coord, 1);
     });
     const hints: Hint[] = [];
     return new Level(

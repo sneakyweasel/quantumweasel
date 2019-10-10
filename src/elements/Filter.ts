@@ -1,7 +1,7 @@
-import Element from "../Element";
 import * as qt from "quantum-tensors";
+import Element from "../Element";
 
-export default class Mirror extends Element {
+export default class Filter extends Element {
   rotation: number;
   element: Element;
   constructor(element: Element, rotation: number) {
@@ -9,6 +9,6 @@ export default class Mirror extends Element {
     this.rotation = rotation;
   }
   transition(rotation: number): qt.Operator {
-    return qt.mirror(rotation);
+    return qt.attenuator(Math.SQRT1_2);
   }
 }

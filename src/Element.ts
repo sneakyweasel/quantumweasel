@@ -6,6 +6,7 @@ import { ElementInterface } from "./Element";
 
 import { jsonElements } from "../data/elements";
 import Glyph from "./Glyph";
+// import Mirror from "./elements/Mirror";
 import * as qt from "quantum-tensors";
 
 export interface ElementInterface {
@@ -75,6 +76,12 @@ export default class Element {
         return qt.attenuator(Math.SQRT1_2);
       case "detector":
         return qt.attenuator(1);
+      case "mine":
+        return qt.attenuator(1);
+      case "rock":
+        return qt.attenuator(1);
+      case "wall":
+        return qt.attenuator(1);
       default:
         return qt.attenuator(0);
       // throw Error("Wrong element name...");
@@ -130,56 +137,27 @@ export default class Element {
     return Element.importElement(element!);
   }
 
-  static createMirror(rotation: number): Mirror {
-    const element = Element.importElement({
-      name: "mirror",
-      group: "Direction",
-      description: "Metallic or dielectric mirror.",
-      active: false,
-      absorption: 0,
-      phase: 0,
-      id: 14,
-      ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
-      tiles: [
-        [14, 0],
-        [14, 1],
-        [14, 2],
-        [14, 3],
-        [14, 4],
-        [14, 5],
-        [14, 6],
-        [14, 7]
-      ]
-    });
-    return new Mirror(element, rotation);
-  }
+  // static createMirror(rotation: number): Mirror {
+  //   const element = Element.importElement({
+  //     name: "mirror",
+  //     group: "Direction",
+  //     description: "Metallic or dielectric mirror.",
+  //     active: false,
+  //     absorption: 0,
+  //     phase: 0,
+  //     id: 14,
+  //     ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
+  //     tiles: [
+  //       [14, 0],
+  //       [14, 1],
+  //       [14, 2],
+  //       [14, 3],
+  //       [14, 4],
+  //       [14, 5],
+  //       [14, 6],
+  //       [14, 7]
+  //     ]
+  //   });
+  //   return new Mirror(element, rotation);
+  // }
 }
-
-// Should it be cell stuff
-class Mirror extends Element {
-  rotation: number;
-  element: Element;
-  constructor(element: Element, rotation: number) {
-    super(element.id, element.name, element.group);
-    this.rotation = rotation;
-  }
-  transition(rotation: number): qt.Operator {
-    return qt.mirror(rotation);
-  }
-}
-
-// class BeamSplitter extends Element {
-//   transition(rotation: number): qt.Operator {
-//     return qt.beamSplitter(rotation);
-//   }
-// }
-// class Attenuator extends Element {
-//   transition(): qt.Operator {
-//     return qt.attenuator(Math.SQRT1_2);
-//   }
-// }
-// class Detector extends Element {
-//   transition(_rotation: number): qt.Operator {
-//     return qt.attenuator(1);
-//   }
-// }

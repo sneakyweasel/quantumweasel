@@ -1,7 +1,7 @@
-import Element from "../Element";
 import * as qt from "quantum-tensors";
+import Element from "../Element";
 
-export default class Mirror extends Element {
+export default class BeamSplitter extends Element {
   rotation: number;
   element: Element;
   constructor(element: Element, rotation: number) {

@@ -71,7 +71,7 @@ describe("Grid", () => {
     const mirror2 = new Cell(coord2, Element.fromName("mirror"));
     grid.set(mirror1);
     grid.set(mirror2);
-    grid.operatorList.forEach(operator => {
+    grid.operatorList.map(operator => {
       console.log(operator.toString());
     });
     expect(grid.mirrors).toEqual([mirror1, mirror2]);

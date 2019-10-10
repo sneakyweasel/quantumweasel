@@ -60,7 +60,7 @@ export default class Frame {
       this.activeLasers.forEach(laser => {
         if (laser.active) {
           // Classical code
-          this.particles.push(new Particle(laser.coord, laser.rotation, 1, 0));
+          this.particles.push(laser.fire());
 
           // Quantum code
           level.state.addPhotonIndicator(
@@ -109,7 +109,7 @@ export default class Frame {
     this.level.state.propagatePhotons();
     displayText("quantum", this.level.state.vector.toString());
     // Act
-    // const operations: [number, number, Operator][] = this.grid.operatorList;
+    // const operations: [number, number, qt.Operator][] = this.grid.operatorList;
     const operations: [number, number, qt.Operator][] = [
       [3, 1, qt.sugarSolution(0.125)],
       [1, 3, qt.attenuator()]

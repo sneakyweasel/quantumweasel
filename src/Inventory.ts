@@ -3,27 +3,27 @@
 // Sandbox mode would have infinite tools available to the player
 // TODO: Recreate Toolbox
 export interface Tool {
-	element: string;
-	quantity: number;
+  element: string;
+  quantity: number;
 }
 
 export default class Inventory {
-	tools: Tool[];
+  tools: Tool[];
 
-	constructor(tools: Tool[] = []) {
-		this.tools = tools;
-	}
+  constructor(tools: Tool[] = []) {
+    this.tools = tools;
+  }
 
-	add(tool: Tool): void {
-		// Check if element exists in list to update its value otherzise create it
-		this.tools.push(tool);
-	}
+  add(tool: Tool): void {
+    // Check if element exists in list to update its value otherzise create it
+    this.tools.push(tool);
+  }
 
-	toString(): string {
-		let resultStr = "Toolbox contains:\n";
-		this.tools.forEach((tool: Tool) => {
-			resultStr += JSON.stringify(tool);
-		});
-		return resultStr;
-	}
+  toString(): string {
+    let resultStr = "Toolbox contains:\n";
+    this.tools.map((tool: Tool) => {
+      resultStr += JSON.stringify(tool);
+    });
+    return resultStr;
+  }
 }

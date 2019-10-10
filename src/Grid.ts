@@ -52,15 +52,13 @@ export default class Grid {
 
   // Operator list from grid and elements rotation
   get operatorList(): [number, number, Operator][] {
-    const operators: [number, number, Operator][] = [];
-    this.unvoid.forEach(cell => {
-      operators.push([
+    return this.unvoid.map(cell => {
+      return [
         cell.coord.x,
         cell.coord.y,
         cell.element.transition(cell.rotation / 4)
-      ]);
+      ];
     });
-    return operators;
   }
 
   // Cells getters
