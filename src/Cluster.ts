@@ -44,7 +44,7 @@ export default class Cluster {
 
   // import cells
   public importCluster(jsonCells: CellInterface[]): void {
-    jsonCells.forEach(jsonCell => {
+    jsonCells.map(jsonCell => {
       const cell = Cell.importCell(jsonCell);
       this.cells.push(cell);
     });
@@ -52,14 +52,12 @@ export default class Cluster {
 
   // export JSON file to save state oi the game
   public exportCluster(): CellInterface[] {
-    const cells: CellInterface[] = [];
-    this.cells
+    return this.cells
       .filter(cell => {
         return cell.element.name !== "void";
       })
-      .forEach(cell => {
-        cells.push(cell.exportCell());
+      .map(cell => {
+        return cell.exportCell();
       });
-    return cells;
   }
 }

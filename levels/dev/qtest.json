@@ -23,7 +23,7 @@
 					"y": 1,
 					"x": 3
 				},
-				"element": "mirror",
+				"element": "beamsplitter",
 				"rotation": 135,
 				"frozen": false
 			}

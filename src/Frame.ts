@@ -55,6 +55,11 @@ export default class Frame {
     this.particles = particles;
     this.quantum = quantum;
     this.end = end;
+    console.log("Creating a mirror...");
+    const mirror = qt.mirror(0);
+    console.log(mirror.toString());
+    console.log("Mirror created...");
+
     // Initiate simulation with frame #0 and extract emitters
     if (step === 0) {
       this.activeLasers.forEach(laser => {
@@ -109,11 +114,11 @@ export default class Frame {
     this.level.state.propagatePhotons();
     displayText("quantum", this.level.state.vector.toString());
     // Act
-    // const operations: [number, number, qt.Operator][] = this.grid.operatorList;
-    const operations: [number, number, qt.Operator][] = [
-      [3, 1, qt.sugarSolution(0.125)],
-      [1, 3, qt.attenuator()]
-    ];
+    const operations: [number, number, qt.Operator][] = this.grid.operatorList;
+    // const operations: [number, number, qt.Operator][] = [
+    //   [3, 1, qt.mirror(1)],
+    //   [1, 3, qt.attenuator()]
+    // ];
     // Debug
     this.level.state.actOnSinglePhotons(operations);
     console.log(this.level.state.vector.toString());

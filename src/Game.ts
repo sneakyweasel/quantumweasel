@@ -104,9 +104,10 @@ export default class Game {
     displayText("cell", this.playerCell.toString());
     this.drawGame();
 
-    for (let index = 0; index < 10; index++) {
-      this.lastFrame.next();
-    }
+    // DEBUG LOOP
+    // for (let index = 0; index < 10; index++) {
+    //   this.lastFrame.next();
+    // }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
