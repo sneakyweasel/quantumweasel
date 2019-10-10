@@ -1,3 +1,4 @@
+import { ParticleInterface } from "./Particle";
 // PARTICLE CLASS
 // Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
@@ -15,6 +16,16 @@ export interface ParticleInterface {
 	phase: number;
 	a: Complex;
 	b: Complex;
+}
+
+export interface Qparticle {
+	x: number;
+	y: number;
+	direction: number;
+	are: number;
+	aim: number;
+	bre: number;
+	bim: number;
 }
 
 export default class Particle extends Coord {

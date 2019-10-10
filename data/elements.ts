@@ -190,7 +190,7 @@ export const jsonElements = [
 		id: 19,
 		foregroundColor: "white",
 		backgroundColor: "#2e006a",
-		ascii: [" "],
+		ascii: ["."],
 		tiles: [[0, 20]]
 	},
 	{

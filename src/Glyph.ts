@@ -1,5 +1,12 @@
 import { jsonElements } from "../data/elements";
 
+export interface GlyphInterface {
+	character: string;
+	backgroundColor: string;
+	foregroundColor: string;
+	tile: [number, number];
+}
+
 export default class Glyph {
 	public character: string;
 	public backgroundColor: string;
@@ -11,6 +18,21 @@ export default class Glyph {
 		this.backgroundColor = backgroundColor;
 		this.foregroundColor = foregroundColor;
 		this.tile = tile;
+	}
+
+	// Export glyph to obj
+	exportGlyph(): GlyphInterface {
+		return {
+			character: this.character,
+			backgroundColor: this.backgroundColor,
+			foregroundColor: this.foregroundColor,
+			tile: this.tile
+		};
+	}
+
+	// Import glyph from obj
+	static importGlyph(json: GlyphInterface): Glyph {
+		return new Glyph(json.character, json.tile, json.backgroundColor, json.foregroundColor);
 	}
 
 	// Use the element id to get their row in the tilemap file multiplied bu the tile size
@@ -35,7 +57,7 @@ export default class Glyph {
 		// Photon
 		tileMap["P"] = [0 * tilesize, 10 * tilesize];
 		tileMap["d"] = [1 * tilesize, 10 * tilesize];
-		// Laser lines
+		// Laser dotted lines
 		tileMap["v"] = [0 * tilesize, 23 * tilesize];
 		tileMap["h"] = [1 * tilesize, 23 * tilesize];
 
