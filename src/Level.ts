@@ -1,3 +1,4 @@
+import { Photons } from "quantum-tensors";
 import { LevelInterface } from "./Level";
 // LEVEL CLASS
 // Levels are loaded as working solutions to the puzzle
@@ -31,6 +32,7 @@ export default class Level {
   hints: Hint[];
   toolbox: Inventory;
   completed: boolean;
+  state: Photons;
 
   constructor(
     id: number,
@@ -52,6 +54,7 @@ export default class Level {
     this.goals = goals;
     this.hints = hints;
     this.completed = completed;
+    this.state = new Photons(grid.cols, grid.rows);
   }
 
   // Override toString method in order to display ascii level
@@ -118,7 +121,7 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
         frozen: boolean;
       }) => {
         const coord = Coord.importCoord({ y: tile.i, x: tile.j });
-        const element = Element.fromName(tile.name, 1);
+        const element = Element.fromName(tile.name);
         const rotation = element.rotationAngle * tile.rotation;
         cells.push(new Cell(coord, element, rotation, tile.frozen));
       }

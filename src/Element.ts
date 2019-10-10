@@ -1,11 +1,12 @@
+import { ElementInterface } from "./Element";
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // ELEMENT CLASS
 // Basic class related to game elements
 // TODO: Remove display logic to Glyph class
 
 import { jsonElements } from "../data/elements";
-import Glyph, { GlyphInterface } from "./Glyph";
-// import * as qt from "quantum-tensors";
+import Glyph from "./Glyph";
+import * as qt from "quantum-tensors";
 
 export interface ElementInterface {
   id: number;
@@ -17,7 +18,6 @@ export interface ElementInterface {
   phase: number;
   ascii: string[];
   tiles: number[][];
-  glyph: GlyphInterface;
 }
 
 export default class Element {
@@ -65,6 +65,22 @@ export default class Element {
     this.glyph = glyph;
   }
 
+  transition(param: number): qt.Operator {
+    switch (this.name) {
+      case "mirror":
+        return qt.mirror(param);
+      case "beamsplitter":
+        return qt.beamSplitter(param);
+      case "filter":
+        return qt.attenuator(Math.SQRT1_2);
+      case "detector":
+        return qt.attenuator(1);
+      default:
+        return qt.attenuator(0);
+      // throw Error("Wrong element name...");
+    }
+  }
+
   // Compute the rotation angle from the number of sprites
   get rotationAngle(): number {
     return 360 / this.ascii.length;
@@ -87,74 +103,83 @@ export default class Element {
       absorption: this.absorption,
       phase: this.phase,
       ascii: this.ascii,
-      tiles: this.tiles,
-      glyph: this.glyph.exportGlyph()
+      tiles: this.tiles
     };
   }
 
+  // Create element from element interface
+  static importElement(json: ElementInterface): Element {
+    return new Element(
+      json.id,
+      json.name,
+      json.group,
+      json.description,
+      json.active,
+      json.absorption,
+      json.phase,
+      json.ascii,
+      json.tiles
+    );
+  }
+
   // Static JSON load
-  // FIXME: It's goddamn ugly
-  static fromName(name: string, version = 2): Element {
-    if (version === 2) {
-      const elem = jsonElements.find(
-        (elem: { name: string; tiles: number[][] }) => {
-          return elem.name === name;
-        }
-      );
-      return new Element(
-        elem!.id,
-        elem!.name,
-        elem!.group,
-        elem!.description,
-        elem!.active,
-        elem!.absorption,
-        elem!.phase,
-        elem!.ascii,
-        elem!.tiles
-      );
-    } else {
-      const elem = jsonElements.find(
-        (elem: { namev1: string; tiles: number[][] }) => {
-          return elem.namev1 === name;
-        }
-      );
-      return new Element(
-        elem!.id,
-        elem!.name,
-        elem!.group,
-        elem!.description,
-        elem!.active,
-        elem!.absorption,
-        elem!.phase,
-        elem!.ascii,
-        elem!.tiles
-      );
-    }
+  static fromName(name: string): Element {
+    const element = jsonElements.find(elem => {
+      return elem.name === name;
+    });
+    return Element.importElement(element!);
+  }
+
+  static createMirror(rotation: number): Mirror {
+    const element = Element.importElement({
+      name: "mirror",
+      group: "Direction",
+      description: "Metallic or dielectric mirror.",
+      active: false,
+      absorption: 0,
+      phase: 0,
+      id: 14,
+      ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
+      tiles: [
+        [14, 0],
+        [14, 1],
+        [14, 2],
+        [14, 3],
+        [14, 4],
+        [14, 5],
+        [14, 6],
+        [14, 7]
+      ]
+    });
+    return new Mirror(element, rotation);
   }
 }
 
-// Based on parameters transition generates transition matrix
-// Parameters: rotation in steps
-// class Mirror implements ElementInterface {
-//   transition(rotation: number): qt.Operator {
-//     return qt.mirror(rotation);
-//   }
-// }
-// // Parameters: rotation in steps
-// class BeamSplitter implements ElementInterface {
+// Should it be cell stuff
+class Mirror extends Element {
+  rotation: number;
+  element: Element;
+  constructor(element: Element, rotation: number) {
+    super(element.id, element.name, element.group);
+    this.rotation = rotation;
+  }
+  transition(rotation: number): qt.Operator {
+    return qt.mirror(rotation);
+  }
+}
+
+// class BeamSplitter extends Element {
 //   transition(rotation: number): qt.Operator {
 //     return qt.beamSplitter(rotation);
 //   }
 // }
-// // Parameters default absorbption of 1/sqrt(2)
-// class Attenuator implements ElementInterface {
-//   transition({ absorption: number, rotation: number }): qt.Operator {
+// class Attenuator extends Element {
+//   transition(): qt.Operator {
 //     return qt.attenuator(Math.SQRT1_2);
 //   }
 // }
-// // Parameters default absorbption of 1/sqrt(2)
-// class Detector implements ElementInterface {
-//   transition(rotation: number): qt.Operator {
+// class Detector extends Element {
+//   transition(_rotation: number): qt.Operator {
 //     return qt.attenuator(1);
 //   }
 // }

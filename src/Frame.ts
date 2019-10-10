@@ -15,33 +15,45 @@ import Level, { LevelInterface } from "./Level";
 import Particle, { ParticleInterface } from "./Particle";
 import { displayText } from "./Helpers";
 // Quantum
-import { Photons } from "quantum-tensors";
+import * as qt from "quantum-tensors";
 import Coord from "./Coord";
 
 export interface FrameInterface {
   level: LevelInterface;
   step: number;
   particles: ParticleInterface[];
+  quantum: ParticleInterface[];
   end: boolean;
+}
+
+export interface Qparticle {
+  x: number;
+  y: number;
+  direction: number;
+  are: number;
+  aim: number;
+  bre: number;
+  bim: number;
 }
 
 export default class Frame {
   level: Level;
   step: number;
   particles: Particle[];
-  state: Photons;
+  quantum: Particle[];
   end: boolean;
 
   constructor(
     level: Level,
     step = 0,
     particles: Particle[] = [],
-    state = new Photons(level.grid.cols, level.grid.rows),
+    quantum: Particle[] = [],
     end = false
   ) {
     this.level = level;
     this.step = step;
     this.particles = particles;
+    this.quantum = quantum;
     this.end = end;
     // Initiate simulation with frame #0 and extract emitters
     if (step === 0) {
@@ -51,14 +63,13 @@ export default class Frame {
           this.particles.push(new Particle(laser.coord, laser.rotation, 1, 0));
 
           // Quantum code
-          this.state = state;
-          this.state.addPhotonIndicator(
+          level.state.addPhotonIndicator(
             laser.coord.y,
             laser.coord.x,
             laser.ascii,
             "V"
           );
-          displayText("quantum", this.state.vector.toString());
+          displayText("quantum", level.state.vector.toString());
         }
       });
     }
@@ -93,25 +104,37 @@ export default class Frame {
   }
 
   // Compute quantum frame
-  // [number, number, number, Complex, Complex][]
   nextQuantum(): Particle[] {
-    const particles: Particle[] = [];
-    this.state.propagatePhotons();
-    const quantumParticles = this.state.aggregatePolarization();
-    quantumParticles.forEach(quantumParticle => {
-      const x = quantumParticle[0];
-      const y = quantumParticle[1];
-      const direction = quantumParticle[2] * 90;
-      const a = quantumParticle[3];
-      const b = quantumParticle[4];
-      const coord = new Coord(y, x);
-      particles.push(new Particle(coord, direction, 0, 0, a, b));
-    });
-    return particles;
+    // Move
+    this.level.state.propagatePhotons();
+    displayText("quantum", this.level.state.vector.toString());
+    // Act
+    // const operations: [number, number, Operator][] = this.grid.operatorList;
+    const operations: [number, number, qt.Operator][] = [
+      [3, 1, qt.sugarSolution(0.125)],
+      [1, 3, qt.attenuator()]
+    ];
+    // Debug
+    this.level.state.actOnSinglePhotons(operations);
+    console.log(this.level.state.vector.toString());
+
+    return this.level.state
+      .aggregatePolarization()
+      .map((qParticle: Qparticle) => {
+        const x = qParticle.x;
+        const y = qParticle.y;
+        const direction = qParticle.direction;
+        const a = qt.Cx(qParticle.are, qParticle.aim);
+        const b = qt.Cx(qParticle.bre, qParticle.bim);
+        const coord = new Coord(y, x);
+        return new Particle(coord, direction, 0, 0, a, b);
+      });
   }
 
   // Compute the next frame by computing the next positions of different particles
   next(): Frame {
+    this.quantum = this.nextQuantum();
+
     // Absorbers
     const detectors = this.grid.detectors;
     const rocks = this.grid.rocks;
@@ -197,7 +220,7 @@ export default class Frame {
       this.level,
       this.step + 1,
       this.particles,
-      this.state,
+      this.quantum,
       this.end
     );
   }
@@ -207,8 +230,10 @@ export default class Frame {
     let result = `\n--- ${this.victory ? "VICTORY" : "IN PROGRESS"} --- Step #${
       this.step
     } with ${this.particles.length} active particles.\n`;
-    result += "\n";
+    result += "\nClassical: ";
     result += Particle.manyToString(this.particles);
+    result += "\nQuantum: ";
+    result += Particle.manyToString(this.quantum);
     result += "\n";
     result += Goal.manyToString(this.level.goals);
     return result;
@@ -220,7 +245,8 @@ export default class Frame {
       level: this.level.exportLevel(),
       end: this.end,
       step: this.step,
-      particles: this.particles.map(particle => particle.exportParticle())
+      particles: this.particles.map(particle => particle.exportParticle()),
+      quantum: this.particles.map(particle => particle.exportParticle())
     };
   }
 }

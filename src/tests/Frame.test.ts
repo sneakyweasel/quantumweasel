@@ -55,14 +55,15 @@ describe("Frame", () => {
     }).toThrow("Laser is inactive...");
   });
 
-  // it("shouldn't export a frame interface object", () => {
-  // 	const grid = new Grid(6, 3);
-  // 	const coord = new Coord(2, 1);
-  // 	const element = Element.fromName("laser");
-  // 	const laser = new Cell(coord, element);
-  // 	// const level = new Level();
-  // 	expect(() => {
-  // 		return laser.fire();
-  // 	}).toThrow("Laser is inactive...");
-  // });
+  //   it("should export a frame interface object", () => {
+  //     const grid = new Grid(6, 3);
+  //     const coord = new Coord(2, 1);
+  //     const element = Element.fromName("laser");
+  //     const laser = new Cell(coord, element);
+  //     grid.set(laser);
+
+  //     expect(() => {
+  //       return laser.fire();
+  //     }).toThrow("Laser is inactive...");
+  //   });
 });
