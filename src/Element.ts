@@ -4,7 +4,7 @@
 // FIXME: This class needs rewrite with glyphs and func
 
 import { jsonElements } from "../data/elements";
-import Glyph from "./Glyph";
+import Glyph, { GlyphInterface } from "./Glyph";
 
 export interface ElementInterface {
 	id: number;
@@ -17,7 +17,7 @@ export interface ElementInterface {
 	matrix: number[][];
 	ascii: string[];
 	tiles: number[][];
-	glyph: Glyph;
+	glyph: GlyphInterface;
 }
 
 export default class Element {
@@ -82,7 +82,7 @@ export default class Element {
 			matrix: this.matrix,
 			ascii: this.ascii,
 			tiles: this.tiles,
-			glyph: this.glyph
+			glyph: this.glyph.exportGlyph()
 		};
 	}
 

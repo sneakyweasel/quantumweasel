@@ -155,25 +155,13 @@ export default class Particle extends Coord {
 	}
 
 	toString(): string {
-		return `Laser at ${this.coord.toString()} going ${this.direction} with ${toPercent(
+		return `Particle @ ${this.coord.toString()} moving ${this.direction}° with ${toPercent(
 			this.intensity
-		)} and polarization | A:${this.a.re} + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i \n`;
+		)} intensity and polarization | A:${this.a.re} + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i\n`;
 	}
 
 	// Import JSON object
-	static importParticle(json: {
-		// x: number;
-		// y: number;
-		coord: Coord;
-		direction: number;
-		intensity: number;
-		phase: number;
-		a: Complex;
-		b: Complex;
-	}): Particle {
-		// const coord = Coord.importCoord({ y: json.y, x: json.x });
-		// const cxA = Cx(json.a[0], json.a[1]);
-		// const cxB = Cx(json.b[0], json.b[1]);
+	static importParticle(json: ParticleInterface): Particle {
 		return new Particle(json.coord, json.direction, json.intensity, json.phase, json.a, json.b);
 	}
 
