@@ -11,7 +11,6 @@ export interface ElementInterface {
 	name: string;
 	group: string;
 	description: string;
-	link: string;
 	active: boolean;
 	absorption: number;
 	phase: number;
@@ -26,7 +25,6 @@ export default class Element {
 	name: string;
 	group: string;
 	description: string;
-	link: string;
 	active: boolean;
 	absorption: number;
 	phase: number;
@@ -40,7 +38,6 @@ export default class Element {
 		name: string,
 		group = "",
 		description = "",
-		link = "",
 		active = false,
 		absorption = 0,
 		phase = 0,
@@ -53,7 +50,6 @@ export default class Element {
 		this.name = name;
 		this.group = group;
 		this.description = description;
-		this.link = link;
 		this.active = active;
 		this.absorption = absorption;
 		this.phase = phase;
@@ -80,7 +76,6 @@ export default class Element {
 			name: this.name,
 			group: this.group,
 			description: this.description,
-			link: this.link,
 			active: this.active,
 			absorption: this.absorption,
 			phase: this.phase,
@@ -103,7 +98,6 @@ export default class Element {
 				elem!.name,
 				elem!.group,
 				elem!.description,
-				elem!.link,
 				elem!.active,
 				elem!.absorption,
 				elem!.phase,
@@ -120,7 +114,6 @@ export default class Element {
 				elem!.name,
 				elem!.group,
 				elem!.description,
-				elem!.link,
 				elem!.active,
 				elem!.absorption,
 				elem!.phase,
