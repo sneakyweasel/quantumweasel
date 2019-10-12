@@ -9,10 +9,4 @@ describe("Elements", () => {
     expect(laser.rotationAngle).toEqual(90);
     expect(rock.rotationAngle).toEqual(360);
   });
-
-  it("should return an operator from an element", () => {
-    const mirror = Element.createMirror(180);
-    expect(mirror.element.id).toEqual(14);
-    expect(typeof mirror.transition(180)).toEqual("Operator");
-  });
 });

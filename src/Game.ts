@@ -96,12 +96,7 @@ export default class Game {
     this.scheduler.add(this.player, true);
 
     displayText("title", this.level.id + " - " + this.level.name);
-    displayText("description", this.level.description);
-    displayText(
-      "player",
-      `Turns: ${this.frameNumber} player: ${this.playerCoord.toString()}`
-    );
-    displayText("cell", this.playerCell.toString());
+    // displayText("description", this.level.description);
     this.drawGame();
 
     // DEBUG LOOP
@@ -127,12 +122,9 @@ export default class Game {
   // Find a way to detect looping laser paths
   private drawGame(): void {
     this.display.clear();
-    // Allow activated elements to compute gates etc.
-    for (let i = 0; i < 1; i++) {
-      this.laserPaths = this.grid.laserCoords();
-      this.grid.energizeCells(this.laserPaths);
-      this.grid.activateCells();
-    }
+    this.laserPaths = this.grid.laserCoords();
+    this.grid.energizeCells(this.laserPaths);
+    this.grid.activateCells();
     this.displayDebug();
     this.drawFrame();
   }
@@ -150,6 +142,7 @@ export default class Game {
       "laser",
       `Active particles: ${Particle.manyToString(this.currentFrame.particles)}`
     );
+
     // displayText(
     //   "player",
     //   `Operator List: ${this.grid.operatorList.map(operator =>
@@ -161,7 +154,7 @@ export default class Game {
   // Draw the main grid
   public drawGrid(): void {
     this.display.clear();
-    // console.log(`Rendering WebGL game grid...`);
+    console.log(`Rendering WebGL game grid...`);
     for (let y = 0; y < this.grid.rows; y++) {
       for (let x = 0; x < this.grid.cols; x++) {
         const coord = Coord.importCoord({ y: y, x: x });
@@ -179,10 +172,10 @@ export default class Game {
     const cell = this.grid.get(coord);
 
     //  Color variables
-    // const sum = this.coordIntensitySum(cell.coord);
-    const sum = 0;
+    const sum = this.coordIntensitySum(cell.coord);
     if (sum > 0) {
-      const rgbhex = hsl2hexrgb(0, 1, sum / 3 + 0.2);
+      // const rgbhex = hsl2hexrgb(0, 1, sum / 3 + 0.2);
+      const rgbhex = hsl2hexrgb(0, 1, sum / 3);
       backgroundColor = rgbhex;
     }
     if (cell.frozen) {
@@ -275,7 +268,7 @@ export default class Game {
     } else {
       this.player.handleInput(event);
     }
-    this.drawFrame();
+    this.drawGame();
   }
 
   // Display frame

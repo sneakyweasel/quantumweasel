@@ -55,10 +55,6 @@ export default class Frame {
     this.particles = particles;
     this.quantum = quantum;
     this.end = end;
-    console.log("Creating a mirror...");
-    const mirror = qt.mirror(0);
-    console.log(mirror.toString());
-    console.log("Mirror created...");
 
     // Initiate simulation with frame #0 and extract emitters
     if (step === 0) {
