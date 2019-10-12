@@ -1,0 +1,44 @@
+#title {
+  color: aliceblue;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  padding-bottom: 0px; 
+}
+
+#description {
+  color: aliceblue;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+}
+
+#player, #cell, #quantum, #laser {
+  color: lightgrey;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  font-size: 12px;
+}
+
+#controls {
+  position: absolute;
+  color: lightgrey;
+  font-family: "Montserrat", sans-serif;
+  text-align: left;
+  font-size: 12px;
+}
+#controls td {
+    padding: 10px;
+}
+
+
+body {
+  background-color: black;
+}
+
+canvas {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  border: 1px solid lightslategray;
+}

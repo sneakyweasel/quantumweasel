@@ -1,21 +1,32 @@
 {
-    "compilerOptions": { 
+    "compilerOptions": {
         "target": "es2017",
-        "module": "commonjs",
-        "lib": ["es2019", "dom"],
+        "moduleResolution": "node",
+        "lib": [
+            "es2019",
+            "dom"
+        ],
         "alwaysStrict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
         "preserveConstEnums": true,
-        "noFallthroughCasesInSwitch":true,
-        "noImplicitThis":true,
-        "noImplicitReturns":true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
         "sourceMap": true,
         "noEmitOnError": true,
-        "outDir": "./build"
-        // "types" : ["lodash", "mathjs"]
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "outDir": "./build",
+        "allowSyntheticDefaultImports": true
+        // "module": "amd",
+        // "outFile": "./build/quantumweasel.js"
     },
+    "include": [
+        "src/*"
+    ],
     "compileOnSave": true
 }

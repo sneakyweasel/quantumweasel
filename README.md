@@ -17,10 +17,10 @@
 
 ### Stage 1: Puzzle
 
-- The first stage of a level is loading elements from a solution json file.
-- This file then extracts unfrozen elements and places them in the player's toolbox.
+- The first stage of a level is loading elements from a json level solution file.
+- This file then extracts unfrozen elements and places them in the player's inventory.
 - The player solves the level by placing the different elements at their correct location.
-- To highlight his progress, elements correctly connected in graph theory are displayed as active, dotted lines are displayed.
+- To highlight his progress, elements correctly connected in graph theory are displayed as active, dotted laser lines are displayed.
 - Once it has been detected that every output has been linked, the user starts the simulation.
 
 ### Stage 2: Simulation
@@ -38,16 +38,36 @@
 - User is congratulated, a short video/text explain how this was done in a real lab.
 - There is an ability to dive deeper into the "hardcore" physics and the historical perspective.
 
+## Keybindings
+
+- Move: QSDZ, arrow keys
+- Rotate: CCW: A, CW: E
+- Freeze: F
+- Save level to JSON file: F1
+
+### Place elements
+
+- Tilde: Erase tile
+- 1: Place mirror
+- 2: Place beamsplitter
+- 3: Place laser
+- 4: Place detector
+- 5: Place phase shifter increment
+- 6: Place phase shifter decrement
+- 7: Place rock
+- 8: Place mine
+
 ## Indices and conventions
 
 Since this is a pain to debug and very error prone, those are the current conventions used in the game engine.
 
-## Percentages
+### Percentages
 
 - Percentages are written in decimal ranging from 0 to 1.
 
 ### Rotations
 
+- All sprites start facing up.
 - 0 deg is top
 - 90 deg is right
 - 180 deg is bottom
@@ -62,10 +82,15 @@ Since this is a pain to debug and very error prone, those are the current conven
 
 ## Tech stack
 
-- This project is using typescript and enforcing strict coding conventions.
-- The typescript part will be mostly self-reliant.
-- TS-Jest is used to test the main components of the game.
-- SASS will be used to enforce consistent styling through the game.
+- This project is using typescript and enforcing strict coding conventions and best practices.
+- The typescript part will be mostly self-reliant. <https://www.typescriptlang.org/>
+- TS-Jest is used to test the main components of the game. <https://jestjs.io/>
+- SASS will be used as CSS3 preprocessor. <https://sass-lang.com/>
+- Using TS-Loader for webpack from <https://github.com/TypeStrong/ts-loader>
+- Using ESLint Typescript as AST linter <https://eslint.org/>
+- Using Prettier for automated code formatting <https://prettier.io/>
+- Using Husky to lint, test before commits <https://github.com/typicode/husky>
+- Using live-server <https://github.com/tapio/live-server#readme>
 
 ## Quantum numerical "engine"
 
@@ -73,4 +98,4 @@ Since this is a pain to debug and very error prone, those are the current conven
 
 ## Interface
 
-Right now using ROT.js as a low grade terminal display.
+Right now using ROT.js as a fast display.
