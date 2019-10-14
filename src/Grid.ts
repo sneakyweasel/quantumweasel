@@ -56,7 +56,7 @@ export default class Grid {
       return [
         cell.coord.x,
         cell.coord.y,
-        cell.element.transition(Math.floor(cell.rotation / 90))
+        cell.element.transition(cell.rotation)
       ];
     });
   }

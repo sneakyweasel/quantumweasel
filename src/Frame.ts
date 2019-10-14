@@ -65,8 +65,8 @@ export default class Frame {
 
           // Quantum code
           level.state.addPhotonIndicator(
-            laser.coord.y,
             laser.coord.x,
+            laser.coord.y,
             laser.ascii,
             "V"
           );

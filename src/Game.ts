@@ -280,5 +280,7 @@ export default class Game {
       `Active particles: ${Particle.manyToString(frame.particles)}`
     );
     this.drawGrid();
+    console.log(this.grid.toString());
+    
   }
 }

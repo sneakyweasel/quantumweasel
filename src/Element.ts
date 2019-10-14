@@ -8,7 +8,9 @@ import { jsonElements } from "../data/elements";
 import Glyph from "./Glyph";
 // import Mirror from "./elements/Mirror";
 import * as qt from "quantum-tensors";
-
+/**
+ *
+ */
 export interface ElementInterface {
   id: number;
   name: string;
@@ -31,6 +33,7 @@ export default class Element {
   phase: number;
   ascii: string[];
   tiles: number[][];
+  rotationState: number;
   glyph: Glyph;
 
   constructor(
@@ -74,6 +77,10 @@ export default class Element {
         return qt.beamSplitter(param);
       case "filter":
         return qt.attenuator(Math.SQRT1_2);
+      case "phaseinc":
+        return qt.vacuumJar();
+      case "phasedec":
+        return qt.glassSlab();
       case "detector":
         return qt.attenuator(1);
       case "mine":
@@ -136,28 +143,4 @@ export default class Element {
     });
     return Element.importElement(element!);
   }
-
-  // static createMirror(rotation: number): Mirror {
-  //   const element = Element.importElement({
-  //     name: "mirror",
-  //     group: "Direction",
-  //     description: "Metallic or dielectric mirror.",
-  //     active: false,
-  //     absorption: 0,
-  //     phase: 0,
-  //     id: 14,
-  //     ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
-  //     tiles: [
-  //       [14, 0],
-  //       [14, 1],
-  //       [14, 2],
-  //       [14, 3],
-  //       [14, 4],
-  //       [14, 5],
-  //       [14, 6],
-  //       [14, 7]
-  //     ]
-  //   });
-  //   return new Mirror(element, rotation);
-  // }
 }
