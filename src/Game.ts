@@ -50,8 +50,8 @@ export default class Game {
       tileWidth: this.tilesize,
       tileHeight: this.tilesize,
       tileSet,
-      tileMap,
-      tileColorize: true
+      tileMap
+      // tileColorize: true
     });
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.getElementById("grid")!.appendChild(this.display.getContainer()!);
@@ -163,21 +163,15 @@ export default class Game {
     // Gather character list
     const cell = this.grid.get(coord);
     const charList: string[] = [cell.ascii];
-    const fgList: string[] = ["transparent"];
-    const bgList: string[] = ["rgba(255, 0, 255, 0.3)"];
+    const fgList: string[] = ["white"];
+    const bgList: string[] = ["purple"];
 
     // Add player
     if (this.player.coord.equal(coord)) {
       charList.push("@");
-      fgList.push("transparent");
-      bgList.push("transparent");
     }
 
     //  Color variables
-    const sum = this.coordIntensitySum(cell.coord);
-    if (sum > 0) {
-      bgList.push(`rgba(255, 0, 0, ${sum / 3})`);
-    }
     if (cell.frozen) {
       bgList.push("turquoise");
     }
@@ -185,9 +179,14 @@ export default class Game {
       bgList.push("red");
     }
 
+    // Classical path intensity
+    const sum = this.coordIntensitySum(coord);
+    if (sum > 0) {
+      bgList.push(`rgba(255, 0, 0, ${sum / 3})`);
+    }
+
     // Display quantum photon
     this.currentFrame.quantum.forEach(particle => {
-      fgList.push(`rgba(255, 255, 255, ${1 - particle.opacity})`);
       if (particle && particle.coord.equal(coord) && particle.isVertical) {
         charList.push("d");
       }
@@ -196,9 +195,9 @@ export default class Game {
       }
     });
     this.display.draw(
-      cell.coord.x,
-      cell.coord.y,
-      charList[charList.length - 1],
+      coord.x,
+      coord.y,
+      charList,
       fgList[fgList.length - 1],
       bgList[bgList.length - 1]
     );

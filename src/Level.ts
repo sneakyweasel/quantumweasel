@@ -4,9 +4,6 @@ import { LevelInterface } from "./Level";
 // Levels are loaded as working solutions to the puzzle
 // Then the frozen elements are removed and put in the toolbox
 
-import Coord from "./Coord";
-import Cell from "./Cell";
-import Element from "./Element";
 import Grid, { GridInterface } from "./Grid";
 import Hint, { HintInterface } from "./Hint";
 import Goal, { GoalInterface } from "./Goal";
@@ -71,7 +68,10 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 `;
   }
 
-  // export JSON file to save state oi the game
+  /**
+   * Export a json level
+   * @returns a level interface of the current level
+   */
   exportLevel(): LevelInterface {
     return {
       id: this.id,
@@ -84,58 +84,21 @@ TOOLBOX: ${JSON.stringify(this.toolbox)}\n
     };
   }
 
-  // import JSON file
-  static importLevel(json: LevelInterface): Level {
-    const grid = new Grid(json.grid.rows, json.grid.cols);
-    grid.importGrid(json.grid.cells);
-    const goals = Goal.importGoal(json.goals);
-    const hints = Hint.importHint(json.hints);
+  /**
+   * Import a json level
+   * @param obj a level interface with primitives
+   * @returns a Level instance
+   */
+  static importLevel(obj: LevelInterface): Level {
+    const grid = new Grid(obj.grid.rows, obj.grid.cols);
+    grid.importGrid(obj.grid.cells);
+    const goals = Goal.importGoal(obj.goals);
+    const hints = Hint.importHint(obj.hints);
     return new Level(
-      json.id,
-      json.name,
-      json.group,
-      json.description,
-      grid,
-      goals,
-      hints,
-      false
-    );
-  }
-
-  // import JSON file
-  static importV1JSON(json: {
-    width: number;
-    height: number;
-    name: string;
-    group: string;
-    tiles: {}[];
-  }): Level {
-    const grid = new Grid(json.width, json.height);
-    const cells: Cell[] = json.tiles.map(
-      (tile: {
-        i: number;
-        j: number;
-        name: string;
-        rotation: number;
-        frozen: boolean;
-      }) => {
-        const coord = Coord.importCoord({ y: tile.i, x: tile.j });
-        const element = Element.fromName(tile.name);
-        const rotation = element.rotationAngle * tile.rotation;
-        return new Cell(coord, element, rotation, tile.frozen);
-      }
-    );
-    grid.setMany(...cells);
-    // const goals: Goal[] = [];
-    const goals: Goal[] = grid.detectors.map(detector => {
-      return new Goal(detector.coord, 1);
-    });
-    const hints: Hint[] = [];
-    return new Level(
-      0,
-      json.name,
-      json.group,
-      "V1 level imported",
+      obj.id,
+      obj.name,
+      obj.group,
+      obj.description,
       grid,
       goals,
       hints,

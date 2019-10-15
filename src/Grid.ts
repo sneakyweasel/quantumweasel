@@ -220,28 +220,33 @@ export default class Grid {
     return this.matrix[coord.y][coord.x];
   }
 
-  // Set many cells
-  public setMany(...cells: Cell[]): boolean {
-    let errorToggle = true;
-    cells.forEach((cell: Cell) => {
-      if (!this.includes(cell.coord)) {
-        errorToggle = false;
-      }
-    });
-    cells.forEach(cell => {
-      this.set(cell);
-    });
-    return errorToggle;
-  }
+  // // Set many cells
+  // public setMany(...cells: Cell[]): boolean {
+  //   let errorToggle = true;
+  //   cells.forEach((cell: Cell) => {
+  //     if (!this.includes(cell.coord)) {
+  //       errorToggle = false;
+  //     }
+  //   });
+  //   cells.forEach(cell => {
+  //     this.set(cell);
+  //   });
+  //   return errorToggle;
+  // }
 
-  // Get many cells
-  public getMany(...coords: Coord[]): Cell[] {
-    return coords.map(coord => {
-      return this.get(coord);
-    });
-  }
+  // // Get many cells
+  // public getMany(...coords: Coord[]): Cell[] {
+  //   return coords.map(coord => {
+  //     return this.get(coord);
+  //   });
+  // }
 
-  // Move from a coord to another
+  /**
+   * Move a cell to another coord
+   * @param src source coordinate
+   * @param dst destination coordinate
+   * @returns boolean if success
+   */
   public move(src: Coord, dst: Coord): boolean {
     const cellSrc = this.get(src);
     const cellDst = this.get(dst);
@@ -260,43 +265,14 @@ export default class Grid {
     }
   }
 
-  // Basic display
-  public display(): void {
-    console.log(this.matrix.valueOf());
-  }
-
-  // Front-end updates
-  public frontendUpdate(cellI: CellInterface): Particle[] {
-    const cell = Cell.importCell(cellI);
-    if (this.set(cell)) {
-      return this.laserCoords();
-    } else {
-      throw new Error("Error from frontend...");
-    }
-  }
-  // Front-end updates
-  static frontendUpdateFull(
-    cols: number,
-    rows: number,
-    cellsI: CellInterface[]
-  ): Particle[] {
-    const grid = new Grid(cols, rows);
-    cellsI.forEach((cellI: CellInterface) => {
-      const cell = Cell.importCell(cellI);
-      grid.set(cell);
+  /**
+   * Fire all the lasers
+   * @returns the particles fired
+   */
+  public fireLasers(): Particle[] {
+    return this.activeLasers.map(laser => {
+      return laser.fire();
     });
-    return grid.laserCoords();
-  }
-
-  // Set the initial lasers particles from the active lasers on grid
-  public initiateLasers(): Particle[] {
-    const particles: Particle[] = [];
-    this.activeLasers.forEach(laser => {
-      if (laser.active) {
-        particles.push(laser.fire());
-      }
-    });
-    return particles;
   }
 
   // Compute laser path
@@ -373,7 +349,10 @@ export default class Grid {
     return [...new Set(pathParticles.flat())];
   }
 
-  // Laser lines
+  /**
+   * Gives the classical laser path of a specific particle
+   * @returns a list of coordinates
+   * */
   laserCoords(): Particle[] {
     const laserCoords: Particle[] = [];
     const particles: Particle[] = [];
@@ -423,7 +402,11 @@ export default class Grid {
     });
   }
 
-  // Retrieve the adjacent cells to a coordinate in the grid
+  /**
+   * Return adjacent cells to a coordinate
+   * @param coord Coordinate
+   * @returns a list of adjacent cells
+   */
   adjacentCells(coord: Coord): Cell[] {
     const adjacents: Cell[] = [];
     coord.adjacent.forEach(adjacent => {
@@ -434,8 +417,11 @@ export default class Grid {
     return adjacents;
   }
 
-  // Include particle display in ascii render
-  public toString(): string {
+  /**
+   * Output an ASCII grid
+   * @returns an ascii grid
+   */
+  public get ascii(): string {
     let result = "";
     for (let y = 0; y < this.rows; y++) {
       for (let x = 0; x < this.cols; x++) {
@@ -447,7 +433,10 @@ export default class Grid {
     return result;
   }
 
-  // FIXME: Need to avoid the void cells
+  /**
+   * Trim the void around the cells and return the smallest level container
+   * @returns a list of cells with trimmed coordinates
+   */
   public compress(): Cell[] {
     const cells = this.unvoid;
     const minX = Math.min(...cells.map(cell => cell.coord.x));
@@ -465,7 +454,10 @@ export default class Grid {
     return cells;
   }
 
-  // import cells
+  /**
+   * Sets the grid with the appropriate cells
+   * @param jsonCells A list of cell interface
+   */
   public importGrid(jsonCells: CellInterface[]): void {
     jsonCells.forEach(jsonCell => {
       const cell = Cell.importCell(jsonCell);
@@ -473,7 +465,10 @@ export default class Grid {
     });
   }
 
-  // export JSON file to save state oi the game
+  /**
+   * Exports the grid to an interface of primitives
+   * @returns a grid interface
+   */
   public exportGrid(): GridInterface {
     const cells: CellInterface[] = [];
     this.unvoid.forEach(cell => {
