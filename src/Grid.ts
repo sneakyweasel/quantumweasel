@@ -251,6 +251,24 @@ export default class Grid {
               (2 * mirror.rotation - particle.direction + 360) % 360;
           }
         });
+        this.polarsplitters.forEach((polar: Cell) => {
+          if (particle.on(polar)) {
+            if (polar.rotation === 0) {
+              const direction =
+                (2 * (polar.rotation - 45) - particle.direction + 360) % 360;
+              alive.push(
+                new Particle(particle.coord, direction, particle.intensity)
+              );
+            }
+            if (polar.rotation === 180) {
+              const direction =
+                (2 * (polar.rotation + 45) - particle.direction + 360) % 360;
+              alive.push(
+                new Particle(particle.coord, direction, particle.intensity)
+              );
+            }
+          }
+        });
         this.beamsplitters.forEach((beamsplitter: Cell) => {
           if (particle.on(beamsplitter)) {
             // Dim the current particle intensity
