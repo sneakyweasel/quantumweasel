@@ -1,75 +1,78 @@
 {
-	"name": "quantumweasel",
-	"version": "1.0.1",
-	"homepage": "https://github.com/sneakyweasel/quantumweasel",
-	"description": "Quantum Optics Engine in Typescript",
-	"license": "MIT",
-	"author": "sneakyweasel",
-	"private": true,
-	"type": "module",
-	"main": "./dist.app.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/sneakyweasel/quantumweasel"
-	},
-	"bugs": {
-		"url": "https://github.com/sneakyweasel/quantumweasel/issues"
-	},
-	"scripts": {
-		"test": "tsc --noEmit -p . && jest --no-cache",
-		"lint": "tsc --noEmit -p . && eslint \"*.ts?(x)\"",
-		"lintci": "eslint \"*.ts?(x)\" --force",
-		"tsc-start": "tsc --outDir ./build && node ./build/main.js",
-		"tsc-build": "tsc --pretty --outDir ./build",
-		"build": "webpack --mode production",
-		"start": "webpack-dev-server --mode development --progress --color",
-		"serve": "live-server --port=3000 --open=/html/",
-		"graph": "madge --circular ./src/app.ts",
-		"upgrade-quantum-tensors": "yarn upgrade quantum-tensors && cd node_modules/quantum-tensors && tsc --outDir ./build"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "",
-			"pre-push": ""
-		}
-	},
-	"devDependencies": {
-		"@types/file-saver": "^2.0.1",
-		"@types/jest": "^21.1.5",
-		"@types/node": "^8.0.47",
-		"@types/rot-js": "^0.6.5",
-		"@typescript-eslint/eslint-plugin": "^2.3.1",
-		"@typescript-eslint/parser": "^2.3.1",
-		"eslint": "^6.4.0",
-		"eslint-config-prettier": "^6.3.0",
-		"eslint-plugin-import": "^2.18.2",
-		"eslint-plugin-prettier": "^3.1.1",
-		"husky": "^3.0.5",
-		"jest": "^24.9.0",
-		"live-server": "^1.2.1",
-		"prettier": "^1.18.2",
-		"ts-jest": "^24.1.0",
-		"ts-loader": "^6.1.2",
-		"ts-node": "^8.3.0",
-		"typescript": "^3.4.5",
-		"webpack": "^4.40.2",
-		"webpack-cli": "^3.3.9",
-		"webpack-dev-server": "^3.8.1"
-	},
-	"dependencies": {
-		"file-saver": "^2.0.2",
-		"quantum-tensors": "stared/quantum-tensors#master",
-		"rot-js": "^2.1.1"
-	},
-	"jest": {
-		"transform": {
-			".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-		},
-		"testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js"
-		]
-	}
+  "name": "quantumweasel",
+  "version": "1.0.2",
+  "homepage": "https://github.com/sneakyweasel/quantumweasel",
+  "description": "Quantum Optics Engine in Typescript",
+  "license": "MIT",
+  "author": "sneakyweasel",
+  "private": true,
+  "type": "module",
+  "main": "build/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sneakyweasel/quantumweasel"
+  },
+  "bugs": {
+    "url": "https://github.com/sneakyweasel/quantumweasel/issues"
+  },
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "test": "tsc --noEmit -p . && jest --no-cache",
+    "lint": "tsc --noEmit -p . && eslint \"*.ts?(x)\"",
+    "lintci": "eslint \"*.ts?(x)\" --force",
+    "tsc-start": "tsc --outDir ./build && node ./build/main.js",
+    "tsc-build": "tsc --pretty --outDir ./build",
+    "start": "webpack-dev-server --mode development --progress --color",
+    "serve": "live-server --port=3000 --open=/html/",
+	"graph": "madge --circular ./src/app.ts",
+	"build": "tsc --pretty --outDir ./build",
+    "webpack-build": "webpack --mode production"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "",
+      "pre-push": ""
+    }
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.1",
+    "@types/jest": "^21.1.5",
+    "@types/node": "^8.0.47",
+    "@types/rot-js": "^0.6.5",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
+    "eslint": "^6.4.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.5",
+    "jest": "^24.9.0",
+    "live-server": "^1.2.1",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^6.1.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.4.5",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
+  },
+  "dependencies": {
+    "file-saver": "^2.0.2",
+    "quantum-tensors": "stared/quantum-tensors#master",
+    "rot-js": "^2.1.1"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  }
 }
