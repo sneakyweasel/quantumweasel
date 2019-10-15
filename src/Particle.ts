@@ -134,16 +134,16 @@ export default class Particle extends Coord {
     for (let i = 0; i < repeat; i++) {
       switch (this.direction % 360) {
         case 0:
-          this.coord = this.coord.top;
-          break;
-        case 90:
           this.coord = this.coord.right;
           break;
+        case 90:
+          this.coord = this.coord.top;
+          break;
         case 180:
-          this.coord = this.coord.bottom;
+          this.coord = this.coord.left;
           break;
         case 270:
-          this.coord = this.coord.left;
+          this.coord = this.coord.bottom;
           break;
         default:
           throw Error(`Something went wrong with particles and direction.`);

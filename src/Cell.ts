@@ -39,10 +39,15 @@ export default class Cell {
     this.energized = energized;
   }
 
-  // Change frozen status of cell
+  /**
+   * Get ASCII character linked to cell's element and cell rotation
+   */
   get ascii(): string {
     return this.element.ascii[this.rotation / this.element.rotationAngle];
   }
+  /**
+   * Compute the rotation angle in degrees
+   */
   get rotationAscii(): string {
     return angleToSymbol(this.element.rotationAngle);
   }

@@ -1,4 +1,3 @@
-import { ElementInterface } from "./Element";
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // ELEMENT CLASS
 // Basic class related to game elements
@@ -6,7 +5,6 @@ import { ElementInterface } from "./Element";
 
 import { jsonElements } from "../data/elements";
 import Glyph from "./Glyph";
-// import Mirror from "./elements/Mirror";
 import * as qt from "quantum-tensors";
 /**
  *

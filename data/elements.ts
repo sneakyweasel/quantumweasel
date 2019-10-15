@@ -18,7 +18,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 0,
-    ascii: ["^", ">", "v", "<"],
+    ascii: [">", "^", "<", "v"],
     tiles: [[0, 0], [0, 1], [0, 2], [0, 3]]
   },
   {
@@ -42,7 +42,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 2,
-    ascii: ["🡡", "🡥", "🡢", "🡦", "🡣", "🡧", "🡠", "🡤"],
+    ascii: ["🡢", "🡥", "🡡", "🡤", "🡠", "🡧", "🡣", "🡦"],
     tiles: [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7]]
   },
   {
@@ -54,7 +54,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 3,
-    ascii: ["🡩", "🡭", "🡪", "🡮", "🡫", "🡯", "🡨", "🡬"],
+    ascii: ["🡪", "🡭", "🡩", "🡬", "🡨", "🡯", "🡫", "🡮"],
     tiles: [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7]]
   },
   {
@@ -66,7 +66,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 4,
-    ascii: ["⭱", "⭲", "⭳", "⭰"],
+    ascii: ["⭲", "⭱", "⭰", "⭳"],
     tiles: [[4, 0], [4, 1], [4, 2], [4, 3]]
   },
   {
@@ -102,7 +102,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 9,
-    ascii: ["⇑", "⇗", "⇒", "⇘", "⇓", "⇙", "⇐", "⇖"],
+    ascii: ["⇒", "⇗", "⇑", "⇖", "⇐", "⇙", "⇓", "⇘"],
     tiles: [[9, 0], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7]]
   },
   {
@@ -137,7 +137,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 14,
-    ascii: ["|", "/", "-", "\\", "|", "/", "-", "\\"],
+    ascii: ["-", "/", "|", "\\", "-", "/", "|", "\\"],
     tiles: [
       [14, 0],
       [14, 1],
@@ -158,7 +158,8 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 15,
-    ascii: ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
+    // ascii: ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
+    ascii: ["→", "↗", "↑", "↖", "←", "↙", "↓", "↘"],
     tiles: [
       [15, 0],
       [15, 1],
@@ -247,7 +248,8 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: -0.25,
     id: 30,
-    ascii: ["🠵", "🠶", "🠷", "🠴"],
+    // ascii: ["🠵", "🠶", "🠷", "🠴"],
+    ascii: ["🠶", "🠵", "🠴", "🠷"],
     tiles: [[30, 0], [30, 1], [30, 2], [30, 3]]
   }
 ];

@@ -1,0 +1,30 @@
+{
+  "id": 0,
+  "name": "Debug beamsplitter",
+  "group": "Classic",
+  "description": "Error with 90° beamsplitter",
+  "grid": {
+    "cols": 10,
+    "rows": 10,
+    "cells": [
+      {
+        "coord": { "y": 4, "x": 2 },
+        "element": "laser",
+        "rotation": 90,
+        "frozen": true,
+        "active": true,
+        "energized": false
+      },
+      {
+        "coord": { "y": 4, "x": 4 },
+        "element": "beamsplitter",
+        "rotation": 90,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      }
+    ]
+  },
+  "hints": [],
+  "goals": []
+}
