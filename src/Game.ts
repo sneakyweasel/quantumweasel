@@ -14,12 +14,15 @@ import Frame from "./Frame";
 import { Actor } from "./Actor";
 import Particle from "./Particle";
 
+/**
+ * Game class relates to displaying the ROT.js WebGL grid
+ * Other logic should go to lower level
+ */
 export default class Game {
   // Game logic
   public level: Level;
   public frames: Frame[];
   private frameNumber: number;
-  public laserPaths: Particle[];
   private gameState: GameState;
   // Game display
   private display: Display;
@@ -27,11 +30,13 @@ export default class Game {
   private player: Player;
   private tilesize = 32;
 
-  constructor(level: Level, tilesize = 32, frames = []) {
+  constructor(level: Level, tilesize = 32) {
     // Game mechanics
     this.level = level;
     this.gameState = new GameState();
-    this.frames = frames;
+
+    // FIXME: Find a better way to launch frame 0 when simulation starts
+    this.frames = [];
     this.frames.push(new Frame(level));
     this.frameNumber = 0;
 
@@ -117,21 +122,21 @@ export default class Game {
       }
       await actor.act();
       await InputUtility.waitForInput(this.handleInput.bind(this));
-      this.drawGame();
     }
   }
 
-  // Find a way to detect looping laser paths
+  /**
+   * Draw game redraws the whole game elements
+   */
   private drawGame(): void {
     this.display.clear();
-    this.laserPaths = this.grid.laserCoords();
-    this.grid.energizeCells(this.laserPaths);
-    this.grid.activateCells();
     this.displayDebug();
     this.drawFrame();
   }
 
-  // Display relevant informations in html
+  /**
+   * Display debug provides informations in html about the simulation
+   */
   private displayDebug(): void {
     displayText("cell", this.player.cell.toString());
     displayText(
@@ -146,7 +151,24 @@ export default class Game {
     );
   }
 
-  // Draw the main grid
+  /**
+   * Draw a specific frame of the simulation including the particles
+   * TODO: Access to grid particles at render time
+   * @param frame Frame object to render
+   */
+  private drawFrame(frame = this.currentFrame): void {
+    console.log(`--- Displaying frame ${this.frameNumber} ---`);
+    console.log(this.currentFrame.toString());
+    displayText(
+      "laser",
+      `Active particles: ${Particle.manyToString(frame.particles)}`
+    );
+    this.drawGrid();
+  }
+
+  /**
+   * Draw the main grid
+   */
   public drawGrid(): void {
     this.display.clear();
     console.log(`Rendering WebGL game grid...`);
@@ -158,7 +180,10 @@ export default class Game {
     }
   }
 
-  // Draw indivdual cells
+  /**
+   * Draw a specific coordinate
+   * @param coord coord to draw
+   */
   drawCoord(coord: Coord): void {
     // Gather character list
     const cell = this.grid.get(coord);
@@ -180,7 +205,7 @@ export default class Game {
     }
 
     // Classical path intensity
-    const sum = this.coordIntensitySum(coord);
+    const sum = this.grid.coordIntensitySum(coord);
     if (sum > 0) {
       bgList.push(`rgba(255, 0, 0, ${sum / 3})`);
     }
@@ -203,20 +228,11 @@ export default class Game {
     );
   }
 
-  // Particles on a specific coord
-  coordIntensitySum(coord: Coord): number {
-    let sum = 0;
-    this.laserPaths
-      .filter(particleInterface => {
-        return coord.equal(particleInterface.coord);
-      })
-      .map(particle => {
-        sum += particle.intensity;
-      });
-    return sum;
-  }
-
-  // Move through different frames
+  /**
+   * Handles key event related to simulation
+   * The other key events are sent to Player
+   * @param event key event
+   */
   private handleInput(event: KeyboardEvent): void {
     // Filter key events
     const code = event.keyCode;
@@ -244,16 +260,5 @@ export default class Game {
       this.player.handleInput(event);
     }
     this.drawGame();
-  }
-
-  // Display frame
-  private drawFrame(frame = this.currentFrame): void {
-    // console.log(`--- Displaying frame ${this.frameNumber} ---`);
-    // console.log(this.currentFrame.toString());
-    displayText(
-      "laser",
-      `Active particles: ${Particle.manyToString(frame.particles)}`
-    );
-    this.drawGrid();
   }
 }

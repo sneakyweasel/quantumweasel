@@ -169,6 +169,23 @@ export default class Grid {
   }
 
   /**
+   * Compute the classical intensity using laser paths of a coordinate
+   * FIXME: Move to level or to grid
+   * @param coord Coordinate
+   */
+  coordIntensitySum(coord: Coord): number {
+    let sum = 0;
+    this.laserCoords()
+      .filter(particleInterface => {
+        return coord.equal(particleInterface.coord);
+      })
+      .map(particle => {
+        sum += particle.intensity;
+      });
+    return sum;
+  }
+
+  /**
    * Compute the laser path of a particle
    * @param particle Particle which needs its laser path computed
    * @param maxFrames Max number of frames to compute

@@ -64,6 +64,7 @@ export default class Frame {
           this.particles.push(laser.fire());
 
           // Quantum code
+          // FIXME: Should be made when user starts simulation with updated rotations
           level.state.addPhotonIndicator(
             laser.coord.x,
             laser.coord.y,
@@ -232,7 +233,10 @@ export default class Frame {
     result += "\nQuantum: ";
     result += Particle.manyToString(this.quantum);
     result += "\n";
-    result += Goal.manyToString(this.level.goals);
+    result += `${this.level.goals.length} active goals...\n`;
+    this.level.goals.map(goal => {
+      result += `- ${goal.toString()}\n`;
+    });
     return result;
   }
 
