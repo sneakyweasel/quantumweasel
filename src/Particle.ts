@@ -85,6 +85,19 @@ export default class Particle extends Coord {
     return this.direction === 0 || this.direction === 180;
   }
 
+  /**
+   * Complex scaling
+   */
+  get opacity(): number {
+    const scaling = 0.5;
+    const opacity = Math.pow(this.a.abs2() + this.b.abs2(), scaling);
+    if (opacity > 1) {
+      return 1;
+    } else {
+      return opacity;
+    }
+  }
+
   // Convert path to particle instances
   get pathParticle(): Particle[] {
     const result: Particle[] = [];

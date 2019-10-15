@@ -111,10 +111,6 @@ export default class Frame {
     displayText("quantum", this.level.state.vector.toString());
     // Act
     const operations: [number, number, qt.Operator][] = this.grid.operatorList;
-    // const operations: [number, number, qt.Operator][] = [
-    //   [3, 1, qt.mirror(1)],
-    //   [1, 3, qt.attenuator()]
-    // ];
     // Debug
     this.level.state.actOnSinglePhotons(operations);
     console.log(this.level.state.vector.toString());

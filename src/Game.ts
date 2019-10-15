@@ -1,6 +1,6 @@
 import { Display, Scheduler, KEYS } from "rot-js/lib/index";
 import Simple from "rot-js/lib/scheduler/simple";
-import { hsl2hexrgb, displayText } from "./Helpers";
+import { displayText } from "./Helpers";
 
 import Coord from "./Coord";
 import Glyph from "./Glyph";
@@ -41,6 +41,7 @@ export default class Game {
     tileSet.src = `./tiles/tilemap_${this.tilesize}.png`;
     const tileMap = Glyph.processTileMap(this.tilesize);
     this.display = new Display({
+      // layout: "tile",
       layout: "tile-gl",
       bg: "transparent",
       width: level.grid.cols,
@@ -49,7 +50,8 @@ export default class Game {
       tileWidth: this.tilesize,
       tileHeight: this.tilesize,
       tileSet,
-      tileMap
+      tileMap,
+      tileColorize: true
     });
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     document.getElementById("grid")!.appendChild(this.display.getContainer()!);
@@ -82,7 +84,9 @@ export default class Game {
     return this.frames.length;
   }
 
-  // Init game
+  /**
+   * Initialize the game
+   */
   private initializeGame(): void {
     this.display.clear();
     if (!this.gameState.isGameOver() || this.gameState.doRestartGame()) {
@@ -96,15 +100,13 @@ export default class Game {
     this.scheduler.add(this.player, true);
 
     displayText("title", this.level.id + " - " + this.level.name);
-    // displayText("description", this.level.description);
+    displayText("description", this.level.description);
     this.drawGame();
-
-    // DEBUG LOOP
-    // for (let index = 0; index < 10; index++) {
-    //   this.lastFrame.next();
-    // }
   }
 
+  /**
+   * Main loop of the game
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async mainLoop(): Promise<any> {
     let actor: Actor;
@@ -142,13 +144,6 @@ export default class Game {
       "laser",
       `Active particles: ${Particle.manyToString(this.currentFrame.particles)}`
     );
-
-    // displayText(
-    //   "player",
-    //   `Operator List: ${this.grid.operatorList.map(operator =>
-    //     operator.toString()
-    //   )}`
-    // );
   }
 
   // Draw the main grid
@@ -164,67 +159,48 @@ export default class Game {
   }
 
   // Draw indivdual cells
-  drawCoord(
-    coord: Coord,
-    foregroundColor = "white",
-    backgroundColor = "#2e006a"
-  ): void {
+  drawCoord(coord: Coord): void {
+    // Gather character list
     const cell = this.grid.get(coord);
+    const charList: string[] = [cell.ascii];
+    const fgList: string[] = ["transparent"];
+    const bgList: string[] = ["rgba(255, 0, 255, 0.3)"];
+
+    // Add player
+    if (this.player.coord.equal(coord)) {
+      charList.push("@");
+      fgList.push("transparent");
+      bgList.push("transparent");
+    }
 
     //  Color variables
     const sum = this.coordIntensitySum(cell.coord);
     if (sum > 0) {
-      // const rgbhex = hsl2hexrgb(0, 1, sum / 3 + 0.2);
-      const rgbhex = hsl2hexrgb(0, 1, sum / 3);
-      backgroundColor = rgbhex;
+      bgList.push(`rgba(255, 0, 0, ${sum / 3})`);
     }
     if (cell.frozen) {
-      backgroundColor = "turquoise";
+      bgList.push("turquoise");
     }
     if (cell.energized) {
-      backgroundColor = "red";
+      bgList.push("red");
     }
-
-    // Tile variables - Element, player, laser, photon
-    const charList: string[] = [cell.ascii];
-    if (this.player.coord.equal(coord)) {
-      charList.push("@");
-    }
-
-    // Display classical photon
-    // this.currentFrame.particles.forEach(particle => {
-    //   if (particle && particle.coord.equal(cell.coord) && particle.isVertical) {
-    //     charList.push("P");
-    //   }
-    //   if (
-    //     particle &&
-    //     particle.coord.equal(cell.coord) &&
-    //     !particle.isVertical
-    //   ) {
-    //     charList.push("d");
-    //   }
-    // });
 
     // Display quantum photon
     this.currentFrame.quantum.forEach(particle => {
-      if (particle && particle.coord.equal(cell.coord) && particle.isVertical) {
+      fgList.push(`rgba(255, 255, 255, ${1 - particle.opacity})`);
+      if (particle && particle.coord.equal(coord) && particle.isVertical) {
         charList.push("d");
       }
-      if (
-        particle &&
-        particle.coord.equal(cell.coord) &&
-        !particle.isVertical
-      ) {
+      if (particle && particle.coord.equal(coord) && !particle.isVertical) {
         charList.push("P");
       }
     });
-
     this.display.draw(
       cell.coord.x,
       cell.coord.y,
-      charList,
-      foregroundColor,
-      backgroundColor
+      charList[charList.length - 1],
+      fgList[fgList.length - 1],
+      bgList[bgList.length - 1]
     );
   }
 
@@ -280,7 +256,5 @@ export default class Game {
       `Active particles: ${Particle.manyToString(frame.particles)}`
     );
     this.drawGrid();
-    console.log(this.grid.toString());
-    
   }
 }

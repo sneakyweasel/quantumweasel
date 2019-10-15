@@ -1,5 +1,6 @@
-import json from "../levels/dev/qtest.json";
-// import json from "../levels/game/level6.json";
+// import json from "../levels/dev/qtest.json";
+import json from "../levels/dev/phase.json";
+// import json from "../levels/game/level2.json";
 import Level from "./Level";
 import Game from "./Game";
 

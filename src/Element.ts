@@ -82,13 +82,13 @@ export default class Element {
       case "phasedec":
         return qt.glassSlab();
       case "detector":
-        return qt.attenuator(1);
+        return qt.attenuator(0);
       case "mine":
-        return qt.attenuator(1);
+        return qt.attenuator(0);
       case "rock":
-        return qt.attenuator(1);
+        return qt.attenuator(0);
       case "wall":
-        return qt.attenuator(1);
+        return qt.attenuator(0);
       default:
         return qt.attenuator(0);
       // throw Error("Wrong element name...");
