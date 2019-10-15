@@ -1,6 +1,7 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
+// FIXME: Move functions to a Cluster Cell[] functionality
 import { Operator } from "quantum-tensors";
 import Coord from "./Coord";
 import Element from "./Element";
@@ -9,12 +10,18 @@ import { GridInterface } from "./Grid";
 import Cluster from "./Cluster";
 import Particle, { ParticleInterface } from "./Particle";
 
+/**
+ * Grid interface composed of primitive JS types
+ */
 export interface GridInterface {
   cols: number;
   rows: number;
   cells: CellInterface[];
 }
 
+/**
+ * Grid class includes the grid instance that holds the cells
+ */
 export default class Grid {
   public cols: number;
   public rows: number;
@@ -42,7 +49,11 @@ export default class Grid {
       }
     }
   }
-  // Get center coordinates of grid
+
+  /**
+   * Get center coordinate of grid
+   * @returns center coordinate
+   */
   get center(): Coord {
     return Coord.importCoord({
       y: Math.floor(this.cols / 2),
@@ -50,7 +61,10 @@ export default class Grid {
     });
   }
 
-  // Operator list from grid and elements rotation
+  /**
+   * Retrieve the list of quantum operators from the elements
+   * @returns list of operators
+   */
   get operatorList(): [number, number, Operator][] {
     return this.unvoid.map(cell => {
       return [
@@ -61,140 +75,32 @@ export default class Grid {
     });
   }
 
-  // Cells getters
-  get cells(): Cell[] {
-    return this.matrix.reduce((acc, val) => acc.concat(val), []);
-  }
-  get coords(): Coord[] {
-    return this.cells.flatMap(cell => cell.coord);
-  }
-  get void(): Cell[] {
-    return this.filteredBy("void");
-  }
-  get unvoid(): Cell[] {
-    return this.filteredByNot("void");
-  }
-  get activeCells(): Cell[] {
-    return this.cells.filter(cell => cell.active);
-  }
-  get energizedDetectors(): Cell[] {
-    return this.detectors.filter(detector => detector.energized);
-  }
-  get unenergizedDetectors(): Cell[] {
-    return this.detectors.filter(detector => !detector.energized);
-  }
-
-  // Emitters
-  get lasers(): Cell[] {
-    return this.filteredBy("laser");
-  }
-  get activeLasers(): Cell[] {
-    return this.filteredBy("laser").filter(laser => laser.active === true);
-  }
-
-  // Reflectors
-  get mirrors(): Cell[] {
-    return this.filteredBy("mirror");
-  }
-  get beamsplitters(): Cell[] {
-    return this.filteredBy("beamsplitter");
-  }
-  get coatedsplitters(): Cell[] {
-    return this.filteredBy("coatedsplitter");
-  }
-  get polarsplitters(): Cell[] {
-    return this.filteredBy("polarsplitter");
-  }
-  get reflectors(): Cell[] {
-    return this.mirrors.concat(
-      this.beamsplitters,
-      this.coatedsplitters,
-      this.polarsplitters
-    );
-  }
-
-  // Absorbers
-  get detectors(): Cell[] {
-    return this.filteredBy("detector");
-  }
-  get mines(): Cell[] {
-    return this.filteredBy("mine");
-  }
-  get rocks(): Cell[] {
-    return this.filteredBy("rock");
-  }
-  get omnidetectors(): Cell[] {
-    return this.filteredBy("omnidetector");
-  }
-  get filters(): Cell[] {
-    return this.filteredBy("filter");
-  }
-  get walls(): Cell[] {
-    return this.filteredBy("wall");
-  }
-  get closedGates(): Cell[] {
-    return this.filteredBy("gate").filter(gate => !gate.active);
-  }
-  get openedGates(): Cell[] {
-    return this.filteredBy("gate").filter(gate => gate.active);
-  }
-  get absorbers(): Cell[] {
-    return this.detectors.concat(
-      this.mines,
-      this.rocks,
-      this.omnidetectors,
-      this.filters,
-      this.walls,
-      this.closedGates
-    );
-  }
-
-  // Polarizers
-  get absorbPolarizers(): Cell[] {
-    return this.filteredBy("absorb-polarizer");
-  }
-  get waveplates(): Cell[] {
-    return this.filteredBy("waveplate");
-  }
-  get sugars(): Cell[] {
-    return this.filteredBy("sugar");
-  }
-  get faradays(): Cell[] {
-    return this.filteredBy("faraday");
-  }
-  get polarizers(): Cell[] {
-    return this.absorbPolarizers.concat(
-      this.waveplates,
-      this.sugars,
-      this.faradays
-    );
-  }
-
-  // Phasers
-  get phaseincs(): Cell[] {
-    return this.filteredBy("phaseinc");
-  }
-  get phasedecs(): Cell[] {
-    return this.filteredBy("phasedec");
-  }
-  get phaseshifters(): Cell[] {
-    return this.phasedecs.concat(this.phaseincs);
-  }
-
-  // Select cells by type
+  /**
+   * Filters cells by name (needs refactoring)
+   * @param name Name of the element to look for
+   * @returns list of cells of a specific type
+   */
   public filteredBy(name: string): Cell[] {
     return this.cells.filter(cell => {
       return cell.element.name === name;
     });
   }
-  // Select cells by not type
+
+  /**
+   * Filter cells that are not of a specific type
+   * @param name Name of the element to avoid
+   */
   public filteredByNot(name: string): Cell[] {
     return this.cells.filter(cell => {
       return cell.element.name !== name;
     });
   }
 
-  // Test if coord is inside boundaries
+  /**
+   * Is a coordinate inside the grid
+   * @param coord Coordiante to test
+   * @returns boolean if included
+   */
   public includes(coord: Coord): boolean {
     return (
       coord.y >= 0 &&
@@ -203,7 +109,11 @@ export default class Grid {
     );
   }
 
-  // Set one cell
+  /**
+   * Set a cell at a specific coordinate
+   * @param cell Cell to set at a grid coordinate
+   * @returns boolean if operation is successfull
+   */
   public set(cell: Cell): boolean {
     if (this.includes(cell.coord)) {
       this.matrix[cell.coord.y][cell.coord.x] = cell;
@@ -215,31 +125,14 @@ export default class Grid {
     }
   }
 
-  // Get one cell - Does not check if coord is in grid
+  /**
+   * Retrieve the cell at a specified coordinate
+   * @param coord Coordinate to get
+   * @returns Cell
+   */
   public get(coord: Coord): Cell {
     return this.matrix[coord.y][coord.x];
   }
-
-  // // Set many cells
-  // public setMany(...cells: Cell[]): boolean {
-  //   let errorToggle = true;
-  //   cells.forEach((cell: Cell) => {
-  //     if (!this.includes(cell.coord)) {
-  //       errorToggle = false;
-  //     }
-  //   });
-  //   cells.forEach(cell => {
-  //     this.set(cell);
-  //   });
-  //   return errorToggle;
-  // }
-
-  // // Get many cells
-  // public getMany(...coords: Coord[]): Cell[] {
-  //   return coords.map(coord => {
-  //     return this.get(coord);
-  //   });
-  // }
 
   /**
    * Move a cell to another coord
@@ -275,7 +168,12 @@ export default class Grid {
     });
   }
 
-  // Compute laser path
+  /**
+   * Compute the laser path of a particle
+   * @param particle Particle which needs its laser path computed
+   * @param maxFrames Max number of frames to compute
+   * @returns list of "path particles"
+   */
   laserPath(particle: Particle, maxFrames = 50): Particle[] {
     // Make a depp clone of the particle
     let alive: Particle[] = [particle];
@@ -369,8 +267,10 @@ export default class Grid {
     return laserCoords;
   }
 
-  // Energize cells according to laser paths
-  // Should update also the unergizes cells
+  /**
+   * Set the cells as energized if on this laser path.
+   * @param paths laser path to energize
+   */
   energizeCells(paths: ParticleInterface[]): void {
     const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord);
     this.cells.forEach(cell => {
@@ -382,7 +282,9 @@ export default class Grid {
     });
   }
 
-  // Activate cells closed to an energized detector
+  /**
+   * Set the adjacent cells as active if they are near an energized detector
+   */
   activateCells(): void {
     this.unvoid.forEach(cell => {
       if (cell.element.name !== "laser") {
@@ -479,5 +381,121 @@ export default class Grid {
       rows: this.rows,
       cells: cells
     };
+  }
+
+  /** List of helpers */
+  get cells(): Cell[] {
+    return this.matrix.reduce((acc, val) => acc.concat(val), []);
+  }
+  get coords(): Coord[] {
+    return this.cells.flatMap(cell => cell.coord);
+  }
+  get void(): Cell[] {
+    return this.filteredBy("void");
+  }
+  get unvoid(): Cell[] {
+    return this.filteredByNot("void");
+  }
+  get activeCells(): Cell[] {
+    return this.cells.filter(cell => cell.active);
+  }
+
+  // Emitters
+  get lasers(): Cell[] {
+    return this.filteredBy("laser");
+  }
+  get activeLasers(): Cell[] {
+    return this.filteredBy("laser").filter(laser => laser.active === true);
+  }
+  // Reflectors
+  get mirrors(): Cell[] {
+    return this.filteredBy("mirror");
+  }
+  get beamsplitters(): Cell[] {
+    return this.filteredBy("beamsplitter");
+  }
+  get coatedsplitters(): Cell[] {
+    return this.filteredBy("coatedsplitter");
+  }
+  get polarsplitters(): Cell[] {
+    return this.filteredBy("polarsplitter");
+  }
+  get reflectors(): Cell[] {
+    return this.mirrors.concat(
+      this.beamsplitters,
+      this.coatedsplitters,
+      this.polarsplitters
+    );
+  }
+  // Absorbers
+  get detectors(): Cell[] {
+    return this.filteredBy("detector");
+  }
+  get energizedDetectors(): Cell[] {
+    return this.detectors.filter(detector => detector.energized);
+  }
+  get unenergizedDetectors(): Cell[] {
+    return this.detectors.filter(detector => !detector.energized);
+  }
+  get mines(): Cell[] {
+    return this.filteredBy("mine");
+  }
+  get rocks(): Cell[] {
+    return this.filteredBy("rock");
+  }
+  get omnidetectors(): Cell[] {
+    return this.filteredBy("omnidetector");
+  }
+  get filters(): Cell[] {
+    return this.filteredBy("filter");
+  }
+  get walls(): Cell[] {
+    return this.filteredBy("wall");
+  }
+  get closedGates(): Cell[] {
+    return this.filteredBy("gate").filter(gate => !gate.active);
+  }
+  get openedGates(): Cell[] {
+    return this.filteredBy("gate").filter(gate => gate.active);
+  }
+  get absorbers(): Cell[] {
+    return this.detectors.concat(
+      this.mines,
+      this.rocks,
+      this.omnidetectors,
+      this.filters,
+      this.walls,
+      this.closedGates
+    );
+  }
+  // Polarizers
+  get absorbPolarizers(): Cell[] {
+    return this.filteredBy("absorb-polarizer");
+  }
+  get waveplates(): Cell[] {
+    return this.filteredBy("waveplate");
+  }
+  get sugars(): Cell[] {
+    return this.filteredBy("sugar");
+  }
+  get faradays(): Cell[] {
+    return this.filteredBy("faraday");
+  }
+  get polarizers(): Cell[] {
+    return this.absorbPolarizers.concat(
+      this.waveplates,
+      this.sugars,
+      this.faradays
+    );
+  }
+  // Phasers
+  get phaseincs(): Cell[] {
+    return this.filteredBy("phaseinc");
+  }
+  get phasedecs(): Cell[] {
+    return this.filteredBy("phasedec");
+  }
+  get phaseshifters(): Cell[] {
+    return this.phasedecs.concat(this.phaseincs);
   }
 }
