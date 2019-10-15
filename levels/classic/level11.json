@@ -1,6 +1,6 @@
 {
-  "id": 7,
-  "name": "Breaking interference with a rock",
+  "id": 11,
+  "name": "Attenuate the beam",
   "group": "Classic",
   "description": "",
   "grid": {
@@ -8,65 +8,65 @@
     "rows": 10,
     "cells": [
       {
-        "coord": { "y": 2, "x": 8 },
+        "coord": { "y": 4, "x": 1 },
         "element": "laser",
-        "rotation": 270,
+        "rotation": 0,
         "frozen": true,
         "active": true,
         "energized": false
       },
       {
         "coord": { "y": 4, "x": 3 },
-        "element": "mirror",
-        "rotation": 45,
-        "frozen": true,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 4, "x": 8 },
-        "element": "beamsplitter",
-        "rotation": 45,
-        "frozen": true,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 6, "x": 1 },
-        "element": "detector",
-        "rotation": 0,
-        "frozen": true,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 6, "x": 3 },
-        "element": "beamsplitter",
-        "rotation": 45,
-        "frozen": true,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 6, "x": 6 },
-        "element": "rock",
+        "element": "filter",
         "rotation": 0,
         "frozen": false,
         "active": false,
         "energized": false
       },
       {
-        "coord": { "y": 6, "x": 8 },
-        "element": "mirror",
-        "rotation": 45,
-        "frozen": true,
+        "coord": { "y": 4, "x": 4 },
+        "element": "filter",
+        "rotation": 0,
+        "frozen": false,
         "active": false,
         "energized": false
       },
       {
-        "coord": { "y": 8, "x": 3 },
+        "coord": { "y": 4, "x": 5 },
+        "element": "filter",
+        "rotation": 0,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 4, "x": 6 },
+        "element": "filter",
+        "rotation": 0,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 4, "x": 7 },
+        "element": "filter",
+        "rotation": 0,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 4, "x": 8 },
+        "element": "filter",
+        "rotation": 0,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 4, "x": 10 },
         "element": "detector",
-        "rotation": 90,
+        "rotation": 180,
         "frozen": true,
         "active": false,
         "energized": false

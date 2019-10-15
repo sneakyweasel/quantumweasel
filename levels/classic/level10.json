@@ -1,14 +1,14 @@
 {
-  "id": 2,
-  "name": "Divide and Conquer!",
+  "id": 10,
+  "name": "Balance Input Amplitudes",
   "group": "Classic",
   "description": "",
   "grid": {
-    "cols": 10,
+    "cols": 12,
     "rows": 10,
     "cells": [
       {
-        "coord": { "y": 2, "x": 4 },
+        "coord": { "y": 2, "x": 5 },
         "element": "detector",
         "rotation": 270,
         "frozen": true,
@@ -16,15 +16,23 @@
         "energized": false
       },
       {
-        "coord": { "y": 2, "x": 6 },
-        "element": "detector",
-        "rotation": 270,
+        "coord": { "y": 2, "x": 7 },
+        "element": "mine",
+        "rotation": 0,
         "frozen": true,
         "active": false,
         "energized": false
       },
       {
-        "coord": { "y": 4, "x": 4 },
+        "coord": { "y": 4, "x": 3 },
+        "element": "mirror",
+        "rotation": 45,
+        "frozen": true,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 4, "x": 5 },
         "element": "beamsplitter",
         "rotation": 45,
         "frozen": false,
@@ -32,7 +40,7 @@
         "energized": false
       },
       {
-        "coord": { "y": 4, "x": 6 },
+        "coord": { "y": 4, "x": 7 },
         "element": "beamsplitter",
         "rotation": 45,
         "frozen": false,
@@ -40,15 +48,15 @@
         "energized": false
       },
       {
-        "coord": { "y": 4, "x": 8 },
-        "element": "detector",
-        "rotation": 180,
+        "coord": { "y": 4, "x": 9 },
+        "element": "omnidetector",
+        "rotation": 0,
         "frozen": true,
         "active": false,
         "energized": false
       },
       {
-        "coord": { "y": 5, "x": 6 },
+        "coord": { "y": 6, "x": 5 },
         "element": "rock",
         "rotation": 0,
         "frozen": true,
@@ -56,15 +64,7 @@
         "energized": false
       },
       {
-        "coord": { "y": 6, "x": 0 },
-        "element": "detector",
-        "rotation": 0,
-        "frozen": true,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 6, "x": 2 },
+        "coord": { "y": 6, "x": 7 },
         "element": "beamsplitter",
         "rotation": 45,
         "frozen": false,
@@ -72,25 +72,33 @@
         "energized": false
       },
       {
-        "coord": { "y": 6, "x": 4 },
-        "element": "beamsplitter",
-        "rotation": 135,
-        "frozen": false,
+        "coord": { "y": 6, "x": 9 },
+        "element": "mirror",
+        "rotation": 45,
+        "frozen": true,
         "active": false,
         "energized": false
       },
       {
-        "coord": { "y": 6, "x": 8 },
+        "coord": { "y": 8, "x": 1 },
         "element": "laser",
-        "rotation": 180,
+        "rotation": 0,
         "frozen": true,
         "active": true,
         "energized": false
       },
       {
-        "coord": { "y": 8, "x": 2 },
-        "element": "detector",
-        "rotation": 90,
+        "coord": { "y": 8, "x": 3 },
+        "element": "beamsplitter",
+        "rotation": 45,
+        "frozen": true,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 8, "x": 7 },
+        "element": "mirror",
+        "rotation": 45,
         "frozen": true,
         "active": false,
         "energized": false

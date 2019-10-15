@@ -1,6 +1,6 @@
 // import json from "../levels/dev/interferometer.json";
-// import json from "../levels/classic/level4.json";
-import json from "../levels/dev/beamsplitter.json";
+import json from "../levels/classic/level12.json";
+// import json from "../levels/dev/beamsplitter.json";
 import Level from "./Level";
 import Game from "./Game";
 

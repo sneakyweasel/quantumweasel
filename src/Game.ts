@@ -213,11 +213,22 @@ export default class Game {
 
     // Display quantum photon
     this.currentFrame.quantum.forEach(particle => {
-      if (particle && particle.coord.equal(coord) && particle.isVertical) {
-        charList.push("d");
-      }
-      if (particle && particle.coord.equal(coord) && !particle.isVertical) {
+      // console.log("OPACITY:" + particle.opacity);
+      if (
+        particle &&
+        particle.coord.equal(coord) &&
+        particle.isVertical &&
+        particle.opacity > 0.1
+      ) {
         charList.push("P");
+      }
+      if (
+        particle &&
+        particle.coord.equal(coord) &&
+        !particle.isVertical &&
+        particle.opacity > 0.1
+      ) {
+        charList.push("d");
       }
     });
     this.display.draw(

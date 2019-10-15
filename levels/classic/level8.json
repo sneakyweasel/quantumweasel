@@ -1,24 +1,16 @@
 {
-  "id": 3,
-  "name": "Not all but everywhere",
+  "id": 8,
+  "name": "Your own Michelson-Morley",
   "group": "Classic",
-  "description": "Error with 90° beamsplitter",
+  "description": "",
   "grid": {
-    "cols": 10,
+    "cols": 12,
     "rows": 10,
     "cells": [
       {
-        "coord": { "y": 2, "x": 4 },
-        "element": "detector",
-        "rotation": 270,
-        "frozen": true,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 3, "x": 4 },
-        "element": "beamsplitter",
-        "rotation": 180,
+        "coord": { "y": 2, "x": 7 },
+        "element": "mirror",
+        "rotation": 0,
         "frozen": false,
         "active": false,
         "energized": false
@@ -32,23 +24,23 @@
         "energized": false
       },
       {
-        "coord": { "y": 4, "x": 4 },
+        "coord": { "y": 4, "x": 7 },
         "element": "beamsplitter",
         "rotation": 45,
-        "frozen": false,
-        "active": false,
-        "energized": false
-      },
-      {
-        "coord": { "y": 4, "x": 6 },
-        "element": "detector",
-        "rotation": 180,
         "frozen": true,
         "active": false,
         "energized": false
       },
       {
-        "coord": { "y": 6, "x": 4 },
+        "coord": { "y": 4, "x": 9 },
+        "element": "mirror",
+        "rotation": 90,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 6, "x": 7 },
         "element": "detector",
         "rotation": 90,
         "frozen": true,

@@ -10,7 +10,7 @@
       {
         "coord": { "y": 2, "x": 1 },
         "element": "laser",
-        "rotation": 90,
+        "rotation": 0,
         "frozen": true,
         "active": true,
         "energized": false
@@ -34,7 +34,7 @@
       {
         "coord": { "y": 2, "x": 7 },
         "element": "detector",
-        "rotation": 180,
+        "rotation": 270,
         "frozen": true,
         "active": false,
         "energized": false
