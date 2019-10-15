@@ -1,14 +1,11 @@
+// TODO: work on the toolbox
 import { Photons } from "quantum-tensors";
-import { LevelInterface } from "./Level";
-// LEVEL CLASS
-// Levels are loaded as working solutions to the puzzle
-// Then the frozen elements are removed and put in the toolbox
-
 import Grid, { GridInterface } from "./Grid";
 import Hint, { HintInterface } from "./Hint";
 import Goal, { GoalInterface } from "./Goal";
 import Inventory from "./Inventory";
 
+/** A level interface composed of primitives for display */
 export interface LevelInterface {
   id: number;
   name: string;
@@ -19,6 +16,11 @@ export interface LevelInterface {
   hints: HintInterface[];
 }
 
+/**
+ * Level class describes the level data and logic
+ * Levels are loaded as a JSON file of a solution
+ * Unfrozen elements are then processed into the players inventory
+ */
 export default class Level {
   id: number;
   name: string;
@@ -51,10 +53,14 @@ export default class Level {
     this.goals = goals;
     this.hints = hints;
     this.completed = completed;
+    // Initiate quantum state
     this.state = new Photons(grid.cols, grid.rows);
   }
 
-  // Override toString method in order to display ascii level
+  /**
+   * String output of a level
+   * @returns a string describing the level
+   */
   toString(): string {
     return `\
 LEVEL: ${this.name} [${this.grid.cols}x${this.grid.rows}]\n\
