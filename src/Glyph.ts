@@ -71,8 +71,8 @@ export default class Glyph {
     tileMap["P"] = [0 * tilesize, 10 * tilesize];
     tileMap["d"] = [1 * tilesize, 10 * tilesize];
     // Laser dotted lines
-    tileMap["v"] = [0 * tilesize, 23 * tilesize];
-    tileMap["h"] = [1 * tilesize, 23 * tilesize];
+    tileMap["8"] = [0 * tilesize, 23 * tilesize];
+    tileMap["4"] = [1 * tilesize, 23 * tilesize];
 
     return tileMap;
   }

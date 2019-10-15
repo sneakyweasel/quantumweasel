@@ -162,6 +162,32 @@ export default class Grid {
   }
 
   /**
+   * Move all elements to a common direction
+   * @param direction direction string
+   */
+  public moveAll(direction: string): void {
+    this.cells.map(cell => {
+      switch (direction) {
+        case "top":
+          cell.coord = cell.coord.top;
+          break;
+        case "bottom":
+          cell.coord = cell.coord.bottom;
+          break;
+        case "left":
+          cell.coord = cell.coord.left;
+          break;
+        case "right":
+          cell.coord = cell.coord.right;
+          break;
+        default:
+          throw new Error("Wrong direction given: [top, bottom, left, right]");
+      }
+      this.set(cell);
+    });
+  }
+
+  /**
    * Fire all the lasers
    * @returns the particles fired
    */

@@ -159,7 +159,7 @@ export default class Game {
    */
   private drawFrame(frame = this.currentFrame): void {
     console.log(`--- Displaying frame ${this.frameNumber} ---`);
-    console.log(this.currentFrame.toString());
+    // console.log(this.currentFrame.toString());
     displayText(
       "laser",
       `Active particles: ${Particle.manyToString(frame.particles)}`

@@ -99,6 +99,20 @@ export default class Player implements Actor {
         FileSaver.saveAs(blob, "level.json");
         break;
 
+      // Move all board elements
+      case KEYS.VK_NUMPAD8:
+        this.level.grid.moveAll("top");
+        break;
+      case KEYS.VK_NUMPAD2:
+        this.level.grid.moveAll("bottom");
+        break;
+      case KEYS.VK_NUMPAD4:
+        this.level.grid.moveAll("left");
+        break;
+      case KEYS.VK_NUMPAD6:
+        this.level.grid.moveAll("right");
+        break;
+
       // Elements
       // Cycle through elements in group
       case KEYS.VK_QUOTE:
@@ -119,6 +133,11 @@ export default class Player implements Actor {
         break;
       case KEYS.VK_5:
         this.cycleNext("Phase");
+        break;
+      case KEYS.VK_DELETE:
+        this.cell.element = Element.fromName("void");
+        this.cell.frozen = false;
+        this.cell.active = false;
         break;
       default:
         break;
