@@ -81,6 +81,14 @@ export default class Element {
         return qt.glassSlab();
       case "detector":
         return qt.attenuator(0);
+      case "sugar":
+        return qt.sugarSolution();
+      case "polarsplitter":
+        if (param === 0) {
+          return qt.polarizingBeamsplitter(135);
+        } else {
+          return qt.polarizingBeamsplitter(45);
+        }
       case "mine":
         return qt.attenuator(0);
       case "rock":
