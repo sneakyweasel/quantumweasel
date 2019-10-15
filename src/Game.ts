@@ -130,6 +130,7 @@ export default class Game {
    */
   private drawGame(): void {
     this.display.clear();
+    this.grid.paths = this.grid.computePaths();
     this.displayDebug();
     this.drawFrame();
   }

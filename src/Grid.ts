@@ -27,6 +27,7 @@ export default class Grid {
   public rows: number;
   public matrix: Cell[][];
   public clusters: Cluster[];
+  public paths: Particle[];
 
   constructor(rows: number, cols: number, matrix?: Cell[][]) {
     this.rows = rows;
@@ -48,6 +49,8 @@ export default class Grid {
         }
       }
     }
+
+    this.paths = this.computePaths();
   }
 
   /**
@@ -175,7 +178,7 @@ export default class Grid {
    */
   coordIntensitySum(coord: Coord): number {
     let sum = 0;
-    this.laserCoords()
+    this.paths
       .filter(particleInterface => {
         return coord.equal(particleInterface.coord);
       })
@@ -268,7 +271,7 @@ export default class Grid {
    * Gives the classical laser path of a specific particle
    * @returns a list of coordinates
    * */
-  laserCoords(): Particle[] {
+  computePaths(): Particle[] {
     const laserCoords: Particle[] = [];
     const particles: Particle[] = [];
     this.activeLasers.map(laser => {
