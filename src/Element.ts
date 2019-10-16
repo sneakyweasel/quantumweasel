@@ -31,7 +31,6 @@ export default class Element {
   phase: number;
   ascii: string[];
   tiles: number[][];
-  rotationState: number;
   glyph: Glyph;
 
   constructor(

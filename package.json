@@ -7,7 +7,7 @@
   "author": "sneakyweasel",
   "private": true,
   "type": "module",
-  "main": "build/main.js",
+  "main": "./main.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/sneakyweasel/quantumweasel"
@@ -37,7 +37,6 @@
     }
   },
   "devDependencies": {
-    "@types/jest": "^21.1.5",
     "@types/node": "^8.0.47",
     "@types/rot-js": "^0.6.5",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
@@ -60,6 +59,7 @@
   },
   "dependencies": {
     "@types/file-saver": "^2.0.1",
+    "@types/jest": "^24.0.19",
     "file-saver": "^2.0.2",
     "quantum-tensors": "stared/quantum-tensors#JoyOfDependencies",
     "rot-js": "^2.1.1"

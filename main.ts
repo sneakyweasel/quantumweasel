@@ -1,9 +1,0 @@
-export { default as Level } from "./src/Level";
-export { default as Grid } from "./src/Grid";
-export { default as Cell } from "./src/Cell";
-export { default as Coord } from "./src/Coord";
-export { default as Hint } from "./src/Hint";
-export { default as Goal } from "./src/Goal";
-export { default as Element } from "./src/Element";
-export { default as Frame } from "./src/Frame";
-export { default as Particle } from "./src/Particle";

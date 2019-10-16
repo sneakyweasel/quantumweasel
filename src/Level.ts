@@ -3,7 +3,7 @@ import { Photons } from "quantum-tensors";
 import Grid, { GridInterface } from "./Grid";
 import Hint, { HintInterface } from "./Hint";
 import Goal, { GoalInterface } from "./Goal";
-import Inventory from "./Inventory";
+// import Inventory from "./Inventory";
 
 /** A level interface composed of primitives for display */
 export interface LevelInterface {
@@ -29,7 +29,7 @@ export default class Level {
   grid: Grid;
   goals: Goal[];
   hints: Hint[];
-  toolbox: Inventory;
+  // toolbox: Inventory;
   completed: boolean;
   state: Photons;
 
@@ -70,7 +70,6 @@ ${this.grid.toString()}\n\
 GOALS: ${this.goals.map(i => i.toString())}\n\
 GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
 HINTS: ${this.hints.map(i => i.toString())}\n
-TOOLBOX: ${JSON.stringify(this.toolbox)}\n
 `;
   }
 

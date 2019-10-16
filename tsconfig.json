@@ -6,8 +6,8 @@
             "es2019",
             "dom"
         ],
-        "typeRoots" : ["./src/types"],
-        // "types": [],
+        "typeRoots" : ["./src/types/quantum-tensors", "./node_modules/@types/"],
+        "types": [],
         "alwaysStrict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
