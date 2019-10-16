@@ -7,7 +7,7 @@
   "author": "sneakyweasel",
   "private": true,
   "type": "module",
-  "main": "./main.ts",
+  "main": "./build/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/sneakyweasel/quantumweasel"
