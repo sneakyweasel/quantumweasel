@@ -26,9 +26,9 @@
     "tsc-build": "tsc --pretty --outDir ./build",
     "start": "webpack-dev-server --mode development --progress --color",
     "serve": "live-server --port=3000 --open=/html/",
-	"graph": "madge --circular ./src/app.ts",
-	"build": "tsc --pretty --outDir ./build",
-    "webpack-build": "webpack --mode production"
+    "graph": "madge --circular ./src/app.ts",
+    "build": "webpack --mode production",
+    "postinstall": "tsc --outDir ./build"
   },
   "husky": {
     "hooks": {
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "file-saver": "^2.0.2",
-    "quantum-tensors": "stared/quantum-tensors#master",
+    "quantum-tensors": "stared/quantum-tensors#JoyOfDependencies",
     "rot-js": "^2.1.1"
   },
   "jest": {

@@ -7,14 +7,14 @@ describe("Grid", () => {
   it("should create grid from col and row", () => {
     const grid = new Grid(3, 6);
     expect(grid instanceof Grid).toBe(true);
-    expect(grid.toString()).toEqual("......\n......\n......\n");
+    expect(grid.ascii).toEqual("......\n......\n......\n");
   });
 
   it("should set the value of a cell", () => {
     const grid = new Grid(3, 6);
     const coord = new Coord(1, 5);
     grid.set(new Cell(coord, Element.fromName("mirror")));
-    expect(grid.toString()).toEqual("......\n.....|\n......\n");
+    expect(grid.ascii).toEqual("......\n.....-\n......\n");
   });
 
   it("should retrieve a cell through its coordinates in the grid", () => {
@@ -31,7 +31,7 @@ describe("Grid", () => {
     const grid = new Grid(3, 6);
     const coord = new Coord(4, 4);
     grid.set(new Cell(coord, Element.fromName("mirror")));
-    expect(grid.toString()).toEqual("......\n......\n......\n");
+    expect(grid.ascii).toEqual("......\n......\n......\n");
   });
 
   it("should allow to move an element from a cell to another if both are unfrozen", () => {
@@ -40,7 +40,7 @@ describe("Grid", () => {
     const dest = new Coord(2, 2);
     grid.set(new Cell(orig, Element.fromName("mirror")));
     grid.move(orig, dest);
-    expect(grid.toString()).toEqual("......\n......\n..|...\n");
+    expect(grid.ascii).toEqual("......\n......\n..-...\n");
   });
 
   it("should forbid moving an element to another cell if any is frozen", () => {
@@ -49,7 +49,7 @@ describe("Grid", () => {
     const dest = new Coord(2, 2);
     grid.set(new Cell(orig, Element.fromName("mirror"), 0, true));
     grid.move(orig, dest);
-    expect(grid.toString()).toEqual("......\n.|....\n......\n");
+    expect(grid.ascii).toEqual("......\n.-....\n......\n");
   });
 
   it("should allow to filter cells by element type", () => {

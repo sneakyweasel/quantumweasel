@@ -29,7 +29,7 @@ describe("Frame", () => {
     grid.set(laser);
     const particle = laser.fire();
     particle.next();
-    expect(particle.coord).toEqual(laser.coord.top);
+    expect(particle.coord).toEqual(laser.coord.right);
   });
 
   it("should propagate a quantum particle in the correct direction", () => {
@@ -41,7 +41,7 @@ describe("Frame", () => {
     grid.set(laser);
     const particle = laser.fire();
     particle.next();
-    expect(particle.coord).toEqual(laser.coord.top);
+    expect(particle.coord).toEqual(laser.coord.right);
   });
 
   it("shouldn't create a particle from a inactive laser", () => {
