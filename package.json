@@ -37,7 +37,6 @@
     }
   },
   "devDependencies": {
-    "@types/file-saver": "^2.0.1",
     "@types/jest": "^21.1.5",
     "@types/node": "^8.0.47",
     "@types/rot-js": "^0.6.5",
@@ -60,6 +59,7 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
+    "@types/file-saver": "^2.0.1",
     "file-saver": "^2.0.2",
     "quantum-tensors": "stared/quantum-tensors#JoyOfDependencies",
     "rot-js": "^2.1.1"
