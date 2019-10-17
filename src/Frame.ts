@@ -6,6 +6,7 @@
 // - All goals done
 // - Not enough intensity
 // - No more particles
+// TODO: Don't return whole level at each frame
 import Coord from "./Coord";
 import Cell from "./Cell";
 import Grid from "./Grid";
@@ -61,11 +62,10 @@ export default class Frame {
   next(): Frame {
     const classical: Particle[] = [];
     const quantum: Particle[] = [];
-    // console.log("Lasers:" + this.level.grid.unvoid.cellList);
 
     // Initialize photons from grid
     if (this.step === 0) {
-      this.grid.lasers.cellList.forEach(laser => {
+      this.level.grid.cluster.lasers.cellList.forEach(laser => {
         console.log(laser.toString());
         // Classical code
         classical.push(laser.fire());
@@ -78,7 +78,7 @@ export default class Frame {
         );
         console.debug("quantum", this.level.state.vector.toString());
       });
-      return new Frame(this.level, this.step + 1, classical, quantum, this.end);
+      return new Frame(this.level, 1, classical, quantum, false);
 
       // Compute frames
     } else {
@@ -98,6 +98,7 @@ export default class Frame {
     console.debug("quantum", this.level.state.vector.toString());
     // Act
     const operations: [number, number, qt.Operator][] = this.grid.operatorList;
+    console.log("OPERATIONS: " + operations);
     // Debug
     this.level.state.actOnSinglePhotons(operations);
     console.debug(this.level.state.vector.toString());

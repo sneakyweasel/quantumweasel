@@ -76,7 +76,7 @@ export default class Grid extends Cluster {
    * @returns list of operators
    */
   get operatorList(): [number, number, Operator][] {
-    return this.unvoid.cellList.map(cell => {
+    return this.cluster.unvoid.cellList.map(cell => {
       return [
         cell.coord.x,
         cell.coord.y,

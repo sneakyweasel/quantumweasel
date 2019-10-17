@@ -5,7 +5,8 @@ import Frame from "./Frame";
 
 // Load level
 const level = Level.importLevel(json);
-console.log("LASERS CLUSTER:" + level.grid.cluster.filteredBy("Laser"));
+// console.log("LASERS CLUSTER:" + level.grid.cluster.filteredBy("Laser"));
+console.log("LASERS CLUSTER:" + level.grid.cluster.lasers);
 
 // Create first frame
 const frames: Frame[] = [];
