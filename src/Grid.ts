@@ -206,14 +206,14 @@ export default class Grid extends Cluster {
    * @param maxFrames Max number of frames to compute
    * @returns list of "path particles"
    */
-  laserPath(particle: Particle, maxFrames = 50): Particle[] {
+  laserPath(particle: Particle, maxFrames = 40): Particle[] {
     // Make a depp clone of the particle
     let alive: Particle[] = [particle];
     const dead: Particle[] = [];
 
     // Simulate path with a specific number of frames
     for (let i = 0; i < maxFrames; i++) {
-      // Process each living particle
+      // Propagate each living particle
       alive.forEach(particle => {
         particle.next();
 
@@ -223,7 +223,7 @@ export default class Grid extends Cluster {
         }
 
         // Absorption
-        this.absorbers.cellList.forEach((absorber: Cell) => {
+        this.cluster.absorbers.cellList.forEach((absorber: Cell) => {
           if (particle.on(absorber)) {
             particle.intensity -=
               particle.intensity * absorber.element.absorption;
@@ -231,13 +231,13 @@ export default class Grid extends Cluster {
         });
 
         // Reflection
-        this.mirrors.cellList.forEach((mirror: Cell) => {
+        this.cluster.mirrors.cellList.forEach((mirror: Cell) => {
           if (particle.on(mirror)) {
             particle.direction =
               (2 * mirror.rotation - particle.direction + 360) % 360;
           }
         });
-        this.polarbeamsplitters.cellList.forEach((polar: Cell) => {
+        this.cluster.polarbeamsplitters.cellList.forEach((polar: Cell) => {
           if (particle.on(polar)) {
             if (polar.rotation === 0) {
               const direction =
@@ -255,7 +255,7 @@ export default class Grid extends Cluster {
             }
           }
         });
-        this.beamsplitters.cellList.forEach((beamsplitter: Cell) => {
+        this.cluster.beamsplitters.cellList.forEach((beamsplitter: Cell) => {
           if (particle.on(beamsplitter)) {
             // Dim the current particle intensity
             particle.intensity /= 2;
@@ -269,7 +269,7 @@ export default class Grid extends Cluster {
         });
 
         // Phase shifters
-        this.phaseshifters.cellList.forEach((phaseshifter: Cell) => {
+        this.cluster.phaseshifters.cellList.forEach((phaseshifter: Cell) => {
           if (particle.on(phaseshifter)) {
             particle.phase = (particle.phase + phaseshifter.element.phase) % 1;
           }
@@ -304,7 +304,7 @@ export default class Grid extends Cluster {
   computePaths(): Particle[] {
     const laserCoords: Particle[] = [];
     const particles: Particle[] = [];
-    this.lasers.active.cellList.map(laser => {
+    this.cluster.lasers.active.cellList.map(laser => {
       particles.push(laser.fire());
     });
     particles.forEach(particle => {

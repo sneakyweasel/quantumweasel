@@ -128,7 +128,11 @@ export default class Particle extends Coord {
     }
   }
 
-  // Compute next simulation step
+  /**
+   *  Propagate the particle in a classical simulation
+   * @param repeat number of times to repeat
+   * @returns updated Particle
+   */
   next(repeat = 1): Particle {
     // Moving CW in increment of 90°
     for (let i = 0; i < repeat; i++) {
