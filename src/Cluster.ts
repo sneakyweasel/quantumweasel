@@ -11,7 +11,7 @@ export default class Cluster {
   cellList: Cell[];
 
   // Allow constructor with origin coord, number array and direction
-  constructor(cellList: Cell[]) {
+  constructor(cellList: Cell[] = []) {
     this.cellList = cellList;
   }
 
@@ -52,7 +52,10 @@ export default class Cluster {
     return cluster;
   }
 
-  // import cells
+  /**
+   * Import liqr of files in primitive types
+   * @param jsonCells : cells
+   */
   public importCluster(jsonCells: CellInterface[]): void {
     jsonCells.map(jsonCell => {
       const cell = Cell.importCell(jsonCell);
@@ -60,7 +63,9 @@ export default class Cluster {
     });
   }
 
-  // export JSON file to save state oi the game
+  /**
+   * Export list of cells in primitives
+   */
   public exportCluster(): CellInterface[] {
     return this.cellList
       .filter(cell => {
@@ -69,6 +74,14 @@ export default class Cluster {
       .map(cell => {
         return cell.exportCell();
       });
+  }
+
+  /**
+   * Override toString() method
+   * @returns string
+   */
+  public toString(): string {
+    return this.cellList.map(cell => cell.toString()).join(" | ");
   }
 
   /**
@@ -124,6 +137,7 @@ export default class Cluster {
   // Emitters
   get lasers(): Cluster {
     return this.filteredBy(Elem.Laser);
+    // return this.filteredBy("Laser");
   }
 
   // Reflectors

@@ -55,6 +55,40 @@ export default class Frame {
   }
 
   /**
+   * Compute next classical and quantum frame
+   * @returns Frame
+   */
+  next(): Frame {
+    const classical: Particle[] = [];
+    const quantum: Particle[] = [];
+    // console.log("Lasers:" + this.level.grid.unvoid.cellList);
+
+    // Initialize photons from grid
+    if (this.step === 0) {
+      this.grid.lasers.cellList.forEach(laser => {
+        console.log(laser.toString());
+        // Classical code
+        classical.push(laser.fire());
+        // Quantum code
+        this.level.state.addPhotonIndicator(
+          laser.coord.x,
+          laser.coord.y,
+          laser.ascii,
+          "V"
+        );
+        console.debug("quantum", this.level.state.vector.toString());
+      });
+      return new Frame(this.level, this.step + 1, classical, quantum, this.end);
+
+      // Compute frames
+    } else {
+      const quantum = this.nextQuantum();
+      const classical = this.nextClassical();
+      return new Frame(this.level, this.step + 1, classical, quantum, this.end);
+    }
+  }
+
+  /**
    * Compute next quantum frame
    * @returns Particle[]
    */
@@ -82,36 +116,9 @@ export default class Frame {
   }
 
   /**
-   * Compute next classical and quantum frame
-   * @returns Frame
+   * Compute next classical frame
+   * @returns Particle[]
    */
-  next(): Frame {
-    const classical: Particle[] = [];
-    const quantum: Particle[] = [];
-
-    // Initialize photons from grid
-    if (this.step === 0) {
-      this.grid.lasers.cellList.forEach(laser => {
-        // Classical code
-        classical.push(laser.fire());
-        // Quantum code
-        this.level.state.addPhotonIndicator(
-          laser.coord.x,
-          laser.coord.y,
-          laser.ascii,
-          "V"
-        );
-      });
-      return new Frame(this.level, this.step + 1, classical, quantum, this.end);
-
-      // Compute frames
-    } else {
-      const quantum = this.nextQuantum();
-      const classical = this.nextClassical();
-      return new Frame(this.level, this.step + 1, classical, quantum, this.end);
-    }
-  }
-
   nextClassical(): Particle[] {
     return [];
   }

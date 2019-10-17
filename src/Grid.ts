@@ -25,19 +25,14 @@ export default class Grid extends Cluster {
   public cols: number;
   public rows: number;
   public matrix: Cell[][];
-  public cluster: Cell[];
+  public cluster: Cluster;
   public paths: Particle[];
 
-  constructor(
-    rows: number,
-    cols: number,
-    matrix?: Cell[][],
-    cluster: Cell[] = []
-  ) {
-    super(cluster);
+  constructor(rows: number, cols: number, cells?: Cell[], matrix?: Cell[][]) {
+    super(cells);
     this.rows = rows;
     this.cols = cols;
-    this.cluster = [];
+    this.cluster = new Cluster([]);
 
     // If matrix specified extract cells
     if (matrix) {
@@ -54,8 +49,15 @@ export default class Grid extends Cluster {
         }
       }
     }
-
     this.paths = this.computePaths();
+  }
+
+  /** List of helpers */
+  get cells(): Cell[] {
+    return this.matrix.reduce((acc, val) => acc.concat(val), []);
+  }
+  get coords(): Coord[] {
+    return this.cells.flatMap(cell => cell.coord);
   }
 
   /**
@@ -390,6 +392,7 @@ export default class Grid extends Cluster {
   public importGrid(jsonCells: CellInterface[]): void {
     jsonCells.forEach(jsonCell => {
       const cell = Cell.importCell(jsonCell);
+      this.cluster.cellList.push(cell);
       this.set(cell);
     });
   }
@@ -408,13 +411,5 @@ export default class Grid extends Cluster {
       rows: this.rows,
       cells: cells
     };
-  }
-
-  /** List of helpers */
-  get cells(): Cell[] {
-    return this.matrix.reduce((acc, val) => acc.concat(val), []);
-  }
-  get coords(): Coord[] {
-    return this.cells.flatMap(cell => cell.coord);
   }
 }
