@@ -85,10 +85,10 @@ export default class Frame {
     return this.grid.cells;
   }
   get lasers(): Cell[] {
-    return this.grid.lasers;
+    return this.grid.lasers.cellList;
   }
   get activeLasers(): Cell[] {
-    return this.grid.activeLasers;
+    return this.grid.lasers.active.cellList;
   }
   get goals(): Goal[] {
     return this.level.goals;
@@ -133,20 +133,6 @@ export default class Frame {
   next(): Frame {
     this.quantum = this.nextQuantum();
 
-    // Absorbers
-    const detectors = this.grid.detectors;
-    const rocks = this.grid.rocks;
-    const mines = this.grid.mines;
-    const filters = this.grid.absorbers;
-    const absorbers: Cell[] = detectors.concat(rocks, mines, filters);
-    // Reflectors
-    const mirrors = this.grid.mirrors;
-    const beamsplitters = this.grid.beamsplitters;
-    // Phase shifters
-    const phaseincs = this.grid.phaseincs;
-    const phasedecs = this.grid.phasedecs;
-    const phaseshifters: Cell[] = phaseincs.concat(phasedecs);
-
     // Loop through particles
     this.particles.forEach(particle => {
       particle.next();
@@ -155,20 +141,20 @@ export default class Frame {
       }
 
       // Absorption
-      absorbers.forEach((absorber: Cell) => {
+      this.grid.absorbers.cellList.map((absorber: Cell) => {
         if (particle.on(absorber)) {
           particle.intensity *= absorber.element.absorption;
         }
       });
 
       // Reflection
-      mirrors.forEach((mirror: Cell) => {
+      this.grid.mirrors.cellList.map((mirror: Cell) => {
         if (particle.on(mirror)) {
           particle.direction =
             (2 * mirror.rotation - particle.direction + 360) % 360;
         }
       });
-      beamsplitters.forEach((beamsplitter: Cell) => {
+      this.grid.beamsplitters.cellList.map((beamsplitter: Cell) => {
         if (particle.on(beamsplitter)) {
           // Dim the current particle intensity
           particle.intensity /= 2;
@@ -182,7 +168,7 @@ export default class Frame {
       });
 
       // Phase shifters
-      phaseshifters.forEach((phaseshifter: Cell) => {
+      this.grid.phaseshifters.cellList.map((phaseshifter: Cell) => {
         if (particle.on(phaseshifter)) {
           particle.phase = (particle.phase + phaseshifter.element.phase) % 1;
         }

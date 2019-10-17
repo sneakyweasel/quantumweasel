@@ -17,7 +17,7 @@ const jsonLevelInterface: LevelInterface = {
     cells: [
       {
         coord: { y: 2, x: 1 },
-        element: "laser",
+        element: "Laser",
         rotation: 90,
         frozen: true,
         active: false,
@@ -38,7 +38,7 @@ describe("Level", () => {
         {
           active: false,
           coord: { x: 1, y: 2 },
-          element: "laser",
+          element: "Laser",
           energized: false,
           frozen: true,
           rotation: 90
@@ -56,7 +56,7 @@ describe("Level", () => {
   //       {
   //         active: false,
   //         coord: { x: 2, y: 0 },
-  //         element: "gate",
+  //         element: "Gate",
   //         energized: false,
   //         frozen: false,
   //         rotation: 0
@@ -64,7 +64,7 @@ describe("Level", () => {
   //       {
   //         active: false,
   //         coord: { x: 3, y: 0 },
-  //         element: "laser",
+  //         element: "Laser",
   //         energized: false,
   //         frozen: false,
   //         rotation: 0

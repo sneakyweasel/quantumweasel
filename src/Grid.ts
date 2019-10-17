@@ -75,33 +75,12 @@ export default class Grid extends Cluster {
    * @returns list of operators
    */
   get operatorList(): [number, number, Operator][] {
-    return this.unvoid.map(cell => {
+    return this.unvoid.cellList.map(cell => {
       return [
         cell.coord.x,
         cell.coord.y,
         cell.element.transition(cell.rotation)
       ];
-    });
-  }
-
-  /**
-   * Filters cells by name (needs refactoring)
-   * @param name Name of the element to look for
-   * @returns list of cells of a specific type
-   */
-  public filteredBy(name: string): Cell[] {
-    return this.cells.filter(cell => {
-      return cell.element.name === name;
-    });
-  }
-
-  /**
-   * Filter cells that are not of a specific type
-   * @param name Name of the element to avoid
-   */
-  public filteredByNot(name: string): Cell[] {
-    return this.cells.filter(cell => {
-      return cell.element.name !== name;
     });
   }
 
@@ -198,7 +177,7 @@ export default class Grid extends Cluster {
    * @returns the particles fired
    */
   public fireLasers(): Particle[] {
-    return this.activeLasers.map(laser => {
+    return this.lasers.active.cellList.map(laser => {
       return laser.fire();
     });
   }
@@ -243,7 +222,7 @@ export default class Grid extends Cluster {
         }
 
         // Absorption
-        this.absorbers.forEach((absorber: Cell) => {
+        this.absorbers.cellList.forEach((absorber: Cell) => {
           if (particle.on(absorber)) {
             particle.intensity -=
               particle.intensity * absorber.element.absorption;
@@ -251,13 +230,13 @@ export default class Grid extends Cluster {
         });
 
         // Reflection
-        this.mirrors.forEach((mirror: Cell) => {
+        this.mirrors.cellList.forEach((mirror: Cell) => {
           if (particle.on(mirror)) {
             particle.direction =
               (2 * mirror.rotation - particle.direction + 360) % 360;
           }
         });
-        this.polarsplitters.forEach((polar: Cell) => {
+        this.polarbeamsplitters.cellList.forEach((polar: Cell) => {
           if (particle.on(polar)) {
             if (polar.rotation === 0) {
               const direction =
@@ -275,7 +254,7 @@ export default class Grid extends Cluster {
             }
           }
         });
-        this.beamsplitters.forEach((beamsplitter: Cell) => {
+        this.beamsplitters.cellList.forEach((beamsplitter: Cell) => {
           if (particle.on(beamsplitter)) {
             // Dim the current particle intensity
             particle.intensity /= 2;
@@ -289,7 +268,7 @@ export default class Grid extends Cluster {
         });
 
         // Phase shifters
-        this.phaseshifters.forEach((phaseshifter: Cell) => {
+        this.phaseshifters.cellList.forEach((phaseshifter: Cell) => {
           if (particle.on(phaseshifter)) {
             particle.phase = (particle.phase + phaseshifter.element.phase) % 1;
           }
@@ -324,7 +303,7 @@ export default class Grid extends Cluster {
   computePaths(): Particle[] {
     const laserCoords: Particle[] = [];
     const particles: Particle[] = [];
-    this.activeLasers.map(laser => {
+    this.lasers.active.cellList.map(laser => {
       particles.push(laser.fire());
     });
     particles.forEach(particle => {
@@ -356,7 +335,7 @@ export default class Grid extends Cluster {
    * Set the adjacent cells as active if they are near an energized detector
    */
   activateCells(): void {
-    this.unvoid.forEach(cell => {
+    this.unvoid.cellList.forEach(cell => {
       if (cell.element.name !== "laser") {
         cell.active = false;
       }
@@ -406,27 +385,6 @@ export default class Grid extends Cluster {
   }
 
   /**
-   * Trim the void around the cells and return the smallest level container
-   * @returns a list of cells with trimmed coordinates
-   */
-  public compress(): Cell[] {
-    const cells = this.unvoid;
-    const minX = Math.min(...cells.map(cell => cell.coord.x));
-    const minY = Math.min(...cells.map(cell => cell.coord.y));
-    const maxX = Math.max(...cells.map(cell => cell.coord.x));
-    const maxY = Math.max(...cells.map(cell => cell.coord.y));
-    const sizeX = maxX - minX;
-    const sizeY = maxY - minY;
-    console.log(`The most compressed version is: X:${sizeX} Y: ${sizeY}`);
-
-    cells.forEach(cell => {
-      cell.coord.x -= minX;
-      cell.coord.y -= minY;
-    });
-    return cells;
-  }
-
-  /**
    * Sets the grid with the appropriate cells
    * @param jsonCells A list of cell interface
    */
@@ -443,7 +401,7 @@ export default class Grid extends Cluster {
    */
   public exportGrid(): GridInterface {
     const cells: CellInterface[] = [];
-    this.unvoid.forEach(cell => {
+    this.unvoid.cellList.forEach(cell => {
       cells.push(cell.exportCell());
     });
     return {
@@ -459,113 +417,5 @@ export default class Grid extends Cluster {
   }
   get coords(): Coord[] {
     return this.cells.flatMap(cell => cell.coord);
-  }
-  get void(): Cell[] {
-    return this.filteredBy("void");
-  }
-  get unvoid(): Cell[] {
-    return this.filteredByNot("void");
-  }
-  get activeCells(): Cell[] {
-    return this.cells.filter(cell => cell.active);
-  }
-
-  // Emitters
-  get lasers(): Cell[] {
-    return this.filteredBy("laser");
-  }
-  get activeLasers(): Cell[] {
-    return this.filteredBy("laser").filter(laser => laser.active === true);
-  }
-  // Reflectors
-  get mirrors(): Cell[] {
-    return this.filteredBy("mirror");
-  }
-  get beamsplitters(): Cell[] {
-    return this.filteredBy("beamsplitter");
-  }
-  get coatedsplitters(): Cell[] {
-    return this.filteredBy("coatedsplitter");
-  }
-  get polarsplitters(): Cell[] {
-    return this.filteredBy("polarsplitter");
-  }
-  get reflectors(): Cell[] {
-    return this.mirrors.concat(
-      this.beamsplitters,
-      this.coatedsplitters,
-      this.polarsplitters
-    );
-  }
-  // Absorbers
-  get detectors(): Cell[] {
-    return this.filteredBy("detector");
-  }
-  get energizedDetectors(): Cell[] {
-    return this.detectors.filter(detector => detector.energized);
-  }
-  get unenergizedDetectors(): Cell[] {
-    return this.detectors.filter(detector => !detector.energized);
-  }
-  get mines(): Cell[] {
-    return this.filteredBy("mine");
-  }
-  get rocks(): Cell[] {
-    return this.filteredBy("rock");
-  }
-  get omnidetectors(): Cell[] {
-    return this.filteredBy("omnidetector");
-  }
-  get filters(): Cell[] {
-    return this.filteredBy("filter");
-  }
-  get walls(): Cell[] {
-    return this.filteredBy("wall");
-  }
-  get closedGates(): Cell[] {
-    return this.filteredBy("gate").filter(gate => !gate.active);
-  }
-  get openedGates(): Cell[] {
-    return this.filteredBy("gate").filter(gate => gate.active);
-  }
-  get absorbers(): Cell[] {
-    return this.detectors.concat(
-      this.mines,
-      this.rocks,
-      this.omnidetectors,
-      this.filters,
-      this.walls,
-      this.closedGates
-    );
-  }
-  // Polarizers
-  get absorbPolarizers(): Cell[] {
-    return this.filteredBy("absorb-polarizer");
-  }
-  get waveplates(): Cell[] {
-    return this.filteredBy("waveplate");
-  }
-  get sugars(): Cell[] {
-    return this.filteredBy("sugar");
-  }
-  get faradays(): Cell[] {
-    return this.filteredBy("faraday");
-  }
-  get polarizers(): Cell[] {
-    return this.absorbPolarizers.concat(
-      this.waveplates,
-      this.sugars,
-      this.faradays
-    );
-  }
-  // Phasers
-  get phaseincs(): Cell[] {
-    return this.filteredBy("phaseinc");
-  }
-  get phasedecs(): Cell[] {
-    return this.filteredBy("phasedec");
-  }
-  get phaseshifters(): Cell[] {
-    return this.phasedecs.concat(this.phaseincs);
   }
 }

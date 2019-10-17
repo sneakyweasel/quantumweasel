@@ -2,15 +2,14 @@ import Coord from "../Coord";
 import Element from "../Element";
 import Cell from "../Cell";
 import Grid from "../Grid";
-// import Level from "../Level";
-// import Frame from "../Frame";
+import { Elem } from "../Helpers";
 
 // Coordinates testing
 describe("Frame", () => {
   it("should create a particle from an active laser", () => {
     const grid = new Grid(6, 3);
     const coord = new Coord(2, 1);
-    const element = Element.fromName("laser");
+    const element = Element.fromName(Elem.Laser);
     const laser = new Cell(coord, element);
     laser.active = true;
     grid.set(laser);
@@ -23,7 +22,7 @@ describe("Frame", () => {
   it("should propagate a classical particle in the correct direction", () => {
     const grid = new Grid(6, 3);
     const coord = new Coord(2, 1);
-    const element = Element.fromName("laser");
+    const element = Element.fromName(Elem.Laser);
     const laser = new Cell(coord, element);
     laser.active = true;
     grid.set(laser);
@@ -35,7 +34,7 @@ describe("Frame", () => {
   it("should propagate a quantum particle in the correct direction", () => {
     const grid = new Grid(6, 3);
     const coord = new Coord(2, 1);
-    const element = Element.fromName("laser");
+    const element = Element.fromName(Elem.Laser);
     const laser = new Cell(coord, element);
     laser.active = true;
     grid.set(laser);
@@ -47,7 +46,7 @@ describe("Frame", () => {
   it("shouldn't create a particle from a inactive laser", () => {
     const grid = new Grid(6, 3);
     const coord = new Coord(2, 1);
-    const element = Element.fromName("laser");
+    const element = Element.fromName(Elem.Laser);
     const laser = new Cell(coord, element);
     grid.set(laser);
     expect(() => {
@@ -58,7 +57,7 @@ describe("Frame", () => {
   //   it("should export a frame interface object", () => {
   //     const grid = new Grid(6, 3);
   //     const coord = new Coord(2, 1);
-  //     const element = Element.fromName("laser");
+  //     const element = Element.fromName(Elem.Laser);
   //     const laser = new Cell(coord, element);
   //     grid.set(laser);
 

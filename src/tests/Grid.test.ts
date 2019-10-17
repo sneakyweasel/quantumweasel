@@ -2,6 +2,7 @@ import Coord from "../Coord";
 import Element from "../Element";
 import Cell from "../Cell";
 import Grid from "../Grid";
+import { Elem } from "../Helpers";
 
 describe("Grid", () => {
   it("should create grid from col and row", () => {
@@ -13,14 +14,14 @@ describe("Grid", () => {
   it("should set the value of a cell", () => {
     const grid = new Grid(3, 6);
     const coord = new Coord(1, 5);
-    grid.set(new Cell(coord, Element.fromName("mirror")));
+    grid.set(new Cell(coord, Element.fromName(Elem.Mirror)));
     expect(grid.ascii).toEqual("......\n.....-\n......\n");
   });
 
   it("should retrieve a cell through its coordinates in the grid", () => {
     const grid = new Grid(3, 6);
     const coord = new Coord(1, 5);
-    grid.set(new Cell(coord, Element.fromName("mirror")));
+    grid.set(new Cell(coord, Element.fromName(Elem.Mirror)));
     const cell = grid.get(coord);
     expect(cell.toString()).toEqual(
       "Cell @ [Y:1, X:5] is unfrozen inactive and unpowered mirror (Phase: 0, Absorption: 0%) rotated 0°"
@@ -30,7 +31,7 @@ describe("Grid", () => {
   it("should forbid placing a cell outside of the grid", () => {
     const grid = new Grid(3, 6);
     const coord = new Coord(4, 4);
-    grid.set(new Cell(coord, Element.fromName("mirror")));
+    grid.set(new Cell(coord, Element.fromName(Elem.Mirror)));
     expect(grid.ascii).toEqual("......\n......\n......\n");
   });
 
@@ -38,7 +39,7 @@ describe("Grid", () => {
     const grid = new Grid(3, 6);
     const orig = new Coord(1, 1);
     const dest = new Coord(2, 2);
-    grid.set(new Cell(orig, Element.fromName("mirror")));
+    grid.set(new Cell(orig, Element.fromName(Elem.Mirror)));
     grid.move(orig, dest);
     expect(grid.ascii).toEqual("......\n......\n..-...\n");
   });
@@ -47,7 +48,7 @@ describe("Grid", () => {
     const grid = new Grid(3, 6);
     const orig = new Coord(1, 1);
     const dest = new Coord(2, 2);
-    grid.set(new Cell(orig, Element.fromName("mirror"), 0, true));
+    grid.set(new Cell(orig, Element.fromName(Elem.Mirror), 0, true));
     grid.move(orig, dest);
     expect(grid.ascii).toEqual("......\n.-....\n......\n");
   });
@@ -56,8 +57,8 @@ describe("Grid", () => {
     const grid = new Grid(3, 6);
     const coord1 = new Coord(1, 1);
     const coord2 = new Coord(2, 2);
-    const mirror1 = new Cell(coord1, Element.fromName("mirror"));
-    const mirror2 = new Cell(coord2, Element.fromName("mirror"));
+    const mirror1 = new Cell(coord1, Element.fromName(Elem.Mirror));
+    const mirror2 = new Cell(coord2, Element.fromName(Elem.Mirror));
     grid.set(mirror1);
     grid.set(mirror2);
     expect(grid.mirrors).toEqual([mirror1, mirror2]);
@@ -67,8 +68,8 @@ describe("Grid", () => {
     const grid = new Grid(3, 6);
     const coord1 = new Coord(1, 1);
     const coord2 = new Coord(2, 2);
-    const mirror1 = new Cell(coord1, Element.fromName("mirror"));
-    const mirror2 = new Cell(coord2, Element.fromName("mirror"));
+    const mirror1 = new Cell(coord1, Element.fromName(Elem.Mirror));
+    const mirror2 = new Cell(coord2, Element.fromName(Elem.Mirror));
     grid.set(mirror1);
     grid.set(mirror2);
     grid.operatorList.map(operator => {
@@ -81,8 +82,8 @@ describe("Grid", () => {
     const grid = new Grid(3, 6);
     const coord1 = new Coord(1, 1);
     const coord2 = new Coord(2, 2);
-    const mirror1 = new Cell(coord1, Element.fromName("mirror"));
-    const mirror2 = new Cell(coord2, Element.fromName("mirror"));
+    const mirror1 = new Cell(coord1, Element.fromName(Elem.Mirror));
+    const mirror2 = new Cell(coord2, Element.fromName(Elem.Mirror));
     grid.set(mirror1);
     grid.set(mirror2);
     expect(grid.exportGrid()).toEqual({
@@ -90,7 +91,7 @@ describe("Grid", () => {
         {
           active: false,
           coord: { x: 1, y: 1 },
-          element: "mirror",
+          element: "Mirror",
           energized: false,
           frozen: false,
           rotation: 0
@@ -98,7 +99,7 @@ describe("Grid", () => {
         {
           active: false,
           coord: { x: 2, y: 2 },
-          element: "mirror",
+          element: "Mirror",
           energized: false,
           frozen: false,
           rotation: 0
