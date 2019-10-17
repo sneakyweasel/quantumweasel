@@ -7,7 +7,7 @@ import Cell from "./Cell";
 import Level from "./Level";
 import Element from "./Element";
 import FileSaver = require("file-saver");
-import { ElemGroups } from "./Helpers";
+import { Elem, Group, ElemGroups } from "./Helpers";
 
 export default class Player implements Actor {
   glyph: Glyph;
@@ -39,6 +39,7 @@ export default class Player implements Actor {
   // Cycle through groups of elements
   cycleNext(group: string): void {
     const list: string[] = ElemGroups[group];
+    console.log(group);
     if (this.cell.frozen) {
       return;
     }
@@ -117,25 +118,25 @@ export default class Player implements Actor {
       // Cycle through elements in group
       case KEYS.VK_QUOTE:
       case KEYS.VK_0:
-        this.cycleNext("Basic");
+        this.cycleNext(Group.Basic);
         break;
       case KEYS.VK_1:
-        this.cycleNext("Emitter");
+        this.cycleNext(Group.Source);
         break;
       case KEYS.VK_2:
-        this.cycleNext("Direction");
+        this.cycleNext(Group.Direction);
         break;
       case KEYS.VK_3:
-        this.cycleNext("Absorption");
+        this.cycleNext(Group.Absorption);
         break;
       case KEYS.VK_4:
-        this.cycleNext("Polarization");
+        this.cycleNext(Group.Polarization);
         break;
       case KEYS.VK_5:
-        this.cycleNext("Phase");
+        this.cycleNext(Group.Phase);
         break;
       case KEYS.VK_DELETE:
-        this.cell.element = Element.fromName("void");
+        this.cell.element = Element.fromName(Elem.Void);
         this.cell.frozen = false;
         this.cell.active = false;
         break;
