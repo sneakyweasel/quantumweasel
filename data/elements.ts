@@ -8,10 +8,41 @@ export const jsonGroups: { [symbol: string]: string[] } = {
   Phase: ["phaseinc", "phasedec"]
 };
 
+export const enum ElementNames {
+  // Basic
+  "Void",
+  "Wall",
+  "Gate",
+  // Emitter
+  "Laser",
+  // Direction
+  "Mirror",
+  "BeamSplitter",
+  "PolarizingBeamSplitter",
+  "CoatedBeamSplitter",
+  "CornerCube",
+  // Absorption
+  "Detector",
+  "Rock",
+  "Mine",
+  "Absorber",
+  "DetectorFour",
+  // Polarization
+  "PolarizerH",
+  "PolarizerV",
+  "QuarterWavePlateH",
+  "QuarterWavePlateV",
+  "SugarSolution",
+  "FaradayRotator",
+  // Phase
+  "Glass",
+  "VacuumJar"
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const jsonElements: ElementInterface[] = [
   {
-    name: "laser",
+    name: "Source",
     group: "Emitter",
     description: "An on-demand single photon source.",
     active: true,
@@ -22,7 +53,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[0, 0], [0, 1], [0, 2], [0, 3]]
   },
   {
-    name: "rock",
+    name: "Rock",
     group: "Absorption",
     description:
       "Dark and immersive as your sweetheart's depth of eyes. Absorbs light. And is sensitive.",
@@ -34,7 +65,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[1, 0]]
   },
   {
-    name: "absorb-polarizer",
+    name: "PolarizerH",
     group: "Polarization",
     description:
       "A polarization filter WE...Anisotropic polymer strands capture electric oscillations parallel to them. Used in photography.",
@@ -46,7 +77,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7]]
   },
   {
-    name: "waveplate",
+    name: "QuarterWavePlateH",
     group: "Polarization",
     description:
       "It delays one polarization (with darker lines) by λ/4. When applied correctly, it can change linear polarization into circular, and vice versa.",
@@ -58,7 +89,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7]]
   },
   {
-    name: "detector",
+    name: "Detector",
     group: "Absorption",
     description:
       "Detects and amplifies electric signal from each single photon, from a single direction. Your goal is to get photon there!",
@@ -70,7 +101,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[4, 0], [4, 1], [4, 2], [4, 3]]
   },
   {
-    name: "omnidetector",
+    name: "DetectorFour",
     group: "Absorption",
     description:
       "Detects and amplifies electric signal from each single photon, from all directions. Typically, it is the goal to get the photon here.",
@@ -82,7 +113,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[7, 0], [7, 1], [7, 2], [7, 3]]
   },
   {
-    name: "sugar",
+    name: "SugarSolution",
     group: "Polarization",
     description:
       "Table sugar is a chiral molecule – it does not look the same as its mirror reflection. We put it in an amount, so it rotates polarization by 45°.",
@@ -94,7 +125,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[8, 0]]
   },
   {
-    name: "coatedsplitter",
+    name: "CoatedBeamSplitter",
     group: "Direction",
     description:
       "A thin slab of glass with a reflective layer - reflecting half the beam and transmitting the other half of it.",
@@ -106,7 +137,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[9, 0], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7]]
   },
   {
-    name: "mine",
+    name: "Mine",
     group: "Absorption",
     description:
       "Once it absorbs a single photon, it sets off. Old french submarine captains can sometimes disarm them.",
@@ -118,7 +149,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[11, 0]]
   },
   {
-    name: "polarsplitter",
+    name: "PolarizingBeamSplitter",
     group: "Direction",
     description:
       "Reflects vertical polarization (↕), transmitts horizonal polarization (↔).",
@@ -130,7 +161,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[12, 0], [12, 1]]
   },
   {
-    name: "mirror",
+    name: "Mirror",
     group: "Direction",
     description: "Metallic or dielectric mirror.",
     active: false,
@@ -150,7 +181,7 @@ export const jsonElements: ElementInterface[] = [
     ]
   },
   {
-    name: "beamsplitter",
+    name: "BeamSplitter",
     group: "Direction",
     description:
       "A thin slab of glass reflecting half the beam, and transmitting other half of it.",
@@ -158,7 +189,6 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 15,
-    // ascii: ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
     ascii: ["→", "↗", "↑", "↖", "←", "↙", "↓", "↘"],
     tiles: [
       [15, 0],
@@ -172,7 +202,7 @@ export const jsonElements: ElementInterface[] = [
     ]
   },
   {
-    name: "phasedec",
+    name: "Glass",
     group: "Phase",
     description:
       "Higher refractive index makes light slower. We set its thickness so it retards the phase by λ/4. Useful for changing interference.",
@@ -184,7 +214,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[16, 0]]
   },
   {
-    name: "phaseinc",
+    name: "VacuumJar",
     group: "Phase",
     description:
       "Even air retards light a bit. We set the thickness of vacuum so it advances the phase by λ/4. Useful for changing interference.",
@@ -196,7 +226,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[17, 0]]
   },
   {
-    name: "filter",
+    name: "Absorber",
     group: "Absorption",
     description: "Filter with 50% absorption probability.",
     active: false,
@@ -207,7 +237,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[18, 0]]
   },
   {
-    name: "void",
+    name: "Void",
     group: "Basic",
     description: "The void...",
     active: false,
@@ -218,7 +248,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[19, 0]]
   },
   {
-    name: "wall",
+    name: "Wall",
     group: "Basic",
     description: "A standard wall.",
     active: false,
@@ -229,7 +259,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[20, 0], [20, 1]]
   },
   {
-    name: "gate",
+    name: "Gate",
     group: "Basic",
     description: "A controlled gate.",
     active: false,
@@ -240,7 +270,7 @@ export const jsonElements: ElementInterface[] = [
     tiles: [[21, 0], [21, 1]]
   },
   {
-    name: "faraday",
+    name: "FaradayRotator",
     group: "Polarization",
     description:
       "Rotates polarization with magnetic field by 45°. Has different symmetries than Sugar Solution. A building block for optical diodes.",
@@ -248,7 +278,6 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: -0.25,
     id: 30,
-    // ascii: ["🠵", "🠶", "🠷", "🠴"],
     ascii: ["🠶", "🠵", "🠴", "🠷"],
     tiles: [[30, 0], [30, 1], [30, 2], [30, 3]]
   }

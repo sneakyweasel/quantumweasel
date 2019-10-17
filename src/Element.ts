@@ -88,6 +88,14 @@ export default class Element {
         } else {
           return qt.polarizingBeamsplitter(45);
         }
+      case "polarizerWE":
+        return qt.quarterWavePlateWE(param);
+      case "polarizerNS":
+        return qt.quarterWavePlateNS(param);
+      case "waveplateWE":
+        return qt.quarterWavePlateWE(param);
+      case "waveplateNS":
+        return qt.quarterWavePlateNS(param);
       case "mine":
         return qt.attenuator(0);
       case "rock":
