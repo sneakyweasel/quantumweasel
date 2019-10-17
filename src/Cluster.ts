@@ -7,54 +7,41 @@ import Element from "./Element";
 import Cell, { CellInterface } from "./Cell";
 
 export default class Cluster {
-  cells: Cell[];
+  cellList: Cell[];
 
   // Allow constructor with origin coord, number array and direction
-  constructor(cells: Cell[]) {
-    // Find the smallest container
-    const minX = Math.min(...cells.map(cell => cell.coord.x));
-    const minY = Math.min(...cells.map(cell => cell.coord.y));
-    const maxX = Math.max(...cells.map(cell => cell.coord.x));
-    const maxY = Math.max(...cells.map(cell => cell.coord.y));
-    const sizeX = maxX - minX;
-    const sizeY = maxY - minY;
-    console.log(`The most compressed version is: X:${sizeX} Y: ${sizeY}`);
-
-    cells.map(cell => {
-      cell.coord.x -= minX;
-      cell.coord.y -= minY;
-    });
-    this.cells = cells;
+  constructor(cellList: Cell[]) {
+    this.cellList = cellList;
   }
 
   // Retrieve list of coordinates of the cluster
   get coords(): Coord[] {
-    return this.cells.map(cell => cell.coord);
+    return this.cellList.map(cell => cell.coord);
   }
 
   // Retrieve list of elements of the cluster
   get elements(): Element[] {
-    return this.cells.map(cell => cell.element);
+    return this.cellList.map(cell => cell.element);
   }
 
   // Origin of the cluster is the first element coordinates.
   get origin(): Coord {
-    return this.cells[0].coord;
+    return this.cellList[0].coord;
   }
 
   // import cells
   public importCluster(jsonCells: CellInterface[]): void {
     jsonCells.map(jsonCell => {
       const cell = Cell.importCell(jsonCell);
-      this.cells.push(cell);
+      this.cellList.push(cell);
     });
   }
 
   // export JSON file to save state oi the game
   public exportCluster(): CellInterface[] {
-    return this.cells
+    return this.cellList
       .filter(cell => {
-        return cell.element.name !== "void";
+        return cell.element.name !== "Void";
       })
       .map(cell => {
         return cell.exportCell();

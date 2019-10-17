@@ -7,7 +7,7 @@ import Cell from "./Cell";
 import Level from "./Level";
 import Element from "./Element";
 import FileSaver = require("file-saver");
-import { jsonGroups } from "../data/elements";
+import { ElemGroups } from "./Helpers";
 
 export default class Player implements Actor {
   glyph: Glyph;
@@ -38,7 +38,7 @@ export default class Player implements Actor {
 
   // Cycle through groups of elements
   cycleNext(group: string): void {
-    const list: string[] = jsonGroups[group];
+    const list: string[] = ElemGroups[group];
     if (this.cell.frozen) {
       return;
     }

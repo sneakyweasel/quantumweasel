@@ -22,17 +22,23 @@ export interface GridInterface {
 /**
  * Grid class includes the grid instance that holds the cells
  */
-export default class Grid {
+export default class Grid extends Cluster {
   public cols: number;
   public rows: number;
   public matrix: Cell[][];
-  public clusters: Cluster[];
+  public cluster: Cell[];
   public paths: Particle[];
 
-  constructor(rows: number, cols: number, matrix?: Cell[][]) {
+  constructor(
+    rows: number,
+    cols: number,
+    matrix?: Cell[][],
+    cluster: Cell[] = []
+  ) {
+    super(cluster);
     this.rows = rows;
     this.cols = cols;
-    this.clusters = [];
+    this.cluster = [];
 
     // If matrix specified extract cells
     if (matrix) {
@@ -45,7 +51,7 @@ export default class Grid {
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           const coord = Coord.importCoord({ y: y, x: x });
-          this.set(new Cell(coord, Element.fromName("void")));
+          this.set(new Cell(coord, Element.fromName("Void")));
         }
       }
     }

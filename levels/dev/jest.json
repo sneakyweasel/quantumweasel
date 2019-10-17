@@ -12,7 +12,7 @@
 					"y": 0,
 					"x": 2
 				},
-				"element": "gate",
+				"element": "Gate",
 				"rotation": 0,
 				"frozen": false
 			},
@@ -21,7 +21,7 @@
 					"y": 0,
 					"x": 3
 				},
-				"element": "laser",
+				"element": "Laser",
 				"rotation": 0,
 				"frozen": false
 			}

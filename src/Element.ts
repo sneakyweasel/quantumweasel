@@ -2,13 +2,13 @@
 // ELEMENT CLASS
 // Basic class related to game elements
 // TODO: Remove display logic to Glyph class
-
 import { jsonElements } from "../data/elements";
 import Glyph from "./Glyph";
 import { Elem } from "./Helpers";
 import * as qt from "quantum-tensors";
+
 /**
- *
+ * Element interface composed of primitive types
  */
 export interface ElementInterface {
   id: number;
@@ -22,6 +22,10 @@ export interface ElementInterface {
   tiles: number[][];
 }
 
+/**
+ * Class responsible for elements
+ * Rendering abstraction should be moved to Glyph
+ */
 export default class Element {
   id: number;
   name: string;
@@ -137,6 +141,8 @@ export default class Element {
 
   // Create element from element interface
   static importElement(json: ElementInterface): Element {
+    console.log(json);
+
     return new Element(
       json.id,
       json.name,
@@ -155,6 +161,10 @@ export default class Element {
     const element = jsonElements.find(elem => {
       return elem.name === name;
     });
-    return Element.importElement(element!);
+    if (element) {
+      return Element.importElement(element!);
+    } else {
+      throw new Error(`Element: ${name} is not implemented.`);
+    }
   }
 }
