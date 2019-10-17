@@ -42,7 +42,7 @@ export default class Cluster {
     const maxY = Math.max(...cluster.cellList.map(cell => cell.coord.y));
     const sizeX = maxX - minX;
     const sizeY = maxY - minY;
-    console.log(`The most compressed version is: X:${sizeX} Y: ${sizeY}`);
+    console.debug(`The most compressed version is: X:${sizeX} Y: ${sizeY}`);
 
     cluster.cellList.forEach(cell => {
       cell.coord.x -= minX;

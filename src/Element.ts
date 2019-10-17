@@ -2,6 +2,7 @@
 // ELEMENT CLASS
 // Basic class related to game elements
 // TODO: Remove display logic to Glyph class
+// TODO: Refactor to extended class based logic
 import { jsonElements } from "../data/elements";
 import Glyph from "./Glyph";
 import { Elem } from "./Helpers";
@@ -141,8 +142,6 @@ export default class Element {
 
   // Create element from element interface
   static importElement(json: ElementInterface): Element {
-    console.log(json);
-
     return new Element(
       json.id,
       json.name,

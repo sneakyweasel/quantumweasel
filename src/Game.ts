@@ -148,7 +148,7 @@ export default class Game {
     );
     displayText(
       "laser",
-      `Active particles: ${Particle.manyToString(this.currentFrame.particles)}`
+      `Quantum: ${Particle.manyToString(this.currentFrame.quantum)}`
     );
   }
 
@@ -159,10 +159,9 @@ export default class Game {
    */
   private drawFrame(frame = this.currentFrame): void {
     console.log(`--- Displaying frame ${this.frameNumber} ---`);
-    // console.log(this.currentFrame.toString());
     displayText(
       "laser",
-      `Active particles: ${Particle.manyToString(frame.particles)}`
+      `Quantum particles: ${Particle.manyToString(frame.quantum)}`
     );
     this.drawGrid();
   }
@@ -213,7 +212,6 @@ export default class Game {
 
     // Display quantum photon
     this.currentFrame.quantum.forEach(particle => {
-      // console.log("OPACITY:" + particle.opacity);
       if (
         particle &&
         particle.coord.equal(coord) &&

@@ -181,5 +181,5 @@ export function scaleOpacity(opacity: number): string {
 export function displayText(elementId: string, text: string): void {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   // document.getElementById(elementId)!.textContent = text;
-  console.log(`Log #${elementId}: ${text}`);
+  console.debug(`Log #${elementId}: ${text}`);
 }

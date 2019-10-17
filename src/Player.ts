@@ -39,7 +39,6 @@ export default class Player implements Actor {
   // Cycle through groups of elements
   cycleNext(group: string): void {
     const list: string[] = ElemGroups[group];
-    console.log(group);
     if (this.cell.frozen) {
       return;
     }

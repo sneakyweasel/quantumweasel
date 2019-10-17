@@ -1,6 +1,6 @@
 // HINT CLASS
 // Structure extracted for v1: https://github.com/stared/quantum-game/blob/master/data/levels_game.json
-// TODO: Link hint activation with goals
+// TODO: Create event class
 
 import Coord from "./Coord";
 

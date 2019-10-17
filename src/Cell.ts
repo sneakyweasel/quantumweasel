@@ -74,7 +74,7 @@ export default class Cell {
         this.rotation = (((this.rotation + angle) % 360) + 360) % 360;
       }
     } else {
-      console.log("This cell is frozen, you can't rotate it.");
+      console.error("This cell is frozen, you can't rotate it.");
     }
   }
   toggleFreeze(): void {

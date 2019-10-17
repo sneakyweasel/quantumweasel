@@ -1,7 +1,6 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
-// FIXME: Move functions to a Cluster Cell[] functionality
 import { Operator } from "quantum-tensors";
 import Coord from "./Coord";
 import Element from "./Element";
@@ -134,7 +133,7 @@ export default class Grid extends Cluster {
     if (!cellSrc.frozen && !cellDst.frozen) {
       this.set(new Cell(src, cellDst.element, cellDst.rotation));
       this.set(new Cell(dst, cellSrc.element, cellSrc.rotation));
-      console.log(
+      console.debug(
         `Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`
       );
       return true;

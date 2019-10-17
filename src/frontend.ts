@@ -1,6 +1,7 @@
 import json from "../levels/classic/level10.json";
 import Level from "./Level";
 import Frame from "./Frame";
+// import Particle from "./Particle";
 
 // Load level
 const level = Level.importLevel(json);
@@ -9,7 +10,8 @@ const level = Level.importLevel(json);
 const frames: Frame[] = [];
 const initFrame = new Frame(level);
 frames.push(initFrame);
-console.log(initFrame.particles.toString());
+console.log(initFrame.toString());
 
 const secondFrame = initFrame.next();
-console.log(secondFrame.particles.toString());
+console.log(secondFrame.toString());
+// console.log(Particle.manyToString(secondFrame.quantum));
