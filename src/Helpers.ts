@@ -1,5 +1,79 @@
 import { Color } from "rot-js";
 
+/**
+ * List of element names
+ */
+export const enum Elem {
+  // Basic
+  Void = "Void",
+  Wall = "Wall",
+  Gate = "Gate",
+  // Source
+  Laser = "Laser",
+  // Direction
+  Mirror = "Mirror",
+  BeamSplitter = "BeamSplitter",
+  PolarizingBeamSplitter = "PolarizingBeamSplitter",
+  CoatedBeamSplitter = "CoatedBeamSplitter",
+  CornerCube = "CornerCube",
+  // Absorption
+  Detector = "Detector",
+  Rock = "Rock",
+  Mine = "Mine",
+  Absorber = "Absorber",
+  DetectorFour = "DetectorFour",
+  // Polarization
+  PolarizerH = "PolarizerH",
+  PolarizerV = "PolarizerV",
+  QuarterWavePlateH = "QuarterWavePlateH",
+  QuarterWavePlateV = "QuarterWavePlateV",
+  SugarSolution = "SugarSolution",
+  FaradayRotator = "FaradayRotator",
+  // Phase
+  Glass = "Glass",
+  VacuumJar = "VacuumJar"
+}
+
+/**
+ * List of group names
+ */
+export const enum Group {
+  Basic = "Basic",
+  Source = "Source",
+  Direction = "Direction",
+  Absorption = "Absorption",
+  Polarization = "Polarization",
+  Phase = "Phase"
+}
+
+export const ElemGroups: { [symbol: string]: Elem[] } = {
+  Basic: [Elem.Void, Elem.Wall, Elem.Gate],
+  Source: [Elem.Laser],
+  Direction: [
+    Elem.Mirror,
+    Elem.BeamSplitter,
+    Elem.PolarizingBeamSplitter,
+    Elem.CoatedBeamSplitter,
+    Elem.CornerCube
+  ],
+  Absorption: [
+    Elem.Detector,
+    Elem.Rock,
+    Elem.Mine,
+    Elem.Absorber,
+    Elem.DetectorFour
+  ],
+  Polarization: [
+    Elem.PolarizerH,
+    Elem.PolarizerV,
+    Elem.QuarterWavePlateH,
+    Elem.QuarterWavePlateV,
+    Elem.SugarSolution,
+    Elem.FaradayRotator
+  ],
+  Phase: [Elem.Glass, Elem.VacuumJar]
+};
+
 // Convert angles to unicode symbols
 // https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
 export function angleToSymbol(angle: number): string {
@@ -106,5 +180,6 @@ export function scaleOpacity(opacity: number): string {
 // Display Helpers
 export function displayText(elementId: string, text: string): void {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  document.getElementById(elementId)!.textContent = text;
+  // document.getElementById(elementId)!.textContent = text;
+  console.log(`Log #${elementId}: ${text}`);
 }

@@ -5,6 +5,7 @@
 
 import { jsonElements } from "../data/elements";
 import Glyph from "./Glyph";
+import { Elem } from "./Helpers";
 import * as qt from "quantum-tensors";
 /**
  *
@@ -68,39 +69,39 @@ export default class Element {
 
   transition(param: number): qt.Operator {
     switch (this.name) {
-      case "mirror":
+      case Elem.Mirror:
         return qt.mirror(param);
-      case "beamsplitter":
+      case Elem.BeamSplitter:
         return qt.beamSplitter(param);
-      case "filter":
+      case Elem.Absorber:
         return qt.attenuator(Math.SQRT1_2);
-      case "phaseinc":
+      case Elem.VacuumJar:
         return qt.vacuumJar();
-      case "phasedec":
+      case Elem.Glass:
         return qt.glassSlab();
-      case "detector":
+      case Elem.Detector:
         return qt.attenuator(0);
-      case "sugar":
+      case Elem.SugarSolution:
         return qt.sugarSolution();
-      case "polarsplitter":
+      case Elem.PolarizingBeamSplitter:
         if (param === 0) {
           return qt.polarizingBeamsplitter(135);
         } else {
           return qt.polarizingBeamsplitter(45);
         }
-      case "polarizerWE":
+      case Elem.PolarizerH:
         return qt.quarterWavePlateWE(param);
-      case "polarizerNS":
+      case Elem.PolarizerV:
         return qt.quarterWavePlateNS(param);
-      case "waveplateWE":
+      case Elem.QuarterWavePlateH:
         return qt.quarterWavePlateWE(param);
-      case "waveplateNS":
+      case Elem.QuarterWavePlateV:
         return qt.quarterWavePlateNS(param);
-      case "mine":
+      case Elem.Mine:
         return qt.attenuator(0);
-      case "rock":
+      case Elem.Mine:
         return qt.attenuator(0);
-      case "wall":
+      case Elem.Wall:
         return qt.attenuator(0);
       default:
         return qt.attenuator(0);

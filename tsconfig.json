@@ -7,7 +7,7 @@
             "dom"
         ],
         "typeRoots" : ["./src/types/quantum-tensors", "./node_modules/@types/"],
-        "types": [],
+        "types": ["jest"],
         "alwaysStrict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,

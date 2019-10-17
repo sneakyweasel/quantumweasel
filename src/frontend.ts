@@ -5,9 +5,11 @@ import Frame from "./Frame";
 // Load level
 const level = Level.importLevel(json);
 
-// Create frame
+// Create first frame
 const frames: Frame[] = [];
 const initFrame = new Frame(level);
 frames.push(initFrame);
+console.log(initFrame.particles.toString());
 
-// initFrame.particles;
+const secondFrame = initFrame.next();
+console.log(secondFrame.particles.toString());
