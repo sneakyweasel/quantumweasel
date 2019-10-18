@@ -8,7 +8,7 @@
 	"cells": [
 		{
 			"coord": { "y": 2, "x": 9 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 180,
 			"frozen": true,
 			"active": true,
@@ -16,7 +16,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 5 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 90,
 			"frozen": true,
 			"active": true,
@@ -24,7 +24,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 8 },
-			"element": "detector",
+			"element": "Detector",
 			"rotation": 270,
 			"frozen": true,
 			"active": false,
@@ -32,7 +32,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 9 },
-			"element": "gate",
+			"element": "Gate",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,

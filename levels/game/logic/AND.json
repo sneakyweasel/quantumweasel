@@ -8,7 +8,7 @@
 	"cells": [
 		{
 			"coord": { "y": 1, "x": 1 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 90,
 			"frozen": true,
 			"active": true,
@@ -16,7 +16,7 @@
 		},
 		{
 			"coord": { "y": 1, "x": 4 },
-			"element": "mirror",
+			"element": "Mirror",
 			"rotation": 135,
 			"frozen": true,
 			"active": false,
@@ -24,7 +24,7 @@
 		},
 		{
 			"coord": { "y": 2, "x": 6 },
-			"element": "mirror",
+			"element": "Mirror",
 			"rotation": 45,
 			"frozen": false,
 			"active": false,
@@ -32,7 +32,7 @@
 		},
 		{
 			"coord": { "y": 2, "x": 9 },
-			"element": "detector",
+			"element": "Detector",
 			"rotation": 270,
 			"frozen": false,
 			"active": false,
@@ -40,7 +40,7 @@
 		},
 		{
 			"coord": { "y": 2, "x": 10 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 90,
 			"frozen": false,
 			"active": true,
@@ -48,7 +48,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 1 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 90,
 			"frozen": true,
 			"active": true,
@@ -56,7 +56,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 3 },
-			"element": "detector",
+			"element": "Detector",
 			"rotation": 270,
 			"frozen": true,
 			"active": false,
@@ -64,7 +64,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 4 },
-			"element": "gate",
+			"element": "Gate",
 			"rotation": 0,
 			"frozen": true,
 			"active": true,
@@ -72,7 +72,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 4 },
-			"element": "mirror",
+			"element": "Mirror",
 			"rotation": 135,
 			"frozen": false,
 			"active": false,
@@ -80,7 +80,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 6 },
-			"element": "mirror",
+			"element": "Mirror",
 			"rotation": 45,
 			"frozen": false,
 			"active": false,
