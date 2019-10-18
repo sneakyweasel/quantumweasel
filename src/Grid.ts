@@ -403,9 +403,11 @@ export default class Grid extends Cluster {
    */
   public exportGrid(): GridInterface {
     const cells: CellInterface[] = [];
-    this.unvoid.cellList.forEach(cell => {
-      cells.push(cell.exportCell());
-    });
+    this.cells
+      .filter(cell => !cell.isVoid)
+      .forEach(cell => {
+        cells.push(cell.exportCell());
+      });
     return {
       cols: this.cols,
       rows: this.rows,

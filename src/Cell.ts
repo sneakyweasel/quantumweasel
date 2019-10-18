@@ -45,6 +45,9 @@ export default class Cell {
   get ascii(): string {
     return this.element.ascii[this.rotation / this.element.rotationAngle];
   }
+  get isVoid(): boolean {
+    return this.element.name === "Void";
+  }
   /**
    * Compute the rotation angle in degrees
    */

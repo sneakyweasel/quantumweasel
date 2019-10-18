@@ -9,7 +9,7 @@
     "cells": [
       {
         "coord": { "y": 4, "x": 1 },
-        "element": "laser",
+        "element": "Laser",
         "rotation": 0,
         "frozen": true,
         "active": true,
@@ -17,7 +17,7 @@
       },
       {
         "coord": { "y": 4, "x": 3 },
-        "element": "filter",
+        "element": "Absorber",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -25,7 +25,7 @@
       },
       {
         "coord": { "y": 4, "x": 4 },
-        "element": "filter",
+        "element": "Absorber",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -33,7 +33,7 @@
       },
       {
         "coord": { "y": 4, "x": 5 },
-        "element": "filter",
+        "element": "Absorber",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -41,7 +41,7 @@
       },
       {
         "coord": { "y": 4, "x": 6 },
-        "element": "filter",
+        "element": "Absorber",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -49,7 +49,7 @@
       },
       {
         "coord": { "y": 4, "x": 7 },
-        "element": "filter",
+        "element": "Absorber",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -57,7 +57,7 @@
       },
       {
         "coord": { "y": 4, "x": 8 },
-        "element": "filter",
+        "element": "Absorber",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -65,7 +65,7 @@
       },
       {
         "coord": { "y": 4, "x": 10 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 180,
         "frozen": true,
         "active": false,

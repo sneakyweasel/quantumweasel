@@ -9,7 +9,7 @@
     "cells": [
       {
         "coord": { "y": 2, "x": 0 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -17,7 +17,7 @@
       },
       {
         "coord": { "y": 2, "x": 1 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -25,7 +25,7 @@
       },
       {
         "coord": { "y": 2, "x": 2 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -33,7 +33,7 @@
       },
       {
         "coord": { "y": 2, "x": 3 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -41,7 +41,7 @@
       },
       {
         "coord": { "y": 2, "x": 4 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -49,7 +49,7 @@
       },
       {
         "coord": { "y": 2, "x": 5 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -57,7 +57,7 @@
       },
       {
         "coord": { "y": 2, "x": 6 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -65,7 +65,7 @@
       },
       {
         "coord": { "y": 3, "x": 0 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -73,7 +73,7 @@
       },
       {
         "coord": { "y": 3, "x": 1 },
-        "element": "laser",
+        "element": "Laser",
         "rotation": 90,
         "frozen": true,
         "active": false,
@@ -81,7 +81,7 @@
       },
       {
         "coord": { "y": 3, "x": 4 },
-        "element": "gate",
+        "element": "Gate",
         "rotation": 180,
         "frozen": true,
         "active": true,
@@ -89,7 +89,7 @@
       },
       {
         "coord": { "y": 3, "x": 10 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 270,
         "frozen": false,
         "active": false,
@@ -97,7 +97,7 @@
       },
       {
         "coord": { "y": 4, "x": 0 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -105,7 +105,7 @@
       },
       {
         "coord": { "y": 4, "x": 1 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -113,7 +113,7 @@
       },
       {
         "coord": { "y": 4, "x": 2 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -121,7 +121,7 @@
       },
       {
         "coord": { "y": 4, "x": 3 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": true,
@@ -129,7 +129,7 @@
       },
       {
         "coord": { "y": 4, "x": 4 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 0,
         "frozen": true,
         "active": false,
@@ -137,7 +137,7 @@
       },
       {
         "coord": { "y": 4, "x": 5 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": true,
@@ -145,7 +145,7 @@
       },
       {
         "coord": { "y": 4, "x": 6 },
-        "element": "wall",
+        "element": "Wall",
         "rotation": 0,
         "frozen": false,
         "active": false,
@@ -153,7 +153,7 @@
       },
       {
         "coord": { "y": 6, "x": 1 },
-        "element": "laser",
+        "element": "Laser",
         "rotation": 90,
         "frozen": true,
         "active": true,
@@ -161,7 +161,7 @@
       },
       {
         "coord": { "y": 6, "x": 4 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 45,
         "frozen": true,
         "active": false,

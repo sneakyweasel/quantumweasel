@@ -8,7 +8,7 @@
 	"cells": [
 		{
 			"coord": { "y": 1, "x": 8 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -16,7 +16,7 @@
 		},
 		{
 			"coord": { "y": 1, "x": 9 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -24,7 +24,7 @@
 		},
 		{
 			"coord": { "y": 1, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -32,7 +32,7 @@
 		},
 		{
 			"coord": { "y": 2, "x": 8 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -40,7 +40,7 @@
 		},
 		{
 			"coord": { "y": 2, "x": 9 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 180,
 			"frozen": true,
 			"active": true,
@@ -48,7 +48,7 @@
 		},
 		{
 			"coord": { "y": 2, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -56,7 +56,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 1 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -64,7 +64,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 2 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -72,7 +72,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 3 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -80,7 +80,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 4 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -88,7 +88,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 5 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -96,7 +96,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 6 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -104,7 +104,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 7 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -112,7 +112,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 8 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -120,7 +120,7 @@
 		},
 		{
 			"coord": { "y": 3, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -128,7 +128,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 1 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -136,7 +136,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 2 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 90,
 			"frozen": true,
 			"active": false,
@@ -144,7 +144,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 8 },
-			"element": "detector",
+			"element": "Detector",
 			"rotation": 270,
 			"frozen": true,
 			"active": false,
@@ -152,7 +152,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 9 },
-			"element": "gate",
+			"element": "Gate",
 			"rotation": 0,
 			"frozen": true,
 			"active": false,
@@ -160,7 +160,7 @@
 		},
 		{
 			"coord": { "y": 4, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -168,7 +168,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 1 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -176,7 +176,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 2 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -184,7 +184,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 3 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -192,7 +192,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 4 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -200,7 +200,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 5 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -208,7 +208,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 6 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -216,7 +216,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 7 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -224,7 +224,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 8 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -232,7 +232,7 @@
 		},
 		{
 			"coord": { "y": 5, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -240,7 +240,7 @@
 		},
 		{
 			"coord": { "y": 6, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -248,7 +248,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 3 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -256,7 +256,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 4 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -264,7 +264,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 5 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -272,7 +272,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 6 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -280,7 +280,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 7 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -288,7 +288,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 8 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -296,7 +296,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 9 },
-			"element": "detector",
+			"element": "Detector",
 			"rotation": 0,
 			"frozen": true,
 			"active": false,
@@ -304,7 +304,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -312,7 +312,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 11 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -320,7 +320,7 @@
 		},
 		{
 			"coord": { "y": 7, "x": 12 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -328,7 +328,7 @@
 		},
 		{
 			"coord": { "y": 8, "x": 3 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -336,7 +336,7 @@
 		},
 		{
 			"coord": { "y": 8, "x": 4 },
-			"element": "detector",
+			"element": "Detector",
 			"rotation": 90,
 			"frozen": true,
 			"active": false,
@@ -344,7 +344,7 @@
 		},
 		{
 			"coord": { "y": 8, "x": 5 },
-			"element": "sugar",
+			"element": "SugarSolution",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -352,7 +352,7 @@
 		},
 		{
 			"coord": { "y": 8, "x": 9 },
-			"element": "gate",
+			"element": "Gate",
 			"rotation": 180,
 			"frozen": true,
 			"active": false,
@@ -360,7 +360,7 @@
 		},
 		{
 			"coord": { "y": 8, "x": 11 },
-			"element": "laser",
+			"element": "Laser",
 			"rotation": 270,
 			"frozen": true,
 			"active": true,
@@ -368,7 +368,7 @@
 		},
 		{
 			"coord": { "y": 8, "x": 12 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -376,7 +376,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 3 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -384,7 +384,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 4 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -392,7 +392,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 5 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -400,7 +400,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 6 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -408,7 +408,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 7 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -416,7 +416,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 8 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -424,7 +424,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 9 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -432,7 +432,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 10 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -440,7 +440,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 11 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,
@@ -448,7 +448,7 @@
 		},
 		{
 			"coord": { "y": 9, "x": 12 },
-			"element": "wall",
+			"element": "Wall",
 			"rotation": 0,
 			"frozen": false,
 			"active": false,

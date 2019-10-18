@@ -9,7 +9,7 @@
     "cells": [
       {
         "coord": { "y": 3, "x": 4 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 45,
         "frozen": false,
         "active": false,
@@ -17,7 +17,7 @@
       },
       {
         "coord": { "y": 3, "x": 8 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 135,
         "frozen": false,
         "active": false,
@@ -25,7 +25,7 @@
       },
       {
         "coord": { "y": 5, "x": 1 },
-        "element": "laser",
+        "element": "Laser",
         "rotation": 90,
         "frozen": false,
         "active": true,
@@ -33,7 +33,7 @@
       },
       {
         "coord": { "y": 5, "x": 4 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 45,
         "frozen": false,
         "active": false,
@@ -41,7 +41,7 @@
       },
       {
         "coord": { "y": 5, "x": 6 },
-        "element": "mine",
+        "element": "Mine",
         "rotation": 0,
         "frozen": true,
         "active": false,
@@ -49,7 +49,7 @@
       },
       {
         "coord": { "y": 5, "x": 8 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 135,
         "frozen": false,
         "active": false,
@@ -57,7 +57,7 @@
       },
       {
         "coord": { "y": 5, "x": 10 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 270,
         "frozen": true,
         "active": false,

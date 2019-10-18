@@ -9,7 +9,7 @@
     "cells": [
       {
         "coord": { "y": 0, "x": 5 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 180,
         "frozen": true,
         "active": false,
@@ -17,7 +17,7 @@
       },
       {
         "coord": { "y": 2, "x": 3 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 90,
         "frozen": true,
         "active": false,
@@ -25,7 +25,7 @@
       },
       {
         "coord": { "y": 2, "x": 5 },
-        "element": "beamsplitter",
+        "element": "BeamSplitter",
         "rotation": 135,
         "frozen": false,
         "active": false,
@@ -33,7 +33,7 @@
       },
       {
         "coord": { "y": 4, "x": 5 },
-        "element": "beamsplitter",
+        "element": "BeamSplitter",
         "rotation": 45,
         "frozen": false,
         "active": false,
@@ -41,7 +41,7 @@
       },
       {
         "coord": { "y": 4, "x": 8 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 270,
         "frozen": true,
         "active": false,
@@ -49,7 +49,7 @@
       },
       {
         "coord": { "y": 6, "x": 1 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 90,
         "frozen": true,
         "active": false,
@@ -57,7 +57,7 @@
       },
       {
         "coord": { "y": 6, "x": 5 },
-        "element": "beamsplitter",
+        "element": "BeamSplitter",
         "rotation": 135,
         "frozen": false,
         "active": false,
@@ -65,7 +65,7 @@
       },
       {
         "coord": { "y": 8, "x": 5 },
-        "element": "beamsplitter",
+        "element": "BeamSplitter",
         "rotation": 45,
         "frozen": false,
         "active": false,
@@ -73,7 +73,7 @@
       },
       {
         "coord": { "y": 8, "x": 9 },
-        "element": "detector",
+        "element": "Detector",
         "rotation": 270,
         "frozen": true,
         "active": false,
@@ -81,7 +81,7 @@
       },
       {
         "coord": { "y": 10, "x": 5 },
-        "element": "laser",
+        "element": "Laser",
         "rotation": 0,
         "frozen": true,
         "active": true,

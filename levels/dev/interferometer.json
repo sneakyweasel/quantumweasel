@@ -9,15 +9,15 @@
     "cells": [
       {
         "coord": { "y": 2, "x": 6 },
-        "element": "detector",
-        "rotation": 180,
+        "element": "Detector",
+        "rotation": 270,
         "frozen": true,
         "active": false,
         "energized": false
       },
       {
         "coord": { "y": 4, "x": 3 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 45,
         "frozen": true,
         "active": false,
@@ -25,7 +25,7 @@
       },
       {
         "coord": { "y": 4, "x": 6 },
-        "element": "beamsplitter",
+        "element": "BeamSplitter",
         "rotation": 225,
         "frozen": true,
         "active": false,
@@ -33,23 +33,23 @@
       },
       {
         "coord": { "y": 4, "x": 8 },
-        "element": "detector",
-        "rotation": 270,
+        "element": "Detector",
+        "rotation": 180,
         "frozen": true,
         "active": false,
         "energized": false
       },
       {
         "coord": { "y": 7, "x": 1 },
-        "element": "laser",
-        "rotation": 90,
+        "element": "Laser",
+        "rotation": 0,
         "frozen": true,
         "active": true,
         "energized": false
       },
       {
         "coord": { "y": 7, "x": 3 },
-        "element": "beamsplitter",
+        "element": "BeamSplitter",
         "rotation": 45,
         "frozen": true,
         "active": false,
@@ -57,7 +57,7 @@
       },
       {
         "coord": { "y": 7, "x": 6 },
-        "element": "mirror",
+        "element": "Mirror",
         "rotation": 45,
         "frozen": true,
         "active": false,
