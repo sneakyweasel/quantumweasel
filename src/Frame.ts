@@ -1,21 +1,15 @@
-// TIME FRAME CLASS
-// Allow time-travel debugging with step by step inc/dec of time
-// Generate a new frame for every move of the particle
-// Particles are [coord, direction]
-// Exit conditions
-// - All goals done
-// - Not enough intensity
-// - No more particles
 // TODO: Don't return whole level at each frame
+// TODO: Frame could extend Level class
 import Coord from "./Coord"
-import Cell from "./Cell"
-import Grid from "./Grid"
 import Level, { LevelInterface } from "./Level"
 import Particle, { ParticleInterface } from "./Particle"
 import Goal from "./Goal"
-import Hint from "./Hint"
 import * as qt from "quantum-tensors"
 
+/**
+ * FRAME INTERFACE
+ * time-frame using only primitives
+ */
 export interface FrameInterface {
   level: LevelInterface
   step: number
@@ -24,6 +18,10 @@ export interface FrameInterface {
   end: boolean
 }
 
+/**
+ * QUANTUM PARTICLE INTERFACE
+ * Particle interface received from quantum-tensors
+ */
 export interface Qparticle {
   x: number
   y: number
@@ -34,6 +32,12 @@ export interface Qparticle {
   bim: number
 }
 
+/**
+ * TIME FRAME CLASS
+ * Allow time-travel debugging with step by step inc/dec of time
+ * Generate a new frame for every move of the particle
+ * Particles are [coord, direction, CxA, CxB]
+ */
 export default class Frame {
   level: Level
   step: number
@@ -41,13 +45,7 @@ export default class Frame {
   quantum: Particle[]
   end: boolean
 
-  constructor(
-    level: Level,
-    step = 0,
-    classical: Particle[] = [],
-    quantum: Particle[] = [],
-    end = false
-  ) {
+  constructor(level: Level, step = 0, classical: Particle[] = [], quantum: Particle[] = [], end = false) {
     this.level = level
     this.step = step
     this.classical = classical
@@ -70,12 +68,7 @@ export default class Frame {
         // Classical code
         classical.push(laser.fire())
         // Quantum code
-        this.level.state.addPhotonIndicator(
-          laser.coord.x,
-          laser.coord.y,
-          laser.ascii,
-          "V"
-        )
+        this.level.state.addPhotonIndicator(laser.coord.x, laser.coord.y, laser.ascii, "V")
         console.debug("quantum", this.level.state.vector.toString())
       })
       return new Frame(this.level, 1, classical, quantum, false)
@@ -97,23 +90,21 @@ export default class Frame {
     this.level.state.propagatePhotons()
     console.debug("quantum", this.level.state.vector.toString())
     // Act
-    const operations: [number, number, qt.Operator][] = this.grid.operatorList
+    const operations: [number, number, qt.Operator][] = this.level.grid.operatorList
     console.log("OPERATIONS: " + operations)
     // Debug
     this.level.state.actOnSinglePhotons(operations)
     console.debug(this.level.state.vector.toString())
 
-    return this.level.state
-      .aggregatePolarization()
-      .map((qParticle: Qparticle) => {
-        const x = qParticle.x
-        const y = qParticle.y
-        const direction = qParticle.direction
-        const a = qt.Cx(qParticle.are, qParticle.aim)
-        const b = qt.Cx(qParticle.bre, qParticle.bim)
-        const coord = new Coord(y, x)
-        return new Particle(coord, direction, 0, 0, a, b)
-      })
+    return this.level.state.aggregatePolarization().map((qParticle: Qparticle) => {
+      const x = qParticle.x
+      const y = qParticle.y
+      const direction = qParticle.direction
+      const a = qt.Cx(qParticle.are, qParticle.aim)
+      const b = qt.Cx(qParticle.bre, qParticle.bim)
+      const coord = new Coord(y, x)
+      return new Particle(coord, direction, 0, 0, a, b)
+    })
   }
 
   /**
@@ -124,14 +115,15 @@ export default class Frame {
     return []
   }
 
-  // Overriden method
+  /**
+   * String representing the state
+   * @returns string
+   */
   toString(): string {
-    let result = `\n--- ${this.victory ? "VICTORY" : "IN PROGRESS"} --- Step #${
-      this.step
-    } with ${this.classical.length} active particles.\n`
-    result += "\nClassical: "
+    let result = `\n--- STEP ${this.step} ${this.victory ? "VICTORY" : "IN PROGRESS"} --- `
+    result += `\nClassical (${this.classical.length} particles): `
     result += Particle.manyToString(this.classical)
-    result += "\nQuantum: "
+    result += `\nQuantum: (${this.quantum.length} particles)`
     result += Particle.manyToString(this.quantum)
     result += "\n"
     result += `${this.level.goals.length} active goals...\n`
@@ -141,7 +133,10 @@ export default class Frame {
     return result
   }
 
-  // Export frame interface
+  /**
+   * Export frame into primitives
+   * @returns FrameInterface
+   */
   exportFrame(): FrameInterface {
     return {
       level: this.level.exportLevel(),
@@ -152,31 +147,19 @@ export default class Frame {
     }
   }
 
-  // Convenient getters
-  get grid(): Grid {
-    return this.level.grid
-  }
-  get cells(): Cell[] {
-    return this.grid.cells
-  }
-  get lasers(): Cell[] {
-    return this.grid.lasers.cells
-  }
-  get activeLasers(): Cell[] {
-    return this.grid.lasers.active.cells
-  }
-  get goals(): Goal[] {
-    return this.level.goals
-  }
-  get hints(): Hint[] {
-    return this.level.hints
-  }
+  /**
+   * Completed goals for frontend display
+   */
   get completedGoals(): Goal[] {
     return this.level.goals.filter(goal => {
       return goal.completed
     })
   }
+
+  /**
+   * Are all the goals completed
+   */
   get victory(): boolean {
-    return this.completedGoals.length === this.goals.length
+    return this.completedGoals.length === this.level.goals.length
   }
 }

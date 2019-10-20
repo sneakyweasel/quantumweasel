@@ -16,4 +16,3 @@ export interface Actor {
   type: ActorType
   act(): Promise<string>
 }
-
