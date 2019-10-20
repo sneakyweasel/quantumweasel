@@ -1,4 +1,3 @@
-// GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
 import { Operator } from "quantum-tensors"
@@ -64,13 +63,6 @@ export default class Grid extends Cluster {
       })[0] || new Cell(coord, Element.fromName("Void"))
     )
   }
-
-  /**
-   * @returns list of non blank cells
-   */
-  // cells(): Cell[] {
-  //   return this.cluster.cells;
-  // }
 
   /**
    * @returns list of non blank cell coordinates
@@ -165,7 +157,7 @@ export default class Grid extends Cluster {
    * @returns the particles fired
    */
   public fireLasers(): Particle[] {
-    return this.lasers.active.cells.map(laser => {
+    return this.cluster.lasers.active.cells.map(laser => {
       return laser.fire()
     })
   }
@@ -286,16 +278,15 @@ export default class Grid extends Cluster {
 
   /**
    * Gives the classical laser path of a specific particle
+   * FIXME: Could be refactored
    * @returns a list of coordinates
    * */
   computePaths(): Particle[] {
     const laserCoords: Particle[] = []
-    const particles: Particle[] = []
     this.cluster.lasers.active.cells.map(laser => {
-      particles.push(laser.fire())
-    })
-    particles.forEach(particle => {
-      this.laserPath(particle, 40).forEach((particle: Particle) => {
+      return laser.fire()
+    }).map(particle => {
+      this.laserPath(particle, 40).map((particle: Particle) => {
         if (particle.coord.isIncludedIn(this.coords)) {
           laserCoords.push(particle)
         }
@@ -311,7 +302,7 @@ export default class Grid extends Cluster {
   energizeCells(paths: ParticleInterface[]): void {
     const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord)
     this.cluster.cells.forEach(cell => {
-      if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "void") {
+      if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "Void") {
         cell.energized = true
       } else {
         cell.energized = false

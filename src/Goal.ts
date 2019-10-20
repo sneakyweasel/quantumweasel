@@ -77,13 +77,17 @@ export default class Goal extends Coord {
       return new Goal(Coord.importCoord(coord), goal.threshold)
     })
   }
-}
 
-// Format active particle list
-// static manyToString(goals: Goal[]): string {
-//   let result = `${goals.length} active goals...\n`;
-//   goals.map(goal => {
-//     result += `- ${goal.toString()}\n`;
-//   });
-//   return result;
-// }
+  /**
+   * Output formatted list of goals
+   * @param goals list of goals
+   * @returns formatted string describing goals
+   */  
+  static manyToString(goals: Goal[]): string {
+    let result = `${goals.length} active goals...\n`;
+    goals.map(goal => {
+      result += `- ${goal.toString()}\n`;
+    });
+    return result;
+  }
+}

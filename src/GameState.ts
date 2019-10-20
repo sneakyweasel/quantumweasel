@@ -1,19 +1,29 @@
+/**
+ * GAME STATE CLASS
+ * Stores the game starting and ending logic
+ * TODO: Will need to be better defined
+ */
 export default class GameState {
   achievedGoals: boolean
   noParticles: boolean
   notEnoughIntensity: boolean
 
   constructor() {
-    this.reset()
+    this.achievedGoals = false
+    this.noParticles = false
+    this.notEnoughIntensity = false
   }
-
+  
+  /**
+   * Reset game state variables
+   */
   reset(): void {
     this.achievedGoals = false
     this.noParticles = false
     this.notEnoughIntensity = false
   }
 
-  doStartNextRound(): boolean {
+  doComputeNextFrame(): boolean {
     return !this.noParticles
   }
 

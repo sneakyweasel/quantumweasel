@@ -75,7 +75,6 @@ export default class Glyph {
         const y = elem.id * tilesize
         const x = index * tilesize
         tileMap[elem.ascii[index]] = [x, y]
-        // console.log(`Processing ${elem.name}: Position: ${elem.ascii[index]} - [X:${x}, Y:${y}]`);
       })
     })
 

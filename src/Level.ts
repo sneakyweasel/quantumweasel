@@ -3,11 +3,14 @@ import { Photons } from "quantum-tensors"
 import Grid, { GridInterface } from "./Grid"
 import Hint, { HintInterface } from "./Hint"
 import Goal, { GoalInterface } from "./Goal"
+import Toolbox from "./Toolbox"
 import { convertFromClassicNames } from "./Helpers"
 import { Coord, Cell, Element } from "./main"
-// import Inventory from "./Inventory";
 
-/** A level interface composed of primitives for display */
+/**
+ * LEVEL INTERFACE 
+ * level interface composed of primitives for display 
+ */
 export interface LevelInterface {
   id: number
   name: string
@@ -18,6 +21,10 @@ export interface LevelInterface {
   hints: HintInterface[]
 }
 
+/** 
+ * CLASSICAL LEVEL INTERFACE
+ * original level structure for importing V1 levels
+ */
 export interface ClassicLevelInterface {
   name: string
   group: string
@@ -33,6 +40,7 @@ export interface ClassicLevelInterface {
 }
 
 /**
+ * LEVEL CLASS
  * Level class describes the level data and logic
  * Levels are loaded as a JSON file of a solution
  * Unfrozen elements are then processed into the players inventory
@@ -45,7 +53,7 @@ export default class Level {
   grid: Grid
   goals: Goal[]
   hints: Hint[]
-  // toolbox: Inventory;
+  toolbox: Toolbox;
   completed: boolean
   state: Photons
 
@@ -78,15 +86,14 @@ export default class Level {
    * @returns a string describing the level
    */
   toString(): string {
-    return `\
-LEVEL: ${this.name} [${this.grid.cols}x${this.grid.rows}]\n\
-DESC: ${this.description}\n\
-GROUP: ${this.group}\n\
-${this.grid.toString()}\n\
-GOALS: ${this.goals.map(i => i.toString())}\n\
-GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
-HINTS: ${this.hints.map(i => i.toString())}\n
-`
+    let result = `LEVEL: ${this.name} [${this.grid.cols}x${this.grid.rows}]\n`
+    result += `DESC: ${this.description}\n`
+    result += `GROUP: ${this.group}\n`
+    result += `${this.grid.toString()}\n`
+    result += `GOALS: ${this.goals.map(i => i.toString())}\n`
+    result += `GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n`
+    result += `HINTS: ${this.hints.map(i => i.toString())}\n`
+    return result
   }
 
   /**
@@ -100,8 +107,8 @@ HINTS: ${this.hints.map(i => i.toString())}\n
       group: this.group,
       description: this.description,
       grid: this.grid.exportGrid(),
-      hints: this.hints.flatMap(hint => hint.exportHint()),
-      goals: this.goals.flatMap(goal => goal.exportGoal())
+      hints: this.hints.map(hint => hint.exportHint()),
+      goals: this.goals.map(goal => goal.exportGoal())
     }
   }
 
