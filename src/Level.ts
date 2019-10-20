@@ -1,35 +1,35 @@
 // TODO: work on the toolbox
-import { Photons } from "quantum-tensors";
-import Grid, { GridInterface } from "./Grid";
-import Hint, { HintInterface } from "./Hint";
-import Goal, { GoalInterface } from "./Goal";
-import { convertFromClassicNames } from "./Helpers";
-import { Coord, Cell, Element } from "./main";
+import { Photons } from "quantum-tensors"
+import Grid, { GridInterface } from "./Grid"
+import Hint, { HintInterface } from "./Hint"
+import Goal, { GoalInterface } from "./Goal"
+import { convertFromClassicNames } from "./Helpers"
+import { Coord, Cell, Element } from "./main"
 // import Inventory from "./Inventory";
 
 /** A level interface composed of primitives for display */
 export interface LevelInterface {
-  id: number;
-  name: string;
-  group: string;
-  description: string;
-  grid: GridInterface;
-  goals: GoalInterface[];
-  hints: HintInterface[];
+  id: number
+  name: string
+  group: string
+  description: string
+  grid: GridInterface
+  goals: GoalInterface[]
+  hints: HintInterface[]
 }
 
 export interface ClassicLevelInterface {
-  name: string;
-  group: string;
-  width: number;
-  height: number;
+  name: string
+  group: string
+  width: number
+  height: number
   tiles: {
-    i: number;
-    j: number;
-    name: string;
-    rotation: number;
-    frozen: boolean;
-  }[];
+    i: number
+    j: number
+    name: string
+    rotation: number
+    frozen: boolean
+  }[]
 }
 
 /**
@@ -38,16 +38,16 @@ export interface ClassicLevelInterface {
  * Unfrozen elements are then processed into the players inventory
  */
 export default class Level {
-  id: number;
-  name: string;
-  group: string;
-  description: string;
-  grid: Grid;
-  goals: Goal[];
-  hints: Hint[];
+  id: number
+  name: string
+  group: string
+  description: string
+  grid: Grid
+  goals: Goal[]
+  hints: Hint[]
   // toolbox: Inventory;
-  completed: boolean;
-  state: Photons;
+  completed: boolean
+  state: Photons
 
   constructor(
     id: number,
@@ -60,17 +60,17 @@ export default class Level {
     completed: boolean
   ) {
     // Basic infos
-    this.id = id;
-    this.group = group;
-    this.name = name;
-    this.description = description;
+    this.id = id
+    this.group = group
+    this.name = name
+    this.description = description
     // Basic grid definition
-    this.grid = grid;
-    this.goals = goals;
-    this.hints = hints;
-    this.completed = completed;
+    this.grid = grid
+    this.goals = goals
+    this.hints = hints
+    this.completed = completed
     // Initiate quantum state
-    this.state = new Photons(grid.cols, grid.rows);
+    this.state = new Photons(grid.cols, grid.rows)
   }
 
   /**
@@ -86,7 +86,7 @@ ${this.grid.toString()}\n\
 GOALS: ${this.goals.map(i => i.toString())}\n\
 GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n\
 HINTS: ${this.hints.map(i => i.toString())}\n
-`;
+`
   }
 
   /**
@@ -102,7 +102,7 @@ HINTS: ${this.hints.map(i => i.toString())}\n
       grid: this.grid.exportGrid(),
       hints: this.hints.flatMap(hint => hint.exportHint()),
       goals: this.goals.flatMap(goal => goal.exportGoal())
-    };
+    }
   }
 
   /**
@@ -111,10 +111,10 @@ HINTS: ${this.hints.map(i => i.toString())}\n
    * @returns a Level instance
    */
   static importLevel(obj: LevelInterface): Level {
-    const grid = new Grid(obj.grid.rows, obj.grid.cols);
-    grid.importGrid(obj.grid.cells);
-    const goals = Goal.importGoal(obj.goals);
-    const hints = Hint.importHint(obj.hints);
+    const grid = new Grid(obj.grid.rows, obj.grid.cols)
+    grid.importGrid(obj.grid.cells)
+    const goals = Goal.importGoal(obj.goals)
+    const hints = Hint.importHint(obj.hints)
     return new Level(
       obj.id,
       obj.name,
@@ -124,7 +124,7 @@ HINTS: ${this.hints.map(i => i.toString())}\n
       goals,
       hints,
       false
-    );
+    )
   }
 
   /**
@@ -134,18 +134,18 @@ HINTS: ${this.hints.map(i => i.toString())}\n
    */
 
   static importClassicLevel(obj: ClassicLevelInterface): Level {
-    const rows = obj.height;
-    const cols = obj.width;
-    const grid = new Grid(rows, cols);
+    const rows = obj.height
+    const cols = obj.width
+    const grid = new Grid(rows, cols)
     obj.tiles.map(tile => {
-      const element = Element.fromName(convertFromClassicNames(tile.name));
-      const rotation = tile.rotation * element.rotationAngle;
-      const coord = new Coord(tile.j, tile.i);
-      const cell = new Cell(coord, element, rotation, tile.frozen);
-      grid.set(cell);
-    });
-    const goals: Goal[] = [];
-    const hints: Hint[] = [];
-    return new Level(0, obj.name, obj.group, "", grid, goals, hints, false);
+      const element = Element.fromName(convertFromClassicNames(tile.name))
+      const rotation = tile.rotation * element.rotationAngle
+      const coord = new Coord(tile.j, tile.i)
+      const cell = new Cell(coord, element, rotation, tile.frozen)
+      grid.set(cell)
+    })
+    const goals: Goal[] = []
+    const hints: Hint[] = []
+    return new Level(0, obj.name, obj.group, "", grid, goals, hints, false)
   }
 }

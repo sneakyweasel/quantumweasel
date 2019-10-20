@@ -1,28 +1,29 @@
-// GOAL CLASS
-// Each detector should have a related threshold level in order to achieve the level.
-// Goal should extend Cell or should extend Coord
-import Coord, { CoordInterface } from "./Coord";
+import Coord, { CoordInterface } from "./Coord"
 
 /**
+ * GOAL INTERFACE
  * Goal interface with primitive js types
  */
 export interface GoalInterface {
-  coord: CoordInterface;
-  threshold: number;
-  value: number;
+  coord: CoordInterface
+  threshold: number
+  value: number
 }
 
-/** The goals to be achieved by the player */
+/**
+ * GOAL CLASS
+ * The goals to be achieved by the player
+ */
 export default class Goal extends Coord {
-  coord: Coord;
-  threshold: number;
-  value: number;
+  coord: Coord
+  threshold: number
+  value: number
 
   constructor(coord: Coord, threshold: number, value = 0) {
-    super(coord.y, coord.x);
-    this.coord = coord;
-    this.threshold = threshold;
-    this.value = value;
+    super(coord.y, coord.x)
+    this.coord = coord
+    this.threshold = threshold
+    this.value = value
   }
 
   /**
@@ -30,7 +31,7 @@ export default class Goal extends Coord {
    * @returns boolean if the goal is completed
    */
   get completed(): boolean {
-    return this.value >= this.threshold;
+    return this.value >= this.threshold
   }
 
   /**
@@ -38,7 +39,7 @@ export default class Goal extends Coord {
    * @returns number from 0 to 1 describing percentage
    */
   get percentage(): number {
-    return (this.value / this.threshold) * 100;
+    return (this.value / this.threshold) * 100
   }
 
   /**
@@ -50,7 +51,7 @@ export default class Goal extends Coord {
       this.completed ? "completed " : " "
     }@ ${this.coord.toString()} is ${this.value} / ${this.threshold}} (${
       this.percentage
-    }%)`;
+    }%)`
   }
 
   /**
@@ -62,7 +63,7 @@ export default class Goal extends Coord {
       coord: this.coord.exportCoord(),
       threshold: this.threshold,
       value: this.value
-    };
+    }
   }
 
   /**
@@ -72,9 +73,9 @@ export default class Goal extends Coord {
    */
   static importGoal(goalObjs: GoalInterface[]): Goal[] {
     return goalObjs.map(goal => {
-      const coord = goal.coord;
-      return new Goal(Coord.importCoord(coord), goal.threshold);
-    });
+      const coord = goal.coord
+      return new Goal(Coord.importCoord(coord), goal.threshold)
+    })
   }
 }
 

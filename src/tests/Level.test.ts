@@ -1,9 +1,4 @@
-// import Coord from "../Coord";
-// import Element from "../Element";
-// import Cell from "../Cell";
-// import Grid from "../Grid";
-import Level, { LevelInterface } from "../Level";
-// import Game from "../Game";
+import Level, { LevelInterface } from "../Level"
 // import jsonFile from "../../levels/dev/jest.json";
 
 const jsonLevelInterface: LevelInterface = {
@@ -27,12 +22,12 @@ const jsonLevelInterface: LevelInterface = {
   },
   hints: [],
   goals: []
-};
+}
 
 // Coordinates testing
 describe("Level", () => {
   it("should load a level from a level interface object", () => {
-    const levelObj = Level.importLevel(jsonLevelInterface);
+    const levelObj = Level.importLevel(jsonLevelInterface)
     expect(levelObj.grid.exportGrid()).toEqual({
       cells: [
         {
@@ -46,8 +41,8 @@ describe("Level", () => {
       ],
       cols: 6,
       rows: 5
-    });
-  });
+    })
+  })
 
   // it("should load a level from a json level file", () => {
   //   const levelJson = Level.importLevel(jsonFile);
@@ -80,4 +75,4 @@ describe("Level", () => {
   //   const game = new Game(level, 32);
   //   console.log(game.frames[0].exportFrame());
   // });
-});
+})

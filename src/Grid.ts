@@ -1,39 +1,39 @@
 // GRID CLASS
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
-import { Operator } from "quantum-tensors";
-import Coord from "./Coord";
-import Cell, { CellInterface } from "./Cell";
-import { GridInterface } from "./Grid";
-import Cluster from "./Cluster";
-import Particle, { ParticleInterface } from "./Particle";
-import Element from "./Element";
+import { Operator } from "quantum-tensors"
+import Coord from "./Coord"
+import Cell, { CellInterface } from "./Cell"
+import { GridInterface } from "./Grid"
+import Cluster from "./Cluster"
+import Particle, { ParticleInterface } from "./Particle"
+import Element from "./Element"
 
 /**
  * Grid interface composed of primitive JS types
  */
 export interface GridInterface {
-  cols: number;
-  rows: number;
-  cells: CellInterface[];
+  cols: number
+  rows: number
+  cells: CellInterface[]
 }
 
 /**
  * Grid class includes the grid instance that holds the cells
  */
 export default class Grid extends Cluster {
-  public cols: number;
-  public rows: number;
-  public cluster: Cluster;
-  public paths: Particle[];
+  public cols: number
+  public rows: number
+  public cluster: Cluster
+  public paths: Particle[]
 
   constructor(rows: number, cols: number, cluster: Cluster = new Cluster([])) {
-    super(cluster.cells);
-    this.rows = rows;
-    this.cols = cols;
-    this.cluster = cluster;
+    super(cluster.cells)
+    this.rows = rows
+    this.cols = cols
+    this.cluster = cluster
     // If cells are given compute the laser path
-    this.paths = this.computePaths();
+    this.paths = this.computePaths()
   }
 
   /**
@@ -43,12 +43,12 @@ export default class Grid extends Cluster {
    */
   public set(cell: Cell): boolean {
     if (this.includes(cell.coord)) {
-      this.cluster.cells.push(cell);
-      return true;
+      this.cluster.cells.push(cell)
+      return true
     } else {
       throw new Error(
         `Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`
-      );
+      )
     }
   }
 
@@ -60,9 +60,9 @@ export default class Grid extends Cluster {
   public get(coord: Coord): Cell {
     return (
       this.cluster.cells.filter(cell => {
-        return coord.equal(cell.coord);
+        return coord.equal(cell.coord)
       })[0] || new Cell(coord, Element.fromName("Void"))
-    );
+    )
   }
 
   /**
@@ -76,14 +76,14 @@ export default class Grid extends Cluster {
    * @returns list of non blank cell coordinates
    */
   get coords(): Coord[] {
-    return this.cluster.cells.map(cell => cell.coord);
+    return this.cluster.cells.map(cell => cell.coord)
   }
 
   /**
    * @returns list of non blank cell elements
    */
   get elements(): Element[] {
-    return this.cluster.cells.map(cell => cell.element);
+    return this.cluster.cells.map(cell => cell.element)
   }
 
   /**
@@ -94,7 +94,7 @@ export default class Grid extends Cluster {
     return Coord.importCoord({
       y: Math.floor(this.cols / 2),
       x: Math.floor(this.rows / 2)
-    });
+    })
   }
 
   /**
@@ -107,8 +107,8 @@ export default class Grid extends Cluster {
         cell.coord.x,
         cell.coord.y,
         cell.element.transition(cell.rotation)
-      ];
-    });
+      ]
+    })
   }
 
   /**
@@ -121,7 +121,7 @@ export default class Grid extends Cluster {
       coord.y >= 0 &&
       coord.y < this.rows &&
       (coord.x >= 0 && coord.x < this.cols)
-    );
+    )
   }
 
   /**
@@ -129,22 +129,23 @@ export default class Grid extends Cluster {
    * @param src source coordinate
    * @param dst destination coordinate
    * @returns boolean if success
+   * FIXME: Problem with the cells setting and getting
    */
   public move(src: Coord, dst: Coord): boolean {
-    const cellSrc = this.get(src);
-    const cellDst = this.get(dst);
+    const cellSrc = this.get(src)
+    const cellDst = this.get(dst)
     if (!cellSrc.frozen && !cellDst.frozen) {
-      this.set(new Cell(src, cellDst.element, cellDst.rotation));
-      this.set(new Cell(dst, cellSrc.element, cellSrc.rotation));
+      this.set(new Cell(src, cellDst.element, cellDst.rotation))
+      this.set(new Cell(dst, cellSrc.element, cellSrc.rotation))
       console.debug(
         `Moved ${cellSrc.element} from ${src.toString()} to ${dst.toString()}`
-      );
-      return true;
+      )
+      return true
     } else {
       console.error(
         `Couldn't move ${cellSrc.element} because of frozen ${dst.toString()}`
-      );
-      return false;
+      )
+      return false
     }
   }
 
@@ -154,8 +155,8 @@ export default class Grid extends Cluster {
    */
   public moveAll(direction: number): void {
     this.cluster.cells.map(cell => {
-      cell.coord = cell.coord.fromAngle(direction);
-    });
+      cell.coord = cell.coord.fromAngle(direction)
+    })
   }
 
   /**
@@ -164,8 +165,8 @@ export default class Grid extends Cluster {
    */
   public fireLasers(): Particle[] {
     return this.lasers.active.cells.map(laser => {
-      return laser.fire();
-    });
+      return laser.fire()
+    })
   }
 
   /**
@@ -174,15 +175,15 @@ export default class Grid extends Cluster {
    * @param coord Coordinate
    */
   coordIntensitySum(coord: Coord): number {
-    let sum = 0;
+    let sum = 0
     this.paths
       .filter(particleInterface => {
-        return coord.equal(particleInterface.coord);
+        return coord.equal(particleInterface.coord)
       })
       .map(particle => {
-        sum += particle.intensity;
-      });
-    return sum;
+        sum += particle.intensity
+      })
+    return sum
   }
 
   /**
@@ -193,93 +194,93 @@ export default class Grid extends Cluster {
    */
   laserPath(particle: Particle, maxFrames = 40): Particle[] {
     // Make a depp clone of the particle
-    let alive: Particle[] = [particle];
-    const dead: Particle[] = [];
+    let alive: Particle[] = [particle]
+    const dead: Particle[] = []
 
     // Simulate path with a specific number of frames
     for (let i = 0; i < maxFrames; i++) {
       // Propagate each living particle
       alive.forEach(particle => {
-        particle.next();
+        particle.next()
 
         // Zero the intensity of escaping particles
         if (!this.includes(particle.coord)) {
-          particle.intensity = 0;
+          particle.intensity = 0
         }
 
         // Absorption
         this.cluster.absorbers.cells.forEach((absorber: Cell) => {
           if (particle.on(absorber)) {
             particle.intensity -=
-              particle.intensity * absorber.element.absorption;
+              particle.intensity * absorber.element.absorption
           }
-        });
+        })
 
         // Reflection
         this.cluster.mirrors.cells.forEach((mirror: Cell) => {
           if (particle.on(mirror)) {
             particle.direction =
-              (2 * mirror.rotation - particle.direction + 360) % 360;
+              (2 * mirror.rotation - particle.direction + 360) % 360
           }
-        });
+        })
         this.cluster.polarbeamsplitters.cells.forEach((polar: Cell) => {
           if (particle.on(polar)) {
             if (polar.rotation === 0) {
               const direction =
-                (2 * (polar.rotation - 45) - particle.direction + 360) % 360;
+                (2 * (polar.rotation - 45) - particle.direction + 360) % 360
               alive.push(
                 new Particle(particle.coord, direction, particle.intensity)
-              );
+              )
             }
             if (polar.rotation === 180) {
               const direction =
-                (2 * (polar.rotation + 45) - particle.direction + 360) % 360;
+                (2 * (polar.rotation + 45) - particle.direction + 360) % 360
               alive.push(
                 new Particle(particle.coord, direction, particle.intensity)
-              );
+              )
             }
           }
-        });
+        })
         this.cluster.beamsplitters.cells.forEach((beamsplitter: Cell) => {
           if (particle.on(beamsplitter)) {
             // Dim the current particle intensity
-            particle.intensity /= 2;
+            particle.intensity /= 2
             // Reflecting particle (create new reflected faded particle)
             const direction =
-              (2 * beamsplitter.rotation - particle.direction + 360) % 360;
+              (2 * beamsplitter.rotation - particle.direction + 360) % 360
             alive.push(
               new Particle(particle.coord, direction, particle.intensity)
-            );
+            )
           }
-        });
+        })
 
         // Phase shifters
         this.cluster.phaseshifters.cells.forEach((phaseshifter: Cell) => {
           if (particle.on(phaseshifter)) {
-            particle.phase = (particle.phase + phaseshifter.element.phase) % 1;
+            particle.phase = (particle.phase + phaseshifter.element.phase) % 1
           }
-        });
-      });
+        })
+      })
 
       // Filter the living from the dead
       alive.forEach(particle => {
         if (!particle.alive) {
-          dead.push(particle);
+          dead.push(particle)
         }
-      });
+      })
       alive = alive.filter(particle => {
-        return particle.alive;
-      });
+        return particle.alive
+      })
     }
 
     // Flatten and dedupe list of particles
-    const pathParticles: Particle[][] = [];
-    alive = dead.concat(alive);
+    const pathParticles: Particle[][] = []
+    alive = dead.concat(alive)
     alive.forEach(particle => {
       // particle.path
-      pathParticles.push(particle.pathParticle);
-    });
-    return [...new Set(pathParticles.flat())];
+      pathParticles.push(particle.pathParticle)
+    })
+    return [...new Set(pathParticles.flat())]
   }
 
   /**
@@ -287,19 +288,19 @@ export default class Grid extends Cluster {
    * @returns a list of coordinates
    * */
   computePaths(): Particle[] {
-    const laserCoords: Particle[] = [];
-    const particles: Particle[] = [];
+    const laserCoords: Particle[] = []
+    const particles: Particle[] = []
     this.cluster.lasers.active.cells.map(laser => {
-      particles.push(laser.fire());
-    });
+      particles.push(laser.fire())
+    })
     particles.forEach(particle => {
       this.laserPath(particle, 40).forEach((particle: Particle) => {
         if (particle.coord.isIncludedIn(this.coords)) {
-          laserCoords.push(particle);
+          laserCoords.push(particle)
         }
-      });
-    });
-    return laserCoords;
+      })
+    })
+    return laserCoords
   }
 
   /**
@@ -307,14 +308,14 @@ export default class Grid extends Cluster {
    * @param paths laser path to energize
    */
   energizeCells(paths: ParticleInterface[]): void {
-    const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord);
+    const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord)
     this.cluster.cells.forEach(cell => {
       if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "void") {
-        cell.energized = true;
+        cell.energized = true
       } else {
-        cell.energized = false;
+        cell.energized = false
       }
-    });
+    })
   }
 
   /**
@@ -323,20 +324,20 @@ export default class Grid extends Cluster {
   activateCells(): void {
     this.unvoid.cells.forEach(cell => {
       if (cell.element.name !== "laser") {
-        cell.active = false;
+        cell.active = false
       }
       const energizedAdjacent = this.adjacentCells(cell.coord).filter(
         adjacent => {
-          return adjacent.energized && adjacent.element.name === "detector";
+          return adjacent.energized && adjacent.element.name === "detector"
         }
-      );
+      )
       if (energizedAdjacent.length > 0) {
         console.log(
           `Cell ${cell.toString()} has 1+ active detectors as adjacent cell.`
-        );
-        cell.active = true;
+        )
+        cell.active = true
       }
-    });
+    })
   }
 
   /**
@@ -345,13 +346,13 @@ export default class Grid extends Cluster {
    * @returns a list of adjacent cells
    */
   adjacentCells(coord: Coord): Cell[] {
-    const adjacents: Cell[] = [];
+    const adjacents: Cell[] = []
     coord.adjacent.forEach(adjacent => {
       if (this.includes(adjacent)) {
-        adjacents.push(this.get(adjacent));
+        adjacents.push(this.get(adjacent))
       }
-    });
-    return adjacents;
+    })
+    return adjacents
   }
 
   /**
@@ -359,15 +360,15 @@ export default class Grid extends Cluster {
    * @returns an ascii grid
    */
   public get ascii(): string {
-    let result = "";
+    let result = ""
     for (let y = 0; y < this.rows; y++) {
       for (let x = 0; x < this.cols; x++) {
-        const coord = Coord.importCoord({ y: y, x: x });
-        result += this.get(coord).ascii;
+        const coord = Coord.importCoord({ y: y, x: x })
+        result += this.get(coord).ascii
       }
-      result += "\n";
+      result += "\n"
     }
-    return result;
+    return result
   }
 
   /**
@@ -376,10 +377,10 @@ export default class Grid extends Cluster {
    */
   public importGrid(jsonCells: CellInterface[]): void {
     jsonCells.forEach(jsonCell => {
-      const cell = Cell.importCell(jsonCell);
-      this.cluster.cells.push(cell);
-      this.set(cell);
-    });
+      const cell = Cell.importCell(jsonCell)
+      this.cluster.cells.push(cell)
+      this.set(cell)
+    })
   }
 
   /**
@@ -387,16 +388,16 @@ export default class Grid extends Cluster {
    * @returns a grid interface
    */
   public exportGrid(): GridInterface {
-    const cells: CellInterface[] = [];
+    const cells: CellInterface[] = []
     this.cluster.cells
       .filter(cell => !cell.isVoid)
       .forEach(cell => {
-        cells.push(cell.exportCell());
-      });
+        cells.push(cell.exportCell())
+      })
     return {
       cols: this.cols,
       rows: this.rows,
       cells: cells
-    };
+    }
   }
 }

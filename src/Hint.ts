@@ -2,19 +2,27 @@
 // Structure extracted for v1: https://github.com/stared/quantum-game/blob/master/data/levels_game.json
 // TODO: Create event class
 
-import Coord from "./Coord";
+import Coord from "./Coord"
 
+/**
+ * HINT INTERFACE
+ * Hint in primitives
+ */
 export interface HintInterface {
-  coord: { x: number; y: number };
-  text: string;
+  coord: { x: number; y: number }
+  text: string
 }
 
+/**
+ * HINT CLASS
+ * Hint will be active when simulation or gameplay events fire.
+ */
 export default class Hint {
-  coord: Coord;
-  width: number;
-  text: string;
-  direction: string;
-  active: boolean;
+  coord: Coord
+  width: number
+  text: string
+  direction: string
+  active: boolean
 
   constructor(
     coord: Coord,
@@ -23,31 +31,41 @@ export default class Hint {
     direction = "left",
     active = true
   ) {
-    this.coord = coord;
-    this.width = width;
-    this.text = text;
-    this.direction = direction;
-    this.active = active;
+    this.coord = coord
+    this.width = width
+    this.text = text
+    this.direction = direction
+    this.active = active
   }
 
-  // override toString() method
+  /**
+   * Override toString() method
+   * @returns hint string
+   */
   toString(): string {
-    return `{#HINT ${this.text} @ ${this.coord.toString()}}`;
+    return `{#HINT ${this.text} @ ${this.coord.toString()}}`
   }
 
-  // export hint interface
+  /**
+   * Export hint in primitives
+   * @returns hint interface
+   */
   exportHint(): HintInterface {
     return {
       coord: this.coord.exportCoord(),
       text: this.text
-    };
+    }
   }
 
-  // Import hint object
+  /**
+   * Process a list of hint interfaces
+   * @param jsonHints list of hints
+   * @returns Hint instances
+   */
   static importHint(jsonHints: HintInterface[]): Hint[] {
     return jsonHints.map(hint => {
-      const coord = Coord.importCoord(hint.coord);
-      return new Hint(coord, hint.text);
-    });
+      const coord = Coord.importCoord(hint.coord)
+      return new Hint(coord, hint.text)
+    })
   }
 }

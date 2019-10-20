@@ -1,4 +1,4 @@
-import { Color } from "rot-js";
+import { Color } from "rot-js"
 
 /**
  * List of element names
@@ -72,54 +72,54 @@ export const ElemGroups: { [symbol: string]: Elem[] } = {
     Elem.FaradayRotator
   ],
   Phase: [Elem.Glass, Elem.VacuumJar]
-};
+}
 
 // Convert angles to unicode symbols
 // https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
 export function angleToSymbol(angle: number): string {
-  angle = angle % 360;
+  angle = angle % 360
   switch (angle) {
     case 0:
-      return "↑";
+      return "↑"
     case 45:
-      return "↗";
+      return "↗"
     case 90:
-      return "→";
+      return "→"
     case 135:
-      return "↘";
+      return "↘"
     case 180:
-      return "↓";
+      return "↓"
     case 225:
-      return "↙";
+      return "↙"
     case 270:
-      return "←";
+      return "←"
     case 315:
-      return "↖";
+      return "↖"
     default:
-      throw new Error("Something is wrong with provided angle.");
+      throw new Error("Something is wrong with provided angle.")
   }
 }
 
 export function symbolToAngle(direction: string): number {
   switch (direction) {
     case "↑":
-      return 0;
+      return 0
     case "↗":
-      return 45;
+      return 45
     case "→":
-      return 90;
+      return 90
     case "↘":
-      return 135;
+      return 135
     case "↓":
-      return 180;
+      return 180
     case "↙":
-      return 225;
+      return 225
     case "←":
-      return 270;
+      return 270
     case "↖":
-      return 315;
+      return 315
     default:
-      throw new Error("Something is wrong with provided direction string.");
+      throw new Error("Something is wrong with provided direction string.")
   }
 }
 
@@ -128,11 +128,11 @@ export function padLeft(
   length: number,
   character?: string
 ): string {
-  const char = character || " ";
+  const char = character || " "
   while (text.length < length) {
-    text = char + text;
+    text = char + text
   }
-  return text;
+  return text
 }
 
 export function padRight(
@@ -140,15 +140,15 @@ export function padRight(
   length: number,
   character?: string
 ): string {
-  const char = character || " ";
+  const char = character || " "
   while (text.length < length) {
-    text += char;
+    text += char
   }
-  return text;
+  return text
 }
 
 export function toPercent(value: number): string {
-  return `${(value * 100).toFixed(2)}%`;
+  return `${(value * 100).toFixed(2)}%`
 }
 
 export function hsl2hexrgb(
@@ -157,79 +157,79 @@ export function hsl2hexrgb(
   lightness = 0.5
 ): string {
   if (hue >= 1) {
-    hue = 1;
+    hue = 1
   }
   if (saturation >= 1) {
-    saturation = 1;
+    saturation = 1
   }
   if (lightness >= 1) {
-    saturation = 1;
+    saturation = 1
   }
-  const hsl = Color.hsl2rgb([hue, saturation, lightness]);
-  return Color.toHex(hsl);
+  const hsl = Color.hsl2rgb([hue, saturation, lightness])
+  return Color.toHex(hsl)
 }
 
 export function scaleOpacity(opacity: number): string {
   if (opacity >= 1) {
-    opacity = 1;
+    opacity = 1
   }
-  const hsl = Color.hsl2rgb([0.333, 0.333, opacity]);
-  return Color.toHex(hsl);
+  const hsl = Color.hsl2rgb([0.333, 0.333, opacity])
+  return Color.toHex(hsl)
 }
 
 // Display Helpers
 export function displayText(elementId: string, text: string): void {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   // document.getElementById(elementId)!.textContent = text;
-  console.debug(`Log #${elementId}: ${text}`);
+  console.debug(`Log #${elementId}: ${text}`)
 }
 
 export function convertFromClassicNames(classic: string): string {
   switch (classic) {
     // Source
     case "Source":
-      return Elem.Laser;
+      return Elem.Laser
     // Direction
     case "ThinMirror":
-      return Elem.Mirror;
+      return Elem.Mirror
     case "ThinSplitter":
-      return Elem.BeamSplitter;
+      return Elem.BeamSplitter
     case "PolarizingSplitter":
-      return Elem.PolarizingBeamSplitter;
+      return Elem.PolarizingBeamSplitter
     case "ThinSplitterCoated":
-      return Elem.CoatedBeamSplitter;
+      return Elem.CoatedBeamSplitter
     case "CornerCube":
-      return Elem.CornerCube;
+      return Elem.CornerCube
     // Absorption
     case "Detector":
-      return Elem.Detector;
+      return Elem.Detector
     case "Rock":
-      return Elem.Rock;
+      return Elem.Rock
     case "Mine":
-      return Elem.Mine;
+      return Elem.Mine
     case "Absorber":
-      return Elem.Absorber;
+      return Elem.Absorber
     case "DetectorFour":
-      return Elem.DetectorFour;
+      return Elem.DetectorFour
     // Polarization
     case "PolarizerNS":
-      return Elem.PolarizerV;
+      return Elem.PolarizerV
     case "PolarizerWE":
-      return Elem.PolarizerH;
+      return Elem.PolarizerH
     case "QuarterWavePlateNS":
-      return Elem.QuarterWavePlateV;
+      return Elem.QuarterWavePlateV
     case "QuarterWavePlateWE":
-      return Elem.QuarterWavePlateH;
+      return Elem.QuarterWavePlateH
     case "SugarSolution":
-      return Elem.SugarSolution;
+      return Elem.SugarSolution
     case "FaradayRotator":
-      return Elem.FaradayRotator;
+      return Elem.FaradayRotator
     // Phase
     case "Glass":
-      return Elem.Glass;
+      return Elem.Glass
     case "VacuumJar":
-      return Elem.VacuumJar;
+      return Elem.VacuumJar
     default:
-      throw new Error("Error converting name from classic: " + classic);
+      throw new Error("Error converting name from classic: " + classic)
   }
 }
