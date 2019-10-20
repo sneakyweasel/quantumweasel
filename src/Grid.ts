@@ -152,25 +152,9 @@ export default class Grid extends Cluster {
    * Move all elements to a common direction
    * @param direction direction string
    */
-  public moveAll(direction: string): void {
+  public moveAll(direction: number): void {
     this.cells.map(cell => {
-      switch (direction) {
-        case "top":
-          cell.coord = cell.coord.up;
-          break;
-        case "bottom":
-          cell.coord = cell.coord.down;
-          break;
-        case "left":
-          cell.coord = cell.coord.left;
-          break;
-        case "right":
-          cell.coord = cell.coord.right;
-          break;
-        default:
-          throw new Error("Wrong direction given: [top, bottom, left, right]");
-      }
-      this.set(cell);
+      cell.coord = cell.coord.fromAngle(direction);
     });
   }
 

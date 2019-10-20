@@ -134,27 +134,9 @@ export default class Particle extends Coord {
    * @returns updated Particle
    */
   next(repeat = 1): Particle {
-    // Moving CW in increment of 90°
     for (let i = 0; i < repeat; i++) {
-      switch (this.direction % 360) {
-        case 0:
-          this.coord = this.coord.right;
-          break;
-        case 90:
-          this.coord = this.coord.up;
-          break;
-        case 180:
-          this.coord = this.coord.left;
-          break;
-        case 270:
-          this.coord = this.coord.down;
-          break;
-        default:
-          throw Error(`Something went wrong with particles and direction.`);
-      }
-      // Update coord with latest computed path coordinates
       this.path.push({
-        coord: this.coord,
+        coord: this.coord.fromAngle(this.direction),
         direction: this.direction,
         intensity: this.intensity,
         phase: this.phase,

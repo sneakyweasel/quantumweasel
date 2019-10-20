@@ -66,6 +66,26 @@ export default class Coord {
   }
 
   /**
+   * Describe next coordinate in direction given
+   * @param angle angle direction
+   * @returns coordinate in direction
+   */
+  fromAngle(directionAngle: number): Coord {
+    switch (directionAngle % 360) {
+      case 0:
+        return this.right;
+      case 90:
+        return this.up;
+      case 180:
+        return this.left;
+      case 270:
+        return this.down;
+      default:
+        throw Error(`Angle provided is not a multiple of 90°...`);
+    }
+  }
+
+  /**
    * Test two coordinates for equality
    * @param coord other coordinate to test for equality
    * @returns boolean if equal

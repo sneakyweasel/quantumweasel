@@ -106,16 +106,16 @@ export default class Player implements Actor {
 
       // Move all board elements
       case KEYS.VK_NUMPAD8:
-        this.level.grid.moveAll("top");
+        this.level.grid.moveAll(90);
         break;
       case KEYS.VK_NUMPAD2:
-        this.level.grid.moveAll("bottom");
+        this.level.grid.moveAll(270);
         break;
       case KEYS.VK_NUMPAD4:
-        this.level.grid.moveAll("left");
+        this.level.grid.moveAll(180);
         break;
       case KEYS.VK_NUMPAD6:
-        this.level.grid.moveAll("right");
+        this.level.grid.moveAll(0);
         break;
 
       // Elements
