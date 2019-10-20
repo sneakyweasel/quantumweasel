@@ -3,6 +3,8 @@ import { Photons } from "quantum-tensors";
 import Grid, { GridInterface } from "./Grid";
 import Hint, { HintInterface } from "./Hint";
 import Goal, { GoalInterface } from "./Goal";
+import { convertFromClassicNames } from "./Helpers";
+import { Coord, Cell, Element } from "./main";
 // import Inventory from "./Inventory";
 
 /** A level interface composed of primitives for display */
@@ -14,6 +16,20 @@ export interface LevelInterface {
   grid: GridInterface;
   goals: GoalInterface[];
   hints: HintInterface[];
+}
+
+export interface ClassicLevelInterface {
+  name: string;
+  group: string;
+  width: number;
+  height: number;
+  tiles: {
+    i: number;
+    j: number;
+    name: string;
+    rotation: number;
+    frozen: boolean;
+  }[];
 }
 
 /**
@@ -109,5 +125,27 @@ HINTS: ${this.hints.map(i => i.toString())}\n
       hints,
       false
     );
+  }
+
+  /**
+   * Import a json level
+   * @param obj a level interface with primitives
+   * @returns a Level instance
+   */
+
+  static importClassicLevel(obj: ClassicLevelInterface): Level {
+    const rows = obj.height;
+    const cols = obj.width;
+    const grid = new Grid(rows, cols);
+    obj.tiles.map(tile => {
+      const element = Element.fromName(convertFromClassicNames(tile.name));
+      const rotation = tile.rotation * element.rotationAngle;
+      const coord = new Coord(tile.j, tile.i);
+      const cell = new Cell(coord, element, rotation, tile.frozen);
+      grid.set(cell);
+    });
+    const goals: Goal[] = [];
+    const hints: Hint[] = [];
+    return new Level(0, obj.name, obj.group, "", grid, goals, hints, false);
   }
 }

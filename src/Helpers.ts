@@ -183,3 +183,53 @@ export function displayText(elementId: string, text: string): void {
   // document.getElementById(elementId)!.textContent = text;
   console.debug(`Log #${elementId}: ${text}`);
 }
+
+export function convertFromClassicNames(classic: string): string {
+  switch (classic) {
+    // Source
+    case "Source":
+      return Elem.Laser;
+    // Direction
+    case "ThinMirror":
+      return Elem.Mirror;
+    case "ThinSplitter":
+      return Elem.BeamSplitter;
+    case "PolarizingSplitter":
+      return Elem.PolarizingBeamSplitter;
+    case "ThinSplitterCoated":
+      return Elem.CoatedBeamSplitter;
+    case "CornerCube":
+      return Elem.CornerCube;
+    // Absorption
+    case "Detector":
+      return Elem.Detector;
+    case "Rock":
+      return Elem.Rock;
+    case "Mine":
+      return Elem.Mine;
+    case "Absorber":
+      return Elem.Absorber;
+    case "DetectorFour":
+      return Elem.DetectorFour;
+    // Polarization
+    case "PolarizerNS":
+      return Elem.PolarizerV;
+    case "PolarizerWE":
+      return Elem.PolarizerH;
+    case "QuarterWavePlateNS":
+      return Elem.QuarterWavePlateV;
+    case "QuarterWavePlateWE":
+      return Elem.QuarterWavePlateH;
+    case "SugarSolution":
+      return Elem.SugarSolution;
+    case "FaradayRotator":
+      return Elem.FaradayRotator;
+    // Phase
+    case "Glass":
+      return Elem.Glass;
+    case "VacuumJar":
+      return Elem.VacuumJar;
+    default:
+      throw new Error("Error converting name from classic: " + classic);
+  }
+}
