@@ -1,4 +1,5 @@
 import json from "../levels/classic/level34.json";
+// import json from "../levels/dev/suicide.json";
 import Level from "./Level";
 import Game from "./Game";
 

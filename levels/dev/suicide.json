@@ -1,0 +1,46 @@
+{
+  "id": 0,
+  "name": "Quantum suicide",
+  "group": "Concept",
+  "description": "",
+  "grid": {
+    "cols": 13,
+    "rows": 10,
+    "cells": [
+      {
+        "coord": { "y": 3, "x": 4 },
+        "element": "Laser",
+        "rotation": 0,
+        "frozen": true,
+        "active": true,
+        "energized": false
+      },
+      {
+        "coord": { "y": 3, "x": 7 },
+        "element": "BeamSplitter",
+        "rotation": 135,
+        "frozen": false,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 3, "x": 10 },
+        "element": "Detector",
+        "rotation": 180,
+        "frozen": true,
+        "active": false,
+        "energized": false
+      },
+      {
+        "coord": { "y": 6, "x": 7 },
+        "element": "Mine",
+        "rotation": 0,
+        "frozen": true,
+        "active": false,
+        "energized": false
+      }
+    ]
+  },
+  "hints": [],
+  "goals": []
+}
