@@ -1,10 +1,7 @@
-// CELL CLASS
-// Basic class for the grid cells
 import Coord, { CoordInterface } from "./Coord";
 import Element from "./Element";
 import Particle from "./Particle";
 import { angleToSymbol } from "./Helpers";
-// import { Operator } from "quantum-tensors";
 
 export interface CellInterface {
   coord: CoordInterface;
@@ -60,11 +57,6 @@ export default class Cell {
   get backgroundColor(): string {
     return this.element.glyph.backgroundColor;
   }
-
-  // Rotation plus parameters
-  //   get transition(): Operator {
-  // 	return this.element.transition(this.rotation);
-  //   }
 
   // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
   rotate(angle: number = this.element.rotationAngle): void {

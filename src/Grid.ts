@@ -3,11 +3,11 @@
 // FIXME: Figure out blank cells in constructor
 import { Operator } from "quantum-tensors";
 import Coord from "./Coord";
-import Element from "./Element";
 import Cell, { CellInterface } from "./Cell";
 import { GridInterface } from "./Grid";
 import Cluster from "./Cluster";
 import Particle, { ParticleInterface } from "./Particle";
+import Element from "./Element";
 
 /**
  * Grid interface composed of primitive JS types
@@ -24,40 +24,54 @@ export interface GridInterface {
 export default class Grid extends Cluster {
   public cols: number;
   public rows: number;
-  public matrix: Cell[][];
   public cluster: Cluster;
   public paths: Particle[];
 
-  constructor(rows: number, cols: number, cells?: Cell[], matrix?: Cell[][]) {
+  constructor(rows: number, cols: number, cells?: Cell[]) {
     super(cells);
     this.rows = rows;
     this.cols = cols;
-    this.cluster = new Cluster([]);
-
-    // If matrix specified extract cells
-    if (matrix) {
-      this.matrix = matrix;
-    } else {
-      // Else create blank cells
-      this.matrix = new Array(this.rows)
-        .fill(0)
-        .map(() => new Array(this.cols).fill(0));
-      for (let y = 0; y < rows; y++) {
-        for (let x = 0; x < cols; x++) {
-          const coord = Coord.importCoord({ y: y, x: x });
-          this.set(new Cell(coord, Element.fromName("Void")));
-        }
-      }
-    }
+    this.cluster = new Cluster(cells);
+    // If cells are given compute the laser path
     this.paths = this.computePaths();
+  }
+
+  /**
+   * Set a cell at a specific coordinate
+   * @param cell Cell to set at a grid coordinate
+   * @returns boolean if operation is successfull
+   */
+  public set(cell: Cell): boolean {
+    if (this.includes(cell.coord)) {
+      this.cluster.cellList.push(cell);
+      return true;
+    } else {
+      throw new Error(
+        `Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`
+      );
+    }
+  }
+
+  /**
+   * Retrieve the cell at a specified coordinate
+   * @param coord Coordinate to get
+   * @returns Cell
+   */
+  public get(coord: Coord): Cell {
+    return (
+      this.cells.filter(cell => {
+        return coord.equal(cell.coord);
+      })[0] || new Cell(coord, Element.fromName("Void"))
+    );
   }
 
   /** List of helpers */
   get cells(): Cell[] {
-    return this.matrix.reduce((acc, val) => acc.concat(val), []);
+    return this.cluster.cellList;
   }
+
   get coords(): Coord[] {
-    return this.cells.flatMap(cell => cell.coord);
+    return this.cells.map(cell => cell.coord);
   }
 
   /**
@@ -96,31 +110,6 @@ export default class Grid extends Cluster {
       coord.y < this.rows &&
       (coord.x >= 0 && coord.x < this.cols)
     );
-  }
-
-  /**
-   * Set a cell at a specific coordinate
-   * @param cell Cell to set at a grid coordinate
-   * @returns boolean if operation is successfull
-   */
-  public set(cell: Cell): boolean {
-    if (this.includes(cell.coord)) {
-      this.matrix[cell.coord.y][cell.coord.x] = cell;
-      return true;
-    } else {
-      // throw new RangeError(`Coordinate out of bounds. Cell: [${cell.coord.x}, ${cell.coord.y}]`)
-      // console.error(`Coordinate out of bounds. ${cell.coord.toString()}`)
-      return false;
-    }
-  }
-
-  /**
-   * Retrieve the cell at a specified coordinate
-   * @param coord Coordinate to get
-   * @returns Cell
-   */
-  public get(coord: Coord): Cell {
-    return this.matrix[coord.y][coord.x];
   }
 
   /**

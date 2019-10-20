@@ -185,6 +185,9 @@ export default class Game {
    * @param coord coord to draw
    */
   drawCoord(coord: Coord): void {
+    // Draw void for empty cells
+    // if (this.grid.includes(coord)) {}
+
     // Gather character list
     const cell = this.grid.get(coord);
     const charList: string[] = [cell.ascii];

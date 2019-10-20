@@ -24,7 +24,12 @@ export default class Player implements Actor {
 
   // Getters and setters
   get cell(): Cell {
-    return this.level.grid.get(this.coord);
+    if (this.level.grid.includes(this.coord)) {
+      // return this.level.grid.get(this.coord);
+      return new Cell(this.coord, Element.fromName("Void"));
+    } else {
+      return new Cell(this.coord, Element.fromName("Void"));
+    }
   }
   // Getters and setters
   get element(): Element {
