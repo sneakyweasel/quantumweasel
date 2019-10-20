@@ -1,11 +1,9 @@
+// TODO: Have a better handling of user key inputs
 import { Display, Scheduler, KEYS } from "rot-js/lib/index"
 import Simple from "rot-js/lib/scheduler/simple"
 import { displayText } from "./Helpers"
-
 import Coord from "./Coord"
 import Glyph from "./Glyph"
-import Cell from "./Cell"
-import Grid from "./Grid"
 import Level from "./Level"
 import GameState from "./GameState"
 import InputUtility from "./InputUtility"
@@ -65,26 +63,32 @@ export default class Game {
     this.initializeGame()
     this.mainLoop()
   }
-
-  // Getters and setters
-  get playerCell(): Cell {
-    return this.player.cell
-  }
-  get playerCoord(): Coord {
-    return this.player.coord
-  }
-  get grid(): Grid {
-    return this.level.grid
-  }
-  get lastFrame(): Frame {
-    return this.frames[this.frames.length - 1]
-  }
+  
+  /**
+   * Returns first computed frame
+   */
   get firstFrame(): Frame {
     return this.frames[0]
   }
+
+  /**
+   * Return last computed frame
+   * @returns Frame
+   */
+  get lastFrame(): Frame {
+    return this.frames[this.frames.length - 1]
+  }
+
+  /**
+   * Return current frame using frameNumber
+   */
   get currentFrame(): Frame {
     return this.frames[this.frameNumber]
   }
+
+  /**
+   * Return the number of computed frames for frontend
+   */
   get maxFrameNumber(): number {
     return this.frames.length
   }
@@ -100,7 +104,7 @@ export default class Game {
       alert("Victory!")
     }
     this.gameState.reset()
-    this.player = new Player(this.level, this.grid.center)
+    this.player = new Player(this.level, this.level.grid.center)
     this.scheduler = new Scheduler.Simple()
     this.scheduler.add(this.player, true)
 
@@ -130,7 +134,7 @@ export default class Game {
    */
   private drawGame(): void {
     this.display.clear()
-    this.grid.paths = this.grid.computePaths()
+    this.level.grid.paths = this.level.grid.computePaths()
     this.displayDebug()
     this.drawFrame()
   }
@@ -144,7 +148,7 @@ export default class Game {
       "player",
       `Turns: ${this.frameNumber}/${
         this.maxFrameNumber
-      } | player: ${this.playerCoord.toString()}`
+      } | player: ${this.player.cell.coord.toString()}`
     )
     displayText(
       "laser",
@@ -172,8 +176,8 @@ export default class Game {
   public drawGrid(): void {
     this.display.clear()
     console.log(`Rendering WebGL game grid...`)
-    for (let y = 0; y < this.grid.rows; y++) {
-      for (let x = 0; x < this.grid.cols; x++) {
+    for (let y = 0; y < this.level.grid.rows; y++) {
+      for (let x = 0; x < this.level.grid.cols; x++) {
         const coord = Coord.importCoord({ y: y, x: x })
         this.drawCoord(coord)
       }
@@ -189,7 +193,7 @@ export default class Game {
     // if (this.grid.includes(coord)) {}
 
     // Gather character list
-    const cell = this.grid.get(coord)
+    const cell = this.level.grid.get(coord)
     const charList: string[] = [cell.ascii]
     const fgList: string[] = ["white"]
     const bgList: string[] = ["purple"]
@@ -208,7 +212,7 @@ export default class Game {
     }
 
     // Classical path intensity
-    const sum = this.grid.coordIntensitySum(coord)
+    const sum = this.level.grid.coordIntensitySum(coord)
     if (sum > 0) {
       bgList.push(`rgba(255, 0, 0, ${sum / 3})`)
     }
