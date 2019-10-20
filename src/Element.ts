@@ -102,6 +102,8 @@ export default class Element {
         return qt.quarterWavePlateWE(param);
       case Elem.QuarterWavePlateV:
         return qt.quarterWavePlateNS(param);
+      case Elem.FaradayRotator:
+        return qt.faradayRotator(param);
       case Elem.Mine:
         return qt.attenuator(0);
       case Elem.Mine:
