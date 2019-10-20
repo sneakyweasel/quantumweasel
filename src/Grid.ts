@@ -154,6 +154,7 @@ export default class Grid extends Cluster {
    * @param direction direction string
    */
   public moveAll(direction: number): void {
+    console.log("Moving all in direction: " + direction);
     this.cluster.cells.map(cell => {
       cell.coord = cell.coord.fromAngle(direction)
     })
