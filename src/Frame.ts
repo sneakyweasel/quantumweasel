@@ -2,7 +2,7 @@
 // TODO: Frame could extend Level class
 import Coord from "./Coord"
 import Level, { LevelInterface } from "./Level"
-import Particle, { ParticleInterface } from "./Particle"
+import Particle, { ParticleInterface, Qparticle } from "./Particle"
 import Goal from "./Goal"
 import * as qt from "quantum-tensors"
 
@@ -16,20 +16,6 @@ export interface FrameInterface {
   classical: ParticleInterface[]
   quantum: ParticleInterface[]
   end: boolean
-}
-
-/**
- * QUANTUM PARTICLE INTERFACE
- * Particle interface received from quantum-tensors
- */
-export interface Qparticle {
-  x: number
-  y: number
-  direction: number
-  are: number
-  aim: number
-  bre: number
-  bim: number
 }
 
 /**
@@ -100,10 +86,12 @@ export default class Frame {
       const x = qParticle.x
       const y = qParticle.y
       const direction = qParticle.direction
-      const a = qt.Cx(qParticle.are, qParticle.aim)
-      const b = qt.Cx(qParticle.bre, qParticle.bim)
+      const are = qParticle.are
+      const aim = qParticle.aim
+      const bre = qParticle.bre
+      const bim = qParticle.bim
       const coord = new Coord(y, x)
-      return new Particle(coord, direction, 0, 0, a, b)
+      return new Particle(coord, direction, 0, 0, are, aim, bre, bim)
     })
   }
 
