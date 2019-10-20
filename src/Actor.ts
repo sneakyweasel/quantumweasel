@@ -14,6 +14,6 @@ export interface Actor {
   coord: Coord
   glyph: Glyph
   type: ActorType
-
   act(): Promise<string>
 }
+

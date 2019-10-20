@@ -46,27 +46,33 @@ export default class Cell {
 
   /**
    * Get ASCII character linked to cell's element and cell rotation
+   * @returns ascii representation of rotated element
    */
   get ascii(): string {
     return this.element.ascii[this.rotation / this.element.rotationAngle]
   }
+
+  /**
+   * Is element blank?
+   * @returns true if blank
+   */
   get isVoid(): boolean {
     return this.element.name === "Void"
   }
+  
   /**
-   * Compute the rotation angle in degrees
+   * Ouput the rotation with an unicode arrow
+   * @returns unicode arrow describing rotation
    */
   get rotationAscii(): string {
     return angleToSymbol(this.element.rotationAngle)
   }
-  get foregroundColor(): string {
-    return this.element.glyph.foregroundColor
-  }
-  get backgroundColor(): string {
-    return this.element.glyph.backgroundColor
-  }
 
-  // Rotate cell - Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
+  /**
+   * Rotate cell 
+   * Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
+   * @param angle rotation angle in degrees
+   */
   rotate(angle: number = this.element.rotationAngle): void {
     if (!this.frozen) {
       if (Math.abs(angle) % this.element.rotationAngle !== 0) {
@@ -80,17 +86,33 @@ export default class Cell {
       console.error("This cell is frozen, you can't rotate it.")
     }
   }
+
+  /**
+   * Toggle the frozen status of the cell
+   */
   toggleFreeze(): void {
     this.frozen = !this.frozen
   }
+
+  /**
+   * Toggle the active status of the cell, activate laser for example
+   */
   toggleActive(): void {
     this.active = !this.active
   }
+
+  /**
+   * Toggle the energized status of the cell, cells are energized around an activated detector
+   */
   toggleEnergized(): void {
     this.energized = !this.energized
   }
 
-  // Fire the laser and get a particle
+  /**
+   * Fire the laser
+   * Convert the laser direction and position into a photon
+   * @returns Particle
+   */
   fire(): Particle {
     if (this.active) {
       return new Particle(this.coord, this.rotation, 1, 0)
@@ -99,7 +121,10 @@ export default class Cell {
     }
   }
 
-  // Override toString() method
+  /**
+   * Output a string describing the cell, overrides toString() method
+   * @returns string describing the cell status
+   */
   toString(): string {
     return `Cell @ ${this.coord.toString()} is ${
       this.frozen ? "frozen" : "unfrozen"
@@ -108,7 +133,10 @@ export default class Cell {
     } ${this.element.toString()} rotated ${this.rotation}°`
   }
 
-  // Export to JSON format
+  /**
+   * Export a cell interface
+   * @returns CellInterface
+   */
   exportCell(): CellInterface {
     return {
       coord: this.coord.exportCoord(),
@@ -120,7 +148,10 @@ export default class Cell {
     }
   }
 
-  // Import from Object
+  /**
+   * Create a cell from a CellInterface
+   * @param obj CellInterface
+   */
   static importCell(obj: CellInterface): Cell {
     const coord = Coord.importCoord(obj.coord)
     const element = Element.fromName(obj.element)

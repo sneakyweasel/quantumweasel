@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-// ELEMENT CLASS
-// Basic class related to game elements
 // TODO: Remove display logic to Glyph class
 // TODO: Refactor to extended class based logic
 import { jsonElements } from "../data/elements"
@@ -48,16 +45,7 @@ export default class Element {
     absorption = 0,
     phase = 0,
     ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
-    tiles: number[][] = [
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0]
-    ],
+    tiles: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
     glyph: Glyph = new Glyph(" ", [0, 0])
   ) {
     this.id = id
@@ -72,10 +60,17 @@ export default class Element {
     this.glyph = glyph
   }
 
+  /**
+   * Return quantum operators to be applied to states
+   * @param param parameters to pass for operator creation
+   * @returns operator
+   */
   transition(param: number): qt.Operator {
     switch (this.name) {
       case Elem.Mirror:
         return qt.mirror(param)
+      case Elem.CornerCube:
+        return qt.cornerCube()
       case Elem.BeamSplitter:
         return qt.beamSplitter(param)
       case Elem.Absorber:
@@ -87,7 +82,7 @@ export default class Element {
       case Elem.Detector:
         return qt.attenuator(0)
       case Elem.SugarSolution:
-        return qt.sugarSolution()
+        return qt.sugarSolution(0.125)
       case Elem.PolarizingBeamSplitter:
         if (param === 0) {
           return qt.polarizingBeamsplitter(135)
@@ -111,23 +106,31 @@ export default class Element {
       case Elem.Wall:
         return qt.attenuator(0)
       default:
-        return qt.attenuator(0)
-      // throw Error("Wrong element name...");
+        throw new Error("Element not included in quantum-tensors operators...")
     }
   }
 
-  // Compute the rotation angle from the number of sprites
+  /**
+   * Compute the rotation angles from the number of tiles
+   * TODO: Find a better way
+   * @returns amount to rotate the element
+   */
   get rotationAngle(): number {
     return 360 / this.ascii.length
   }
 
-  // Override of toString() method
+  /**
+   * Override toString() method
+   * @returns string describing element
+   */
   toString(): string {
-    return `${this.name} (Phase: ${this.phase}, Absorption: ${this.absorption *
-      100}%)`
+    return `${this.name} (Phase: ${this.phase}, Absorption: ${this.absorption * 100}%)`
   }
 
-  // Export JSON
+  /**
+   * Export element in primitives
+   * @returns ElementInterface
+   */
   exportElement(): ElementInterface {
     return {
       id: this.id,
@@ -142,22 +145,29 @@ export default class Element {
     }
   }
 
-  // Create element from element interface
-  static importElement(json: ElementInterface): Element {
+  /**
+   * Create an element from an interface
+   * @param obj Create element from interface
+   */
+  static importElement(obj: ElementInterface): Element {
     return new Element(
-      json.id,
-      json.name,
-      json.group,
-      json.description,
-      json.active,
-      json.absorption,
-      json.phase,
-      json.ascii,
-      json.tiles
+      obj.id,
+      obj.name,
+      obj.group,
+      obj.description,
+      obj.active,
+      obj.absorption,
+      obj.phase,
+      obj.ascii,
+      obj.tiles
     )
   }
 
-  // Static JSON load
+  /**
+   * Returns an element from its name
+   * @param name Element from enum of element names
+   * @returns Element
+   */
   static fromName(name: string): Element {
     const element = jsonElements.find(elem => {
       return elem.name === name

@@ -128,6 +128,17 @@ export default class Coord {
   }
 
   /**
+   * SVG coordinate system: center point of cell
+   * @param cellSize Size in pixel of a cell
+   * @returns top-left coordinate of a cell
+   */
+  center(spacing: number): [number, number] {
+    const y = (this.y + 0.5) * spacing
+    const x = (this.x + 0.5) * spacing
+    return [y, x]
+  }
+
+  /**
    * Output as an array of numbers
    * @returns number array of coordinate
    */

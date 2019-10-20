@@ -161,12 +161,16 @@ export default class Cluster {
   get polarbeamsplitters(): Cluster {
     return this.filteredBy(Elem.PolarizingBeamSplitter)
   }
+  get cornercubes(): Cluster {
+    return this.filteredBy(Elem.CornerCube)
+  }
   get reflectors(): Cluster {
     return new Cluster(
       this.mirrors.cells.concat(
         this.beamsplitters.cells,
         this.coatedbeamsplitters.cells,
-        this.polarbeamsplitters.cells
+        this.polarbeamsplitters.cells,
+        this.cornercubes.cells
       )
     )
   }
