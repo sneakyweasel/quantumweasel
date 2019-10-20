@@ -65,7 +65,7 @@ export default class Player implements Actor {
       // Movement
       case KEYS.VK_Z:
       case KEYS.VK_UP:
-        newCoord = this.coord.top;
+        newCoord = this.coord.up;
         break;
       case KEYS.VK_D:
       case KEYS.VK_RIGHT:
@@ -73,7 +73,7 @@ export default class Player implements Actor {
         break;
       case KEYS.VK_S:
       case KEYS.VK_DOWN:
-        newCoord = this.coord.bottom;
+        newCoord = this.coord.down;
         break;
       case KEYS.VK_Q:
       case KEYS.VK_LEFT:

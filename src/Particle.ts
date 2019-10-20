@@ -141,13 +141,13 @@ export default class Particle extends Coord {
           this.coord = this.coord.right;
           break;
         case 90:
-          this.coord = this.coord.top;
+          this.coord = this.coord.up;
           break;
         case 180:
           this.coord = this.coord.left;
           break;
         case 270:
-          this.coord = this.coord.bottom;
+          this.coord = this.coord.down;
           break;
         default:
           throw Error(`Something went wrong with particles and direction.`);

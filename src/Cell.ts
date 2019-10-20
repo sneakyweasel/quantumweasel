@@ -3,6 +3,10 @@ import Element from "./Element";
 import Particle from "./Particle";
 import { angleToSymbol } from "./Helpers";
 
+/**
+ * CELL INTERFACE
+ * A cell interface composed of primitives
+ */
 export interface CellInterface {
   coord: CoordInterface;
   element: string;
@@ -12,6 +16,10 @@ export interface CellInterface {
   energized?: boolean;
 }
 
+/**
+ * CELL CLASS
+ * A cell is a rotated element at a coordinate
+ */
 export default class Cell {
   coord: Coord;
   element: Element;

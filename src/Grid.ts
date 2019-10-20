@@ -65,18 +65,30 @@ export default class Grid extends Cluster {
     );
   }
 
-  /** List of helpers */
+  /**
+   * @returns list of non blank cells
+   */
   get cells(): Cell[] {
     return this.cluster.cellList;
   }
 
+  /**
+   * @returns list of non blank cell coordinates
+   */
   get coords(): Coord[] {
     return this.cells.map(cell => cell.coord);
   }
 
   /**
-   * Get center coordinate of grid
-   * @returns center coordinate
+   * @returns list of non blank cell elements
+   */
+  get elements(): Element[] {
+    return this.cells.map(cell => cell.element);
+  }
+
+  /**
+   * Get center cell of the grid
+   * @returns center cell coordinates
    */
   get center(): Coord {
     return Coord.importCoord({
@@ -144,10 +156,10 @@ export default class Grid extends Cluster {
     this.cells.map(cell => {
       switch (direction) {
         case "top":
-          cell.coord = cell.coord.top;
+          cell.coord = cell.coord.up;
           break;
         case "bottom":
-          cell.coord = cell.coord.bottom;
+          cell.coord = cell.coord.down;
           break;
         case "left":
           cell.coord = cell.coord.left;
