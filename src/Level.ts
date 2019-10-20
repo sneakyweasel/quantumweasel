@@ -79,6 +79,13 @@ export default class Level {
     this.completed = completed
     // Initiate quantum state
     this.state = new Photons(grid.cols, grid.rows)
+
+    // Populate toolbox
+    this.grid.cluster.unfrozen.cells.map(cell => {
+      cell.coord.x = -1
+      cell.coord.y = -1
+      this.toolbox.add(cell.element.name)
+    })
   }
 
   /**
@@ -91,8 +98,8 @@ export default class Level {
     result += `GROUP: ${this.group}\n`
     result += `${this.grid.toString()}\n`
     result += `GOALS: ${this.goals.map(i => i.toString())}\n`
-    result += `GOALS: ${this.completed ? "COMPLETE" : "IN PROGRESS"}\n`
     result += `HINTS: ${this.hints.map(i => i.toString())}\n`
+    result += `TOOLBOX: ${this.toolbox.toString()}\n`
     return result
   }
 

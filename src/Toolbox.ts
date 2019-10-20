@@ -12,10 +12,10 @@ export interface ToolInterface {
  * Inventory contains the list of elements available to the player.
  */
 export default class Toolbox {
-  tools: ToolInterface[]
+  elements: string[]
 
-  constructor(tools: ToolInterface[] = []) {
-    this.tools = tools
+  constructor(elements: string[]) {
+    this.elements = elements
   }
 
   /**
@@ -23,17 +23,31 @@ export default class Toolbox {
    * Check if element exists in list to update its value otherzise create it
    * @param tool Element
    */
-  add(tool: ToolInterface): void {
-    this.tools.push(tool)
+  add(element: string): void {
+    this.elements.push(element)
+  }
+
+  /**
+   * Remove an element from the toolbox
+   * Check if element exists in list before
+   * @param tool Element
+   */
+  remove(element: string): void {
+    var index = this.elements.indexOf(element);
+    if (index > -1) {
+      this.elements.splice(index, 1);
+    }
   }
 
   /**
    * Override toString() method
+   * Display toolbox content
+   * @returns string
    */
   toString(): string {
     let resultStr = "Toolbox contains:\n"
-    this.tools.map((tool: ToolInterface) => {
-      resultStr += JSON.stringify(tool)
+    this.elements.map((element: string) => {
+      resultStr += JSON.stringify(element)
     })
     return resultStr
   }
