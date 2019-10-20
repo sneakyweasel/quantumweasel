@@ -1,33 +1,41 @@
-// CLUSTER CLASS
-// Cluster will be used to display multi-cellular components on the grid.
-//  It is a collection of cells with an emergent behaviour.
-
 import Coord from "./Coord";
 import Element from "./Element";
 import Cell, { CellInterface } from "./Cell";
 import { Elem } from "./Helpers";
 
+/**
+ * CLUSTER INTERFACE
+ * Cluster of cells in primitives
+ */
+export interface ClusterInterface {
+  cells: CellInterface[];
+}
+
+/**
+ * CLUSTER CLASS
+ * List of cells and associated functions that can be chained together
+ */
 export default class Cluster {
-  cellList: Cell[];
+  cells: Cell[];
 
   // Allow constructor with origin coord, number array and direction
-  constructor(cellList: Cell[] = []) {
-    this.cellList = cellList;
+  constructor(cells: Cell[] = []) {
+    this.cells = cells;
   }
 
   // Retrieve list of coordinates of the cluster
   get coords(): Coord[] {
-    return this.cellList.map(cell => cell.coord);
+    return this.cells.map(cell => cell.coord);
   }
 
   // Retrieve list of elements of the cluster
   get elements(): Element[] {
-    return this.cellList.map(cell => cell.element);
+    return this.cells.map(cell => cell.element);
   }
 
   // Origin of the cluster is the first element coordinates.
   get origin(): Coord {
-    return this.cellList[0].coord;
+    return this.cells[0].coord;
   }
 
   /**
@@ -36,15 +44,15 @@ export default class Cluster {
    */
   public compress(): Cluster {
     const cluster = this.unvoid;
-    const minX = Math.min(...cluster.cellList.map(cell => cell.coord.x));
-    const minY = Math.min(...cluster.cellList.map(cell => cell.coord.y));
-    const maxX = Math.max(...cluster.cellList.map(cell => cell.coord.x));
-    const maxY = Math.max(...cluster.cellList.map(cell => cell.coord.y));
+    const minX = Math.min(...cluster.cells.map(cell => cell.coord.x));
+    const minY = Math.min(...cluster.cells.map(cell => cell.coord.y));
+    const maxX = Math.max(...cluster.cells.map(cell => cell.coord.x));
+    const maxY = Math.max(...cluster.cells.map(cell => cell.coord.y));
     const sizeX = maxX - minX;
     const sizeY = maxY - minY;
     console.debug(`The most compressed version is: X:${sizeX} Y: ${sizeY}`);
 
-    cluster.cellList.forEach(cell => {
+    cluster.cells.forEach(cell => {
       cell.coord.x -= minX;
       cell.coord.y -= minY;
     });
@@ -59,7 +67,7 @@ export default class Cluster {
   public importCluster(jsonCells: CellInterface[]): void {
     jsonCells.map(jsonCell => {
       const cell = Cell.importCell(jsonCell);
-      this.cellList.push(cell);
+      this.cells.push(cell);
     });
   }
 
@@ -67,7 +75,7 @@ export default class Cluster {
    * Export list of cells in primitives
    */
   public exportCluster(): CellInterface[] {
-    return this.cellList
+    return this.cells
       .filter(cell => {
         return cell.element.name !== Elem.Void;
       })
@@ -81,7 +89,7 @@ export default class Cluster {
    * @returns string
    */
   public toString(): string {
-    return this.cellList.map(cell => cell.toString()).join(" | ");
+    return this.cells.map(cell => cell.toString()).join(" | ");
   }
 
   /**
@@ -91,7 +99,7 @@ export default class Cluster {
    */
   public filteredBy(name: string): Cluster {
     return new Cluster(
-      this.cellList.filter(cell => {
+      this.cells.filter(cell => {
         return cell.element.name === name;
       })
     );
@@ -103,35 +111,35 @@ export default class Cluster {
    */
   public filteredByNot(name: string): Cluster {
     return new Cluster(
-      this.cellList.filter(cell => {
+      this.cells.filter(cell => {
         return cell.element.name !== name;
       })
     );
   }
 
   get void(): Cluster {
-    return new Cluster(this.filteredBy(Elem.Void).cellList);
+    return new Cluster(this.filteredBy(Elem.Void).cells);
   }
   get unvoid(): Cluster {
-    return new Cluster(this.filteredByNot(Elem.Void).cellList);
+    return new Cluster(this.filteredByNot(Elem.Void).cells);
   }
   get active(): Cluster {
-    return new Cluster(this.cellList.filter(cell => cell.active));
+    return new Cluster(this.cells.filter(cell => cell.active));
   }
   get inactive(): Cluster {
-    return new Cluster(this.cellList.filter(cell => !cell.active));
+    return new Cluster(this.cells.filter(cell => !cell.active));
   }
   get energized(): Cluster {
-    return new Cluster(this.cellList.filter(cell => cell.energized));
+    return new Cluster(this.cells.filter(cell => cell.energized));
   }
   get unenergized(): Cluster {
-    return new Cluster(this.cellList.filter(cell => !cell.energized));
+    return new Cluster(this.cells.filter(cell => !cell.energized));
   }
   get frozen(): Cluster {
-    return new Cluster(this.cellList.filter(cell => cell.frozen));
+    return new Cluster(this.cells.filter(cell => cell.frozen));
   }
   get unfrozen(): Cluster {
-    return new Cluster(this.cellList.filter(cell => !cell.frozen));
+    return new Cluster(this.cells.filter(cell => !cell.frozen));
   }
 
   // Emitters
@@ -155,10 +163,10 @@ export default class Cluster {
   }
   get reflectors(): Cluster {
     return new Cluster(
-      this.mirrors.cellList.concat(
-        this.beamsplitters.cellList,
-        this.coatedbeamsplitters.cellList,
-        this.polarbeamsplitters.cellList
+      this.mirrors.cells.concat(
+        this.beamsplitters.cells,
+        this.coatedbeamsplitters.cells,
+        this.polarbeamsplitters.cells
       )
     );
   }
@@ -193,13 +201,13 @@ export default class Cluster {
   }
   get absorbers(): Cluster {
     return new Cluster(
-      this.detectors.cellList.concat(
-        this.mines.cellList,
-        this.rocks.cellList,
-        this.fourdetectors.cellList,
-        this.filters.cellList,
-        this.walls.cellList,
-        this.closedGates.cellList
+      this.detectors.cells.concat(
+        this.mines.cells,
+        this.rocks.cells,
+        this.fourdetectors.cells,
+        this.filters.cells,
+        this.walls.cells,
+        this.closedGates.cells
       )
     );
   }
@@ -224,12 +232,12 @@ export default class Cluster {
   }
   get polarizers(): Cluster {
     return new Cluster(
-      this.polarizersH.cellList.concat(
-        this.polarizersV.cellList,
-        this.waveplatesH.cellList,
-        this.waveplatesV.cellList,
-        this.sugars.cellList,
-        this.faradays.cellList
+      this.polarizersH.cells.concat(
+        this.polarizersV.cells,
+        this.waveplatesH.cells,
+        this.waveplatesV.cells,
+        this.sugars.cells,
+        this.faradays.cells
       )
     );
   }
@@ -242,6 +250,6 @@ export default class Cluster {
     return this.filteredBy(Elem.Glass);
   }
   get phaseshifters(): Cluster {
-    return new Cluster(this.vacuumjars.cellList.concat(this.glasses.cellList));
+    return new Cluster(this.vacuumjars.cells.concat(this.glasses.cells));
   }
 }

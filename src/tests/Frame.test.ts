@@ -25,18 +25,7 @@ describe("Frame", () => {
     const element = Element.fromName(Elem.Laser);
     const laser = new Cell(coord, element);
     laser.active = true;
-    grid.set(laser);
-    const particle = laser.fire();
-    particle.next();
-    expect(particle.coord).toEqual(laser.coord.right);
-  });
-
-  it("should propagate a quantum particle in the correct direction", () => {
-    const grid = new Grid(6, 3);
-    const coord = new Coord(2, 1);
-    const element = Element.fromName(Elem.Laser);
-    const laser = new Cell(coord, element);
-    laser.active = true;
+    laser.rotation = 0;
     grid.set(laser);
     const particle = laser.fire();
     particle.next();

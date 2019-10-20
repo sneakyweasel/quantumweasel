@@ -65,7 +65,7 @@ export default class Frame {
 
     // Initialize photons from grid
     if (this.step === 0) {
-      this.level.grid.cluster.lasers.cellList.forEach(laser => {
+      this.level.grid.cluster.lasers.cells.forEach(laser => {
         console.log(laser.toString());
         // Classical code
         classical.push(laser.fire());
@@ -160,10 +160,10 @@ export default class Frame {
     return this.grid.cells;
   }
   get lasers(): Cell[] {
-    return this.grid.lasers.cellList;
+    return this.grid.lasers.cells;
   }
   get activeLasers(): Cell[] {
-    return this.grid.lasers.active.cellList;
+    return this.grid.lasers.active.cells;
   }
   get goals(): Goal[] {
     return this.level.goals;
