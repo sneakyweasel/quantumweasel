@@ -81,6 +81,8 @@ export default class Element {
         return qt.glassSlab()
       case Elem.Detector:
         return qt.attenuator(0)
+      case Elem.DetectorFour:
+        return qt.attenuator(0)
       case Elem.Laser:
         return qt.attenuator(1)
       case Elem.Void:
