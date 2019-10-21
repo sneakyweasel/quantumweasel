@@ -49,7 +49,7 @@ export default class Frame {
 
     // Initialize photons from grid
     if (this.step === 0) {
-      this.level.grid.cluster.lasers.cells.forEach(laser => {
+      this.level.grid.lasers.cells.forEach(laser => {
         console.log(laser.toString())
         // Classical code
         classical.push(laser.fire())
@@ -57,7 +57,7 @@ export default class Frame {
         this.level.state.addPhotonIndicator(laser.coord.x, laser.coord.y, laser.ascii, "V")
         console.debug("quantum", this.level.state.vector.toString())
       })
-      return new Frame(this.level, 1, classical, quantum, false)
+      return new Frame(this.level, this.step + 1, classical, quantum, false)
 
       // Compute frames
     } else {

@@ -180,22 +180,11 @@ export default class Particle extends Coord {
 
   /**
    *  Propagate the particle in a classical simulation
-   * @param repeat number of times to repeat
    * @returns updated Particle
    */
-  next(repeat = 1): Particle {
-    for (let i = 0; i < repeat; i++) {
-      this.path.push({
-        coord: this.coord.fromAngle(this.direction),
-        direction: this.direction,
-        intensity: this.intensity,
-        phase: this.phase,
-        are: this.are,
-        aim: this.aim,
-        bre: this.bre,
-        bim: this.bim
-      })
-    }
+  get next(): Particle {
+    this.path.push(this.exportParticle())
+    this.coord = this.coord.fromAngle(this.direction)
     return this
   }
 

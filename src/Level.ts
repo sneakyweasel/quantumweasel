@@ -81,11 +81,11 @@ export default class Level {
     this.state = new Photons(grid.cols, grid.rows)
 
     // Populate toolbox
-    this.grid.cluster.unfrozen.cells.map(cell => {
-      cell.coord.x = -1
-      cell.coord.y = -1
-      this.toolbox.add(cell.element.name)
-    })
+    // this.grid.cluster.unfrozen.cells.map(cell => {
+    //   cell.coord.x = -1
+    //   cell.coord.y = -1
+    //   this.toolbox.add(cell.element.name)
+    // })
   }
 
   /**

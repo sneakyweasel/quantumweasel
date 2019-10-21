@@ -24,14 +24,12 @@ export interface GridInterface {
 export default class Grid extends Cluster {
   public cols: number
   public rows: number
-  public cluster: Cluster
   public paths: Particle[]
 
-  constructor(rows: number, cols: number, cluster: Cluster = new Cluster([])) {
-    super(cluster.cells)
+  constructor(rows: number, cols: number, cells?: Cell[]) {
+    super(cells)
     this.rows = rows
     this.cols = cols
-    this.cluster = cluster
     // If cells are given compute the laser path
     this.paths = this.computePaths()
   }
@@ -43,7 +41,7 @@ export default class Grid extends Cluster {
    */
   public set(cell: Cell): boolean {
     if (this.includes(cell.coord)) {
-      this.cluster.cells.push(cell)
+      this.cells.push(cell)
       return true
     } else {
       throw new Error(
@@ -59,7 +57,7 @@ export default class Grid extends Cluster {
    */
   public get(coord: Coord): Cell {
     return (
-      this.cluster.cells.filter(cell => {
+      this.cells.filter(cell => {
         return coord.equal(cell.coord)
       })[0] || new Cell(coord, Element.fromName("Void"))
     )
@@ -76,7 +74,7 @@ export default class Grid extends Cluster {
    * @returns list of non blank cell elements
    */
   get elements(): Element[] {
-    return this.cluster.cells.map(cell => cell.element)
+    return this.cells.map(cell => cell.element)
   }
 
   /**
@@ -95,7 +93,7 @@ export default class Grid extends Cluster {
    * @returns list of operators
    */
   get operatorList(): [number, number, Operator][] {
-    return this.cluster.unvoid.cells.map(cell => {
+    return this.unvoid.cells.map(cell => {
       return [
         cell.coord.x,
         cell.coord.y,
@@ -148,7 +146,7 @@ export default class Grid extends Cluster {
    */
   public moveAll(direction: number): void {
     console.log("Moving all in direction: " + direction);
-    this.cluster.cells.map(cell => {
+    this.cells.map(cell => {
       cell.coord = cell.coord.fromAngle(direction)
     })
   }
@@ -158,7 +156,7 @@ export default class Grid extends Cluster {
    * @returns the particles fired
    */
   public fireLasers(): Particle[] {
-    return this.cluster.lasers.active.cells.map(laser => {
+    return this.lasers.active.cells.map(laser => {
       return laser.fire()
     })
   }
@@ -195,7 +193,7 @@ export default class Grid extends Cluster {
     for (let i = 0; i < maxFrames; i++) {
       // Propagate each living particle
       alive.forEach(particle => {
-        particle.next()
+        particle.next
 
         // Zero the intensity of escaping particles
         if (!this.includes(particle.coord)) {
@@ -203,7 +201,7 @@ export default class Grid extends Cluster {
         }
 
         // Absorption
-        this.cluster.absorbers.cells.forEach((absorber: Cell) => {
+        this.absorbers.cells.forEach((absorber: Cell) => {
           if (particle.on(absorber)) {
             particle.intensity -=
               particle.intensity * absorber.element.absorption
@@ -211,13 +209,13 @@ export default class Grid extends Cluster {
         })
 
         // Reflection
-        this.cluster.mirrors.cells.forEach((mirror: Cell) => {
+        this.mirrors.cells.forEach((mirror: Cell) => {
           if (particle.on(mirror)) {
             particle.direction =
               (2 * mirror.rotation - particle.direction + 360) % 360
           }
         })
-        this.cluster.polarbeamsplitters.cells.forEach((polar: Cell) => {
+        this.polarbeamsplitters.cells.forEach((polar: Cell) => {
           if (particle.on(polar)) {
             if (polar.rotation === 0) {
               const direction =
@@ -235,7 +233,7 @@ export default class Grid extends Cluster {
             }
           }
         })
-        this.cluster.beamsplitters.cells.forEach((beamsplitter: Cell) => {
+        this.beamsplitters.cells.forEach((beamsplitter: Cell) => {
           if (particle.on(beamsplitter)) {
             // Dim the current particle intensity
             particle.intensity /= 2
@@ -249,7 +247,7 @@ export default class Grid extends Cluster {
         })
 
         // Phase shifters
-        this.cluster.phaseshifters.cells.forEach((phaseshifter: Cell) => {
+        this.phaseshifters.cells.forEach((phaseshifter: Cell) => {
           if (particle.on(phaseshifter)) {
             particle.phase = (particle.phase + phaseshifter.element.phase) % 1
           }
@@ -284,7 +282,7 @@ export default class Grid extends Cluster {
    * */
   computePaths(): Particle[] {
     const laserCoords: Particle[] = []
-    this.cluster.lasers.active.cells.map(laser => {
+    this.lasers.active.cells.map(laser => {
       return laser.fire()
     }).map(particle => {
       this.laserPath(particle, 40).map((particle: Particle) => {
@@ -302,7 +300,7 @@ export default class Grid extends Cluster {
    */
   energizeCells(paths: ParticleInterface[]): void {
     const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord)
-    this.cluster.cells.forEach(cell => {
+    this.cells.forEach(cell => {
       if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "Void") {
         cell.energized = true
       } else {
@@ -371,7 +369,7 @@ export default class Grid extends Cluster {
   public importGrid(jsonCells: CellInterface[]): void {
     jsonCells.forEach(jsonCell => {
       const cell = Cell.importCell(jsonCell)
-      this.cluster.cells.push(cell)
+      this.cells.push(cell)
       this.set(cell)
     })
   }
@@ -382,7 +380,7 @@ export default class Grid extends Cluster {
    */
   public exportGrid(): GridInterface {
     const cells: CellInterface[] = []
-    this.cluster.cells
+    this.cells
       .filter(cell => !cell.isVoid)
       .forEach(cell => {
         cells.push(cell.exportCell())
