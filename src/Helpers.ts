@@ -45,7 +45,9 @@ export const enum Group {
   Polarization = "Polarization",
   Phase = "Phase"
 }
-
+/**
+ * Element groups
+ */
 export const ElemGroups: { [symbol: string]: Elem[] } = {
   Basic: [Elem.Void, Elem.Wall, Elem.Gate],
   Source: [Elem.Laser],
@@ -62,8 +64,11 @@ export const ElemGroups: { [symbol: string]: Elem[] } = {
   Phase: [Elem.Glass, Elem.VacuumJar]
 }
 
-// Convert angles to unicode symbols
-// https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
+/**
+ * Convert angles to unicode arrow symbols
+ * https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
+ * @param angle included in [0, 45, 90, 135, 180, 225, 270, 315]
+ */
 export function angleToSymbol(angle: number): string {
   angle = angle % 360
   switch (angle) {
@@ -84,10 +89,16 @@ export function angleToSymbol(angle: number): string {
     case 315:
       return "↖"
     default:
-      throw new Error("Something is wrong with provided angle.")
+      throw new Error(`Something is wrong with provided angle: ${angle}°`)
   }
 }
 
+/**
+ * Convert unicode arrow symbols to angles in degrees
+ * https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
+ * @param direction an arrow
+ * @returns angle included in [0, 45, 90, 135, 180, 225, 270, 315]
+ */
 export function symbolToAngle(direction: string): number {
   switch (direction) {
     case "↑":
@@ -112,9 +123,9 @@ export function symbolToAngle(direction: string): number {
 }
 
 /**
- * Flatten an array
- * @param arr Array to flatten
- */
+* Flatten an array
+* @param arr Array to flatten
+*/
 export function flatDeep(arr: Array<any>): Array<any> {
   return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val) : val), [])
 }
@@ -135,10 +146,22 @@ export function padRight(text: string, length: number, character?: string): stri
   return text
 }
 
+/**
+* Format percentage
+* @param value number from 0 to 1
+* @returns percentage string
+*/
 export function toPercent(value: number): string {
   return `${(value * 100).toFixed(2)}%`
 }
 
+/**
+ * Convert HSL to hex
+ * @param hue 
+ * @param saturation 
+ * @param lightness
+ * @returns hexadecimal string
+ */
 export function hsl2hexrgb(hue = 0.45, saturation = 0, lightness = 0.5): string {
   if (hue >= 1) {
     hue = 1
@@ -153,21 +176,22 @@ export function hsl2hexrgb(hue = 0.45, saturation = 0, lightness = 0.5): string 
   return Color.toHex(hsl)
 }
 
-export function scaleOpacity(opacity: number): string {
-  if (opacity >= 1) {
-    opacity = 1
-  }
-  const hsl = Color.hsl2rgb([0.333, 0.333, opacity])
-  return Color.toHex(hsl)
-}
-
-// Display Helpers
+/**
+ * Display text in HTML in ROTjs mode
+ * @param elementId HTML element to use
+ * @param text string to display
+ */
 export function displayText(elementId: string, text: string): void {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   // document.getElementById(elementId)!.textContent = text;
   console.debug(`Log #${elementId}: ${text}`)
 }
 
+/**
+ * Convert V1 names to V2
+ * @param classic name used in Quantum Game 1
+ * @returns v2 name
+ */
 export function convertFromClassicNames(classic: string): string {
   switch (classic) {
     // Source

@@ -1,130 +1,180 @@
-import { ParticleInterface } from "./Particle";
-// PARTICLE CLASS
-// Describes a vector with an origin, a direction and an unit amplitude.
 // FIXME: Duplicate between path and coord
 // FIXME: Class needs rework
-// Rework the path
-import Coord from "./Coord";
-import Cell from "./Cell";
-import { toPercent } from "./Helpers";
-import { Complex, Cx } from "quantum-tensors";
+import Coord from "./Coord"
+import Cell from "./Cell"
+import { toPercent } from "./Helpers"
+import { Complex, Cx } from "quantum-tensors"
 
+/**
+ * Particle interface with primitives
+ */
 export interface ParticleInterface {
-  coord: Coord;
-  direction: number;
-  intensity: number;
-  phase: number;
-  a: Complex;
-  b: Complex;
+  coord: Coord
+  direction: number
+  intensity: number
+  phase: number
+  are: number
+  aim: number
+  bre: number
+  bim: number
 }
 
+/**
+ * Particle interface retrieved from quantum-tensors
+ */
 export interface Qparticle {
-  x: number;
-  y: number;
-  direction: number;
-  are: number;
-  aim: number;
-  bre: number;
-  bim: number;
+  x: number
+  y: number
+  direction: number
+  are: number
+  aim: number
+  bre: number
+  bim: number
 }
 
+/**
+ * PARTICLE CLASS
+ * Describes a vector with an origin, a direction and two complex numbers.
+ */
 export default class Particle extends Coord {
-  coord: Coord;
-  direction: number;
-  intensity: number;
-  phase: number;
-  a: Complex;
-  b: Complex;
-  path: ParticleInterface[];
+  coord: Coord
+  direction: number
+  intensity: number
+  phase: number
+  a: Complex
+  b: Complex
+  path: ParticleInterface[]
 
   constructor(
     coord: Coord,
     direction: number,
     intensity = 1,
     phase = 0,
-    a: Complex = Cx(1),
-    b: Complex = Cx(0),
+    are = 1,
+    aim = 0,
+    bre = 0,
+    bim = 0,
     path: ParticleInterface[] = [
       {
         coord: coord,
         direction: direction,
         intensity: intensity,
         phase: phase,
-        a: a,
-        b: b
+        are: are,
+        aim: aim,
+        bre: bre,
+        bim: bim
       }
     ]
   ) {
-    super(coord.y, coord.x);
-    this.coord = coord;
-    this.direction = direction;
-    this.intensity = intensity;
-    this.phase = phase;
-    this.a = a;
-    this.b = b;
-    this.path = path;
-  }
-
-  // Origin of the particle
-  get origin(): Coord {
-    return this.path[0].coord;
-  }
-
-  // Check is a particle has any intensity
-  get alive(): boolean {
-    return this.intensity > 0;
-  }
-
-  // Deep clone of the particle
-  get clone(): Particle {
-    return new Particle(this.coord, this.direction, this.intensity, this.phase);
-  }
-
-  // Vertical or horizontal orientation
-  get isVertical(): boolean {
-    return this.direction === 0 || this.direction === 180;
+    super(coord.y, coord.x)
+    this.coord = coord
+    this.direction = direction
+    this.intensity = intensity
+    this.phase = phase
+    this.a = Cx(are, aim)
+    this.b = Cx(bre, bim)
+    this.path = path
   }
 
   /**
-   * Complex scaling
+   * Origin cell of the particle
+   * @returns start of the particle path
+   */
+  get origin(): Coord {
+    return this.path[0].coord
+  }
+
+  /**
+   * Check if the particle has any intensity
+   * @returns true if above threshold
+   */
+  get alive(): boolean {
+    return this.intensity > 0.001
+  }
+
+  get are(): number {
+    return this.a.re
+  }
+  get aim(): number {
+    return this.a.im
+  }
+  get bre(): number {
+    return this.b.re
+  }
+  get bim(): number {
+    return this.b.im
+  }
+
+  /**
+   * Deep clone of a particle
+   * @returns particle clone
+   */
+  get clone(): Particle {
+    return new Particle(this.coord, this.direction, this.intensity, this.phase, this.are, this.aim, this.bre, this.bim)
+  }
+
+  /**
+   * Checks the orientation of the particle for display
+   * @returns true if vertical
+   */
+  get isVertical(): boolean {
+    return this.direction === 0 || this.direction === 180
+  }
+
+  /**
+   * Opacity from complex values
+   * @returns value to use to adapt opacity for frontend
    */
   get opacity(): number {
-    const scaling = 0.5;
-    const opacity = Math.pow(this.a.abs2() + this.b.abs2(), scaling);
+    const scaling = 0.5
+    const opacity = Math.pow(this.a.abs2() + this.b.abs2(), scaling)
     if (opacity > 1) {
-      return 1;
+      return 1
     } else {
-      return opacity;
+      return opacity
     }
   }
 
-  // Convert path to particle instances
+  /**
+   * Convert particle path to particle instances
+   * @returns particles
+   */
   get pathParticle(): Particle[] {
-    const result: Particle[] = [];
+    const result: Particle[] = []
     this.path.forEach(particleI => {
-      result.push(Particle.importParticle(particleI));
-    });
-    return result;
+      result.push(Particle.importParticle(particleI))
+    })
+    return result
   }
 
-  // Particle is on a specific cell shorthand
+  /**
+   * Test if a particle is on a cell
+   * @param cell cell to test
+   * @returns boolean if particle is on cell
+   */
   on(cell: Cell): boolean {
-    return this.coord.equal(cell.coord);
+    return this.coord.equal(cell.coord)
   }
 
-  // Steps/distance towards exiting the grid
+  /**
+   * When will the particle escape the grid
+   * @param cols cols of the grid
+   * @param rows rows of the grid
+   * @returns numbers of steps before exiting the grid
+   */
   stepsToExit(cols: number, rows: number): number {
     switch (this.direction % 360) {
       case 0: // TOP
-        return this.y;
+        return this.y
       case 90: // RIGHT
-        return cols - this.x - 1;
+        return cols - this.x - 1
       case 180: // BOTTOM
-        return rows - this.y - 1;
+        return rows - this.y - 1
       case 270: // LEFT
-        return this.x;
+        return this.x
       default:
-        throw new Error("Something went wrong with directions...");
+        throw new Error("Something went wrong with directions...")
     }
   }
 
@@ -134,76 +184,66 @@ export default class Particle extends Coord {
    * @returns updated Particle
    */
   next(repeat = 1): Particle {
-    // Moving CW in increment of 90°
     for (let i = 0; i < repeat; i++) {
-      switch (this.direction % 360) {
-        case 0:
-          this.coord = this.coord.right;
-          break;
-        case 90:
-          this.coord = this.coord.top;
-          break;
-        case 180:
-          this.coord = this.coord.left;
-          break;
-        case 270:
-          this.coord = this.coord.bottom;
-          break;
-        default:
-          throw Error(`Something went wrong with particles and direction.`);
-      }
-      // Update coord with latest computed path coordinates
       this.path.push({
-        coord: this.coord,
+        coord: this.coord.fromAngle(this.direction),
         direction: this.direction,
         intensity: this.intensity,
         phase: this.phase,
-        a: this.a,
-        b: this.b
-      });
+        are: this.are,
+        aim: this.aim,
+        bre: this.bre,
+        bim: this.bim
+      })
     }
-    return this;
+    return this
   }
 
-  // Export JSON object
-  // FIXME: Rework extends and JSON export
+  /**
+   * Export particle interface in primitives
+   * @returns particle interface
+   */
   exportParticle(): ParticleInterface {
     return {
       coord: this.coord,
       direction: this.direction,
       intensity: this.intensity,
       phase: this.phase,
-      a: this.a,
-      b: this.b
-    };
+      are: this.are,
+      aim: this.aim,
+      bre: this.bre,
+      bim: this.bim
+    }
   }
 
+  /**
+   * Override toString() method for debug
+   * @returns a string describing the particle
+   */
   toString(): string {
-    return `Particle @ ${this.coord.toString()} moving ${
-      this.direction
-    }° with ${toPercent(this.intensity)} intensity and polarization | A:${
-      this.a.re
-    } + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i\n`;
+    return `Particle @ ${this.coord.toString()} moving ${this.direction}° with ${toPercent(
+      this.intensity
+    )} intensity and polarization | A:${this.a.re} + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i\n`
   }
 
-  // Import JSON object
-  static importParticle(json: ParticleInterface): Particle {
-    return new Particle(
-      json.coord,
-      json.direction,
-      json.intensity,
-      json.phase,
-      json.a,
-      json.b
-    );
+  /**
+   * Create a particle from a particle interface
+   * @param obj particle interface
+   */
+  static importParticle(obj: ParticleInterface): Particle {
+    return new Particle(obj.coord, obj.direction, obj.intensity, obj.phase, obj.are, obj.aim, obj.bre, obj.bim)
   }
 
-  // USed for debugging
+  /**
+   * Convert particles to a string representation
+   * @param particles list of particles
+   * @returns string
+   */
   static manyToString(particles: Particle[]): string {
-    let result = "";
+    let result = ""
     particles.forEach(particle => {
-      result += particle.toString();
-    });
-    return result;
+      result += particle.toString()
+    })
+    return result
   }
 }

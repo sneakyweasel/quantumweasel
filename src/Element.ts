@@ -1,26 +1,23 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-// ELEMENT CLASS
-// Basic class related to game elements
 // TODO: Remove display logic to Glyph class
 // TODO: Refactor to extended class based logic
-import { jsonElements } from "../data/elements";
-import Glyph from "./Glyph";
-import { Elem } from "./Helpers";
-import * as qt from "quantum-tensors";
+import { jsonElements } from "../data/elements"
+import Glyph from "./Glyph"
+import { Elem } from "./Helpers"
+import * as qt from "quantum-tensors"
 
 /**
  * Element interface composed of primitive types
  */
 export interface ElementInterface {
-  id: number;
-  name: string;
-  group: string;
-  description: string;
-  active: boolean;
-  absorption: number;
-  phase: number;
-  ascii: string[];
-  tiles: number[][];
+  id: number
+  name: string
+  group: string
+  description: string
+  active: boolean
+  absorption: number
+  phase: number
+  ascii: string[]
+  tiles: number[][]
 }
 
 /**
@@ -28,16 +25,16 @@ export interface ElementInterface {
  * Rendering abstraction should be moved to Glyph
  */
 export default class Element {
-  id: number;
-  name: string;
-  group: string;
-  description: string;
-  active: boolean;
-  absorption: number;
-  phase: number;
-  ascii: string[];
-  tiles: number[][];
-  glyph: Glyph;
+  id: number
+  name: string
+  group: string
+  description: string
+  active: boolean
+  absorption: number
+  phase: number
+  ascii: string[]
+  tiles: number[][]
+  glyph: Glyph
 
   constructor(
     id: number,
@@ -48,86 +45,92 @@ export default class Element {
     absorption = 0,
     phase = 0,
     ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
-    tiles: number[][] = [
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0],
-      [0, 0]
-    ],
+    tiles: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
     glyph: Glyph = new Glyph(" ", [0, 0])
   ) {
-    this.id = id;
-    this.name = name;
-    this.group = group;
-    this.description = description;
-    this.active = active;
-    this.absorption = absorption;
-    this.phase = phase;
-    this.ascii = ascii;
-    this.tiles = tiles;
-    this.glyph = glyph;
+    this.id = id
+    this.name = name
+    this.group = group
+    this.description = description
+    this.active = active
+    this.absorption = absorption
+    this.phase = phase
+    this.ascii = ascii
+    this.tiles = tiles
+    this.glyph = glyph
   }
 
+  /**
+   * Return quantum operators to be applied to states
+   * @param param parameters to pass for operator creation
+   * @returns operator
+   */
   transition(param: number): qt.Operator {
     switch (this.name) {
       case Elem.Mirror:
-        return qt.mirror(param);
+        return qt.mirror(param)
+      case Elem.CornerCube:
+        return qt.cornerCube()
       case Elem.BeamSplitter:
-        return qt.beamSplitter(param);
+        return qt.beamSplitter(param)
       case Elem.Absorber:
-        return qt.attenuator(Math.SQRT1_2);
+        return qt.attenuator(Math.SQRT1_2)
       case Elem.VacuumJar:
-        return qt.vacuumJar();
+        return qt.vacuumJar()
       case Elem.Glass:
-        return qt.glassSlab();
+        return qt.glassSlab()
       case Elem.Detector:
-        return qt.attenuator(0);
+        return qt.attenuator(0)
       case Elem.SugarSolution:
-        return qt.sugarSolution();
+        return qt.sugarSolution(0.125)
       case Elem.PolarizingBeamSplitter:
         if (param === 0) {
-          return qt.polarizingBeamsplitter(135);
+          return qt.polarizingBeamsplitter(135)
         } else {
-          return qt.polarizingBeamsplitter(45);
+          return qt.polarizingBeamsplitter(45)
         }
       case Elem.PolarizerH:
-        return qt.quarterWavePlateWE(param);
+        return qt.quarterWavePlateWE(param)
       case Elem.PolarizerV:
-        return qt.quarterWavePlateNS(param);
+        return qt.quarterWavePlateNS(param)
       case Elem.QuarterWavePlateH:
-        return qt.quarterWavePlateWE(param);
+        return qt.quarterWavePlateWE(param)
       case Elem.QuarterWavePlateV:
-        return qt.quarterWavePlateNS(param);
+        return qt.quarterWavePlateNS(param)
       case Elem.FaradayRotator:
-        return qt.faradayRotator(param);
+        return qt.faradayRotator(param)
       case Elem.Mine:
-        return qt.attenuator(0);
+        return qt.attenuator(0)
       case Elem.Mine:
-        return qt.attenuator(0);
+        return qt.attenuator(0)
       case Elem.Wall:
-        return qt.attenuator(0);
+        return qt.attenuator(0)
       default:
-        return qt.attenuator(0);
-      // throw Error("Wrong element name...");
+        throw new Error("Element not included in quantum-tensors operators...")
     }
   }
 
-  // Compute the rotation angle from the number of sprites
+  /**
+   * Compute the rotation angles from the number of tiles
+   * TODO: Find a better way
+   * @returns amount to rotate the element
+   */
   get rotationAngle(): number {
-    return 360 / this.ascii.length;
+    return 360 / this.ascii.length
   }
 
-  // Override of toString() method
+  /**
+   * Override toString() method
+   * @returns string describing element
+   */
   toString(): string {
-    return `${this.name} (Phase: ${this.phase}, Absorption: ${this.absorption *
-      100}%)`;
+    return `${this.name} (Phase: ${this.phase}, Absorption: ${this.absorption * 100}%)`
   }
 
-  // Export JSON
+  /**
+   * Export element in primitives
+   * @returns ElementInterface
+   */
   exportElement(): ElementInterface {
     return {
       id: this.id,
@@ -139,33 +142,40 @@ export default class Element {
       phase: this.phase,
       ascii: this.ascii,
       tiles: this.tiles
-    };
+    }
   }
 
-  // Create element from element interface
-  static importElement(json: ElementInterface): Element {
+  /**
+   * Create an element from an interface
+   * @param obj Create element from interface
+   */
+  static importElement(obj: ElementInterface): Element {
     return new Element(
-      json.id,
-      json.name,
-      json.group,
-      json.description,
-      json.active,
-      json.absorption,
-      json.phase,
-      json.ascii,
-      json.tiles
-    );
+      obj.id,
+      obj.name,
+      obj.group,
+      obj.description,
+      obj.active,
+      obj.absorption,
+      obj.phase,
+      obj.ascii,
+      obj.tiles
+    )
   }
 
-  // Static JSON load
+  /**
+   * Returns an element from its name
+   * @param name Element from enum of element names
+   * @returns Element
+   */
   static fromName(name: string): Element {
     const element = jsonElements.find(elem => {
-      return elem.name === name;
-    });
+      return elem.name === name
+    })
     if (element) {
-      return Element.importElement(element!);
+      return Element.importElement(element!)
     } else {
-      throw new Error(`Element: ${name} is not implemented.`);
+      throw new Error(`Element: ${name} is not implemented.`)
     }
   }
 }
