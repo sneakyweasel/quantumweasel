@@ -369,7 +369,6 @@ export default class Grid extends Cluster {
   public importGrid(jsonCells: CellInterface[]): void {
     jsonCells.forEach(jsonCell => {
       const cell = Cell.importCell(jsonCell)
-      this.cells.push(cell)
       this.set(cell)
     })
   }

@@ -16,7 +16,7 @@ const secondFrame = initFrame.next()
 frames.push(secondFrame);
 console.log(secondFrame.toString());
 
-console.log(level.grid.lasers.cells)
+// console.log(level.grid.lasers.cells)
 // DEBUG LASER PATHS
 // const lasers = level.grid.computePaths();
 // console.log("LASERS CLUSTER:" + lasers.map(part => part.toString()));
