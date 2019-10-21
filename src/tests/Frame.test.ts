@@ -28,7 +28,7 @@ describe("Frame", () => {
     laser.rotation = 0
     grid.set(laser)
     const particle = laser.fire()
-    particle.next()
+    particle.next
     expect(particle.coord).toEqual(laser.coord.right)
   })
 

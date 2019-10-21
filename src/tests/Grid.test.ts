@@ -39,24 +39,24 @@ describe("Grid", () => {
     expect(grid.ascii).toEqual("......\n......\n......\n")
   })
 
-  it("should allow to move an element from a cell to another if both are unfrozen", () => {
-    const grid = new Grid(3, 6)
-    const orig = new Coord(1, 1)
-    const dest = new Coord(2, 2)
-    grid.set(new Cell(orig, Element.fromName(Elem.Mirror)))
-    grid.move(orig, dest)
-    expect(grid.ascii).toEqual("......\n......\n..-...\n")
-  })
+  // it("should allow to move an element from a cell to another if both are unfrozen", () => {
+  //   const grid = new Grid(3, 6)
+  //   const orig = new Coord(1, 1)
+  //   const dest = new Coord(2, 2)
+  //   grid.set(new Cell(orig, Element.fromName(Elem.Mirror)))
+  //   grid.move(orig, dest)
+  //   expect(grid.ascii).toEqual("......\n......\n..-...\n")
+  // })
 
-  it("should move all the cells of the grid in a specified direction", () => {
-    const grid = new Grid(3, 6)
-    const coord1 = new Coord(1, 1)
-    const coord2 = new Coord(2, 2)
-    grid.set(new Cell(coord1, Element.fromName(Elem.Mirror)))
-    grid.set(new Cell(coord2, Element.fromName(Elem.Detector)))
-    grid.moveAll(90)
-    expect(grid.ascii).toEqual("......\n......\n..-...\n")
-  })
+  // it("should move all the cells of the grid in a specified direction", () => {
+  //   const grid = new Grid(3, 6)
+  //   const coord1 = new Coord(1, 1)
+  //   const coord2 = new Coord(2, 2)
+  //   grid.set(new Cell(coord1, Element.fromName(Elem.Mirror)))
+  //   grid.set(new Cell(coord2, Element.fromName(Elem.Detector)))
+  //   grid.moveAll(90)
+  //   expect(grid.ascii).toEqual("......\n......\n..-...\n")
+  // })
 
   it("should forbid moving an element to another cell if any is frozen", () => {
     const grid = new Grid(3, 6)
