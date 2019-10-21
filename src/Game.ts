@@ -63,7 +63,7 @@ export default class Game {
     this.initializeGame()
     this.mainLoop()
   }
-  
+
   /**
    * Returns first computed frame
    */
@@ -146,14 +146,9 @@ export default class Game {
     displayText("cell", this.player.cell.toString())
     displayText(
       "player",
-      `Turns: ${this.frameNumber}/${
-        this.maxFrameNumber
-      } | player: ${this.player.cell.coord.toString()}`
+      `Turns: ${this.frameNumber}/${this.maxFrameNumber} | player: ${this.player.cell.coord.toString()}`
     )
-    displayText(
-      "laser",
-      `Quantum: ${Particle.manyToString(this.currentFrame.quantum)}`
-    )
+    displayText("laser", `Quantum: ${Particle.manyToString(this.currentFrame.quantum)}`)
   }
 
   /**
@@ -163,10 +158,7 @@ export default class Game {
    */
   private drawFrame(frame = this.currentFrame): void {
     console.log(`--- Displaying frame ${this.frameNumber} ---`)
-    displayText(
-      "laser",
-      `Quantum particles: ${Particle.manyToString(frame.quantum)}`
-    )
+    displayText("laser", `Quantum particles: ${Particle.manyToString(frame.quantum)}`)
     this.drawGrid()
   }
 
@@ -194,55 +186,41 @@ export default class Game {
 
     // Gather character list
     const cell = this.level.grid.get(coord)
-    const charList: string[] = [cell.ascii]
-    const fgList: string[] = ["white"]
-    const bgList: string[] = ["purple"]
+    if (cell && cell.ascii) {
+      const charList: string[] = [cell.ascii]
+      const fgList: string[] = ["white"]
+      const bgList: string[] = ["purple"]
 
-    // Add player
-    if (this.player.coord.equal(coord)) {
-      charList.push("@")
-    }
-
-    //  Color variables
-    if (cell.frozen) {
-      bgList.push("turquoise")
-    }
-    if (cell.energized) {
-      bgList.push("red")
-    }
-
-    // Classical path intensity
-    const sum = this.level.grid.coordIntensitySum(coord)
-    if (sum > 0) {
-      bgList.push(`rgba(255, 0, 0, ${sum / 3})`)
-    }
-
-    // Display quantum photon
-    this.currentFrame.quantum.forEach(particle => {
-      if (
-        particle &&
-        particle.coord.equal(coord) &&
-        particle.isVertical &&
-        particle.opacity > 0.1
-      ) {
-        charList.push("P")
+      // Add player
+      if (this.player.coord.equal(coord)) {
+        charList.push("@")
       }
-      if (
-        particle &&
-        particle.coord.equal(coord) &&
-        !particle.isVertical &&
-        particle.opacity > 0.1
-      ) {
-        charList.push("d")
+
+      //  Color variables
+      if (cell.frozen) {
+        bgList.push("turquoise")
       }
-    })
-    this.display.draw(
-      coord.x,
-      coord.y,
-      charList,
-      fgList[fgList.length - 1],
-      bgList[bgList.length - 1]
-    )
+      if (cell.energized) {
+        bgList.push("red")
+      }
+
+      // Classical path intensity
+      const sum = this.level.grid.coordIntensitySum(coord)
+      if (sum > 0) {
+        bgList.push(`rgba(255, 0, 0, ${sum / 3})`)
+      }
+
+      // Display quantum photon
+      this.currentFrame.quantum.forEach(particle => {
+        if (particle && particle.coord.equal(coord) && particle.isVertical && particle.opacity > 0.1) {
+          charList.push("P")
+        }
+        if (particle && particle.coord.equal(coord) && !particle.isVertical && particle.opacity > 0.1) {
+          charList.push("d")
+        }
+      })
+      this.display.draw(coord.x, coord.y, charList, fgList[fgList.length - 1], bgList[bgList.length - 1])
+    }
   }
 
   /**

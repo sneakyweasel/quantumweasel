@@ -24,12 +24,7 @@ export default class Player implements Actor {
 
   // Getters and setters
   get cell(): Cell {
-    if (this.level.grid.includes(this.coord)) {
-      // return this.level.grid.get(this.coord);
-      return new Cell(this.coord, Element.fromName("Void"))
-    } else {
-      return new Cell(this.coord, Element.fromName("Void"))
-    }
+      return this.level.grid.get(this.coord)
   }
   // Getters and setters
   get element(): Element {
@@ -44,9 +39,7 @@ export default class Player implements Actor {
   // Cycle through groups of elements
   cycleNext(group: string): void {
     const list: string[] = ElemGroups[group]
-    if (this.cell.frozen) {
-      return
-    }
+    
     // Cycle through elements of the same group
     if (group === this.element.group) {
       const elemIndex = (list.indexOf(this.element.name) + 1) % list.length
