@@ -83,6 +83,8 @@ export default class Element {
         return qt.attenuator(0)
       case Elem.Laser:
         return qt.attenuator(1)
+      case Elem.Void:
+        return qt.attenuator(1)
       case Elem.SugarSolution:
         return qt.sugarSolution(0.125)
       case Elem.PolarizingBeamSplitter:
@@ -103,12 +105,12 @@ export default class Element {
         return qt.faradayRotator(param)
       case Elem.Mine:
         return qt.attenuator(0)
-      case Elem.Mine:
+      case Elem.Rock:
         return qt.attenuator(0)
       case Elem.Wall:
         return qt.attenuator(0)
       default:
-        throw new Error("Element not included in quantum-tensors operators...")
+        throw new Error(`Element ${this.name} not included in quantum-tensors operators..`)
     }
   }
 
