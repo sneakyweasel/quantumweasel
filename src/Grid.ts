@@ -8,6 +8,7 @@ import Cell, { CellInterface } from "./Cell";
 import { GridInterface } from "./Grid";
 import Cluster from "./Cluster";
 import Particle, { ParticleInterface } from "./Particle";
+import { flatDeep } from "./Helpers";
 
 /**
  * Grid interface composed of primitive JS types
@@ -57,7 +58,7 @@ export default class Grid extends Cluster {
     return this.matrix.reduce((acc, val) => acc.concat(val), []);
   }
   get coords(): Coord[] {
-    return this.cells.flatMap(cell => cell.coord);
+    return flatDeep(this.cells).map(cell => cell.coord);
   }
 
   /**
@@ -294,7 +295,7 @@ export default class Grid extends Cluster {
       // particle.path
       pathParticles.push(particle.pathParticle);
     });
-    return [...new Set(pathParticles.flat())];
+    return [...new Set(flatDeep(pathParticles))];
   }
 
   /**

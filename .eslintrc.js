@@ -9,7 +9,17 @@ module.exports = {
     "plugin:import/typescript"
   ],
   rules: {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      multiline: {
+        delimiter: 'none',
+        requireLast: true,
+      },
+      singleline: {
+        delimiter: 'none',
+        requireLast: false,
+      },
+    }]
   },
   root: true
 };
