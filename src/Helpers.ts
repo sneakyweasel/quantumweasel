@@ -64,6 +64,19 @@ export const ElemGroups: { [symbol: string]: Elem[] } = {
   Phase: [Elem.Glass, Elem.VacuumJar]
 }
 
+export const enum GameState {
+  // Initial
+  Initial = "Initial",
+  InProgress = "InProgress",
+  // Victory
+  Victory = "Victory",
+  // Defeat
+  MineExploded = "MineExploded",
+  GoalsNotCompleted = "GoalsNotCompleted",
+  ProbabilityTooLow = "ProbabilityTooLow",
+  InfiniteLoop = "InfiniteLoop"
+}
+
 /**
  * Convert angles to unicode arrow symbols
  * https://en.wikipedia.org/wiki/Template:Unicode_chart_Arrows
@@ -128,22 +141,6 @@ export function symbolToAngle(direction: string): number {
 */
 export function flatDeep(arr: Array<any>): Array<any> {
   return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val) : val), [])
-}
-
-export function padLeft(text: string, length: number, character?: string): string {
-  const char = character || " "
-  while (text.length < length) {
-    text = char + text
-  }
-  return text
-}
-
-export function padRight(text: string, length: number, character?: string): string {
-  const char = character || " "
-  while (text.length < length) {
-    text += char
-  }
-  return text
 }
 
 /**

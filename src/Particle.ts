@@ -137,6 +137,13 @@ export default class Particle extends Coord {
   }
 
   /**
+   * Set intensity according to opacity
+   */
+  setIntensity(): void {
+    this.intensity = this.opacity
+  }
+
+  /**
    * Convert particle path to particle instances
    * @returns particles
    */
