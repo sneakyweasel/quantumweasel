@@ -75,9 +75,9 @@ export default class Frame {
     } else {
       const quantum = this.nextQuantum()
       const classical = this.nextClassical()
-
-      // Compute current gameState
       const gameState = this.processGameState()
+      
+      // Compute current gameState
       return new Frame(this.level, this.step + 1, classical, quantum, gameState, end)
     }
   }
@@ -106,7 +106,9 @@ export default class Frame {
       const bre = qParticle.bre
       const bim = qParticle.bim
       const coord = new Coord(y, x)
-      return new Particle(coord, direction, 0, 0, are, aim, bre, bim)
+      const particle = new Particle(coord, direction, 0, 0, are, aim, bre, bim)
+      particle.setIntensity()
+      return particle
     })
   }
 
@@ -123,7 +125,7 @@ export default class Frame {
    * @returns string
    */
   toString(): string {
-    let result = `\n--- STEP ${this.step} ${this.victory ? "VICTORY" : "IN PROGRESS"} --- `
+    let result = `\n--- STEP ${this.step} ${this.gameState} --- `
     result += `\nClassical (${this.classical.length} particles): `
     result += Particle.manyToString(this.classical)
     result += `\nQuantum: (${this.quantum.length} particles)`

@@ -157,8 +157,8 @@ export default class Game {
    * @param frame Frame object to render
    */
   private drawFrame(frame = this.currentFrame): void {
-    console.log(`--- Displaying frame ${this.frameNumber} ---`)
     displayText("laser", `Quantum particles: ${Particle.manyToString(frame.quantum)}`)
+    console.info(`${frame.toString()}`);
     this.drawGrid()
   }
 

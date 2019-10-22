@@ -127,7 +127,7 @@ export default class Particle extends Coord {
    * @returns value to use to adapt opacity for frontend
    */
   get opacity(): number {
-    const scaling = 0.5
+    const scaling = 1
     const opacity = Math.pow(this.a.abs2() + this.b.abs2(), scaling)
     if (opacity > 1) {
       return 1
@@ -137,7 +137,7 @@ export default class Particle extends Coord {
   }
 
   /**
-   * Set intensity according to opacity
+   * Set intensity according to opacity for the quantum particles
    */
   setIntensity(): void {
     this.intensity = this.opacity
