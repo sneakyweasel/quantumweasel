@@ -186,5 +186,11 @@
     ]
   },
   "hints": [],
-  "goals": []
+  "goals": [
+    {
+      "coord": { "y": 4, "x": 2 },
+      "threshold": 1,
+      "value": 0
+    }
+  ]
 }

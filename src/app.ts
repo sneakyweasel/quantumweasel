@@ -1,4 +1,4 @@
-import json from "../levels/classic/level12.json"
+import json from "../levels/classic/level34.json"
 // import json from "../levels/dev/minethreshold.json"
 import Level from "./Level"
 import Game from "./Game"
