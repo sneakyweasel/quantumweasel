@@ -75,10 +75,10 @@ export default class Frame {
     } else {
       const quantum = this.nextQuantum()
       const classical = this.nextClassical()
-      const gameState = this.processGameState()
+      // const gameState = this.processGameState()
       
       // Compute current gameState
-      return new Frame(this.level, this.step + 1, classical, quantum, gameState, end)
+      return new Frame(this.level, this.step + 1, classical, quantum, this.gameState, end)
     }
   }
 
@@ -90,11 +90,16 @@ export default class Frame {
     // Move
     this.level.state.propagatePhotons()
     // console.debug("quantum", this.level.state.vector.toString())
+    
+    // Process game state
+    // FIXME: The propagate photon doesn't allow to check if photon was on tile
+    this.updateGoals()
+    this.gameState = this.processGameState()
+
     // Act
     const operations: [number, number, qt.Operator][] = this.level.grid.operatorList
-    // console.debug("OPERATIONS: " + operations)
-    // Debug
     this.level.state.actOnSinglePhotons(operations)
+    // console.debug("OPERATIONS: " + operations)
     // console.debug(this.level.state.vector.toString())
 
     return this.level.state.aggregatePolarization().map((qParticle: Qparticle) => {
@@ -178,6 +183,19 @@ export default class Frame {
       }
     }
     throw new Error("This frame does not return a GameState...")
+  }
+
+  /**
+   * Complete the goals with the photon probability
+   */
+  updateGoals(): void {
+    this.level.goals.forEach((goal) =>
+      this.quantum.forEach((particle) => {
+        if (particle.coord.equal(goal.coord)) {
+          goal.value += particle.opacity
+        }
+      })
+    )
   }
 
   /**
