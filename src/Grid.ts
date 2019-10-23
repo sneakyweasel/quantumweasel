@@ -276,7 +276,7 @@ export default class Grid extends Cluster {
         return laser.fire()
       })
       .map(particle => {
-        this.laserPath(particle, 40).map((particle: Particle) => {
+        [...new Set(flatDeep(this.laserPath(particle, 40)))].map((particle: Particle) => {
           if (particle.coord.isIncludedIn(this.coords)) {
             laserCoords.push(particle)
           }
