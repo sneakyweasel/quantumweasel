@@ -184,7 +184,7 @@ export default class Grid extends Cluster {
    * @param maxFrames Max number of frames to compute
    * @returns list of "path particles"
    */
-  laserPath(particle: Particle, maxFrames = 40): Particle[] {
+  laserPath(particle: Particle, maxFrames = 40): Particle[][] {
     // Make a depp clone of the particle
     let alive: Particle[] = [particle]
     const dead: Particle[] = []
@@ -258,10 +258,10 @@ export default class Grid extends Cluster {
     const pathParticles: Particle[][] = []
     alive = dead.concat(alive)
     alive.forEach(particle => {
-      // particle.path
       pathParticles.push(particle.pathParticle)
     })
-    return [...new Set(flatDeep(pathParticles))]
+    return pathParticles
+    // return [...new Set(flatDeep(pathParticles))]
   }
 
   /**
