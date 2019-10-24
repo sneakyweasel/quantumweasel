@@ -39,8 +39,6 @@ describe("Cell", () => {
     const rock = new Cell(coord, element)
     expect(() => {
       return rock.rotate(270)
-    }).toThrowError(
-      "Error in the supplied angle compared to the element rotation angle."
-    )
+    }).toThrowError("Error in the supplied angle compared to the element rotation angle.")
   })
 })

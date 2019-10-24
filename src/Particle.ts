@@ -4,12 +4,14 @@ import Coord from "./Coord"
 import Cell from "./Cell"
 import { toPercent } from "./Helpers"
 import { Complex, Cx } from "quantum-tensors"
+import { CoordInterface } from "./interfaces"
 
 /**
+ * PARTICLE INTERFACE
  * Particle interface with primitives
  */
 export interface ParticleInterface {
-  coord: Coord
+  coord: CoordInterface
   direction: number
   intensity: number
   phase: number
@@ -82,7 +84,7 @@ export default class Particle extends Coord {
    * @returns start of the particle path
    */
   get origin(): Coord {
-    return this.path[0].coord
+    return Coord.importCoord(this.path[0].coord)
   }
 
   /**
@@ -227,7 +229,8 @@ export default class Particle extends Coord {
    * @param obj particle interface
    */
   static importParticle(obj: ParticleInterface): Particle {
-    return new Particle(obj.coord, obj.direction, obj.intensity, obj.phase, obj.are, obj.aim, obj.bre, obj.bim)
+    const coord = Coord.importCoord(obj.coord)
+    return new Particle(coord, obj.direction, obj.intensity, obj.phase, obj.are, obj.aim, obj.bre, obj.bim)
   }
 
   /**

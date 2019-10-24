@@ -1,5 +1,5 @@
-import { ElementInterface } from "./../src/Element";
-import { Elem } from "../src/Helpers";
+import { ElementInterface } from "./../src/interfaces"
+import { Elem } from "../src/Helpers"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const jsonElements: ElementInterface[] = [
@@ -19,8 +19,7 @@ export const jsonElements: ElementInterface[] = [
     // name: "Rock",
     name: Elem.Rock,
     group: "Absorption",
-    description:
-      "Dark and immersive as your sweetheart's depth of eyes. Absorbs light. And is sensitive.",
+    description: "Dark and immersive as your sweetheart's depth of eyes. Absorbs light. And is sensitive.",
     active: false,
     absorption: 1,
     phase: 0,
@@ -149,8 +148,7 @@ export const jsonElements: ElementInterface[] = [
     // name: "PolarizingBeamSplitter",
     name: Elem.PolarizingBeamSplitter,
     group: "Direction",
-    description:
-      "Reflects vertical polarization (↕), transmitts horizonal polarization (↔).",
+    description: "Reflects vertical polarization (↕), transmitts horizonal polarization (↔).",
     active: false,
     absorption: 0,
     phase: 0,
@@ -180,38 +178,19 @@ export const jsonElements: ElementInterface[] = [
     phase: 0,
     id: 14,
     ascii: ["-", "/", "|", "\\", "-", "/", "|", "\\"],
-    tiles: [
-      [14, 0],
-      [14, 1],
-      [14, 2],
-      [14, 3],
-      [14, 4],
-      [14, 5],
-      [14, 6],
-      [14, 7]
-    ]
+    tiles: [[14, 0], [14, 1], [14, 2], [14, 3], [14, 4], [14, 5], [14, 6], [14, 7]]
   },
   {
     // name: "BeamSplitter",
     name: Elem.BeamSplitter,
     group: "Direction",
-    description:
-      "A thin slab of glass reflecting half the beam, and transmitting other half of it.",
+    description: "A thin slab of glass reflecting half the beam, and transmitting other half of it.",
     active: false,
     absorption: 0,
     phase: 0,
     id: 15,
     ascii: ["→", "↗", "↑", "↖", "←", "↙", "↓", "↘"],
-    tiles: [
-      [15, 0],
-      [15, 1],
-      [15, 2],
-      [15, 3],
-      [15, 4],
-      [15, 5],
-      [15, 6],
-      [15, 7]
-    ]
+    tiles: [[15, 0], [15, 1], [15, 2], [15, 3], [15, 4], [15, 5], [15, 6], [15, 7]]
   },
   {
     // name: "Glass",
@@ -301,4 +280,4 @@ export const jsonElements: ElementInterface[] = [
     ascii: ["🠶", "🠵", "🠴", "🠷"],
     tiles: [[30, 0], [30, 1], [30, 2], [30, 3]]
   }
-];
+]

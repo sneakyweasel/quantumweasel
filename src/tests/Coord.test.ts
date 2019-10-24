@@ -20,10 +20,10 @@ describe("Coordinates", () => {
 
   it("should return a coord according to the specified direction in angle", () => {
     const coord = new Coord(4, 4)
-    const right = coord.fromAngle(0) 
-    const up = coord.fromAngle(90) 
-    const left = coord.fromAngle(180) 
-    const down = coord.fromAngle(270) 
+    const right = coord.fromAngle(0)
+    const up = coord.fromAngle(90)
+    const left = coord.fromAngle(180)
+    const down = coord.fromAngle(270)
     expect(right).toEqual(coord.right)
     expect(up).toEqual(coord.up)
     expect(left).toEqual(coord.left)

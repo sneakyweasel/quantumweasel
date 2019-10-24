@@ -13,7 +13,7 @@ export default class GameState {
     this.noParticles = false
     this.notEnoughIntensity = false
   }
-  
+
   /**
    * Reset game state variables
    */

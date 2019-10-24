@@ -1,22 +1,13 @@
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
+import { CellInterface, GridInterface } from './interfaces';
 import { Operator } from "quantum-tensors"
 import Coord from "./Coord"
 import Element from "./Element"
-import Cell, { CellInterface } from "./Cell"
-import { GridInterface } from "./Grid"
+import Cell from "./Cell"
 import Cluster from "./Cluster"
 import Particle, { ParticleInterface } from "./Particle"
 import { flatDeep } from "./Helpers"
-
-/**
- * Grid interface composed of primitive JS types
- */
-export interface GridInterface {
-  cols: number
-  rows: number
-  cells: CellInterface[]
-}
 
 /**
  * Grid class includes the grid instance that holds the cells
@@ -290,7 +281,7 @@ export default class Grid extends Cluster {
    * @param paths laser path to energize
    */
   energizeCells(paths: ParticleInterface[]): void {
-    const pathCoords: Coord[] = paths.map(pathParticle => pathParticle.coord)
+    const pathCoords: Coord[] = paths.map(pathParticle => Coord.importCoord(pathParticle.coord))
     this.cells.forEach(cell => {
       if (cell.coord.isIncludedIn(pathCoords) && cell.element.name !== "Void") {
         cell.energized = true

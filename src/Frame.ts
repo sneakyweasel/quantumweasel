@@ -1,25 +1,9 @@
 // TODO: Don't return whole level at each frame
 // TODO: Frame could extend Level class
-import Coord from "./Coord"
-import Level, { LevelInterface } from "./Level"
-import Particle, { ParticleInterface, Qparticle } from "./Particle"
-import Goal from "./Goal"
-import Cluster from "./Cluster"
-import { GameState } from "./Helpers"
+import { FrameInterface, GameState } from "./interfaces"
+import { Coord, Cluster, Level, Goal, Particle } from "./main"
+import { Qparticle } from "./Particle"
 import * as qt from "quantum-tensors"
-
-/**
- * FRAME INTERFACE
- * time-frame using only primitives
- */
-export interface FrameInterface {
-  level: LevelInterface
-  step: number
-  classical: ParticleInterface[]
-  quantum: ParticleInterface[]
-  gameState: GameState
-  end: boolean
-}
 
 /**
  * TIME FRAME CLASS
@@ -58,7 +42,7 @@ export default class Frame {
   next(): Frame {
     const classical: Particle[] = []
     const quantum: Particle[] = []
-    let end: boolean = false
+    const end = false
 
     // Initialize photons from grid
     if (this.step === 0) {
@@ -76,7 +60,7 @@ export default class Frame {
       const quantum = this.nextQuantum()
       const classical = this.nextClassical()
       // const gameState = this.processGameState()
-      
+
       // Compute current gameState
       return new Frame(this.level, this.step + 1, classical, quantum, this.gameState, end)
     }
@@ -90,7 +74,7 @@ export default class Frame {
     // Move
     this.level.state.propagatePhotons()
     // console.debug("quantum", this.level.state.vector.toString())
-    
+
     // Process game state
     // FIXME: The propagate photon doesn't allow to check if photon was on tile
     this.updateGoals()
@@ -170,8 +154,8 @@ export default class Frame {
     // Victorious
     if (this.victory) {
       return GameState.Victory
-    
-    // Defeat or progress
+
+      // Defeat or progress
     } else {
       // Simulation running
       if (this.quantum.length > 0) {
@@ -189,8 +173,8 @@ export default class Frame {
    * Complete the goals with the photon probability
    */
   updateGoals(): void {
-    this.level.goals.forEach((goal) =>
-      this.quantum.forEach((particle) => {
+    this.level.goals.forEach(goal =>
+      this.quantum.forEach(particle => {
         if (particle.coord.equal(goal.coord)) {
           goal.value += particle.opacity
         }
@@ -214,20 +198,20 @@ export default class Frame {
     return this.completedGoals.length === this.level.goals.length
   }
 
-  /** 
+  /**
    * Retrieve the cells at the coordinate of particles
    * @returns cells
    */
   getParticleCells(particles: Particle[] = this.quantum): Cluster {
     return new Cluster(particles.map(particle => this.level.grid.get(particle.coord)))
   }
-  
+
   /**
    * Are any mines exploding
    * Filter the particle with more intensity than the mine threshold
    * @returns boolean if there are exploding mines
    */
-  explodingMines(threshold: number = 0.01): boolean {
+  explodingMines(threshold = 0.01): boolean {
     const particles = this.quantum.filter(particle => particle.opacity > threshold)
     const explodingMines = this.getParticleCells(particles).mines.cells
     if (explodingMines.length > 0) {

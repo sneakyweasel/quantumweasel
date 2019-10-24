@@ -33,9 +33,9 @@ export default class Toolbox {
    * @param tool Element
    */
   remove(element: string): void {
-    var index = this.elements.indexOf(element);
+    const index = this.elements.indexOf(element)
     if (index > -1) {
-      this.elements.splice(index, 1);
+      this.elements.splice(index, 1)
     }
   }
 

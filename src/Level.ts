@@ -1,25 +1,9 @@
 // TODO: work on the toolbox
+import { LevelInterface } from './interfaces';
+import { Grid, Coord, Cell, Element, Goal, Hint } from "./main"
 import { Photons } from "quantum-tensors"
-import Grid, { GridInterface } from "./Grid"
-import Hint, { HintInterface } from "./Hint"
-import Goal, { GoalInterface } from "./Goal"
 import Toolbox from "./Toolbox"
 import { convertFromClassicNames } from "./Helpers"
-import { Coord, Cell, Element } from "./main"
-
-/**
- * LEVEL INTERFACE 
- * level interface composed of primitives for display 
- */
-export interface LevelInterface {
-  id: number
-  name: string
-  group: string
-  description: string
-  grid: GridInterface
-  goals: GoalInterface[]
-  hints: HintInterface[]
-}
 
 /** 
  * CLASSICAL LEVEL INTERFACE
@@ -158,8 +142,8 @@ export default class Level {
       const cell = new Cell(coord, element, rotation, tile.frozen)
       grid.set(cell)
     })
-    const goals: Goal[] = []
-    const hints: Hint[] = []
+    const goals: any = []
+    const hints: any = []
     return new Level(0, obj.name, obj.group, "", grid, goals, hints, false)
   }
 }

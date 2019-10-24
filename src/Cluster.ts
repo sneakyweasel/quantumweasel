@@ -1,15 +1,8 @@
+import { CellInterface } from "./interfaces"
 import Coord from "./Coord"
 import Element from "./Element"
-import Cell, { CellInterface } from "./Cell"
+import Cell from "./Cell"
 import { Elem } from "./Helpers"
-
-/**
- * CLUSTER INTERFACE
- * Cluster of cells in primitives
- */
-export interface ClusterInterface {
-  cells: CellInterface[]
-}
 
 /**
  * CLUSTER CLASS

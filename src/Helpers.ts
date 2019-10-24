@@ -136,26 +136,26 @@ export function symbolToAngle(direction: string): number {
 }
 
 /**
-* Flatten an array
-* @param arr Array to flatten
-*/
+ * Flatten an array
+ * @param arr Array to flatten
+ */
 export function flatDeep(arr: Array<any>): Array<any> {
   return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val) : val), [])
 }
 
 /**
-* Format percentage
-* @param value number from 0 to 1
-* @returns percentage string
-*/
+ * Format percentage
+ * @param value number from 0 to 1
+ * @returns percentage string
+ */
 export function toPercent(value: number): string {
   return `${(value * 100).toFixed(2)}%`
 }
 
 /**
  * Convert HSL to hex
- * @param hue 
- * @param saturation 
+ * @param hue
+ * @param saturation
  * @param lightness
  * @returns hexadecimal string
  */

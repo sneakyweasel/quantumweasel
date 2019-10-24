@@ -23,11 +23,7 @@ describe("Complex", () => {
   it("should create dimensions from Piotr code...", () => {
     const dim1 = Dimension.direction()
     const dim2 = Dimension.spin()
-    const vector1 = Vector.fromArray(
-      [Cx(1), Cx(0), Cx(2, 1), Cx(0, -1)],
-      [dim1],
-      false
-    )
+    const vector1 = Vector.fromArray([Cx(1), Cx(0), Cx(2, 1), Cx(0, -1)], [dim1], false)
     const vector2 = Vector.fromArray([Cx(0, 0.5), Cx(1)], [dim2], false)
     console.log(vector1.toString())
     console.log(vector2.toString())

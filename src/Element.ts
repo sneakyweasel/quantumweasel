@@ -1,24 +1,9 @@
 // TODO: Remove display logic to Glyph class
 // TODO: Refactor to extended class based logic
+import { ElementInterface, Elem } from "./interfaces"
 import { jsonElements } from "../data/elements"
 import Glyph from "./Glyph"
-import { Elem } from "./Helpers"
 import * as qt from "quantum-tensors"
-
-/**
- * Element interface composed of primitive types
- */
-export interface ElementInterface {
-  id: number
-  name: string
-  group: string
-  description: string
-  active: boolean
-  absorption: number
-  phase: number
-  ascii: string[]
-  tiles: number[][]
-}
 
 /**
  * Class responsible for elements
@@ -39,7 +24,7 @@ export default class Element {
   constructor(
     id: number,
     name: string,
-    group = "",
+    group: string,
     description = "",
     active = false,
     absorption = 0,

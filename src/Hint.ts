@@ -1,17 +1,5 @@
-// HINT CLASS
-// Structure extracted for v1: https://github.com/stared/quantum-game/blob/master/data/levels_game.json
-// TODO: Create event class
-
+import { HintInterface } from "./interfaces"
 import Coord from "./Coord"
-
-/**
- * HINT INTERFACE
- * Hint in primitives
- */
-export interface HintInterface {
-  coord: { x: number; y: number }
-  text: string
-}
 
 /**
  * HINT CLASS
@@ -24,13 +12,7 @@ export default class Hint {
   direction: string
   active: boolean
 
-  constructor(
-    coord: Coord,
-    text: string,
-    width = 5,
-    direction = "left",
-    active = true
-  ) {
+  constructor(coord: Coord, text: string, width = 5, direction = "left", active = true) {
     this.coord = coord
     this.width = width
     this.text = text

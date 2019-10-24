@@ -1,4 +1,5 @@
-import Coord from "./Coord"
+// FIXME: Refactor Actor class
+import { Coord } from "./main"
 import Glyph from "./Glyph"
 
 /**

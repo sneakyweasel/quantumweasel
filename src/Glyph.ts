@@ -21,12 +21,7 @@ export default class Glyph {
   public foregroundColor: string
   public tile: [number, number]
 
-  constructor(
-    character: string,
-    tile: [number, number],
-    backgroundColor = "black",
-    foregroundColor = "white"
-  ) {
+  constructor(character: string, tile: [number, number], backgroundColor = "black", foregroundColor = "white") {
     this.character = character
     this.backgroundColor = backgroundColor
     this.foregroundColor = foregroundColor
@@ -51,12 +46,7 @@ export default class Glyph {
    * @returns Glyph instance
    */
   static importGlyph(obj: GlyphInterface): Glyph {
-    return new Glyph(
-      obj.character,
-      obj.tile,
-      obj.backgroundColor,
-      obj.foregroundColor
-    )
+    return new Glyph(obj.character, obj.tile, obj.backgroundColor, obj.foregroundColor)
   }
 
   /**

@@ -1,11 +1,4 @@
-/**
- * COORDINATE INTERFACE
- * A coordinates interface of primitives
- */
-export interface CoordInterface {
-  x: number
-  y: number
-}
+import { CoordInterface } from "./interfaces"
 
 /**
  * COORDINATE CLASS

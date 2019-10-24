@@ -1,21 +1,8 @@
-import Coord, { CoordInterface } from "./Coord"
+import { CellInterface } from "./interfaces"
+import Coord from "./Coord"
 import Element from "./Element"
 import Particle from "./Particle"
 import { angleToSymbol } from "./Helpers"
-
-/**
- * CELL INTERFACE
- * A cell interface composed of primitives
- */
-export interface CellInterface {
-  coord: CoordInterface
-  element: string
-  rotation: number
-  frozen: boolean
-  active?: boolean
-  energized?: boolean
-}
-
 /**
  * CELL CLASS
  * A cell is a rotated element at a coordinate
@@ -28,14 +15,7 @@ export default class Cell {
   active: boolean
   energized: boolean
 
-  constructor(
-    coord: Coord,
-    element: Element,
-    rotation = 0,
-    frozen = false,
-    active = false,
-    energized = false
-  ) {
+  constructor(coord: Coord, element: Element, rotation = 0, frozen = false, active = false, energized = false) {
     this.coord = coord
     this.element = element
     this.rotation = rotation
@@ -59,7 +39,7 @@ export default class Cell {
   get isVoid(): boolean {
     return this.element.name === "Void"
   }
-  
+
   /**
    * Ouput the rotation with an unicode arrow
    * @returns unicode arrow describing rotation
@@ -69,16 +49,14 @@ export default class Cell {
   }
 
   /**
-   * Rotate cell 
+   * Rotate cell
    * Correcting the javascript modulo bug for negative values: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
    * @param angle rotation angle in degrees
    */
   rotate(angle: number = this.element.rotationAngle): void {
     if (!this.frozen) {
       if (Math.abs(angle) % this.element.rotationAngle !== 0) {
-        throw new Error(
-          "Error in the supplied angle compared to the element rotation angle."
-        )
+        throw new Error("Error in the supplied angle compared to the element rotation angle.")
       } else {
         this.rotation = (((this.rotation + angle) % 360) + 360) % 360
       }
@@ -126,11 +104,9 @@ export default class Cell {
    * @returns string describing the cell status
    */
   toString(): string {
-    return `Cell @ ${this.coord.toString()} is ${
-      this.frozen ? "frozen" : "unfrozen"
-    } ${this.active ? "active" : "inactive"} and ${
-      this.energized ? "powered" : "unpowered"
-    } ${this.element.toString()} rotated ${this.rotation}°`
+    return `Cell @ ${this.coord.toString()} is ${this.frozen ? "frozen" : "unfrozen"} ${
+      this.active ? "active" : "inactive"
+    } and ${this.energized ? "powered" : "unpowered"} ${this.element.toString()} rotated ${this.rotation}°`
   }
 
   /**
@@ -155,13 +131,6 @@ export default class Cell {
   static importCell(obj: CellInterface): Cell {
     const coord = Coord.importCoord(obj.coord)
     const element = Element.fromName(obj.element)
-    return new Cell(
-      coord,
-      element,
-      obj.rotation,
-      obj.frozen,
-      obj.active,
-      obj.energized
-    )
+    return new Cell(coord, element, obj.rotation, obj.frozen, obj.active, obj.energized)
   }
 }

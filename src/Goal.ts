@@ -1,4 +1,5 @@
-import Coord, { CoordInterface } from "./Coord"
+import { CoordInterface } from "./interfaces"
+import Coord from "./Coord"
 
 /**
  * GOAL INTERFACE

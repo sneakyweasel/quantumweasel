@@ -10,7 +10,7 @@ module.exports = {
   ],
   rules: {
     "prettier/prettier": "error",
-    "@typescript-eslint/member-delimiter-style": ["error", {
+    "@typescript-eslint/member-delimiter-style": [0, {
       multiline: {
         delimiter: 'none',
         requireLast: true,
