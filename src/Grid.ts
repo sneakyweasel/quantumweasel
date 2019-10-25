@@ -66,19 +66,19 @@ export default class Grid extends Cluster {
     })[0]
   }
 
-  /**
-   * @returns list of non blank cell coordinates
-   */
-  get coords(): Coord[] {
-    return flatDeep(this.cells).map(cell => cell.coord)
-  }
+  // /**
+  //  * @returns list of non blank cell coordinates
+  //  */
+  // get coords(): Coord[] {
+  //   return flatDeep(this.cells).map(cell => cell.coord)
+  // }
 
-  /**
-   * @returns list of non blank cell elements
-   */
-  get elements(): Element[] {
-    return this.cells.map(cell => cell.element)
-  }
+  // /**
+  //  * @returns list of non blank cell elements
+  //  */
+  // get elements(): Element[] {
+  //   return this.cells.map(cell => cell.element)
+  // }
 
   /**
    * Get center cell of the grid

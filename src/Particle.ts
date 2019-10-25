@@ -183,6 +183,16 @@ export default class Particle extends Coord {
   }
 
   /**
+   * Override toString() method for debug
+   * @returns a string describing the particle
+   */
+  toString(): string {
+    return `Particle @ ${this.coord.toString()} moving ${this.direction}° with ${toPercent(
+      this.intensity
+    )} intensity and polarization | A:${this.a.re} + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i\n`
+  }
+
+  /**
    * Export particle interface in primitives
    * @returns particle interface
    */
@@ -197,16 +207,6 @@ export default class Particle extends Coord {
       bre: this.bre,
       bim: this.bim
     }
-  }
-
-  /**
-   * Override toString() method for debug
-   * @returns a string describing the particle
-   */
-  toString(): string {
-    return `Particle @ ${this.coord.toString()} moving ${this.direction}° with ${toPercent(
-      this.intensity
-    )} intensity and polarization | A:${this.a.re} + ${this.a.im}i & B:${this.b.re} + ${this.b.im}i\n`
   }
 
   /**
