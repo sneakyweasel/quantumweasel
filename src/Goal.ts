@@ -1,15 +1,5 @@
-import { CoordInterface } from "./interfaces"
+import { GoalInterface } from "./interfaces"
 import Coord from "./Coord"
-
-/**
- * GOAL INTERFACE
- * Goal interface with primitive js types
- */
-export interface GoalInterface {
-  coord: CoordInterface
-  threshold: number
-  value: number
-}
 
 /**
  * GOAL CLASS
@@ -48,11 +38,9 @@ export default class Goal extends Coord {
    * @returns string
    */
   toString(): string {
-    return `{#Goal ${
-      this.completed ? "completed " : " "
-    }@ ${this.coord.toString()} is ${this.value} / ${this.threshold}} (${
-      this.percentage
-    }%)`
+    return `{#Goal ${this.completed ? "completed " : " "}@ ${this.coord.toString()} is ${this.value} / ${
+      this.threshold
+    }} (${this.percentage}%)`
   }
 
   /**
@@ -83,12 +71,13 @@ export default class Goal extends Coord {
    * Output formatted list of goals
    * @param goals list of goals
    * @returns formatted string describing goals
-   */  
+   */
+
   static manyToString(goals: Goal[]): string {
-    let result = `${goals.length} active goals...\n`;
+    let result = `${goals.length} active goals...\n`
     goals.map(goal => {
-      result += `- ${goal.toString()}\n`;
-    });
-    return result;
+      result += `- ${goal.toString()}\n`
+    })
+    return result
   }
 }

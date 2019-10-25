@@ -1,12 +1,12 @@
 // FIXME: Figure a way to have uid and coord access to cells
 // FIXME: Figure out blank cells in constructor
-import { CellInterface, GridInterface } from './interfaces';
+import { CellInterface, GridInterface, ParticleInterface } from "./interfaces"
 import { Operator } from "quantum-tensors"
 import Coord from "./Coord"
 import Element from "./Element"
 import Cell from "./Cell"
 import Cluster from "./Cluster"
-import Particle, { ParticleInterface } from "./Particle"
+import Particle from "./Particle"
 import { flatDeep } from "./Helpers"
 
 /**
@@ -43,7 +43,7 @@ export default class Grid extends Cluster {
    */
   public set(cell: Cell): boolean {
     if (this.includes(cell.coord)) {
-      let currentCell = this.get(cell.coord)
+      const currentCell = this.get(cell.coord)
       currentCell.element = cell.element
       currentCell.frozen = cell.frozen
       currentCell.active = cell.active
@@ -267,7 +267,7 @@ export default class Grid extends Cluster {
         return laser.fire()
       })
       .map(particle => {
-        [...new Set(flatDeep(this.laserPath(particle, 40)))].map((particle: Particle) => {
+        ;[...new Set(flatDeep(this.laserPath(particle, 40)))].map((particle: Particle) => {
           if (particle.coord.isIncludedIn(this.coords)) {
             laserCoords.push(particle)
           }

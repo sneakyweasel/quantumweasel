@@ -56,12 +56,13 @@ export default class Cluster {
   /**
    * Import liqr of files in primitive types
    * @param jsonCells : cells
+   * @returns Cluster
    */
-  public importCluster(jsonCells: CellInterface[]): void {
-    jsonCells.map(jsonCell => {
-      const cell = Cell.importCell(jsonCell)
-      this.cells.push(cell)
+  public static importCluster(jsonCells: CellInterface[]): Cluster {
+    const cells = jsonCells.map(jsonCell => {
+      return Cell.importCell(jsonCell)
     })
+    return new Cluster(cells)
   }
 
   /**

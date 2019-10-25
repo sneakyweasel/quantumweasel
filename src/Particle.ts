@@ -1,25 +1,10 @@
 // FIXME: Duplicate between path and coord
 // FIXME: Class needs rework
+import { ParticleInterface } from "./interfaces"
 import Coord from "./Coord"
 import Cell from "./Cell"
 import { toPercent } from "./Helpers"
 import { Complex, Cx } from "quantum-tensors"
-import { CoordInterface } from "./interfaces"
-
-/**
- * PARTICLE INTERFACE
- * Particle interface with primitives
- */
-export interface ParticleInterface {
-  coord: CoordInterface
-  direction: number
-  intensity: number
-  phase: number
-  are: number
-  aim: number
-  bre: number
-  bim: number
-}
 
 /**
  * Particle interface retrieved from quantum-tensors

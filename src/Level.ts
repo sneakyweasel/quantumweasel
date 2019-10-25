@@ -133,8 +133,8 @@ export default class Level {
       const cell = new Cell(coord, element, rotation, tile.frozen)
       grid.set(cell)
     })
-    const goals: any = []
-    const hints: any = []
+    const goals: Goal[] = []
+    const hints: Hint[] = []
     return new Level(0, obj.name, obj.group, "", grid, goals, hints, false)
   }
 }

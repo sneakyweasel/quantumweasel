@@ -114,10 +114,10 @@ export default class Coord {
    * @param cellSize Size in pixel of a cell
    * @returns top-left coordinate of a cell
    */
-  pos(spacing: number): [number, number] {
-    const y = this.y * spacing
-    const x = this.x * spacing
-    return [y, x]
+  pos(cellSize: number): CoordInterface {
+    const y = this.y * cellSize
+    const x = this.x * cellSize
+    return { y, x }
   }
 
   /**
@@ -125,17 +125,17 @@ export default class Coord {
    * @param cellSize Size in pixel of a cell
    * @returns top-left coordinate of a cell
    */
-  center(spacing: number): [number, number] {
-    const y = (this.y + 0.5) * spacing
-    const x = (this.x + 0.5) * spacing
-    return [y, x]
+  center(cellSize: number): CoordInterface {
+    const y = (this.y + 0.5) * cellSize
+    const x = (this.x + 0.5) * cellSize
+    return { y, x }
   }
 
   /**
    * Output as an array of numbers
    * @returns number array of coordinate
    */
-  get array(): number[] {
+  get toArray(): number[] {
     return [this.y, this.x]
   }
 
