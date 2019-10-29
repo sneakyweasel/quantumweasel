@@ -4,7 +4,7 @@ import { ParticleInterface } from "./interfaces"
 import Coord from "./Coord"
 import Cell from "./Cell"
 import { toPercent } from "./Helpers"
-import { Complex, Cx } from "quantum-tensors"
+import { Complex } from "quantum-tensors"
 
 /**
  * Particle interface retrieved from quantum-tensors
@@ -26,7 +26,6 @@ export interface Qparticle {
 export default class Particle extends Coord {
   coord: Coord
   direction: number
-  intensity: number
   phase: number
   a: Complex
   b: Complex
@@ -57,10 +56,9 @@ export default class Particle extends Coord {
     super(coord.y, coord.x)
     this.coord = coord
     this.direction = direction
-    this.intensity = intensity
     this.phase = phase
-    this.a = Cx(are, aim)
-    this.b = Cx(bre, bim)
+    this.a = new Complex(are, aim)
+    this.b = new Complex(bre, bim)
     this.path = path
   }
 
@@ -70,6 +68,10 @@ export default class Particle extends Coord {
    */
   get origin(): Coord {
     return Coord.importCoord(this.path[0].coord)
+  }
+
+  get intensity(): number {
+    return this.probability
   }
 
   /**
@@ -113,7 +115,7 @@ export default class Particle extends Coord {
    * Opacity from complex values
    * @returns value to use to adapt opacity for frontend
    */
-  get opacity(): number {
+  get probability(): number {
     const scaling = 1
     const opacity = Math.pow(this.a.abs2() + this.b.abs2(), scaling)
     if (opacity > 1) {
@@ -121,13 +123,6 @@ export default class Particle extends Coord {
     } else {
       return opacity
     }
-  }
-
-  /**
-   * Set intensity according to opacity for the quantum particles
-   */
-  setIntensity(): void {
-    this.intensity = this.opacity
   }
 
   /**

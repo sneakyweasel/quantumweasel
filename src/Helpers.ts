@@ -1,5 +1,3 @@
-import { Color } from "rot-js"
-
 /**
  * List of element names
  */
@@ -150,27 +148,6 @@ export function flatDeep(arr: Array<any>): Array<any> {
  */
 export function toPercent(value: number): string {
   return `${(value * 100).toFixed(2)}%`
-}
-
-/**
- * Convert HSL to hex
- * @param hue
- * @param saturation
- * @param lightness
- * @returns hexadecimal string
- */
-export function hsl2hexrgb(hue = 0.45, saturation = 0, lightness = 0.5): string {
-  if (hue >= 1) {
-    hue = 1
-  }
-  if (saturation >= 1) {
-    saturation = 1
-  }
-  if (lightness >= 1) {
-    saturation = 1
-  }
-  const hsl = Color.hsl2rgb([hue, saturation, lightness])
-  return Color.toHex(hsl)
 }
 
 /**

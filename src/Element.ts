@@ -2,7 +2,6 @@
 // TODO: Refactor to extended class based logic
 import { ElementInterface, Elem } from "./interfaces"
 import { jsonElements } from "../data/elements"
-import Glyph from "./Glyph"
 import * as qt from "quantum-tensors"
 
 /**
@@ -18,8 +17,6 @@ export default class Element {
   absorption: number
   phase: number
   ascii: string[]
-  tiles: number[][]
-  glyph: Glyph
 
   constructor(
     id: number,
@@ -29,9 +26,7 @@ export default class Element {
     active = false,
     absorption = 0,
     phase = 0,
-    ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "],
-    tiles: number[][] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
-    glyph: Glyph = new Glyph(" ", [0, 0])
+    ascii: string[] = [" ", " ", " ", " ", " ", " ", " ", " "]
   ) {
     this.id = id
     this.name = name
@@ -41,8 +36,6 @@ export default class Element {
     this.absorption = absorption
     this.phase = phase
     this.ascii = ascii
-    this.tiles = tiles
-    this.glyph = glyph
   }
 
   /**
@@ -89,7 +82,7 @@ export default class Element {
       case Elem.QuarterWavePlateV:
         return qt.quarterWavePlateNS(param)
       case Elem.FaradayRotator:
-        return qt.faradayRotator(param)
+        return qt.faradayRotator(param, 0)
       case Elem.Mine:
         return qt.attenuator(0)
       case Elem.Rock:
@@ -131,8 +124,7 @@ export default class Element {
       active: this.active,
       absorption: this.absorption,
       phase: this.phase,
-      ascii: this.ascii,
-      tiles: this.tiles
+      ascii: this.ascii
     }
   }
 
@@ -141,17 +133,7 @@ export default class Element {
    * @param obj Create element from interface
    */
   static importElement(obj: ElementInterface): Element {
-    return new Element(
-      obj.id,
-      obj.name,
-      obj.group,
-      obj.description,
-      obj.active,
-      obj.absorption,
-      obj.phase,
-      obj.ascii,
-      obj.tiles
-    )
+    return new Element(obj.id, obj.name, obj.group, obj.description, obj.active, obj.absorption, obj.phase, obj.ascii)
   }
 
   /**

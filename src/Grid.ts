@@ -188,13 +188,13 @@ export default class Grid extends Cluster {
 
         // Zero the intensity of escaping particles
         if (!this.includes(particle.coord)) {
-          particle.intensity = 0
+          // particle.intensity = 0
         }
 
         // Absorption
         this.absorbers.cells.forEach((absorber: Cell) => {
           if (particle.on(absorber)) {
-            particle.intensity -= particle.intensity * absorber.element.absorption
+            // particle.intensity -= particle.intensity * absorber.element.absorption
           }
         })
 
@@ -219,7 +219,7 @@ export default class Grid extends Cluster {
         this.beamsplitters.cells.forEach((beamsplitter: Cell) => {
           if (particle.on(beamsplitter)) {
             // Dim the current particle intensity
-            particle.intensity /= 2
+            // particle.intensity /= 2
             // Reflecting particle (create new reflected faded particle)
             const direction = (2 * beamsplitter.rotation - particle.direction + 360) % 360
             alive.push(new Particle(particle.coord, direction, particle.intensity))

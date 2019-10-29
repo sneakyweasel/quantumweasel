@@ -1,10 +1,11 @@
+import Cell from "./Cell"
+import countBy from "lodash.countby"
 /**
  * TOOL INTERFACE
  * Contains number of available elements to the player
  */
 export interface ToolInterface {
-  element: string
-  quantity: number
+  [symbol: string]: number
 }
 
 /**
@@ -12,31 +13,27 @@ export interface ToolInterface {
  * Inventory contains the list of elements available to the player.
  */
 export default class Toolbox {
-  elements: string[]
+  tools: Cell[]
+  toolbox: ToolInterface = {}
 
-  constructor(elements: string[]) {
-    this.elements = elements
+  constructor(tools: Cell[]) {
+    const elements = tools.map(cell => cell.element.name)
+    this.toolbox = countBy(elements)
   }
 
   /**
-   * Add an element to the inventory
-   * Check if element exists in list to update its value otherzise create it
-   * @param tool Element
+   * @returns names of present elements
    */
-  add(element: string): void {
-    this.elements.push(element)
+  get names(): string[] {
+    return Object.keys(this.toolbox)
   }
 
   /**
-   * Remove an element from the toolbox
-   * Check if element exists in list before
-   * @param tool Element
+   * @params name
+   * @returns count of available elements in toolbox
    */
-  remove(element: string): void {
-    const index = this.elements.indexOf(element)
-    if (index > -1) {
-      this.elements.splice(index, 1)
-    }
+  getCount(name: string): number {
+    return this.toolbox[name]
   }
 
   /**
@@ -46,8 +43,8 @@ export default class Toolbox {
    */
   toString(): string {
     let resultStr = "Toolbox contains:\n"
-    this.elements.map((element: string) => {
-      resultStr += JSON.stringify(element)
+    this.names.map((name: string) => {
+      resultStr += `Tool: ${name} x ${this.toolbox[name]}`
     })
     return resultStr
   }

@@ -96,7 +96,6 @@ export default class Frame {
       const bim = qParticle.bim
       const coord = new Coord(y, x)
       const particle = new Particle(coord, direction, 0, 0, are, aim, bre, bim)
-      particle.setIntensity()
       return particle
     })
   }
@@ -176,7 +175,7 @@ export default class Frame {
     this.level.goals.forEach(goal =>
       this.quantum.forEach(particle => {
         if (particle.coord.equal(goal.coord)) {
-          goal.value += particle.opacity
+          goal.value += particle.probability
         }
       })
     )
@@ -212,7 +211,7 @@ export default class Frame {
    * @returns boolean if there are exploding mines
    */
   explodingMines(threshold = 0.01): boolean {
-    const particles = this.quantum.filter(particle => particle.opacity > threshold)
+    const particles = this.quantum.filter(particle => particle.probability > threshold)
     const explodingMines = this.getParticleCells(particles).mines.cells
     if (explodingMines.length > 0) {
       console.info("Mine will explode...")

@@ -37,8 +37,8 @@ export default class Level {
   grid: Grid
   goals: Goal[]
   hints: Hint[]
-  toolbox: Toolbox
   completed: boolean
+  toolbox: Toolbox
   state: Photons
 
   constructor(
@@ -65,11 +65,7 @@ export default class Level {
     this.state = new Photons(grid.cols, grid.rows)
 
     // Populate toolbox
-    // this.grid.cluster.unfrozen.cells.map(cell => {
-    //   cell.coord.x = -1
-    //   cell.coord.y = -1
-    //   this.toolbox.add(cell.element.name)
-    // })
+    this.toolbox = new Toolbox(this.grid.unvoid.unfrozen.cells)
   }
 
   /**

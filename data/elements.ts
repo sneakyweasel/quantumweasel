@@ -12,8 +12,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 0,
-    ascii: [">", "^", "<", "v"],
-    tiles: [[0, 0], [0, 1], [0, 2], [0, 3]]
+    ascii: [">", "^", "<", "v"]
   },
   {
     // name: "Rock",
@@ -24,8 +23,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 1,
-    ascii: ["♜"],
-    tiles: [[1, 0]]
+    ascii: ["♜"]
   },
   {
     // name: "PolarizerH",
@@ -37,8 +35,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 2,
-    ascii: ["🡢", "🡥", "🡡", "🡤", "🡠", "🡧", "🡣", "🡦"],
-    tiles: [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7]]
+    ascii: ["🡢", "🡥", "🡡", "🡤", "🡠", "🡧", "🡣", "🡦"]
   },
   {
     // name: "PolarizerH",
@@ -50,8 +47,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 2,
-    ascii: ["🡢", "🡥", "🡡", "🡤", "🡠", "🡧", "🡣", "🡦"],
-    tiles: [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7]]
+    ascii: ["🡢", "🡥", "🡡", "🡤", "🡠", "🡧", "🡣", "🡦"]
   },
   {
     // name: "QuarterWavePlateH",
@@ -63,8 +59,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 3,
-    ascii: ["🡪", "🡭", "🡩", "🡬", "🡨", "🡯", "🡫", "🡮"],
-    tiles: [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7]]
+    ascii: ["🡪", "🡭", "🡩", "🡬", "🡨", "🡯", "🡫", "🡮"]
   },
   {
     // name: "QuarterWavePlateH",
@@ -76,8 +71,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 3,
-    ascii: ["🡪", "🡭", "🡩", "🡬", "🡨", "🡯", "🡫", "🡮"],
-    tiles: [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7]]
+    ascii: ["🡪", "🡭", "🡩", "🡬", "🡨", "🡯", "🡫", "🡮"]
   },
   {
     // name: "Detector",
@@ -89,8 +83,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 4,
-    ascii: ["⭲", "⭱", "⭰", "⭳"],
-    tiles: [[4, 0], [4, 1], [4, 2], [4, 3]]
+    ascii: ["⭲", "⭱", "⭰", "⭳"]
   },
   {
     // name: "DetectorFour",
@@ -102,8 +95,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 7,
-    ascii: ["O"],
-    tiles: [[7, 0], [7, 1], [7, 2], [7, 3]]
+    ascii: ["O"]
   },
   {
     // name: "SugarSolution",
@@ -115,8 +107,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 8,
-    ascii: ["S"],
-    tiles: [[8, 0]]
+    ascii: ["S"]
   },
   {
     // name: "CoatedBeamSplitter",
@@ -128,8 +119,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 9,
-    ascii: ["⇒", "⇗", "⇑", "⇖", "⇐", "⇙", "⇓", "⇘"],
-    tiles: [[9, 0], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7]]
+    ascii: ["⇒", "⇗", "⇑", "⇖", "⇐", "⇙", "⇓", "⇘"]
   },
   {
     // name: "Mine",
@@ -141,8 +131,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 11,
-    ascii: ["!"],
-    tiles: [[11, 0]]
+    ascii: ["!"]
   },
   {
     // name: "PolarizingBeamSplitter",
@@ -153,8 +142,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 12,
-    ascii: ["⬲", "⟴"],
-    tiles: [[12, 0], [12, 1]]
+    ascii: ["⬲", "⟴"]
   },
   {
     // name: "CornerCube",
@@ -165,8 +153,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 13,
-    ascii: ["*"],
-    tiles: [[13, 0]]
+    ascii: ["*"]
   },
   {
     // name: "Mirror",
@@ -177,8 +164,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 14,
-    ascii: ["-", "/", "|", "\\", "-", "/", "|", "\\"],
-    tiles: [[14, 0], [14, 1], [14, 2], [14, 3], [14, 4], [14, 5], [14, 6], [14, 7]]
+    ascii: ["-", "/", "|", "\\", "-", "/", "|", "\\"]
   },
   {
     // name: "BeamSplitter",
@@ -189,8 +175,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 15,
-    ascii: ["→", "↗", "↑", "↖", "←", "↙", "↓", "↘"],
-    tiles: [[15, 0], [15, 1], [15, 2], [15, 3], [15, 4], [15, 5], [15, 6], [15, 7]]
+    ascii: ["→", "↗", "↑", "↖", "←", "↙", "↓", "↘"]
   },
   {
     // name: "Glass",
@@ -202,8 +187,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: -0.25,
     id: 16,
-    ascii: ["↜"],
-    tiles: [[16, 0]]
+    ascii: ["↜"]
   },
   {
     // name: "VacuumJar",
@@ -215,8 +199,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0.25,
     id: 17,
-    ascii: ["↝"],
-    tiles: [[17, 0]]
+    ascii: ["↝"]
   },
   {
     // name: "Absorber",
@@ -227,8 +210,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0.5,
     phase: 0,
     id: 18,
-    ascii: ["░"],
-    tiles: [[18, 0]]
+    ascii: ["░"]
   },
   {
     // name: "Void",
@@ -239,8 +221,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: 0,
     id: 19,
-    ascii: ["."],
-    tiles: [[19, 0]]
+    ascii: ["."]
   },
   {
     // name: "Wall",
@@ -251,8 +232,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 20,
-    ascii: ["▓"],
-    tiles: [[20, 0], [20, 1]]
+    ascii: ["▓"]
   },
   {
     // name: "Gate",
@@ -263,9 +243,7 @@ export const jsonElements: ElementInterface[] = [
     absorption: 1,
     phase: 0,
     id: 21,
-    ascii: ["W", "M"],
-    tiles: [[21, 0], [21, 1]]
-    // tiles: [[22, 0], [22, 1]]
+    ascii: ["W", "M"]
   },
   {
     // name: "FaradayRotator",
@@ -277,7 +255,6 @@ export const jsonElements: ElementInterface[] = [
     absorption: 0,
     phase: -0.25,
     id: 30,
-    ascii: ["🠶", "🠵", "🠴", "🠷"],
-    tiles: [[30, 0], [30, 1], [30, 2], [30, 3]]
+    ascii: ["🠶", "🠵", "🠴", "🠷"]
   }
 ]

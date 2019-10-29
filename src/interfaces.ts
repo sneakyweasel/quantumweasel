@@ -102,7 +102,6 @@ export interface ElementInterface {
   absorption: number
   phase: number
   ascii: string[]
-  tiles: number[][]
 }
 
 /**

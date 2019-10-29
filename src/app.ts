@@ -1,13 +1,20 @@
-import json from "../levels/classic/level34.json"
-// import json from "../levels/dev/minethreshold.json"
+import json from "../levels/classic/level10.json"
 import Level from "./Level"
-import Game from "./Game"
+import Frame from "./Frame"
 
-const classic = {}
-console.log(classic)
-console.log(json)
+// Load level
+const level = Level.importLevel(json)
 
-document.body.onload = (): void => {
-  new Game(Level.importLevel(json), 64)
-  // new Game(Level.importClassicLevel(classic), 64);
-}
+// Create first frame
+const frames: Frame[] = []
+const initFrame = new Frame(level)
+console.log(initFrame.toString())
+frames.push(initFrame)
+
+const secondFrame = initFrame.next()
+frames.push(secondFrame)
+console.log(secondFrame.toString())
+
+// DEBUG LASER PATHS
+const lasers = level.grid.computePaths()
+console.log("LASERS CLUSTER:" + lasers.map(part => part.toString()))

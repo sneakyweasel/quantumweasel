@@ -55,12 +55,11 @@
     "webpack-dev-server": "^3.8.1"
   },
   "dependencies": {
-    "@types/file-saver": "^2.0.1",
     "@types/jest": "^24.0.19",
-    "file-saver": "^2.0.2",
+    "@types/lodash.countby": "^4.6.6",
     "global": "^4.4.0",
-    "quantum-tensors": "stared/quantum-tensors#JoyOfDependencies",
-    "rot-js": "^2.1.1"
+    "lodash.countby": "^4.6.0",
+    "quantum-tensors": "stared/quantum-tensors"
   },
   "jest": {
     "transform": {
